@@ -1,27 +1,27 @@
 <template>
   <div class="titleBar">
     <div class="logo">
-      <img class='logoImg' src="../static/public/svg/ccwiki_logo.svg" alt='' width='auto' height='30' draggable="false">
+      <img class='logoImg' src="/static/public/svg/ccwiki_logo.svg" alt='' width='auto' height='30' draggable="false">
     </div>
     <div class="appControl">
       <div class="options">
         <button id="red">
-          <img src="../static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal">
-          <img src="../static/public/svg/titleBar/maximizeRestoreApp.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="SVG Image" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal">
-          <img src="../static/public/svg/titleBar/minimizeApp.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="SVG Image" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal">
-          <img src="../static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
         </button>
       </div>
     </div>

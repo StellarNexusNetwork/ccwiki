@@ -3,7 +3,7 @@
         <div class="listDiv" id="navigation">
             <div class="options">
                 <button class="button" @click="unfold">
-                    <img class="b_img" src="../static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
+                    <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
                     <div class="textDiv" :style="unfoldStyle.style"> unfold </div>
                 </button>
             </div>
@@ -19,31 +19,31 @@
 
             <div class="options">
                 <RouterLink to="/" class="button">
-                    <img id="_navigation_home_svg" src="../static/public/svg/navigationBar/home.svg" alt="SVG Image" draggable="false">
+                    <img id="_navigation_home_svg" src="/static/public/svg/navigationBar/home.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle.style">首页</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/classification" class="button">
-                    <img id="_navigation_lassification_svg" src="../static/public/svg/navigationBar/classification.svg" alt="SVG Image" draggable="false">
+                    <img id="_navigation_lassification_svg" src="/static/public/svg/navigationBar/classification.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle.style">分类</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/components" class="button">
-                    <img id="_navigation_components_svg" src="../static/public/svg/navigationBar/components.svg" alt="SVG Image" draggable="false">
+                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/components.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle.style">工具</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <button class="button">
-                    <img id="_navigation_Co-createdWikiCopilotAI_svg" src="../static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
+                    <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
                     <div class="textDiv" :style="unfoldStyle.style">**</div>
                 </button>
             </div>
             <div class="options">
                 <RouterLink to="/others" class="button">
-                    <img id="_navigation_others_svg" src="../static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
+                    <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle.style">其他</div>
                 </RouterLink>
             </div>
@@ -51,13 +51,13 @@
         <div class="listDiv" id="tool">
             <div class="options">
                 <button class="button">
-                    <img id="_navigation_account_svg" src="../static/public/svg/navigationBar/account.svg" alt="SVG Image" draggable="false">
+                    <img id="_navigation_account_svg" src="/static/public/svg/navigationBar/account.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle.style">账号</div>
                 </button>
             </div>
             <div class="options">
                 <button class="button">
-                    <img id="_navigation_settings_svg" src="../static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
+                    <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle.style">设置</div>
                 </button>
             </div>
