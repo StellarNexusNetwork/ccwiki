@@ -27,6 +27,6 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        personal_token: ${{ secrets.PAT_TOKEN }}  # 使用 PAT
         publish_dir: ./dist  # Vue 项目构建后生成的文件目录
         publish_branch: actions-pages  # 发布到 actions-pages 分支
