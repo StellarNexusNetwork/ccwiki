@@ -1,0 +1,28 @@
+a {
+    text-decoration: none;
+    target: _blank;
+    outline: none;
+    color: #777;
+}
+
+a:hover {
+    color: #04AAEB;
+}
+
+input:focus {
+    outline: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+@font-face {
+    font-family: MiSans;
+    src: url("../../public/font/MiSans/MiSans-Normal.ttf");
+}
+
+@font-face {
+    font-family: RHRCN-H;
+    src: url("../../public/font/ResourceHanRoundedCN-Heavy.ttf");
+}
