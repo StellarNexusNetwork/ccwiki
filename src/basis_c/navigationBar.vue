@@ -4,7 +4,7 @@
             <div class="options">
                 <button class="button" @click="unfold">
                     <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle.style"> unfold </div>
+                    <div class="textDiv" :style="unfoldStyle"> unfold </div>
                 </button>
             </div>
             <div class="line">
@@ -12,7 +12,7 @@
             <!-- <div class="options" v-for="(item, index) in items" :key="index">
                 <button class="button" @click="unfold">
                     <img class="b_img" src="../static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle.style"> unfold </div>
+                    <div class="textDiv" :style="unfoldStyle"> unfold </div>
                 </button>
             </div> -->
             <!-- 先不不急着写 -->
@@ -20,31 +20,31 @@
             <div class="options">
                 <RouterLink to="/" class="button">
                     <img id="_navigation_home_svg" src="/static/public/svg/navigationBar/home.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle.style">首页</div>
+                    <div class="textDiv" :style="unfoldStyle">首页</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/classification" class="button">
                     <img id="_navigation_lassification_svg" src="/static/public/svg/navigationBar/classification.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle.style">分类</div>
+                    <div class="textDiv" :style="unfoldStyle">分类</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/components" class="button">
                     <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/components.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle.style">工具</div>
+                    <div class="textDiv" :style="unfoldStyle">工具</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <button class="button">
                     <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle.style">**</div>
+                    <div class="textDiv" :style="unfoldStyle">**</div>
                 </button>
             </div>
             <div class="options">
                 <RouterLink to="/others" class="button">
                     <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle.style">其他</div>
+                    <div class="textDiv" :style="unfoldStyle">其他</div>
                 </RouterLink>
             </div>
         </div>
@@ -52,13 +52,13 @@
             <div class="options">
                 <button class="button">
                     <img id="_navigation_account_svg" src="/static/public/svg/navigationBar/account.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle.style">账号</div>
+                    <div class="textDiv" :style="unfoldStyle">账号</div>
                 </button>
             </div>
             <div class="options">
                 <button class="button">
                     <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle.style">设置</div>
+                    <div class="textDiv" :style="unfoldStyle">设置</div>
                 </button>
             </div>
         </div>
@@ -66,25 +66,55 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive, defineProps, defineEmits, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 // let navigation = ref([
 //     { id: 'home', src: "../static/public/svg/navigationBar/account.svg", text: "" }
 // ])
 // 别急
 
-let unfoldStyle = ref({ style: '', state: false })
-let navigationBarStyle = ref('')
+let unfoldStyle = reactive({ state: false, opacity: 0, fontSize: '15px' })
+let navigationBarStyle = reactive({ width: "50px" })
+
+const props = defineProps({
+    mainDivStyle: Object,
+    mainStyle: Object
+});
+const emit = defineEmits(['update:mainDivStyle', 'update:mainStyle']);
+const localMainDivStyle = { ...props.mainDivStyle };
+const localMainStyle = { ...props.mainStyle };
+
 
 function unfold() {
-    if (unfoldStyle.value.state) {
-        unfoldStyle.value.state = false;
-        unfoldStyle.value.style = '';
-        navigationBarStyle.value = '';
+    if (unfoldStyle.state) {
+        navigationBarStyle.width = "50px";
+        Object.assign(localMainStyle, { width: 'calc(100vw - 50px)', position: 'fixed', right: '0' });
+        emit('update:mainDivStyle', { ...props.mainDivStyle });
+        emit('update:mainStyle', localMainStyle);
+        setTimeout(() => {
+            unfoldStyle.opacity = 0;
+        }, 100);
+        setTimeout(() => {
+            Object.assign(localMainStyle, { position: 'static', right: 'Auto' });
+            emit('update:mainStyle', localMainStyle);
+            //这里不生效 以后再修吧
+        }, 300);
+        unfoldStyle.state = false;
     } else {
-        unfoldStyle.value.state = true;
-        unfoldStyle.value.style = 'opacity:1';
-        navigationBarStyle.value = 'width:95px';
+        navigationBarStyle.width = "95px";
+        localMainDivStyle.paddingLeft = '95px';
+        Object.assign(localMainStyle, { width: 'calc(100vw - 95px)', position: 'fixed', right: '0' });
+        emit('update:mainDivStyle', localMainDivStyle);
+        emit('update:mainStyle', localMainStyle);
+        setTimeout(() => {
+            unfoldStyle.opacity = 1;
+        }, 100);
+        setTimeout(() => {
+            Object.assign(localMainStyle, { position: 'static', right: 'Auto' });
+            emit('update:mainStyle', localMainStyle);
+            //这里不生效 以后再修吧 
+        }, 300);
+        unfoldStyle.state = true;
     }
 }
 
@@ -132,12 +162,10 @@ function unfold() {
     justify-content: center;
     align-items: center;
     font-family: RHRCN-H;
-    font-size: 15px;
     color: #323232;
     white-space: nowrap;
     overflow: hidden;
     transition-duration: 0.2s;
-    opacity: 0;
 }
 
 .navigationBar .listDiv .line {

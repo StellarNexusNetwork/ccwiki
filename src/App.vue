@@ -1,17 +1,22 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import titleBar from './basis_c/titleBar.vue'
-import navigationBar from './basis_c/navigationBar.vue'
-</script>
-
 <template>
   <titleBar />
-  <navigationBar />
-  <div class="mainDiv">
-    <div class="main">
+  <navigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle" />
+  <div class="mainDiv" :style="mainDivStyle">
+    <div class="main" :style="mainStyle">
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import titleBar from './basis_c/titleBar.vue'
+import navigationBar from './basis_c/navigationBar.vue'
+import { RouterView } from 'vue-router'
+import { reactive, ref } from 'vue'
+
+let mainDivStyle = ref({ paddingLeft: '50px' })
+let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static', right: 'Auto' })
+
+</script>
 
 <style scoped>
 .titleBar {
@@ -28,7 +33,6 @@ import navigationBar from './basis_c/navigationBar.vue'
   position: fixed;
   left: 0;
   top: 42px;
-  width: 50px;
   height: calc(100vh - 42px);
   padding-top: 5px;
   user-select: none;
@@ -38,12 +42,10 @@ import navigationBar from './basis_c/navigationBar.vue'
 
 .mainDiv {
   padding-top: 42px;
-  padding-left: 50px;
 }
 
 .main {
   height: calc(100vh - 42px);
-  width: calc(100vw - 50px);
   border-radius: 20px 0px 20px 0px;
   background: #fafafa;
   transition-duration: 0.3s;
