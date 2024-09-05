@@ -3,6 +3,7 @@
   <navigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle" />
   <div class="mainDiv" :style="mainDivStyle">
     <div class="main" :style="mainStyle">
+      <RouterView class="router-view" />
     </div>
   </div>
 </template>
@@ -49,5 +50,10 @@ let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static' as 'static
   border-radius: 20px 0px 20px 0px;
   background: #fafafa;
   transition-duration: 0.3s;
+}
+
+.router-view {
+  height: 100%;
+  width: 100%;
 }
 </style>
