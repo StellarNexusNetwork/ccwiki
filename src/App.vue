@@ -14,7 +14,7 @@ import { RouterView } from 'vue-router'
 import { reactive, ref } from 'vue'
 
 let mainDivStyle = ref({ paddingLeft: '50px' })
-let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static', right: 'Auto' })
+let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static' as 'static' | 'absolute' | 'relative' | 'fixed', right: 'auto' })
 
 </script>
 

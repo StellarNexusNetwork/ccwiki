@@ -4,7 +4,7 @@
             <div class="options">
                 <button class="button" @click="unfold">
                     <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle"> unfold </div>
+                    <div class="textDiv" :style="unfoldStyle"> 展开 </div>
                 </button>
             </div>
             <div class="line">
@@ -88,16 +88,16 @@ const localMainStyle = { ...props.mainStyle };
 function unfold() {
     if (unfoldStyle.state) {
         navigationBarStyle.width = "50px";
+        localMainDivStyle.paddingLeft = '50px';
         Object.assign(localMainStyle, { width: 'calc(100vw - 50px)', position: 'fixed', right: '0' });
-        emit('update:mainDivStyle', { ...props.mainDivStyle });
+        emit('update:mainDivStyle', localMainDivStyle);
         emit('update:mainStyle', localMainStyle);
         setTimeout(() => {
             unfoldStyle.opacity = 0;
         }, 100);
         setTimeout(() => {
             Object.assign(localMainStyle, { position: 'static', right: 'Auto' });
-            emit('update:mainStyle', localMainStyle);
-            //这里不生效 以后再修吧
+            emit('update:mainStyle', { ...props.mainStyle });
         }, 300);
         unfoldStyle.state = false;
     } else {
@@ -111,8 +111,7 @@ function unfold() {
         }, 100);
         setTimeout(() => {
             Object.assign(localMainStyle, { position: 'static', right: 'Auto' });
-            emit('update:mainStyle', localMainStyle);
-            //这里不生效 以后再修吧 
+            emit('update:mainStyle', { ...props.mainStyle });
         }, 300);
         unfoldStyle.state = true;
     }
