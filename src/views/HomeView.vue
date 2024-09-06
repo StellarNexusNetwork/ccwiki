@@ -9,25 +9,57 @@
                 <div class="newsDiv" style="margin-right: 0px;">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
+                    <div class='date'>无数据</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
+                    <div class='date'>无数据</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
+                    <div class='date'>无数据</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
+                    <div class='date'>无数据</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
             </div>
-            <div class="updataList"></div>
+            <div class="updataList">
+                <div class="updataDiv" style="margin-top: 0px;">
+                    <div class="imgDiv">
+                        <div class="ring">
+                            <img class='ring2' src="/static/home/svg/ring2.svg" alt='' draggable="false">
+                        </div>
+                    </div>
+                    <div class="textDiv">
+                        <div class="date">2024.9.7</div>
+                        <ul>
+                            <li>已完成 vue 迁移</li>
+                            <li>完成基础UI、首页</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- <div class="updataDiv">
+                    <div class="imgDiv">
+                        <div class="ring">
+                        </div>
+                    </div>
+                    <div class="textDiv">
+                        <div class="date">2024.9.7</div>
+                        <ul>
+                            <li>完成基础UI</li>
+                            <li>完成首页</li>
+                        </ul>
+                    </div>
+                </div> -->
+            </div>
         </div>
     </div>
 </template>
@@ -44,7 +76,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
 }
 
 .Div .home .logo {
@@ -92,6 +124,8 @@
     width: 100%;
     height: 100%;
     display: block;
+    margin-top: -5px;
+    margin-bottom: -5px;
     border-width: 0px 0px 1px 0px;
     border-style: solid;
     border-color: #c9c9c9;
@@ -110,5 +144,66 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.Div .home .newsList .newsDiv .date {
+    font-family: RHRCN-H;
+    color: #787878;
+    font-size: 10px;
+    padding-left: 3PX;
+    padding-right: 3PX;
+    padding-bottom: 2PX;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.Div .home .updataList {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Div .home .updataList .updataDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.Div .home .updataList .updataDiv .imgDiv .ring {
+    background: #04AAEB;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.Div .home .updataList .updataDiv .imgDiv .ring .ring2 {
+    width: 30px;
+    height: 30px;
+    margin-left: -7.5px;
+    margin-top: -7.5px;
+    animation: 1s linear 0s infinite normal none running init_loading2;
+}
+
+.Div .home .updataList .updataDiv .textDiv {
+    width: 200px;
+    margin-left: 20px;
+}
+
+.Div .home .updataList .updataDiv .textDiv .date {
+    font-family: RHRCN-H;
+    font-size: 15px;
+    margin-top: -5px;
+}
+
+.Div .home .updataList .updataDiv .textDiv ul {
+    padding-left: 20px;
+}
+
+.Div .home .updataList .updataDiv .textDiv ul li {
+    font-family: RHRCN-M;
+    font-size: 15px;
 }
 </style>
