@@ -19,6 +19,7 @@
 	margin: 0vh auto;
 	text-align: center;
 	transition-duration: 0.5s;
+	user-select: none;
 }
 
 .init_loading .init_loadingImg {
