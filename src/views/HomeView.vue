@@ -177,6 +177,7 @@
     width: 15px;
     height: 15px;
     border-radius: 50%;
+    user-select: none;
 }
 
 .Div .home .updataList .updataDiv .imgDiv .ring .ring2 {
