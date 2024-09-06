@@ -47,6 +47,10 @@
     padding-bottom: 50px;
 }
 
+.Div .home .logo {
+    user-select: none;
+}
+
 .Div .home .logo .ring {
     position: absolute;
     /* animation: 1s linear 0s infinite normal none running init_loading2; */
@@ -91,6 +95,7 @@
     border-width: 0px 0px 1px 0px;
     border-style: solid;
     border-color: #c9c9c9;
+    user-select: none;
 }
 
 
