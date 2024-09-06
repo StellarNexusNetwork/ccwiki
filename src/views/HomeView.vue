@@ -7,24 +7,24 @@
             </div>
             <div class='newsList'>
                 <div class="newsDiv" style="margin-right: 0px;">
-                    <img class='background' src="/static/home/svg/NotFind.svg" alt='' width='auto' height='120px' draggable="false">
+                    <img class='image' src="/static/home/svg/NotFind.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
-                    <div class="mainText">暂无信息</div>
+                    <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
-                    <img class='background' src="/static/home/svg/NotFind.svg" alt='' width='auto' height='120px' draggable="false">
+                    <img class='image' src="/static/home/svg/NotFind.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
-                    <div class="mainText">暂无信息</div>
+                    <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
-                    <img class='background' src="/static/home/svg/NotFind.svg" alt='' width='auto' height='120px' draggable="false">
+                    <img class='image' src="/static/home/svg/NotFind.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
-                    <div class="mainText">暂无信息</div>
+                    <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
-                    <img class='background' src="/static/home/svg/NotFind.svg" alt='' width='auto' height='120px' draggable="false">
+                    <img class='image' src="/static/home/svg/NotFind.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
-                    <div class="mainText">暂无信息</div>
+                    <!-- <div class="mainText">暂无信息</div> -->
                 </div>
             </div>
             <div class="updataList"></div>
@@ -63,14 +63,16 @@
 }
 
 .Div .home .newsList .newsDiv {
+    display: flex;
+    flex-direction: column;
     border: 1px solid #c9c9c9;
     border-radius: 10px;
-    width: 160px;
-    height: 155px;
-    margin-left: 15px;
+    width: 170px;
+    /* height: 155px; */
+    margin-left: 20px;
 }
 
-.Div .home .newsList .newsDiv::after {
+/* .Div .home .newsList .newsDiv::after {
     content: "";
     width: 160px;
     height: 155px;
@@ -79,42 +81,29 @@
     border-radius: 10px;
     background: linear-gradient(0deg, #12b4ea 0%, rgba(200, 248, 237, 0.3169) 80%, rgba(255, 255, 255, 0) 100%);
     pointer-events: none;
-    /* 确保覆盖层不会干扰图片的交互 */
-}
+    /* 确保覆盖层不会干扰图片的交互
+} */
 
-.Div .home .newsList .newsDiv .background {
+.Div .home .newsList .newsDiv .image {
     width: 100%;
     height: 100%;
     display: block;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #c9c9c9;
 }
 
 
 
 .Div .home .newsList .newsDiv .text {
-    width: 150px;
-    position: absolute;
-    margin-top: -80px;
-    margin-left: 5px;
-    z-index: 2;
     font-family: RHRCN-H;
-    font-size: 20px;
+    font-size: 15px;
     color: #3c3c3c;
-    text-overflow: ellipsis;
-}
-
-.Div .home .newsList .newsDiv .mainText {
-    width: 150px;
-    height: 50px;
-    position: absolute;
-    margin-top: -50px;
-    margin-left: 5px;
-    z-index: 2;
-    font-family: RHRCN-H;
-    font-size: 10px;
-    color: #3c3c3c;
+    padding-left: 3PX;
+    padding-right: 3PX;
+    padding-bottom: 2PX;
+    white-space: nowrap;
     overflow: hidden;
-    /* text-overflow: ellipsis; */
-    word-break: break-all;
-    word-wrap: break-word;
+    text-overflow: ellipsis;
 }
 </style>

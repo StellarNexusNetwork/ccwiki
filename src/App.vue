@@ -28,6 +28,7 @@ let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static' as 'static
   user-select: none;
   transition-duration: 0.3s;
   z-index: 99998;
+  background-color: #F5F5F5;
 }
 
 .navigationBar {
@@ -39,6 +40,7 @@ let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static' as 'static
   user-select: none;
   transition-duration: 0.3s;
   z-index: 99997;
+  background-color: #F5F5F5;
 }
 
 .mainDiv {
