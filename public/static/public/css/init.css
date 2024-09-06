@@ -24,5 +24,15 @@ input:focus {
 
 @font-face {
     font-family: RHRCN-H;
-    src: url("../../public/font/ResourceHanRoundedCN-Heavy.ttf");
+    src: url("../../public/font/RHRCN/ResourceHanRoundedCN-Heavy.ttf");
+}
+
+@font-face {
+    font-family: RHRCN-N;
+    src: url("../../public/font/RHRCN/ResourceHanRoundedCN-Normal.ttf");
+}
+
+@font-face {
+    font-family: RHRCN-M;
+    src: url("../../public/font/RHRCN/ResourceHanRoundedCN-Medium.ttf");
 }
