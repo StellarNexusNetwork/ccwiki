@@ -6,7 +6,7 @@
                 <img class='logo_image' src="/static/public/svg/ccwiki_logo0.svg" alt='' width='auto' height='120px' draggable="false">
             </div>
             <div class='newsList'>
-                <div class="newsDiv" style="margin-right: 0px;">
+                <div class="newsDiv" style="margin-left: 0px;">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
                     <div class='date'>无数据</div>
@@ -18,13 +18,13 @@
                     <div class='date'>无数据</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
-                <div class="newsDiv">
+                <div class="newsDiv" :style="newsDiv2Style">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
                     <div class='date'>无数据</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
-                <div class="newsDiv">
+                <div class="newsDiv" :style="newsDiv2Style">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
                     <div class="text">无信息</div>
                     <div class='date'>无数据</div>
@@ -67,34 +67,46 @@
 import { ref, onMounted, onUnmounted, watchEffect, reactive } from 'vue'
 
 const mainDiv = ref();
-let mainDevStyle = reactive({ alignItems: 'center' })
-let homeStyle = reactive({ paddingBottom: '70px' })
+let mainDevStyle = reactive({ alignItems: 'center' });
+let homeStyle = reactive({ paddingBottom: '70px' });
 const mainDevHeight = ref(0);
+let newsDiv2Style = reactive({ display: 'flex' });
 
 const windowHeight = ref(window.innerHeight);
+const windowWidth = ref(window.innerWidth);
 const updateWindowHeight = () => {
     windowHeight.value = window.innerHeight;
+};
+const updateWindowWidth = () => {
+    windowWidth.value = window.innerWidth;
 };
 
 onMounted(() => {
     mainDevHeight.value = mainDiv.value.offsetHeight;
     updateWindowHeight(); // 初始化窗口高度
+    updateWindowWidth(); // 初始化窗口宽度
     window.addEventListener('resize', updateWindowHeight); // 监听窗口大小变化
+    window.addEventListener('resize', updateWindowWidth); // 监听窗口大小变化
 });
 
 // 在组件卸载时移除事件监听器
 onUnmounted(() => {
     window.removeEventListener('resize', updateWindowHeight); // 移除事件监听器
+    window.removeEventListener('resize', updateWindowWidth); // 移除事件监听器
 });
 
 watchEffect(() => {
-    console.log(mainDiv, windowHeight.value)
     if (mainDevHeight.value >= windowHeight.value - 40) {
-        mainDevStyle.alignItems = 'flex-start'
-        homeStyle.paddingBottom = '20px'
+        mainDevStyle.alignItems = 'flex-start';
+        homeStyle.paddingBottom = '20px';
     } else {
-        mainDevStyle.alignItems = 'center'
-        homeStyle.paddingBottom = '70px'
+        mainDevStyle.alignItems = 'center';
+        homeStyle.paddingBottom = '70px';
+    }
+    if (windowWidth.value <= 445) {
+        newsDiv2Style.display = 'none';
+    } else {
+        newsDiv2Style.display = 'flex';
     }
 })
 </script>
