@@ -1,6 +1,6 @@
 <template>
-    <div class="Div">
-        <div class="home">
+    <div class="Div" :style="mainDevStyle">
+        <div class="home" ref="mainDiv" :style="homeStyle">
             <div class="logo">
                 <img class='ring' src="/static/home/svg/ring.svg" alt='' width='auto' height='170px' draggable="false">
                 <img class='logo_image' src="/static/public/svg/ccwiki_logo0.svg" alt='' width='auto' height='120px' draggable="false">
@@ -64,31 +64,71 @@
     </div>
 </template>
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted, watchEffect, reactive } from 'vue'
+
+const mainDiv = ref();
+let mainDevStyle = reactive({ alignItems: 'center' })
+let homeStyle = reactive({ paddingBottom: '70px' })
+const mainDevHeight = ref(0);
+
+const windowHeight = ref(window.innerHeight);
+const updateWindowHeight = () => {
+    windowHeight.value = window.innerHeight;
+};
+
+onMounted(() => {
+    mainDevHeight.value = mainDiv.value.offsetHeight;
+    updateWindowHeight(); // 初始化窗口高度
+    window.addEventListener('resize', updateWindowHeight); // 监听窗口大小变化
+});
+
+// 在组件卸载时移除事件监听器
+onUnmounted(() => {
+    window.removeEventListener('resize', updateWindowHeight); // 移除事件监听器
+});
+
+watchEffect(() => {
+    console.log(mainDiv, windowHeight.value)
+    if (mainDevHeight.value >= windowHeight.value - 40) {
+        mainDevStyle.alignItems = 'flex-start'
+        homeStyle.paddingBottom = '20px'
+    } else {
+        mainDevStyle.alignItems = 'center'
+        homeStyle.paddingBottom = '70px'
+    }
+})
 </script>
 <style scoped>
 .Div {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
 .home {
     display: flex;
     flex-direction: column;
+    margin-top: 40px;
     align-items: center;
-    padding-bottom: 30px;
 }
 
 .Div .home .logo {
+    display: grid;
     user-select: none;
+    position: relative;
+}
+
+.Div .home .logo .logoImg {
+    grid-area: 1;
+    position: absolute;
 }
 
 .Div .home .logo .ring {
+    grid-area: 1;
     position: absolute;
     /* animation: 1s linear 0s infinite normal none running init_loading2; */
     animation: init_loading2 3s infinite;
-    margin-left: -24px;
-    margin-top: -24px;
+    margin-top: -25px;
+    margin-left: -25px;
 }
 
 .Div .home .newsList {
@@ -138,9 +178,10 @@
     font-family: RHRCN-H;
     font-size: 15px;
     color: #3c3c3c;
-    padding-left: 3PX;
-    padding-right: 3PX;
-    padding-bottom: 2PX;
+    padding-top: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -152,7 +193,7 @@
     font-size: 10px;
     padding-left: 3PX;
     padding-right: 3PX;
-    padding-bottom: 2PX;
+    padding-bottom: 3PX;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
