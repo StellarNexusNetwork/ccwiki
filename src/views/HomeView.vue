@@ -103,7 +103,7 @@ watchEffect(() => {
         mainDevStyle.alignItems = 'center';
         homeStyle.paddingBottom = '70px';
     }
-    if (windowWidth.value <= 445) {
+    if (windowWidth.value <= 800) {
         newsDiv2Style.display = 'none';
     } else {
         newsDiv2Style.display = 'flex';
