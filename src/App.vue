@@ -52,7 +52,8 @@ let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static' as 'static
   border-radius: 20px 0px 20px 0px;
   background: #fafafa;
   transition-duration: 0.3s;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .router-view {
