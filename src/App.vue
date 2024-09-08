@@ -11,11 +11,22 @@
 <script setup lang="ts">
 import titleBar from './basis_c/titleBar.vue'
 import navigationBar from './basis_c/navigationBar.vue'
-import { RouterView } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { RouterView, useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 let mainDivStyle = ref({ paddingLeft: '50px' })
 let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static' as 'static' | 'absolute' | 'relative' | 'fixed', right: 'auto' })
+
+const router = useRouter()
+router.beforeEach((to, from, next) => {
+
+  next()
+})
+
+router.afterEach(() => {
+
+})
+
 
 </script>
 

@@ -44,6 +44,16 @@
 	animation: 1s linear 0s infinite normal none running init_loading2;
 }
 
+.init_loading_bg .init_loading .poweredBy {
+	bottom: 5%;
+	position: absolute;
+	font-family: font_load;
+	color: darkgray;
+	font-size: 15px;
+	font-family: RHRCN-H;
+	transition-duration: 0.5s;
+}
+
 @Keyframes init_loading {
 	0% {
 		transform: rotate(0deg);
