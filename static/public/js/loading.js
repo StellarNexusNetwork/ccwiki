@@ -4,14 +4,7 @@ let init_loading_logo = document.querySelector(".init_loading_logo");
 let options = document.querySelector(".options");
 let loading_poweredBy = document.querySelector(".poweredBy");
 
-let mainDiv = document.querySelector(".mainDiv");
-let main = document.querySelector(".main");
-
-navigation_fold_t = true;
-
-
-
-window.onload = function () {
+window.onload = () => {
     // 加载完成，隐藏动画，显示内容
     var id = setTimeout(function function_name() {
         init_loading_logo.style.opacity = "0";
