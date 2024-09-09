@@ -148,8 +148,8 @@ function unfold() {
 .navigationBar #navigation .options .button img {
     width: 30px;
     height: 30px;
-    margin-left: 3px;
-    margin-right: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .navigationBar .listDiv .options .button .textDiv {
