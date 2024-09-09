@@ -1,0 +1,1 @@
+import{_ as e,c as t,e as c}from"./index-DSo-WTyv.js";const o="/cc.project.v4.web2/static/public/svg/NotFound.svg",s={},a={id:"_navigation_home_svg",src:o,alt:"SVG Image",draggable:"false"};function n(_,r){return t(),c("img",a)}const d=e(s,[["render",n]]);export{d as default};
