@@ -47,10 +47,10 @@ router.beforeEach((to, from, next) => {
     rt_loadingS.value.opacity = 0;
     setTimeout(() => {
       routerLoadingS.value.display = 'flex';
-    }, 5);
+    }, 10);
     setTimeout(() => {
       Object.assign(rt_loading_bgS.value, { width: '250px', height: '250px', opacity: 1, marginBottom: '70px' });
-    }, 10);
+    }, 20);
     setTimeout(() => {
       Object.assign(rt_loading_bgS.value, { width: '200px', height: '200px', marginBottom: '0px' });
     }, 500);
