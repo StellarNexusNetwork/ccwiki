@@ -21,7 +21,7 @@ import navigationBar from './basis_c/navigationBar.vue'
 import { RouterView, useRouter } from 'vue-router'
 import { ref } from 'vue'
 
-let ifLoadingFinish = false;
+let ifLoadingFinish = true;
 window.addEventListener('load', function () {
   ifLoadingFinish = true;
 });
