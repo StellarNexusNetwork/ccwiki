@@ -20,7 +20,12 @@ import titleBar from './basis_c/titleBar.vue'
 import navigationBar from './basis_c/navigationBar.vue'
 import { RouterView, useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { transform } from 'typescript';
+
+let ifLoadingFinish = false;
+window.addEventListener('load', function () {
+  ifLoadingFinish = true;
+});
+
 
 let mainDivStyle = ref({ paddingLeft: '50px' })
 let mainStyle = ref({ width: 'calc(100vw - 50px)', position: 'static' as 'static' | 'absolute' | 'relative' | 'fixed', right: 'auto' })
