@@ -44,7 +44,7 @@
             <div class="options">
                 <RouterLink to="/others" class="button">
                     <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">其他</div>
+                    <div class="textDiv" :style="unfoldStyle">关于</div>
                 </RouterLink>
             </div>
         </div>
