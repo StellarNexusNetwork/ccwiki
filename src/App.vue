@@ -67,15 +67,12 @@ router.beforeEach((to, from, next) => {
       next()
       rt_loading_bgS.value.transitionDuration = '0.5s';
       Allowrouting = true;
-      console.log('路由跳转2')
     }, 2250);
-    console.log('路由跳转')
   } else {
     //这里是更改路由 但好像又失效了
     if (Allowrouting || ifLoadingFinish == false) {
       next()
       rt_ae_f = true
-      console.log('路由qh')
     }
   }
 })
