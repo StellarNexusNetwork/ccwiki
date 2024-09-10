@@ -79,7 +79,6 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(() => {
   if (ifLoadingFinish && rt_ae_f == false) {
-    console.log('路由js')
     Allowrouting = false;
     Object.assign(rt_loading_bgS.value, { width: '200px', height: '200px' });
     setTimeout(() => {
