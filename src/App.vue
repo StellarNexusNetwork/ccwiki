@@ -21,7 +21,7 @@ import navigationBar from './basis_c/navigationBar.vue'
 import { RouterView, useRouter } from 'vue-router'
 import { ref } from 'vue'
 
-let ifLoadingFinish = true;
+let ifLoadingFinish = false;
 window.addEventListener('load', function () {
   ifLoadingFinish = true;
 });
@@ -35,7 +35,7 @@ let rt_loading_bgS = ref({ width: '100px', height: '100px', opacity: 0, marginBo
 let rt_loadingS = ref({ opacity: 0 })
 let rt_isAnimating = false;
 let Allowrouting = false;
-
+let rt_ae_f = false
 
 const router = useRouter()
 router.beforeEach((to, from, next) => {
@@ -67,16 +67,22 @@ router.beforeEach((to, from, next) => {
       next()
       rt_loading_bgS.value.transitionDuration = '0.5s';
       Allowrouting = true;
+      console.log('路由跳转2')
     }, 2250);
+    console.log('路由跳转')
   } else {
-    if (Allowrouting) {
+    //这里是更改路由 但好像又失效了
+    if (Allowrouting || ifLoadingFinish == false) {
       next()
+      rt_ae_f = true
+      console.log('路由qh')
     }
   }
 })
 
 router.afterEach(() => {
-  if (ifLoadingFinish == true) {
+  if (ifLoadingFinish && rt_ae_f == false) {
+    console.log('路由js')
     Allowrouting = false;
     Object.assign(rt_loading_bgS.value, { width: '200px', height: '200px' });
     setTimeout(() => {
@@ -86,8 +92,11 @@ router.afterEach(() => {
       rt_loading_bgS.value.opacity = 0;
     }, 1000);
     setTimeout(() => {
+      routerLoadingS.value.display = 'none';
       rt_isAnimating = false;
     }, 1500);
+  } else {
+    rt_ae_f = false
   }
 })
 
