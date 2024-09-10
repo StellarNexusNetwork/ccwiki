@@ -21,6 +21,10 @@ input:focus {
     font-family: MiSans;
     src: url("../../public/font/MiSans/MiSans-Normal.ttf");
 }
+@font-face {
+    font-family: MiSans-B;
+    src: url("../../public/font/MiSans/MiSans-Bold.ttf");
+}
 
 @font-face {
     font-family: RHRCN-H;
