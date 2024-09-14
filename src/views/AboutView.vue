@@ -17,7 +17,7 @@
             <div class="boxDiv" id="Cooperative">
                 <div class="title">合作伙伴</div>
                 <div class="logoList">
-                    <a href="https://github.com/StellarNexusNetwork/cc.project.v4.web2" target="_blank">
+                    <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank">
                         <img src="/static/about/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false">
                     </a>
                     <a href="https://github.com/StellarNexusNetwork" target="_blank">
@@ -31,8 +31,8 @@
                 <div class="detail">版本号: 24w37c</div>
                 <div class="detail">数据提供服务:</div>
                 <div class="detailList" style="marginLeft:20px ;">
-                    <a href="https://stellarnexusnetwork.github.io/cc.project.v4.web2" target="_blank">
-                        <div class="detail">https://stellarnexusnetwork.github.io/cc.project.v4.web2</div>
+                    <a href="https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2/" target="_blank">
+                        <div class="detail">https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2</div>
                     </a>
                     <a href="https://github.com/StellarNexusNetwork" target="_blank">
                         <div class="detail">https://github.com/StellarNexusNetwork</div>
