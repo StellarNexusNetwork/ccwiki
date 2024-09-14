@@ -23,7 +23,7 @@ jobs:
 
     - name: Build Vue.js project
       env:
-          VITE_BASE_PATH: '/cc.wiki.project.v4.web2'
+          VITE_BASE_PATH: '/cc.wiki.project.v4.web2/'
       run: npm run build
 
     - name: Deploy to GitHub Pages
