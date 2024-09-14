@@ -1,0 +1,42 @@
+a {
+    text-decoration: none;
+    target: _blank;
+    outline: none;
+    color: #777;
+}
+
+a:hover {
+    color: #04AAEB;
+}
+
+input:focus {
+    outline: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+@font-face {
+    font-family: MiSans;
+    src: url("../../public/font/MiSans/MiSans-Normal.ttf");
+}
+@font-face {
+    font-family: MiSans-B;
+    src: url("../../public/font/MiSans/MiSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: RHRCN-H;
+    src: url("../../public/font/RHRCN/ResourceHanRoundedCN-Heavy.ttf");
+}
+
+@font-face {
+    font-family: RHRCN-N;
+    src: url("../../public/font/RHRCN/ResourceHanRoundedCN-Normal.ttf");
+}
+
+@font-face {
+    font-family: RHRCN-M;
+    src: url("../../public/font/RHRCN/ResourceHanRoundedCN-Medium.ttf");
+}
