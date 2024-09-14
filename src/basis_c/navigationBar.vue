@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, defineProps, defineEmits } from 'vue'
+import { reactive } from 'vue'
 import { RouterLink } from 'vue-router'
 // let navigation = ref([
 //     { id: 'home', src: "../static/public/svg/navigationBar/account.svg", text: "" }
