@@ -42,7 +42,7 @@
                         <div class="date">2024.9.7</div>
                         <ul>
                             <li>已完成 vue 迁移</li>
-                            <li>完成基础UI、首页</li>
+                            <li>完成基础UI、首页、关于页面</li>
                         </ul>
                     </div>
                 </div>
@@ -242,7 +242,6 @@ watchEffect(() => {
 }
 
 .Div .home .updataList .updataDiv .textDiv {
-    width: 200px;
     margin-left: 20px;
 }
 
