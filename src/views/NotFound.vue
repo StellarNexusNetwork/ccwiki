@@ -7,7 +7,7 @@
             </div>
             <div class="textDiv">
                 <div class="suggestion">您正在跳转的页面未在路由中注册，请检查您正在访问的URL!</div>
-                <div class="errorCode">404 Not Found</div>
+                <div class="errorCode">404 Not Found.</div>
             </div>
         </div>
     </div>

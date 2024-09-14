@@ -55,7 +55,6 @@
                         <div class="date">2024.9.7</div>
                         <ul>
                             <li>完成基础UI</li>
-                            <li>完成首页</li>
                         </ul>
                     </div>
                 </div> -->
