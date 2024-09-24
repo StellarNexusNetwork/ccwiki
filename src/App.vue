@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
       Allowrouting = true;
     }, 2250);
   } else {
-    //这里是更改路由 但好像又失效了
+    //这里是更改路由 但好像又失效了.
     if (Allowrouting || ifLoadingFinish == false) {
       next()
       rt_ae_f = true
