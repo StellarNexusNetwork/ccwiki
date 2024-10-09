@@ -89,3 +89,33 @@
 		transform: rotate(720deg);
 	}
 }
+
+@Keyframes Eye8_logoA1 {
+	0% {
+		transform: translateX(0px);
+	}
+
+	25% {
+		transform: translateX(0px);
+	}
+
+	40% {
+		transform: translateX(-20px);
+	}
+
+	50% {
+		transform: translateX(20px);
+	}
+
+	60% {
+		transform: translateX(20px);
+	}
+
+	60% {
+		transform: translateX(0px);
+	}
+
+	100% {
+		transform: translateX(0px);
+	}
+}
