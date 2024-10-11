@@ -9,7 +9,13 @@
             </div>
             <div class="mainDiv">
                 <div class="main">
-                    <ApexCharts type="area" height="160" :options="chartOptions" :series="series"></ApexCharts>
+                    <div class="option">
+                        <div class="titleDiv">
+                            <div class="title">剩余人数</div>
+                            <div class="data">12</div>
+                        </div>
+                        <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
+                    </div>
                 </div>
                 <div class="log">
                 </div>
@@ -24,11 +30,8 @@ import ApexCharts from 'vue3-apexcharts'
 
 
 const chartOptions = {
-    chart: { type: 'area', height: 160, sparkline: { enabled: true } },
-    xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-    },
-    stroke: { curve: 'straight' },
+    chart: { type: 'area', height: 140, sparkline: { enabled: true } },
+    stroke: { curve: 'smooth' },
     fill: {
         type: "gradient",
         gradient: {
@@ -40,26 +43,36 @@ const chartOptions = {
                 {
                     offset: 0,
                     opacity: .2,
-                    color: "#ffffff"
+                    color: "#04AAEB"
                 },
                 {
                     offset: 100,
                     opacity: 0,
-                    color: "#ffffff"
+                    color: "#04AAEB"
                 }
             ]
         }
     },
     yaxis: { min: 0 },
-    colors: ['#DCE6EC'],
-    title: { text: '$424,652', offsetX: 0, style: { fontSize: '24px' } },
-    subtitle: { text: 'Sales', offsetX: 0, style: { fontSize: '14px' } },
+    colors: ['#04AAEB'],
 }
 
 const series = [
     {
         name: '剩余未处理',
-        data: [15, 50, 18, 90, 30, 65],
+        data: [{
+            x: 'Apple',
+            y: 0
+        }, {
+            x: 'Orange',
+            y: 66
+        }, {
+            x: '2.2',
+            y: 11
+        }, {
+            x: '2.4',
+            y: 30
+        }],
     },
 ]
 
@@ -103,4 +116,32 @@ const series = [
     margin-top: 70px;
     margin-left: 70px;
 }
+
+.Div .eyeList .mainDiv .main .option {
+    width: 300px;
+    height: 200px;
+    border-radius: 15px;
+    background-color: #fefefe;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.Div .eyeList .mainDiv .main .option .titleDiv {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+}
+
+.Div .eyeList .mainDiv .main .option .titleDiv .title {
+    font-size: 20px;
+    font-family: RHRCN-M;
+}
+
+.Div .eyeList .mainDiv .main .option .titleDiv .data {
+    font-size: 15px;
+    font-family: MiSans;
+    color: #727272;
+}
+
+.Div .eyeList .mainDiv .main .option .charts {}
 </style>
