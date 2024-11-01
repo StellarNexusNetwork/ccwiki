@@ -130,12 +130,12 @@ const userInput = ref(""); // 定义一个 ref 来存储用户的输入
 
 
 
-const imageUrl = ref(null); // 创建响应式变量
-const imageUrl2 = ref(null); // 创建响应式变量
+const imageUrl = ref(''); // 创建响应式变量
+const imageUrl2 = ref(''); // 创建响应式变量
 const boxHeight = ref(38); // 默认高度为30px
 const sendButtonColor = ref('#d7d7d7');
 
-const updateBoxHeight = (height) => {
+const updateBoxHeight = (height: number) => {
     if (height < 300) {
         boxHeight.value = height;
     } else {
