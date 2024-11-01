@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import('../views/eye8.vue')
     },
     {
+      path: '/chat/',
+      name: 'chat',
+      component: () => import('../views/chat/chat.vue')
+    },
+    {
       path: '/about/',
       name: 'about',
       component: () => import('../views/AboutView.vue')
