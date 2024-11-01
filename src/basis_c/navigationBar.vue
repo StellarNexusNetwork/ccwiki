@@ -42,6 +42,12 @@
                 </RouterLink>
             </div>
             <div class="options">
+                <RouterLink to="/chat" class="button">
+                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/chat.svg" alt="SVG Image" draggable="false" style="width:20px;height:20px;margin-left: 10px;margin-right: 10px">
+                    <div class="textDiv" :style="unfoldStyle">闲聊</div>
+                </RouterLink>
+            </div>
+            <div class="options">
                 <button class="button">
                     <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
                     <div class="textDiv" :style="unfoldStyle">**</div>
@@ -185,6 +191,7 @@ function unfold() {
     width: 100%;
     position: absolute;
     bottom: 0;
+    background-color: #F5F5F5;
 }
 
 .navigationBar #tool .options .button img {

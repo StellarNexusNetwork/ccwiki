@@ -2,19 +2,55 @@
     <div class="Div">
         <div class="eyeList">
             <div class="logoDiv">
-                <div class="logo">
-                    <img id="logo1" src="/static/eye8/svg/logo1.svg" alt="SVG Image" width='auto' height='230px' draggable="false">
-                    <img id="logo2" src="/static/eye8/svg/logo2.svg" alt="SVG Image" width='auto' height='90px' draggable="false">
+                <div class="logoP">
+                    <div class="logo">
+                        <img id="logo1" src="/static/eye8/svg/logo1.svg" alt="SVG Image" width='auto' height='230px' draggable="false">
+                        <img id="logo2" src="/static/eye8/svg/logo2.svg" alt="SVG Image" width='auto' height='90px' draggable="false">
+                    </div>
+                </div>
+                <div class="textDiv">
+                    <div class="card">
+                        <div class="pulse"></div>
+                    </div>
+                    <div class="textList">
+                        <h2>Web UI</h2>
+                        <p>Everything is under control.</p>
+                    </div>
                 </div>
             </div>
             <div class="mainDiv">
                 <div class="main">
-                    <div class="option">
-                        <div class="titleDiv">
-                            <div class="title">剩余人数</div>
-                            <div class="data">12</div>
+                    <div class="listW">
+                        <div class="option" :style="{ 'margin-right': OmarginRight }">
+                            <div class="titleDiv">
+                                <div class="title">未处理</div>
+                                <div class="data">12</div>
+                            </div>
+                            <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
                         </div>
-                        <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
+                        <div class="option" :style="{ 'margin-left': OmarginRight }">
+                            <div class=" titleDiv">
+                                <div class="title">已处理</div>
+                                <div class="data">12</div>
+                            </div>
+                            <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
+                        </div>
+                    </div>
+                    <div class="listW" style="margin-top: 20px;">
+                        <div class="option" :style="{ 'margin-right': OmarginRight }">
+                            <div class="titleDiv">
+                                <div class="title">总量</div>
+                                <div class="data">12</div>
+                            </div>
+                            <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
+                        </div>
+                        <div class="option" :style="{ 'margin-left': OmarginRight }">
+                            <div class=" titleDiv">
+                                <div class="title">丢弃数</div>
+                                <div class="data">12</div>
+                            </div>
+                            <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
+                        </div>
                     </div>
                 </div>
                 <div class="log">
@@ -27,7 +63,9 @@
 <script setup lang="ts">
 
 import ApexCharts from 'vue3-apexcharts'
+import { ref } from 'vue'
 
+let OmarginRight = ref('10px')
 
 const chartOptions = {
     chart: { type: 'area', height: 140, sparkline: { enabled: true } },
@@ -96,18 +134,70 @@ const series = [
     align-items: center;
 }
 
-.Div .eyeList .logoDiv {
-    width: 100%;
-    user-select: none;
+.Div .eyeList .logoDiv .textDiv {
+    display: flex;
 }
 
-.Div .eyeList .logoDiv .logo {
+.Div .eyeList .logoDiv .textDiv .textList {
+    margin-left: 35px;
+}
+
+.Div .eyeList .logoDiv .textDiv .card .pulse {
+    position: absolute;
+    margin-top: 15px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #3cc2f7;
+}
+
+.Div .eyeList .logoDiv .textDiv .card .pulse::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: .1px solid #3cc2f7;
+    animation: pulse 3s linear infinite;
+    transform-origin: center;
+    opacity: .8;
+    scale: 0;
+}
+
+@keyframes pulse {
+
+    70% {
+        scale: 0;
+        opacity: .8;
+    }
+
+    100% {
+        scale: 3;
+        opacity: 0;
+    }
+
+}
+
+.Div .eyeList .logoDiv .textDiv .textList h2 {
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: .5px;
+    margin: 0 0 2px;
+}
+
+.Div .eyeList .logoDiv .logoP {
+    width: 100%;
+    user-select: none;
+    text-align: center;
+}
+
+.Div .eyeList .logoDiv .logoP .logo {
     display: grid;
     user-select: none;
     position: relative;
 }
 
-.Div .eyeList .logoDiv .logo #logo2 {
+.Div .eyeList .logoDiv .logoP .logo #logo2 {
     grid-area: 1;
     position: absolute;
     /* animation: 1s linear 0s infinite normal none running init_loading2; */
@@ -117,7 +207,13 @@ const series = [
     margin-left: 70px;
 }
 
-.Div .eyeList .mainDiv .main .option {
+.Div .eyeList .mainDiv .main .listW {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
+
+.Div .eyeList .mainDiv .main .listW .option {
     width: 300px;
     height: 200px;
     border-radius: 15px;
@@ -126,22 +222,22 @@ const series = [
     overflow: hidden;
 }
 
-.Div .eyeList .mainDiv .main .option .titleDiv {
+.Div .eyeList .mainDiv .main .listW .option .titleDiv {
     width: 100%;
     height: 60px;
     padding: 10px;
 }
 
-.Div .eyeList .mainDiv .main .option .titleDiv .title {
+.Div .eyeList .mainDiv .main .listW .option .titleDiv .title {
     font-size: 20px;
     font-family: RHRCN-M;
 }
 
-.Div .eyeList .mainDiv .main .option .titleDiv .data {
+.Div .eyeList .mainDiv .main .listW .option .titleDiv .data {
     font-size: 15px;
     font-family: MiSans;
     color: #727272;
 }
 
-.Div .eyeList .mainDiv .main .option .charts {}
+.Div .eyeList .mainDiv .main .listW .option .charts {}
 </style>
