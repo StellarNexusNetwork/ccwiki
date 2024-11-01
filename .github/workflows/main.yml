@@ -18,14 +18,20 @@ jobs:
       with:
         node-version: '20'  # 使用指定版本的 Node.js
 
+    - name: Enable Corepack (for pnpm)
+      run: corepack enable
+
     - name: Install dependencies
-      run: yarn install
+      run: pnpm install
+
+    - name: Type check with vue-tsc
+      run: npx vue-tsc --noEmit  # 添加类型检查步骤
 
     - name: Build Vue.js project
       env:
           # VITE_BASE_PATH: '/cc.wiki.project.v4.web2/'
           VITE_BASE_PATH: '/'
-      run: npm run build
+      run: pnpm run build
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
