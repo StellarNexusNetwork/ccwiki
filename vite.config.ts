@@ -17,13 +17,14 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  },
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:5000',
-        changeOrigin: true,
-      }
-    }
   }
+  // },
+  // devServer: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://127.0.0.1:5000',
+  //       changeOrigin: true,
+  //     }
+  //   }
+  // }
 })
