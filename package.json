@@ -1,36 +1,27 @@
 {
-  "name": "cc.wiki.project.web2",
-  "version": "0.0.0",
+  "name": "cc-wiki-project",
   "private": true,
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "vite build",
     "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build --force"
+    "tauri": "tauri"
   },
   "dependencies": {
-    "apexcharts": "^3.54.1",
-    "axios": "^1.7.7",
-    "pinia": "^2.2.5",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-opener": "^2",
+    "axios": "^1.7.9",
+    "pinia": "^2.3.0",
     "three": "^0.171.0",
-    "vue": "^3.5.12",
-    "vue-apexcharts": "^1.6.2",
-    "vue-router": "^4.4.5",
-    "vue3-apexcharts": "^1.7.0"
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.17.5",
-    "@types/three": "^0.171.0",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "@vitejs/plugin-vue-jsx": "^4.0.1",
-    "@vue/tsconfig": "^0.5.1",
-    "npm-run-all2": "^6.2.6",
-    "typescript": "~5.4.5",
-    "vite": "^5.4.10",
-    "vite-plugin-vue-devtools": "^7.6.2",
-    "vue-tsc": "^2.1.10"
+    "@tauri-apps/cli": "^2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.3"
   }
 }

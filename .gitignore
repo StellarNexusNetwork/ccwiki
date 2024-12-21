@@ -31,3 +31,6 @@ coverage
 
 
 public/static/20241108/model/
+
+src-tauri/target/debug/
+src-tauri/icons/
