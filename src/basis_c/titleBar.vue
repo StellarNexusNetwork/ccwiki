@@ -4,18 +4,18 @@
       <img class='logoImg' src="/static/public/svg/ccwiki_logo.svg" alt='' width='auto' height='30' draggable="false">
     </div>
     <div class="appControl">
-      <div class="options">
+      <div class="options" @click="closeWindow">
         <button id="red">
           <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
         </button>
       </div>
       <div class="options">
-        <button id="normal">
+        <button id="normal" @click="toggleMaximizeWindow">
           <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="SVG Image" draggable="false">
         </button>
       </div>
       <div class="options">
-        <button id="normal">
+        <button id="normal" @click="minimizeWindow">
           <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="SVG Image" draggable="false">
         </button>
       </div>
@@ -27,8 +27,34 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+import { window } from '@tauri-apps/api';
+
+async function minimizeWindow() {
+  const currentWindow = await window.getCurrentWindow();
+  await currentWindow.minimize();
+}
+async function toggleMaximizeWindow() {
+  const currentWindow = await window.getCurrentWindow();
+  const isMaximized = await currentWindow.isMaximized();
+  if (isMaximized) {
+    await currentWindow.unmaximize();
+  } else {
+    await currentWindow.maximize();
+  }
+}
+async function closeWindow() {
+  const currentWindow = await window.getCurrentWindow();
+  await currentWindow.close();
+}
+
+</script>
 
 <style scoped>
+.titleBar {
+  -webkit-app-region: drag;
+}
+
 .titleBar .logo img {
   margin-top: 3.5px;
   margin-left: 3.5px;
@@ -41,6 +67,7 @@
   right: 0;
   display: flex;
   flex-direction: row-reverse;
+  -webkit-app-region: no-drag;
 }
 
 .titleBar .appControl .options button {
