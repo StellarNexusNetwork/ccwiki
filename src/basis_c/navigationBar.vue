@@ -36,6 +36,12 @@
                 </RouterLink>
             </div>
             <div class="options">
+                <RouterLink to="/20241108" class="button">
+                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/8.svg" alt="SVG Image" draggable="false">
+                    <div class="textDiv" :style="unfoldStyle">**</div>
+                </RouterLink>
+            </div>
+            <div class="options">
                 <RouterLink to="/eye8" class="button">
                     <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/8.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle">eye8</div>

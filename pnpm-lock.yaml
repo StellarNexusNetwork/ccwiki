@@ -17,6 +17,9 @@ importers:
       pinia:
         specifier: ^2.2.5
         version: 2.2.5(typescript@5.4.5)(vue@3.5.12(typescript@5.4.5))
+      three:
+        specifier: ^0.171.0
+        version: 0.171.0
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.4.5)
@@ -1006,6 +1009,9 @@ packages:
   svg.select.js@3.0.1:
     resolution: {integrity: sha512-h5IS/hKkuVCbKSieR9uQCj9w+zLHoPh+ce19bBYyqF53g6mnPB8sAtIbe1s9dh2S2fCmYX2xel1Ln3PJBbK4kw==}
     engines: {node: '>= 0.8.0'}
+
+  three@0.171.0:
+    resolution: {integrity: sha512-Y/lAXPaKZPcEdkKjh0JOAHVv8OOnv/NDJqm0wjfCzyQmfKxV7zvkwsnBgPBKTzJHToSOhRGQAGbPJObT59B/PQ==}
 
   totalist@3.0.1:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
@@ -2050,6 +2056,8 @@ snapshots:
   svg.select.js@3.0.1:
     dependencies:
       svg.js: 2.7.1
+
+  three@0.171.0: {}
 
   totalist@3.0.1: {}
 
