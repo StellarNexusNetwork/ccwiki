@@ -29,5 +29,5 @@ coverage
 
 *.tsbuildinfo
 
-
+src-tauri/
 public/static/20241108/model/
