@@ -119,7 +119,7 @@ const chartOptions = {
 
 const isConnected = ref(false);
 const message = ref(null);
-let socket = null;
+let socket = new WebSocket('ws://127.0.0.1:1145/vue');
 
 // Create WebSocket connection
 const connectWebSocket = () => {
