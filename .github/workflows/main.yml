@@ -33,6 +33,10 @@ jobs:
           VITE_BASE_PATH: '/'
       run: pnpm run build
 
+    - name: Copy CNAME to dist
+      run: |
+        cp CNAME dist/  # 确保 CNAME 文件保存在发布目录
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
