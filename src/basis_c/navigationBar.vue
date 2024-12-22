@@ -264,9 +264,8 @@ function closeDialog() {
     /* 移除内边距（如不需要） */
     border: none;
     /* 去除默认边框 */
-    background-color: rgba(0, 0, 0, 0);
     /* 白色背景，略带透明效果 */
-    /* transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; */
+    background-color: rgba(0, 0, 0, 0);
     transition-duration: 0.5s;
     overflow: hidden;
 }
@@ -279,8 +278,6 @@ function closeDialog() {
 
 #setting_dialog::backdrop {
     width: 100%;
-    /* height: calc(100% - 42px); */
-    /* margin-top: 42px; */
     transition-duration: 0.3s;
     background-color: rgba(0, 0, 0, 0);
     backdrop-filter: blur(0px);
@@ -288,7 +285,6 @@ function closeDialog() {
 }
 
 #setting_Div {
-    /* background-color: #fafafa; */
     width: 100%;
     height: 100%;
     transform: scale(0.85);
@@ -320,10 +316,21 @@ function closeDialog() {
     left: 0;
 }
 
+@media (min-width: 670px) {
+    #setting_Div .winControl {
+        min-width: 575px;
+        width: 55vw;
+    }
+}
+
+@media (max-width: 670px) {
+    #setting_Div .winControl {
+        width: calc(100vw - 100px);
+    }
+}
+
 #setting_Div .winControl {
     position: absolute;
-    width: 55vw;
-    min-width: 575px;
     display: flex;
     justify-content: flex-end;
     padding-top: 10px;
