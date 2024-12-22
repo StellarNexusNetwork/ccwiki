@@ -74,16 +74,40 @@
                 </button>
             </div>
             <div class="options">
-                <button class="button">
+                <button class="button" @click="openDialog">
                     <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle">设置</div>
                 </button>
+                <dialog id="setting_dialog">
+                    <div class="titleBar_B ">
+                        <div class="titleBar2">
+                            <titleBar></titleBar>
+                        </div>
+                    </div>
+                    <div id="setting_Div">
+                        <div class="setting2">
+                            <div class="setting">
+                                <div class="winControl">
+                                    <button @click="closeDialog">
+                                        <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
+                                    </button>
+                                </div>
+                                <div class="optionsList">
+                                </div>
+                                <div class="optionsDetail">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </dialog>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import titleBar from './titleBar.vue'
 import { reactive } from 'vue'
 import { RouterLink } from 'vue-router'
 // let navigation = ref([
@@ -135,6 +159,23 @@ function unfold() {
     }
 }
 
+function openDialog() {
+    const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
+    const setting = document.getElementById("setting_Div");
+    dialog.style.pointerEvents = "auto";
+    dialog.showModal(); // 打开对话框
+    dialog.classList.add("show"); // 添加动画类
+    setting!.classList.add("show");
+}
+
+function closeDialog() {
+    const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
+    const setting = document.getElementById("setting_Div");
+    dialog.classList.remove("show"); // 移除动画类
+    setting!.classList.remove("show");
+    dialog.style.pointerEvents = "none";
+    setTimeout(() => dialog!.close(), 300); // 等待动画结束后关闭对话框
+}
 </script>
 
 <style scoped>
@@ -205,5 +246,147 @@ function unfold() {
     height: 25px;
     margin-left: 2.5px;
     margin-right: 2.5px;
+}
+
+#setting_dialog {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    /* 等效于 top: 0; left: 0; right: 0; bottom: 0; */
+    width: calc(100vw - 100px);
+    /* 确保宽度100% */
+    height: calc(100vh - 100px);
+    /* 确保高度100% */
+    margin-top: 50px;
+    margin-left: 50px;
+    /* 移除默认外边距 */
+    padding: 0;
+    /* 移除内边距（如不需要） */
+    border: none;
+    /* 去除默认边框 */
+    background-color: rgba(0, 0, 0, 0);
+    /* 白色背景，略带透明效果 */
+    /* transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; */
+    transition-duration: 0.5s;
+    overflow: hidden;
+}
+
+
+#setting_dialog.show::backdrop {
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+#setting_dialog::backdrop {
+    width: 100%;
+    /* height: calc(100% - 42px); */
+    /* margin-top: 42px; */
+    transition-duration: 0.3s;
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    padding: 0;
+}
+
+#setting_Div {
+    /* background-color: #fafafa; */
+    width: 100%;
+    height: 100%;
+    transform: scale(0.85);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    opacity: 0;
+}
+
+#setting_Div.show {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.titleBar_B {
+    height: 42px;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #F5F5F5;
+}
+
+.titleBar {
+    width: 100vw;
+    height: 42px;
+    user-select: none;
+    transition-duration: 0.3s;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#setting_Div .winControl {
+    position: absolute;
+    width: 55vw;
+    min-width: 575px;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    padding-right: 10px;
+    transition-duration: 0.5s;
+}
+
+
+#setting_Div .winControl button {
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 35px;
+    height: 35px;
+    transition-duration: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#setting_Div .winControl button:hover {
+    background-color: #e2e2e2;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#setting_Div .winControl button img {
+    width: 20px;
+    height: 20px;
+    user-select: none;
+}
+
+.setting2 {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.setting {
+    display: flex;
+    height: 60vh;
+    min-height: 350px;
+    transition-duration: 0.5s;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#setting_Div .setting .optionsList {
+    width: 10vw;
+    min-width: 125px;
+    height: 100%;
+    background-color: #F5F5F5;
+    transition-duration: 0.5s;
+}
+
+#setting_Div .setting .optionsDetail {
+    width: 45vw;
+    min-width: 450px;
+    height: 100%;
+    background: #fafafa;
+    transition-duration: 0.5s;
 }
 </style>
