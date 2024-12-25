@@ -92,10 +92,8 @@
                                         <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
                                     </button>
                                 </div>
-                                <div class="optionsList">
-                                </div>
-                                <div class="optionsDetail">
-
+                                <div style="display: flex;">
+                                    <setting></setting>
                                 </div>
                             </div>
                         </div>
@@ -108,6 +106,7 @@
 
 <script setup lang="ts">
 import titleBar from './titleBar.vue'
+import setting from './setting.vue';
 import { reactive } from 'vue'
 import { RouterLink } from 'vue-router'
 // let navigation = ref([
@@ -379,21 +378,5 @@ function closeDialog() {
     transition-duration: 0.5s;
     border-radius: 10px;
     overflow: hidden;
-}
-
-#setting_Div .setting .optionsList {
-    width: 10vw;
-    min-width: 125px;
-    height: 100%;
-    background-color: #F5F5F5;
-    transition-duration: 0.5s;
-}
-
-#setting_Div .setting .optionsDetail {
-    width: 45vw;
-    min-width: 450px;
-    height: 100%;
-    background: #fafafa;
-    transition-duration: 0.5s;
 }
 </style>
