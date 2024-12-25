@@ -91,7 +91,6 @@ import { reactive } from 'vue'
 
 .optionsList .options .button .textDiv {
     padding-left: 5px;
-    width: calc(100% - 45px);
     height: 100%;
     margin-left: 5px;
     margin-right: 5px;
