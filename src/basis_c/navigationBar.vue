@@ -3,7 +3,7 @@
         <div class="listDiv" id="navigation">
             <div class="options">
                 <button class="button" @click="unfold">
-                    <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
+                    <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
                     <div class="textDiv" :style="unfoldStyle"> 展开 </div>
                 </button>
             </div>
@@ -55,7 +55,7 @@
             </div>
             <div class="options">
                 <button class="button">
-                    <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
+                    <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
                     <div class="textDiv" :style="unfoldStyle">**</div>
                 </button>
             </div>
