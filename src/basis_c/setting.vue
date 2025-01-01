@@ -11,16 +11,27 @@
         <div class="options">
             <button class="button">
                 <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-                <div class="textDiv">Test</div>
+                <div class="textDiv" @click="switchDetail(V_test)">Test</div>
             </button>
         </div>
     </div>
     <div class="optionsDetail">
+        <div class="main">
+            <component :is="currentComponent"></component>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref } from 'vue'
+import V_default from './setting/default.vue'
+import V_test from './setting/test.vue'
+
+const currentComponent = ref(V_default)
+
+function switchDetail(V) {
+    currentComponent.value = V
+}
 </script>
 
 <style scoped>
