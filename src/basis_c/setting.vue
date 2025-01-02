@@ -15,15 +15,16 @@
             </button>
         </div>
         <div class="options">
-            <button class="button" @click="switchDetail(V_test)">
+            <button class="button" @click="switchDetail(1)">
                 <img src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
                 <div class="textDiv">{{ $t('public.setting.test') }}</div>
+
             </button>
         </div>
     </div>
     <div class="optionsDetail">
         <div class="main">
-            <component :is="currentComponent"></component>
+            <component :is="components[currentIndex]"></component>
         </div>
     </div>
 </template>
@@ -34,10 +35,13 @@ import V_default from './setting/default.vue'
 import V_test from './setting/test.vue'
 import V_lang from './setting/lang.vue'
 
-const currentComponent = ref(V_default)
+const components = [V_default, V_test]
 
-function switchDetail(V) {
-    currentComponent.value = V
+
+const currentIndex = ref(0)
+
+function switchDetail(index) {
+    currentIndex.value = index
 }
 </script>
 
