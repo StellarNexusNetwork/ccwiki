@@ -4,14 +4,20 @@
         <div class="line"></div>
         <div class="options">
             <button class="button">
-                <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/setting/theme.svg" alt="SVG Image" draggable="false">
-                <div class="textDiv">个性化</div>
+                <img src="/static/public/svg/setting/theme.svg" alt="SVG Image" draggable="false">
+                <div class="textDiv">{{ $t('public.setting.theme') }}</div>
             </button>
         </div>
         <div class="options">
-            <button class="button">
-                <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-                <div class="textDiv" @click="switchDetail(V_test)">Test</div>
+            <button class="button" @click="switchDetail(V_lang)">
+                <img src="/static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
+                <div class="textDiv">语言</div>
+            </button>
+        </div>
+        <div class="options">
+            <button class="button" @click="switchDetail(V_test)">
+                <img src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
+                <div class="textDiv">{{ $t('public.setting.test') }}</div>
             </button>
         </div>
     </div>
@@ -26,6 +32,7 @@
 import { ref } from 'vue'
 import V_default from './setting/default.vue'
 import V_test from './setting/test.vue'
+import V_lang from './setting/lang.vue'
 
 const currentComponent = ref(V_default)
 
@@ -49,6 +56,7 @@ function switchDetail(V) {
     height: 100%;
     background: #fafafa;
     transition-duration: 0.5s;
+    padding-top: 45px;
 }
 
 .optionsList .title {
