@@ -7,7 +7,7 @@
             </div>
             <div class="line"></div>
             <div class="boxDiv" id="Developers">
-                <div class="title">主要开发者</div>
+                <div class="title">{{ $t("about.title.mainDeveloper") }}</div>
                 <div class="Developer">xxx - xxx</div>
                 <div class="Developer">xxx - xxx</div>
                 <div class="Developer">xxx - xxx</div>
@@ -15,7 +15,7 @@
             </div>
             <div class="line"></div>
             <div class="boxDiv" id="Cooperative">
-                <div class="title">合作伙伴</div>
+                <div class="title">{{ $t("about.title.partners") }}</div>
                 <div class="logoList">
                     <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank">
                         <!-- <img src="/static/about/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
@@ -28,9 +28,9 @@
             </div>
             <div class="line"></div>
             <div class="boxDiv" id="ClientInfo">
-                <div class="title">客户端信息</div>
-                <div class="detail">版本号: 24w37c</div>
-                <div class="detail">数据提供服务:</div>
+                <div class="title">{{ $t("about.title.CI") }}</div>
+                <div class="detail">{{ $t("about.detail.version") }} 24w37c</div>
+                <div class="detail">{{ $t("about.detail.DPS") }}</div>
                 <div class="detailList" style="marginLeft:20px ;">
                     <a href="https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2/" target="_blank">
                         <div class="detail">https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2</div>
@@ -42,13 +42,13 @@
             </div>
             <div class="line"></div>
             <div class="boxDiv" id="OpenSource">
-                <div class="title">开源协议与数据使用许可</div>
-                <div class="detail">开源协议: xxxx</div>
-                <div class="detail">数据使用许可: xxxx</div>
+                <div class="title">{{ $t("about.title.Licenses") }}</div>
+                <div class="detail">{{ $t("about.detail.Licenses") }} xxxx</div>
+                <div class="detail">{{ $t("about.detail.DLicenses") }} xxxx</div>
             </div>
             <div class="line"></div>
             <div class="boxDiv" id="OtherOpenSource" style="paddingBottom: 30px;">
-                <div class="title">开源许可</div>
+                <div class="title">{{ $t("about.title.OLicenses") }}</div>
             </div>
         </div>
     </div>

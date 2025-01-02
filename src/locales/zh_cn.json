@@ -1,6 +1,7 @@
 {
     "public": {
         "navigationBar": {
+            "unfold": "展开",
             "home": "首页",
             "classification": "分类",
             "components": "工具",
@@ -14,10 +15,11 @@
         },
         "NotFound": {
             "imgAndTitle": "啊哦，没有找到页面哦！",
-            "suggestion": "您正在跳转的页面未在路由中注册，请检查您正在访问的URL!"
+            "suggestion": "您正在跳转到未知页面，请检查您正在访问的地址!"
         },
         "setting": {
             "theme": "个性化",
+            "language": "语言",
             "test": "测试"
         }
     },

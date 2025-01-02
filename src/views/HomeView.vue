@@ -8,26 +8,26 @@
             <div class='newsList'>
                 <div class="newsDiv" style="margin-left: 0px;">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-                    <div class="text">无信息</div>
-                    <div class='date'>无数据</div>
+                    <div class="text">{{ $t("home.news.text_none") }}</div>
+                    <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-                    <div class="text">无信息</div>
-                    <div class='date'>无数据</div>
+                    <div class="text">{{ $t("home.news.text_none") }}</div>
+                    <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv" :style="newsDiv2Style">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-                    <div class="text">无信息</div>
-                    <div class='date'>无数据</div>
+                    <div class="text">{{ $t("home.news.text_none") }}</div>
+                    <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv" :style="newsDiv2Style">
                     <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-                    <div class="text">无信息</div>
-                    <div class='date'>无数据</div>
+                    <div class="text">{{ $t("home.news.text_none") }}</div>
+                    <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
             </div>

@@ -1,6 +1,7 @@
 {
     "public": {
         "navigationBar": {
+            "unfold": "Unfold",
             "home": "Home",
             "classification": "Classification",
             "components": "Components",
@@ -13,33 +14,34 @@
             "settings": "Settings"
         },
         "NotFound": {
-            "imgAndTitle": "啊哦，没有找到页面哦！",
-            "suggestion": "您正在跳转的页面未在路由中注册，请检查您正在访问的URL!"
+            "imgAndTitle": "Uh oh, the page was not found!",
+            "suggestion": "You are being redirected to an unknown page, please check the address you are visiting!"
         },
         "setting": {
             "theme": "Theme",
+            "language": "Language",
             "test": "Test"
         }
     },
     "home": {
         "news": {
-            "text_none": "无信息",
-            "date_none": "无数据"
+            "text_none": "No information",
+            "date_none": "No data"
         }
     },
     "about": {
         "title": {
-            "mainDeveloper": "主要开发者",
-            "partners": "合作伙伴",
-            "CI": "客户端信息",
-            "Licenses": "开源协议与数据使用许可",
-            "OLicenses": "开源许可"
+            "mainDeveloper": "Main Developer",
+            "partners": "Cooperative organization",
+            "CI": "Client Information",
+            "Licenses": "Open Source Licenses and Data Usage Licenses",
+            "OLicenses": "Licenses"
         },
         "detail": {
-            "version": "版本号:",
-            "DPS": "数据提供服务:",
-            "Licenses": "开源协议:",
-            "DLicenses": "数据使用许可:"
+            "version": "Version :",
+            "DPS": "Data provision service:",
+            "Licenses": "Licenses:",
+            "DLicenses": "Data usage license:"
         }
     }
 }

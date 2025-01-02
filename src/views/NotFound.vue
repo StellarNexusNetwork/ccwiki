@@ -3,10 +3,10 @@
         <div class="notFound">
             <div class="imgAndTitle">
                 <img src="/static/public/svg/NotFound.svg" alt="SVG Image" draggable="false">
-                啊哦，没有找到页面哦！
+                {{ $t("public.NotFound.imgAndTitle") }}
             </div>
             <div class="textDiv">
-                <div class="suggestion">您正在跳转的页面未在路由中注册，请检查您正在访问的URL!</div>
+                <div class="suggestion">{{ $t("public.NotFound.suggestion") }}</div>
                 <div class="errorCode">404 Not Found.</div>
             </div>
         </div>

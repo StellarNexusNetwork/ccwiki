@@ -5,19 +5,19 @@
         <div class="options">
             <button class="button">
                 <img src="/static/public/svg/setting/theme.svg" alt="SVG Image" draggable="false">
-                <div class="textDiv">{{ $t('public.setting.theme') }}</div>
-            </button>
-        </div>
-        <div class="options">
-            <button class="button" @click="switchDetail(V_lang)">
-                <img src="/static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
-                <div class="textDiv">语言</div>
+                <div class="textDiv">{{ $t("public.setting.theme") }}</div>
             </button>
         </div>
         <div class="options">
             <button class="button" @click="switchDetail(1)">
+                <img src="/static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
+                <div class="textDiv">{{ $t("public.setting.language") }}</div>
+            </button>
+        </div>
+        <div class="options">
+            <button class="button" @click="switchDetail(2)">
                 <img src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-                <div class="textDiv">{{ $t('public.setting.test') }}</div>
+                <div class="textDiv">{{ $t("public.setting.test") }}</div>
 
             </button>
         </div>
@@ -32,10 +32,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import V_default from './setting/default.vue'
-import V_test from './setting/test.vue'
 import V_lang from './setting/lang.vue'
+import V_test from './setting/test.vue'
 
-const components = [V_default, V_test]
+const components = [V_default, V_lang, V_test]
 
 
 const currentIndex = ref(0)
