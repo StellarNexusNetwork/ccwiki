@@ -40,7 +40,7 @@ const components = [V_default, V_lang, V_test]
 
 const currentIndex = ref(0)
 
-function switchDetail(index) {
+function switchDetail(index: number) {
     currentIndex.value = index
 }
 </script>
