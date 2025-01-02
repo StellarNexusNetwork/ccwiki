@@ -3,8 +3,8 @@
         <div class="listDiv" id="navigation">
             <div class="options">
                 <button class="button" @click="unfold">
-                    <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle"> 展开 </div>
+                    <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.unfold") }}</div>
                 </button>
             </div>
             <div class="line">
@@ -20,49 +20,49 @@
             <div class="options">
                 <RouterLink to="/" class="button">
                     <img id="_navigation_home_svg" src="/static/public/svg/navigationBar/home.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">首页</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.home") }}</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/classification" class="button">
                     <img id="_navigation_lassification_svg" src="/static/public/svg/navigationBar/classification.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">分类</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.classification") }}</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/components" class="button">
                     <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/components.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">工具</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.components") }}</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/20241108" class="button">
                     <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/20241108.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">**</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.20241108") }}</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/eye8" class="button">
                     <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/8.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">eye8</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.eye8") }}</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <RouterLink to="/chat" class="button">
                     <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/chat.svg" alt="SVG Image" draggable="false" style="width:20px;height:20px;margin-left: 10px;margin-right: 10px">
-                    <div class="textDiv" :style="unfoldStyle">闲聊</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.chat") }}</div>
                 </RouterLink>
             </div>
             <div class="options">
                 <button class="button">
-                    <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle">**</div>
+                    <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.AI") }}</div>
                 </button>
             </div>
             <div class="options">
                 <RouterLink to="/about" class="button">
                     <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">关于</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.others") }}</div>
                 </RouterLink>
             </div>
         </div>
@@ -70,13 +70,13 @@
             <div class="options">
                 <button class="button">
                     <img id="_navigation_account_svg" src="/static/public/svg/navigationBar/account.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">账号</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.account") }}</div>
                 </button>
             </div>
             <div class="options">
                 <button class="button" @click="openDialog">
                     <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">设置</div>
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.settings") }}</div>
                 </button>
                 <dialog id="setting_dialog">
                     <div class="titleBar_B ">
