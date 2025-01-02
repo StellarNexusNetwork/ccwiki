@@ -1,17 +1,18 @@
 <template>
     <div>
-        <button @click="switchLanguage('zh')">中文</button>
-        <button @click="switchLanguage('en')">English</button>
+        <button @click="setLocale('zh_cn')">中文</button>
+        <button @click="setLocale('en_us')">English</button>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { setLocale } from '../../i18n'; // 引入切换语言的函数
+import { useI18n } from 'vue-i18n';
 
-// 切换语言的方法
-const switchLanguage = async (lang) => {
-    await setLocale(lang); // 切换语言
+const { locale } = useI18n();
+// 切换语言的函数
+const setLocale = (lang) => {
+    locale.value = lang;
 };
 
 
