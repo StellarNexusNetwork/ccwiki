@@ -1,1 +1,0 @@
-import{_ as t,e as c,f as s,c as n}from"./index-DA1pVsPG.js";const o={},a={class:"Div"};function i(d,e){return n(),c("div",a,e[0]||(e[0]=[s("div",{class:"mainDiv"},[s("div",{class:"mainContent"}),s("div",{class:"subContent"},[s("div",{class:"introduction"})])],-1)]))}const _=t(o,[["render",i],["__scopeId","data-v-237c11f3"]]);export{_ as default};
