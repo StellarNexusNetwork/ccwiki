@@ -38,7 +38,7 @@
             "OLicenses": "Licenses"
         },
         "detail": {
-            "version": "Version :",
+            "version": "Version:",
             "DPS": "Data provision service:",
             "Licenses": "Licenses:",
             "DLicenses": "Data usage license:"
