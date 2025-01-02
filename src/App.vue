@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import titleBar from './basis_c/titleBar.vue'
-import navigationBar from './basis_c/navigationBar.vue'
+import titleBar from './components/titleBar.vue'
+import navigationBar from './components/navigationBar.vue'
 import { RouterView, useRouter } from 'vue-router'
 import { ref } from 'vue'
 
