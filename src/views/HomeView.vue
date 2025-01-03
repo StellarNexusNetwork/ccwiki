@@ -39,14 +39,13 @@
                         </div>
                     </div>
                     <div class="textDiv">
-                        <div class="date">2024.9.7</div>
+                        <div class="date">2025.1.1</div>
                         <ul>
-                            <li>已完成 vue 迁移</li>
-                            <li>完成基础UI、首页、关于页面</li>
+                            <li>新年快乐🎉</li>
                         </ul>
                     </div>
                 </div>
-                <!-- <div class="updataDiv">
+                <div class="updataDiv">
                     <div class="imgDiv">
                         <div class="ring">
                         </div>
@@ -54,10 +53,11 @@
                     <div class="textDiv">
                         <div class="date">2024.9.7</div>
                         <ul>
-                            <li>完成基础UI</li>
+                            <li>已完成 vue 迁移</li>
+                            <li>完成基础UI、首页、关于页面</li>
                         </ul>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -214,7 +214,7 @@ watchEffect(() => {
     margin-top: 50px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .Div .home .updataList .updataDiv {
