@@ -2,7 +2,7 @@
     <div class="Div">
         <div class="notFound">
             <div class="imgAndTitle">
-                <img src="/static/public/svg/NotFound.svg" alt="SVG Image" draggable="false">
+                <img :src="$t_src('svg.public.NotFound.logo')" alt="SVG Image" draggable="false">
                 {{ $t("public.NotFound.imgAndTitle") }}
             </div>
             <div class="textDiv">

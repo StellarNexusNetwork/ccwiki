@@ -1,0 +1,12 @@
+{
+    "color": {
+        "white0": "#F5F5F5",
+        "white1": "#FAFAFA",
+        "black-icon": "#323232",
+        "black-text": "#3D3D3D",
+        "black-text2": "#777",
+        "black-hover": "#e2e2e2",
+        "theme": "#04AAEB"
+    },
+    "svg": {}
+}

@@ -2,30 +2,30 @@
     <div class="Div" :style="mainDevStyle">
         <div class="home" ref="mainDiv" :style="homeStyle">
             <div class="logo">
-                <img class='ring' src="/static/home/svg/ring.svg" alt='' width='auto' height='170px' draggable="false">
-                <img class='logo_image' src="/static/public/svg/ccwiki_logo0.svg" alt='' width='auto' height='120px' draggable="false">
+                <img class='ring' :src="$t_src('svg.home.ring')" alt='' width='auto' height='170px' draggable="false">
+                <img class='logo_image' :src="$t_src('svg.home.logo')" alt='' width='auto' height='120px' draggable="false">
             </div>
             <div class='newsList'>
                 <div class="newsDiv" style="margin-left: 0px;">
-                    <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+                    <img class='image' :src="$t_src('svg.home.NotFind')" alt='' draggable="false">
                     <div class="text">{{ $t("home.news.text_none") }}</div>
                     <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv">
-                    <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+                    <img class='image' :src="$t_src('svg.home.NotFind')" alt='' draggable="false">
                     <div class="text">{{ $t("home.news.text_none") }}</div>
                     <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv" :style="newsDiv2Style">
-                    <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+                    <img class='image' :src="$t_src('svg.home.NotFind')" alt='' draggable="false">
                     <div class="text">{{ $t("home.news.text_none") }}</div>
                     <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
                 </div>
                 <div class="newsDiv" :style="newsDiv2Style">
-                    <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+                    <img class='image' :src="$t_src('svg.home.NotFind')" alt='' draggable="false">
                     <div class="text">{{ $t("home.news.text_none") }}</div>
                     <div class='date'>{{ $t("home.news.date_none") }}</div>
                     <!-- <div class="mainText">暂无信息</div> -->
@@ -35,7 +35,7 @@
                 <div class="updataDiv" style="margin-top: 0px;">
                     <div class="imgDiv">
                         <div class="ring">
-                            <img class='ring2' src="/static/home/svg/ring2.svg" alt='' draggable="false">
+                            <img class='ring2' :src="$t_src('svg.home.ring2')" alt='' draggable="false">
                         </div>
                     </div>
                     <div class="textDiv">
@@ -225,7 +225,7 @@ watchEffect(() => {
 }
 
 .Div .home .updataList .updataDiv .imgDiv .ring {
-    background: #04AAEB;
+    background: var(--color-theme);
     width: 15px;
     height: 15px;
     border-radius: 50%;

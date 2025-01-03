@@ -19,10 +19,10 @@
                 <div class="logoList">
                     <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank">
                         <!-- <img src="/static/about/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
-                        <img src="/static/about/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
+                        <img :src="$t_src('svg.about.logo.ccwiki')" alt="SVG Image" draggable="false">
                     </a>
                     <a href="https://github.com/StellarNexusNetwork" target="_blank">
-                        <img src="/static/about/svg/SNN_logo.svg" alt="SVG Image" draggable="false">
+                        <img :src="$t_src('svg.about.logo.SNN')" alt="SVG Image" draggable="false">
                     </a>
                 </div>
             </div>

@@ -1,0 +1,30 @@
+{
+    "color": {
+        "theme": "#FD6250"
+    },
+    "svg": {
+        "public": {
+            "title": {
+                "logo": "/theme/NewYear/public/svg/ccwiki_logo.svg"
+            },
+            "NotFound": {
+                "logo": "/theme/NewYear/public/svg/NotFound.svg"
+            }
+        },
+        "home": {
+            "logo": "/theme/NewYear/public/svg/ccwiki_logo0.svg",
+            "ring": "/theme/NewYear/home/svg/ring.svg",
+            "ring2": "/theme/NewYear/home/svg/ring2.svg",
+            "NotFind": "/theme/NewYear/home/svg/NotFind_bg.svg"
+        },
+        "eye8": {
+            "logo1": "/theme/NewYear/eye8/svg/logo1.svg"
+        },
+        "about": {
+            "logo": {
+                "ccwiki": "/theme/NewYear/about/svg/ccwiki_logo.svg",
+                "SNN": "/theme/NewYear/about/svg/SNN_logo.svg"
+            }
+        }
+    }
+}

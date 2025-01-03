@@ -208,6 +208,8 @@ function closeDialog() {
     height: 30px;
     margin-left: 5px;
     margin-right: 5px;
+    filter: drop-shadow(var(--color-black-icon) 250vw 0);
+    transform: translateX(-250vw);
 }
 
 .navigationBar .listDiv .options .button .textDiv {
@@ -245,6 +247,8 @@ function closeDialog() {
     height: 25px;
     margin-left: 2.5px;
     margin-right: 2.5px;
+    filter: drop-shadow(var(--color-black-icon) 250vw 0);
+    transform: translateX(-250vw);
 }
 
 #setting_dialog {
