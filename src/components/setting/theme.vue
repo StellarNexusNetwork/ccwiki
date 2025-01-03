@@ -9,10 +9,15 @@
 
 <script setup>
 import { ref } from 'vue';
-import { i18n_theme } from '@/main';
+import { i18n_theme, theme_default } from '@/main';
+
+const root = document.documentElement;
 
 function resetTheme() {
     i18n_theme.global.locale.value = 'theme_default'
+    Object.entries(theme_default.color).forEach(([key, value]) => {
+        root.style.setProperty(`--color-${key}`, value);
+    });
 }
 
 async function changeTheme(name) {
@@ -22,6 +27,9 @@ async function changeTheme(name) {
         theme_current = await res.json();
         i18n_theme.global.setLocaleMessage('theme_current', theme_current);
         i18n_theme.global.locale.value = 'theme_current';
+        Object.entries(theme_current.color).forEach(([key, value]) => {
+            root.style.setProperty(`--color-${key}`, value);
+        });
     } catch (error) {
         console.error("Failed to load theme:", error);
     }
