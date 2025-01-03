@@ -1,0 +1,36 @@
+{
+    "color": {
+        "white0": "#F5F5F5",
+        "white1": "#FAFAFA",
+        "black-icon": "#323232",
+        "black-text": "#3D3D3D",
+        "black-text2": "#777",
+        "black-hover": "#e2e2e2",
+        "theme": "#04AAEB"
+    },
+    "svg": {
+        "public": {
+            "title": {
+                "logo": "/static/public/svg/ccwiki_logo.svg"
+            },
+            "NotFound": {
+                "logo": "/static/public/svg/NotFound.svg"
+            }
+        },
+        "home": {
+            "logo": "/static/public/svg/ccwiki_logo0.svg",
+            "ring": "/static/home/svg/ring.svg",
+            "ring2": "/static/home/svg/ring2.svg",
+            "NotFind": "/static/home/svg/NotFind_bg.svg"
+        },
+        "eye8": {
+            "logo1": "/static/eye8/svg/logo1.svg"
+        },
+        "about": {
+            "logo": {
+                "ccwiki": "/static/about/svg/ccwiki_logo.svg",
+                "SNN": "/static/about/svg/SNN_logo.svg"
+            }
+        }
+    }
+}

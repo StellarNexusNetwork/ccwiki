@@ -1,7 +1,7 @@
 <template>
   <div class="titleBar">
     <div class="logo">
-      <img class='logoImg' src="/static/public/svg/ccwiki_logo.svg" alt='' width='auto' height='30' draggable="false">
+      <img class='logoImg' :src="$t_src('svg.public.title.logo')" alt='' width='auto' height='30' draggable="false">
     </div>
     <div class="appControl">
       <div class="options">

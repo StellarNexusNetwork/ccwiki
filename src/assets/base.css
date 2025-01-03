@@ -1,5 +1,13 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
+  --color-white0: #F5F5F5;
+  --color-white1: #FAFAFA;
+  --color-black-icon: #323232;
+  --color-black-text: #3D3D3D;
+  --color-black-text2: #777;
+  --color-black-hover: #e2e2e2;
+  --color-theme: #04AAEB;
+
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
