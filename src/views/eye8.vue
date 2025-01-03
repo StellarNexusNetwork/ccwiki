@@ -148,7 +148,8 @@ const series = [
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #3cc2f7;
+    background: var(--color-theme);
+    ;
 }
 
 .Div .eyeList .logoDiv .textDiv .card .pulse::after {
@@ -157,7 +158,8 @@ const series = [
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: .1px solid #3cc2f7;
+    border: .1px solid var(--color-theme);
+    ;
     animation: pulse 3s linear infinite;
     transform-origin: center;
     opacity: .8;

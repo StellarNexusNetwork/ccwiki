@@ -33,7 +33,7 @@ const i18n_theme = createI18n({
 
 app.config.globalProperties.$t_src = i18n_theme.global.t
 
-export { i18n_theme };
+export { i18n_theme, theme_default };
 
 app.use(createPinia())
 app.use(router)

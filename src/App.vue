@@ -9,7 +9,7 @@
   <div class="routerLoading" :style="[routerLoadingS, { marginLeft: mainDivStyle.paddingLeft }]">
     <div class="loading_bg" :style="rt_loading_bgS">
       <svg xmlns="http://www.w3.org/2000/svg" class="loading" :style="rt_loadingS" width="130" height="130" viewBox="0 0 130 130">
-        <circle cx="65" cy="65" r="60" stroke="#04AAEB" stroke-width="10" fill="none" class="circle" />
+        <circle cx="65" cy="65" r="60" :stroke="$t_src('color.theme')" stroke-width="10" fill="none" class="circle" />
       </svg>
     </div>
   </div>
