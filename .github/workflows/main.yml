@@ -18,14 +18,11 @@ jobs:
       with:
         node-version: '20'  # 使用指定版本的 Node.js
 
+    - name: 确保 Corepack 是最新的
+      run: npm install -g corepack@latest
+
     - name: Enable Corepack (for pnpm)
       run: corepack enable
-
-    - name: Install pnpm manually
-      run: npm install -g pnpm
-
-    - name: Verify pnpm version
-      run: pnpm --version
 
     - name: Install dependencies
       run: pnpm install
