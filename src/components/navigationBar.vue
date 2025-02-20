@@ -9,49 +9,11 @@
             </div>
             <div class="line">
             </div>
-            <!-- <div class="options" v-for="(item, index) in items" :key="index">
-                <button class="button" @click="unfold">
-                    <img class="b_img" src="../static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle"> unfold </div>
+            <div class="options" v-for="item in navigationBarList">
+                <button @click="RouterLinkPush(item.path)">
+                    <img :src="'/static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
                 </button>
-            </div> -->
-            <!-- 先不不急着写 -->
-
-            <div class="options">
-                <RouterLink to="/" class="button">
-                    <img id="_navigation_home_svg" src="/static/public/svg/navigationBar/home.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.home") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/classification" class="button">
-                    <img id="_navigation_lassification_svg" src="/static/public/svg/navigationBar/classification.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.classification") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/components" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/components.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.components") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/20241108" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/20241108.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.20241108") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/eye8" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/8.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.eye8") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/chat" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/chat.svg" alt="SVG Image" draggable="false" style="width:20px;height:20px;margin-left: 10px;margin-right: 10px">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.chat") }}</div>
-                </RouterLink>
             </div>
             <div class="options">
                 <button class="button">
@@ -60,10 +22,10 @@
                 </button>
             </div>
             <div class="options">
-                <RouterLink to="/about" class="button">
+                <button @click="RouterLinkPush('/about')">
                     <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.others") }}</div>
-                </RouterLink>
+                </button>
             </div>
         </div>
         <div class="listDiv" id="tool">
@@ -108,11 +70,22 @@
 import titleBar from './titleBar.vue'
 import setting from './setting.vue';
 import { reactive } from 'vue'
-import { RouterLink } from 'vue-router'
-// let navigation = ref([
-//     { id: 'home', src: "../static/public/svg/navigationBar/account.svg", text: "" }
-// ])
-// 别急
+import { useRouter } from 'vue-router'
+
+let navigationBarList = [
+    { "name": "home", "path": "/" },
+    { "name": "classification", "path": "/classification" },
+    { "name": "components", "path": "/components" },
+    { "name": "20241108", "path": "/20241108" },
+    { "name": "eye8", "path": "/eye8" },
+    { "name": "chat", "path": "/chat" }
+]
+
+const router = useRouter()
+function RouterLinkPush(path: string) {
+    router.push(path)
+}
+
 
 let unfoldStyle = reactive({ state: false, opacity: 0, fontSize: '15px' })
 let navigationBarStyle = reactive({ width: "50px" })
@@ -187,7 +160,7 @@ function closeDialog() {
     align-items: center;
 }
 
-.navigationBar .listDiv .options .button {
+.navigationBar .listDiv .options button {
     outline: none;
     border: none;
     background: transparent;
@@ -199,18 +172,16 @@ function closeDialog() {
     border-radius: 10px;
 }
 
-.navigationBar .listDiv .options .button:hover {
+.navigationBar .listDiv .options button:hover {
     background-color: #e2e2e2;
 }
 
-.navigationBar #navigation .options .button img {
+.navigationBar #navigation .options button img {
     width: 30px;
     height: 30px;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
-.navigationBar .listDiv .options .button .textDiv {
+.navigationBar .listDiv .options button .textDiv {
     width: calc(100% - 45px);
     height: 100%;
     margin-left: 5px;
