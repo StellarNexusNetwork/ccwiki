@@ -10,7 +10,7 @@
         </div>
         <div class="options">
             <button class="button" @click="switchDetail(1)">
-                <img src="/static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
+                <img src="/static/public/svg/setting/language.svg" alt="SVG Image" draggable="false">
                 <div class="textDiv">{{ $t("public.setting.language") }}</div>
             </button>
         </div>
@@ -34,13 +34,16 @@ import { ref } from 'vue'
 import V_default from './setting/default.vue'
 import V_lang from './setting/lang.vue'
 import V_test from './setting/test.vue'
+import { eventBus } from '@/utils/eventBus'
 
 const components = [V_default, V_lang, V_test]
 
 
 const currentIndex = ref(0)
 
-function switchDetail(index: number) {
+eventBus.on('callOpenSettingsDialog2',switchDetail)
+
+function switchDetail(index:any) {
     currentIndex.value = index
 }
 </script>

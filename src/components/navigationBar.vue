@@ -71,6 +71,7 @@ import titleBar from './titleBar.vue'
 import setting from './setting.vue';
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { eventBus } from '@/utils/eventBus';
 
 let navigationBarList = [
     { "name": "home", "path": "/" },
@@ -130,6 +131,8 @@ function unfold() {
         unfoldStyle.state = true;
     }
 }
+
+eventBus.on('callOpenSettingsDialog1', openDialog)
 
 function openDialog() {
     const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
