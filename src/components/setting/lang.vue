@@ -14,7 +14,6 @@ const { locale } = useI18n();
 const setLocale = (lang) => {
     locale.value = lang;
     useSettingStore().setting.lang = lang;
-    console.log(useSettingStore().setting.lang)
 };
 
 
