@@ -6,27 +6,37 @@
     <div class="appControl">
       <div class="options">
         <button id="red">
-          <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/closeApp.svg" alt="close App" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal">
-          <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="maximize Restore App" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal">
-          <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="minimize App" draggable="false">
         </button>
       </div>
       <div class="options">
-        <button id="normal">
-          <img src="/static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
+        <button id="normal" @click='openDialog'>
+          <img src="/static/public/svg/titleBar/language.svg" alt="language" draggable="false">
         </button>
       </div>
     </div>
   </div>
 </template>
+<script setup lang="ts">
+import { eventBus } from '@/utils/eventBus';
+
+const openDialog = () => {
+  eventBus.emit('callOpenSettingsDialog1')
+  eventBus.emit('callOpenSettingsDialog2',1)
+}
+
+
+</script>
 
 <style scoped>
 .titleBar .logo img {

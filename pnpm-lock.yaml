@@ -17,6 +17,9 @@ importers:
       i18n:
         specifier: ^0.15.1
         version: 0.15.1
+      mitt:
+        specifier: ^3.0.1
+        version: 3.0.1
       pinia:
         specifier: ^2.2.5
         version: 2.2.5(typescript@5.4.5)(vue@3.5.12(typescript@5.4.5))
