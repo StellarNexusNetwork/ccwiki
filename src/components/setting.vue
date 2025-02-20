@@ -1,6 +1,6 @@
 <template>
     <div class="optionsList">
-        <div class="title">设置</div>
+        <div class="title">{{ $t("public.setting.settings") }}</div>
         <div class="line"></div>
         <div class="options">
             <button class="button">

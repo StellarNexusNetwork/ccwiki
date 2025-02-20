@@ -18,6 +18,7 @@
             "suggestion": "您正在跳转到未知页面，请检查您正在访问的地址!"
         },
         "setting": {
+            "settings": "设置",
             "theme": "个性化",
             "language": "语言",
             "test": "测试"
