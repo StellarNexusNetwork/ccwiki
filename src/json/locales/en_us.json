@@ -18,6 +18,7 @@
             "suggestion": "You are being redirected to an unknown page, please check the address you are visiting!"
         },
         "setting": {
+            "settings": "Settings",
             "theme": "Theme",
             "language": "Language",
             "test": "Test"
