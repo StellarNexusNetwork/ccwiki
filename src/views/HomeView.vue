@@ -64,6 +64,8 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watchEffect, reactive } from 'vue'
+import { useWindowStore } from '@/stores/window'
+
 
 const mainDiv = ref();
 let mainDevStyle = reactive({ alignItems: 'center' });
@@ -72,26 +74,19 @@ const mainDevHeight = ref(0);
 let newsDiv2Style = reactive({ display: 'flex' });
 
 const windowHeight = ref(window.innerHeight);
-const windowWidth = ref(window.innerWidth);
 const updateWindowHeight = () => {
     windowHeight.value = window.innerHeight;
-};
-const updateWindowWidth = () => {
-    windowWidth.value = window.innerWidth;
 };
 
 onMounted(() => {
     mainDevHeight.value = mainDiv.value.offsetHeight;
     updateWindowHeight(); // 初始化窗口高度
-    updateWindowWidth(); // 初始化窗口宽度
     window.addEventListener('resize', updateWindowHeight); // 监听窗口大小变化
-    window.addEventListener('resize', updateWindowWidth); // 监听窗口大小变化
 });
 
 // 在组件卸载时移除事件监听器
 onUnmounted(() => {
     window.removeEventListener('resize', updateWindowHeight); // 移除事件监听器
-    window.removeEventListener('resize', updateWindowWidth); // 移除事件监听器
 });
 
 watchEffect(() => {
@@ -102,7 +97,7 @@ watchEffect(() => {
         mainDevStyle.alignItems = 'center';
         homeStyle.paddingBottom = '70px';
     }
-    if (windowWidth.value <= 800) {
+    if (useWindowStore().windowWidth <= 800) {
         newsDiv2Style.display = 'none';
     } else {
         newsDiv2Style.display = 'flex';
