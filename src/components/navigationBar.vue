@@ -386,6 +386,7 @@ function closeDialog() {
     padding-top: 10px;
     padding-right: 10px;
     transition-duration: 0.5s;
+    pointer-events: none;
 }
 
 
@@ -401,6 +402,7 @@ function closeDialog() {
     align-items: center;
     border-radius: 5px;
     overflow: hidden;
+    pointer-events: auto;
 }
 
 #setting_Div .winControl button:hover {
