@@ -10,7 +10,7 @@ const router = createRouter({
     },
     {
       path: '/classification/',
-      name: 'home',
+      name: 'classification',
       component: () => import('../views/classification.vue')
     },
     {
