@@ -62,10 +62,10 @@
 }
 
 .Div .AboutList {
-    width: 92%;
+    width: 95%;
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .Div .AboutList .AboutProject {
