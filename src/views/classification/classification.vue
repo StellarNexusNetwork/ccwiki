@@ -63,11 +63,18 @@
                     </buttom>
                 </div>
             </div>
+
+            <div class="line"></div>
+            <Suspense>
+                <template #default>
+                    <boxDiv />
+                </template>
+            </Suspense>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import axios from 'axios'
+import boxDiv from './boxDiv.vue';
 function hello() {
     console.log("hello")
 }
