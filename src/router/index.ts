@@ -11,7 +11,7 @@ const router = createRouter({
     {
       path: '/classification/',
       name: 'classification',
-      component: () => import('../views/classification.vue')
+      component: () => import('../views/classification/classification.vue')
     },
     {
       path: '/20241108/',
