@@ -20,7 +20,7 @@ import titleBar from './components/titleBar.vue'
 import navigationBar from './components/navigationBar.vue'
 import { RouterView, useRouter } from 'vue-router'
 import { ref, watchEffect } from 'vue'
-import { useWindowStore } from '@/stores/window'
+import { useWindowStore } from './stores/window'
 
 
 

@@ -5,18 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "apexcharts": "^4.5.0",
     "axios": "^1.7.9",
-    "pinia": "^2.3.0",
-    "apexcharts": "^3.54.1",
     "i18n": "^0.15.1",
     "mitt": "^3.0.1",
+    "pinia": "^2.3.0",
     "three": "^0.171.0",
     "vue": "^3.5.13",
     "vue-i18n": "^11.0.1",

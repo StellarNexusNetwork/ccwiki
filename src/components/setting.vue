@@ -34,7 +34,7 @@ import { ref } from 'vue'
 import V_default from './setting/default.vue'
 import V_lang from './setting/lang.vue'
 import V_test from './setting/test.vue'
-import { eventBus } from '@/utils/eventBus'
+import { eventBus } from '../utils/eventBus'
 
 const components = [V_default, V_lang, V_test]
 

@@ -29,7 +29,7 @@
 </template>
 <script setup lang="ts">
 import { window } from '@tauri-apps/api';
-import { eventBus } from '@/utils/eventBus';
+import { eventBus } from '../utils/eventBus';
 
 async function minimizeWindow() {
   const currentWindow = await window.getCurrentWindow();

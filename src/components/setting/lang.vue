@@ -7,7 +7,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { useSettingStore } from '@/stores/setting';
+import { useSettingStore } from '../../stores/setting';
 
 const { locale } = useI18n();
 // 切换语言的函数

@@ -87,8 +87,8 @@ import titleBar from './titleBar.vue'
 import setting from './setting.vue';
 import { reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import { eventBus } from '@/utils/eventBus';
-import { useWindowStore } from '@/stores/window'
+import { eventBus } from '../utils/eventBus';
+import { useWindowStore } from '../stores/window'
 
 let navigationBarList = [
     { "name": "home", "path": "/" },
