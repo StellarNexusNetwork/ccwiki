@@ -19,7 +19,10 @@
 import titleBar from './components/titleBar.vue'
 import navigationBar from './components/navigationBar.vue'
 import { RouterView, useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
+import { useWindowStore } from '@/stores/window'
+
+
 
 let ifLoadingFinish = false;
 window.addEventListener('load', function () {
@@ -36,6 +39,23 @@ let rt_loadingS = ref({ opacity: 0 })
 let rt_isAnimating = false;
 let Allowrouting = false;
 let rt_ae_f = false
+
+// 移动端适配
+let oldmainDivPL = '50px'
+let oldMainStyleW = 'calc(100vw - 50px)'
+watchEffect(() => {
+  if (useWindowStore().windowWidth < 670 && mainDivStyle.value.paddingLeft != "0px") {
+    oldmainDivPL = mainDivStyle.value.paddingLeft
+    oldMainStyleW = mainStyle.value.width
+    mainDivStyle.value.paddingLeft = "0px";
+    mainStyle.value.width = '100vw'
+  }
+  if (useWindowStore().windowWidth >= 670 && mainDivStyle.value.paddingLeft == "0px") {
+    mainDivStyle.value.paddingLeft = oldmainDivPL
+    mainStyle.value.width = oldMainStyleW
+  }
+})
+
 
 const router = useRouter()
 router.beforeEach((to, from, next) => {
@@ -99,6 +119,42 @@ router.afterEach(() => {
 </script>
 
 <style scoped>
+@media (min-width: 670px) {
+  .titleBar {
+    display: block;
+  }
+
+  .navigationBar {
+    top: 42px;
+    height: calc(100vh - 42px);
+    padding-top: 5px;
+  }
+
+  .mainDiv {
+    padding-top: 42px;
+  }
+
+  .main {
+    height: calc(100vh - 42px);
+    border-radius: 20px 0px 20px 0px;
+  }
+}
+
+@media (max-width: 670px) {
+  .titleBar {
+    display: none;
+  }
+
+  .navigationBar {
+    bottom: 0px;
+    height: 50px;
+  }
+
+  .main {
+    height: calc(100vh - 50px);
+  }
+}
+
 .titleBar {
   position: fixed;
   top: 0;
@@ -113,9 +169,6 @@ router.afterEach(() => {
 .navigationBar {
   position: fixed;
   left: 0;
-  top: 42px;
-  height: calc(100vh - 42px);
-  padding-top: 5px;
   user-select: none;
   transition-duration: 0.3s;
   z-index: 99997;
@@ -124,13 +177,10 @@ router.afterEach(() => {
 
 .mainDiv {
   width: 100vw;
-  padding-top: 42px;
   overflow: hidden;
 }
 
 .main {
-  height: calc(100vh - 42px);
-  border-radius: 20px 0px 20px 0px;
   background: #fafafa;
   transition-duration: 0.3s;
   overflow-y: auto;

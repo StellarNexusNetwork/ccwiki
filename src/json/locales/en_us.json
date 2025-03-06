@@ -1,0 +1,48 @@
+{
+    "public": {
+        "navigationBar": {
+            "unfold": "Unfold",
+            "home": "Home",
+            "classification": "Classification",
+            "components": "Components",
+            "20241108": "**",
+            "eye8": "**",
+            "chat": "Chat",
+            "AI": "**",
+            "others": "Others",
+            "account": "Account",
+            "settings": "Settings"
+        },
+        "NotFound": {
+            "imgAndTitle": "Uh oh, the page was not found!",
+            "suggestion": "You are being redirected to an unknown page, please check the address you are visiting!"
+        },
+        "setting": {
+            "settings": "Settings",
+            "theme": "Theme",
+            "language": "Language",
+            "test": "Test"
+        }
+    },
+    "home": {
+        "news": {
+            "text_none": "No information",
+            "date_none": "No data"
+        }
+    },
+    "about": {
+        "title": {
+            "mainDeveloper": "Main Developer",
+            "partners": "Cooperative organization",
+            "CI": "Client Information",
+            "Licenses": "Open Source Licenses and Data Usage Licenses",
+            "OLicenses": "Licenses"
+        },
+        "detail": {
+            "version": "Version:",
+            "DPS": "Data provision service:",
+            "Licenses": "Licenses:",
+            "DLicenses": "Data usage license:"
+        }
+    }
+}

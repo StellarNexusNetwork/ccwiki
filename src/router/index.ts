@@ -1,12 +1,17 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
       component: () => import('../views/HomeView.vue')
+    },
+    {
+      path: '/classification/',
+      name: 'classification',
+      component: () => import('../views/classification/classification.vue')
     },
     {
       path: '/20241108/',
@@ -37,6 +42,11 @@ const router = createRouter({
       path: '/docs/:id',
       name: 'docs',
       component: () => import('../views/docs/docs.vue')
+    },
+    {
+      path: '/setting/uninstall/',
+      name: 'uninstall',
+      component: () => import('../views/uninstall.vue')
     }
   ]
 })

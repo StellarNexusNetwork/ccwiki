@@ -37,3 +37,6 @@ src-tauri/icons/
 src-tauri/gen/
 
 src-tauri/Cargo.toml
+src-tauri/
+public/static/20241108/model/
+public/static/public/font/

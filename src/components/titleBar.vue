@@ -6,7 +6,7 @@
     <div class="appControl">
       <div class="options" @click="closeWindow">
         <button id="red">
-          <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
+          <img src="/static/public/svg/titleBar/closeApp.svg" alt="close App" draggable="false">
         </button>
       </div>
       <div class="options">
@@ -20,8 +20,8 @@
         </button>
       </div>
       <div class="options">
-        <button id="normal">
-          <img src="/static/public/svg/titleBar/language.svg" alt="SVG Image" draggable="false">
+        <button id="normal" @click='openDialog'>
+          <img src="/static/public/svg/titleBar/language.svg" alt="language" draggable="false">
         </button>
       </div>
     </div>
@@ -29,6 +29,7 @@
 </template>
 <script setup lang="ts">
 import { window } from '@tauri-apps/api';
+import { eventBus } from '@/utils/eventBus';
 
 async function minimizeWindow() {
   const currentWindow = await window.getCurrentWindow();
@@ -47,6 +48,12 @@ async function closeWindow() {
   const currentWindow = await window.getCurrentWindow();
   await currentWindow.close();
 }
+
+const openDialog = () => {
+  eventBus.emit('callOpenSettingsDialog1')
+  eventBus.emit('callOpenSettingsDialog2', 1)
+}
+
 
 </script>
 

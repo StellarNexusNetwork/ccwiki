@@ -6,13 +6,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useSettingStore } from '@/stores/setting';
 
 const { locale } = useI18n();
 // 切换语言的函数
 const setLocale = (lang) => {
     locale.value = lang;
+    useSettingStore().setting.lang = lang;
 };
 
 

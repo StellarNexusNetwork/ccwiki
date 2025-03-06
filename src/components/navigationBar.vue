@@ -1,69 +1,47 @@
 <template>
     <div class="navigationBar" :style="navigationBarStyle">
         <div class="listDiv" id="navigation">
-            <div class="options">
-                <button class="button" @click="unfold">
-                    <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.unfold") }}</div>
+            <div class="notNecessary">
+                <div class="options">
+                    <button class="button" @click="unfold">
+                        <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
+                        <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.unfold") }}</div>
+                    </button>
+                </div>
+                <div class="line">
+                </div>
+            </div>
+            <div class="options" v-for="item in navigationBarList">
+                <button @click="RouterLinkPush(item.path)">
+                    <img :src="'/static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
                 </button>
             </div>
-            <div class="line">
-            </div>
-            <!-- <div class="options" v-for="(item, index) in items" :key="index">
-                <button class="button" @click="unfold">
-                    <img class="b_img" src="../static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;margin-right: 0px;">
-                    <div class="textDiv" :style="unfoldStyle"> unfold </div>
-                </button>
-            </div> -->
-            <!-- 先不不急着写 -->
-
-            <div class="options">
-                <RouterLink to="/" class="button">
-                    <img id="_navigation_home_svg" src="/static/public/svg/navigationBar/home.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.home") }}</div>
-                </RouterLink>
+            <div class="notNecessary">
+                <div class="options" v-for="item in NNnavigationBarList">
+                    <button @click="RouterLinkPush(item.path)">
+                        <img :src="'/static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
+                        <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
+                    </button>
+                </div>
+                <div class="options">
+                    <button class="button">
+                        <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
+                        <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.AI") }}</div>
+                    </button>
+                </div>
             </div>
             <div class="options">
-                <RouterLink to="/classification" class="button">
-                    <img id="_navigation_lassification_svg" src="/static/public/svg/navigationBar/classification.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.classification") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/components" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/components.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.components") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/20241108" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/20241108.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.20241108") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/eye8" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/8.svg" alt="SVG Image" draggable="false">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.eye8") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <RouterLink to="/chat" class="button">
-                    <img id="_navigation_components_svg" src="/static/public/svg/navigationBar/chat.svg" alt="SVG Image" draggable="false" style="width:20px;height:20px;margin-left: 10px;margin-right: 10px">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.chat") }}</div>
-                </RouterLink>
-            </div>
-            <div class="options">
-                <button class="button">
-                    <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0px;">
-                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.AI") }}</div>
-                </button>
-            </div>
-            <div class="options">
-                <RouterLink to="/about" class="button">
+                <button @click="RouterLinkPush('/about')">
                     <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.others") }}</div>
-                </RouterLink>
+                </button>
+            </div>
+            <div class="options" id="setting2">
+                <button class="button" @click="openDialog">
+                    <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
+                    <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.settings") }}</div>
+                </button>
             </div>
         </div>
         <div class="listDiv" id="tool">
@@ -78,44 +56,74 @@
                     <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
                     <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.settings") }}</div>
                 </button>
-                <dialog id="setting_dialog">
-                    <div class="titleBar_B ">
-                        <div class="titleBar2">
-                            <titleBar></titleBar>
-                        </div>
-                    </div>
-                    <div id="setting_Div">
-                        <div class="setting2">
-                            <div class="setting">
-                                <div class="winControl">
-                                    <button @click="closeDialog">
-                                        <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
-                                    </button>
-                                </div>
-                                <div style="display: flex;">
-                                    <setting></setting>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </dialog>
             </div>
         </div>
+        <dialog id="setting_dialog">
+            <div class="titleBar_B ">
+                <div class="titleBar2">
+                    <titleBar></titleBar>
+                </div>
+            </div>
+            <div id="setting_Div">
+                <div class="setting2">
+                    <div class="setting">
+                        <div class="winControl">
+                            <button @click="closeDialog">
+                                <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
+                            </button>
+                        </div>
+                        <div style="display: flex;">
+                            <setting></setting>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dialog>
     </div>
 </template>
 
 <script setup lang="ts">
 import titleBar from './titleBar.vue'
 import setting from './setting.vue';
-import { reactive } from 'vue'
-import { RouterLink } from 'vue-router'
-// let navigation = ref([
-//     { id: 'home', src: "../static/public/svg/navigationBar/account.svg", text: "" }
-// ])
-// 别急
+import { reactive, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
+import { eventBus } from '@/utils/eventBus';
+import { useWindowStore } from '@/stores/window'
+
+let navigationBarList = [
+    { "name": "home", "path": "/" },
+    { "name": "classification", "path": "/classification" },
+    { "name": "components", "path": "/components" },
+
+]
+
+let NNnavigationBarList = [
+    { "name": "20241108", "path": "/20241108" },
+    { "name": "eye8", "path": "/eye8" },
+    { "name": "chat", "path": "/chat" }
+]
 
 let unfoldStyle = reactive({ state: false, opacity: 0, fontSize: '15px' })
 let navigationBarStyle = reactive({ width: "50px" })
+
+
+let oldNavigationBarWidth = '50px'
+const router = useRouter()
+function RouterLinkPush(path: string) {
+    router.push(path)
+}
+
+// 移动端适配
+watchEffect(() => {
+    if (useWindowStore().windowWidth < 670 && navigationBarStyle.width != "100vw") {
+        oldNavigationBarWidth = navigationBarStyle.width
+        navigationBarStyle.width = "100vw";
+    }
+    if (useWindowStore().windowWidth >= 670 && navigationBarStyle.width == "100vw") {
+        navigationBarStyle.width = oldNavigationBarWidth
+    }
+})
+
 
 const props = defineProps({
     mainDivStyle: Object,
@@ -158,6 +166,8 @@ function unfold() {
     }
 }
 
+eventBus.on('callOpenSettingsDialog1', openDialog)
+
 function openDialog() {
     const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
     const setting = document.getElementById("setting_Div");
@@ -180,14 +190,13 @@ function closeDialog() {
 <style scoped>
 .navigationBar .listDiv .options {
     margin-bottom: 5px;
-    width: 100%;
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.navigationBar .listDiv .options .button {
+.navigationBar .listDiv .options button {
     outline: none;
     border: none;
     background: transparent;
@@ -199,18 +208,16 @@ function closeDialog() {
     border-radius: 10px;
 }
 
-.navigationBar .listDiv .options .button:hover {
+.navigationBar .listDiv .options button:hover {
     background-color: #e2e2e2;
 }
 
-.navigationBar #navigation .options .button img {
+.navigationBar #navigation .options button img {
     width: 30px;
     height: 30px;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
-.navigationBar .listDiv .options .button .textDiv {
+.navigationBar .listDiv .options button .textDiv {
     width: calc(100% - 45px);
     height: 100%;
     margin-left: 5px;
@@ -251,13 +258,10 @@ function closeDialog() {
     pointer-events: none;
     position: fixed;
     inset: 0;
-    /* 等效于 top: 0; left: 0; right: 0; bottom: 0; */
-    width: calc(100vw - 100px);
     /* 确保宽度100% */
     height: calc(100vh - 100px);
     /* 确保高度100% */
     margin-top: 50px;
-    margin-left: 50px;
     /* 移除默认外边距 */
     padding: 0;
     /* 移除内边距（如不需要） */
@@ -316,16 +320,63 @@ function closeDialog() {
 }
 
 @media (min-width: 670px) {
+    .navigationBar .listDiv .options {
+        width: 100%;
+    }
+
+    #setting2 {
+        display: none;
+    }
+
+    #setting_dialog {
+        width: calc(100vw - 100px);
+        margin-left: 50px;
+    }
+}
+
+@media (max-width: 670px) {
+    .navigationBar .listDiv .notNecessary {
+        display: none;
+    }
+
+    .navigationBar #navigation {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .navigationBar .listDiv .options {
+        width: 50px;
+        height: 50px;
+    }
+
+    .navigationBar #tool {
+        display: none;
+    }
+
+    .titleBar_B {
+        display: none;
+    }
+
+    #setting_dialog {
+        width: calc(100vw - 40px);
+        margin-left: 20px;
+    }
+
+
+}
+
+@media (min-width: 615px) {
     #setting_Div .winControl {
         min-width: 575px;
         width: 55vw;
     }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 615px) {
     #setting_Div .winControl {
-        width: calc(100vw - 100px);
+        width: calc(100vw - 39px);
     }
+
 }
 
 #setting_Div .winControl {
@@ -335,6 +386,7 @@ function closeDialog() {
     padding-top: 10px;
     padding-right: 10px;
     transition-duration: 0.5s;
+    pointer-events: none;
 }
 
 
@@ -350,6 +402,7 @@ function closeDialog() {
     align-items: center;
     border-radius: 5px;
     overflow: hidden;
+    pointer-events: auto;
 }
 
 #setting_Div .winControl button:hover {
