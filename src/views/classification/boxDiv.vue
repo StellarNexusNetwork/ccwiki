@@ -1,19 +1,13 @@
 <template>
-    <div class="boxDiv">
+    <div class="boxDiv" v-if="Error">
+        <div class="title">错误</div>
+    </div>
+    <div class="boxDiv" v-else>
         <div class="title">测试</div>
         <div class="itemList">
             <buttom class="item" :id="index === 0 ? 'fisrtItem' : null" @click="" v-for="(item, index) in dataList">
                 <div class="title">{{ item.name }}</div>
                 <div class="introduction">{{ item.path }}</div>
-                <div class="iconList">
-                    <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-                    <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-                    <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-                </div>
-            </buttom>
-            <buttom class="item">
-                <div class="title">{{ data.name }}</div>
-                <div class="introduction">1</div>
                 <div class="iconList">
                     <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
                     <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
@@ -27,27 +21,19 @@
 import axios from 'axios'
 
 let dataList = null
-let data = null
+let Error = null
 
-await axios.get('https://api.github.com/repos/StellarNexusNetwork/cc.wiki.project.v4.data/contents/d0')
+await axios.get('https://api.github.com/repos/StellarNexusNetwork/cc.wiki.project.v4.data/contents/d3')
     .then(function (response) {
         // 处理成功情况
         dataList = response.data
     })
     .catch(function (error) {
         // 处理错误情况
+        Error = true
         console.log(error);
     });
 
-await axios.get('https://data.ccwiki.snnetwork.us.kg/d0/1.json')
-    .then(function (response) {
-        // 处理成功情况
-        data = response.data
-    })
-    .catch(function (error) {
-        // 处理错误情况
-        console.log(error);
-    });
 </script>
 <style scoped>
 .boxDiv {

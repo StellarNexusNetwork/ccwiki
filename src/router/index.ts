@@ -42,6 +42,11 @@ const router = createRouter({
       path: '/docs/:id',
       name: 'docs',
       component: () => import('../views/docs/docs.vue')
+    },
+    {
+      path: '/setting/uninstall/',
+      name: 'uninstall',
+      component: () => import('../views/uninstall.vue')
     }
   ]
 })
