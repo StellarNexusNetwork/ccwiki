@@ -23,7 +23,7 @@
       <div class="mainDiv">
         <div class="main">
           <div class="listW">
-            <div class="option" :style="{ 'margin-right': OmarginRight }">
+            <div class="option" :style="{ 'margin-right': oMarginRight }">
               <div class="titleDiv">
                 <div class="title">未处理</div>
                 <div class="data">12</div>
@@ -31,7 +31,7 @@
               <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"
                           :xaxis="xaxis"></ApexCharts>
             </div>
-            <div class="option" :style="{ 'margin-left': OmarginRight }">
+            <div class="option" :style="{ 'margin-left': oMarginRight }">
               <div class=" titleDiv">
                 <div class="title">已处理</div>
                 <div class="data">12</div>
@@ -40,14 +40,14 @@
             </div>
           </div>
           <div class="listW" style="margin-top: 20px;">
-            <div class="option" :style="{ 'margin-right': OmarginRight }">
+            <div class="option" :style="{ 'margin-right': oMarginRight }">
               <div class="titleDiv">
                 <div class="title">总量</div>
                 <div class="data">12</div>
               </div>
               <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
             </div>
-            <div class="option" :style="{ 'margin-left': OmarginRight }">
+            <div class="option" :style="{ 'margin-left': oMarginRight }">
               <div class=" titleDiv">
                 <div class="title">丢弃数</div>
                 <div class="data">12</div>
@@ -68,7 +68,7 @@
 import ApexCharts from 'vue3-apexcharts'
 import {onMounted, onUnmounted, ref} from 'vue'
 
-let OmarginRight = ref('10px')
+let oMarginRight = ref('10px')
 let jsonData
 let series = ref([])
 let xaxis = ref([])
@@ -196,7 +196,7 @@ onUnmounted(() => {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #3cc2f7;
+  background: var(--color-primary-normal);
 }
 
 .Div .eyeList .logoDiv .textDiv .card .pulse::after {
@@ -205,7 +205,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: .1px solid #3cc2f7;
+  border: .1px solid var(--color-primary-normal);
   animation: pulse 3s linear infinite;
   transform-origin: center;
   opacity: .8;
@@ -265,7 +265,7 @@ onUnmounted(() => {
   width: 300px;
   height: 200px;
   border-radius: 15px;
-  background-color: #fefefe;
+  background-color: var(--color-background-1);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
@@ -279,12 +279,13 @@ onUnmounted(() => {
 .Div .eyeList .mainDiv .main .listW .option .titleDiv .title {
   font-size: 20px;
   font-family: RHRCN-M;
+  color: var(--color-text-title);
 }
 
 .Div .eyeList .mainDiv .main .listW .option .titleDiv .data {
   font-size: 15px;
   font-family: MiSans;
-  color: #727272;
+  color: var(--color-text-body);
 }
 
 </style>

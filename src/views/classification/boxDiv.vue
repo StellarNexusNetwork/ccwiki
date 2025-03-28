@@ -45,6 +45,7 @@ await axios.get('https://api.github.com/repos/StellarNexusNetwork/cc.wiki.projec
   font-family: MiSans-B;
   font-size: 25px;
   margin-bottom: 5px;
+  color: var(--color-text-title);
 }
 
 .boxDiv .itemList {
@@ -59,7 +60,7 @@ await axios.get('https://api.github.com/repos/StellarNexusNetwork/cc.wiki.projec
   width: 210px;
   min-width: 180px;
   height: 120px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border-2);
   padding: 10px;
   border-radius: 10px;
   margin-left: 20px;
@@ -89,5 +90,6 @@ await axios.get('https://api.github.com/repos/StellarNexusNetwork/cc.wiki.projec
 
 .boxDiv .itemList .icon {
   margin-left: 5px;
+  user-select: none;
 }
 </style>

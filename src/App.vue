@@ -173,7 +173,7 @@ router.afterEach(() => {
   user-select: none;
   transition-duration: 0.3s;
   z-index: 99998;
-  background-color: #F5F5F5;
+  background-color: var(--color-background-2);
 }
 
 .navigationBar {
@@ -182,7 +182,7 @@ router.afterEach(() => {
   user-select: none;
   transition-duration: 0.3s;
   z-index: 99997;
-  background-color: #F5F5F5;
+  background-color: var(--color-background-2);
 }
 
 .mainDiv {
@@ -191,7 +191,7 @@ router.afterEach(() => {
 }
 
 .main {
-  background: #fafafa;
+  background: var(--color-background-1);
   transition-duration: 0.3s;
   overflow-y: auto;
   overflow-x: hidden;
@@ -218,9 +218,9 @@ router.afterEach(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fafafa;
+  background: var(--color-background-1);
   border-radius: 50%;
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px 0 var(--color-shadow-l);
   flex-shrink: 0;
 }
 

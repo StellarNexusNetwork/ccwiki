@@ -75,13 +75,14 @@ function clickCancel() {
   align-items: center;
   font-family: RHRCN-H;
   font-size: 40px;
-  color: #3c3c3c;
+  color: var(--color-text-title);
 }
 
 .Div .notFound .imgAndTitle img {
   width: 150px;
   height: 150px;
   margin-right: 30px;
+  user-select: none;
 }
 
 .Div .notFound .textDiv {
@@ -105,28 +106,29 @@ function clickCancel() {
 .Div .notFound .textDiv button .Text {
   font-family: RHRCN-H;
   font-size: 20px;
+  color: var(--color-text-body);
 }
 
 .Div .notFound .textDiv .cancel {
   border: none;
-  background-color: #04AAEB;
+  background-color: var(--color-primary-normal);
   max-width: 686.17px;
 }
 
 .Div .notFound .textDiv .cancel:hover {
-  background-color: #0094d4;
+  background-color: var(--color-primary-active);
 }
 
 .Div .notFound .textDiv .cancel .Text {
-  color: #fafafa;
+  color: var(--color-background-1);
 }
 
 .Div .notFound .textDiv .uninstall {
-  border: 2.5px solid #04AAEB;
-  background-color: #fafafa;
+  border: 2.5px solid var(--color-primary-normal);
+  background-color: var(--color-background-1);
 }
 
 .Div .notFound .textDiv .uninstall:hover {
-  background-color: #ddd;
+  background-color: var(--color-background-3);
 }
 </style>
