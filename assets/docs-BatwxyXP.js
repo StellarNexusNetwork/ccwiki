@@ -1,0 +1,1 @@
+import{_ as t,c,e as s,h as n}from"./index-BY9NN3d_.js";const o={},a={class:"Div"};function i(d,e){return n(),c("div",a,e[0]||(e[0]=[s("div",{class:"mainDiv"},[s("div",{class:"mainContent"}),s("div",{class:"subContent"},[s("div",{class:"introduction"})])],-1)]))}const _=t(o,[["render",i],["__scopeId","data-v-b225b0e8"]]);export{_ as default};
