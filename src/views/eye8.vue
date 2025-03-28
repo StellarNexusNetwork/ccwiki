@@ -138,6 +138,7 @@ const series = [
 
 .Div .eyeList .logoDiv .textDiv .textList {
   margin-left: 35px;
+  color: var(--color-text-title);
 }
 
 .Div .eyeList .logoDiv .textDiv .card .pulse {
@@ -146,7 +147,7 @@ const series = [
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #3cc2f7;
+  background: var(--color-primary-normal);
 }
 
 .Div .eyeList .logoDiv .textDiv .card .pulse::after {
@@ -155,7 +156,7 @@ const series = [
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: .1px solid #3cc2f7;
+  border: .1px solid var(--color-primary-normal);
   animation: pulse 3s linear infinite;
   transform-origin: center;
   opacity: .8;
@@ -215,8 +216,8 @@ const series = [
   width: 300px;
   height: 200px;
   border-radius: 15px;
-  background-color: #fefefe;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background-1);
+  box-shadow: 0 0 10px 0 var(--color-shadow-s);
   overflow: hidden;
 }
 
@@ -229,12 +230,13 @@ const series = [
 .Div .eyeList .mainDiv .main .listW .option .titleDiv .title {
   font-size: 20px;
   font-family: RHRCN-M;
+  color: var(--color-text-title);
 }
 
 .Div .eyeList .mainDiv .main .listW .option .titleDiv .data {
   font-size: 15px;
   font-family: MiSans;
-  color: #727272;
+  color: var(--color-text-body);
 }
 
 </style>

@@ -96,7 +96,7 @@ function hello() {
 
 .Div .AboutList .line {
   width: 100%;
-  border-top: 0.5px solid #9c9c9c;
+  border-top: 0.5px solid var(--color-border-3);
   margin-top: 30px;
   margin-bottom: 30px;
 }
@@ -110,6 +110,7 @@ function hello() {
   font-family: MiSans-B;
   font-size: 25px;
   margin-bottom: 5px;
+  color: var(--color-text-title)
 }
 
 .Div .AboutList .boxDiv .itemList {
@@ -123,8 +124,8 @@ function hello() {
 .Div .AboutList .boxDiv .itemList .item {
   width: 210px;
   min-width: 180px;
-  height: 120px;
-  border: 1px solid #ccc;
+  height: 108px;
+  border: 1px solid var(--color-border-2);
   padding: 10px;
   border-radius: 10px;
   margin-left: 20px;
@@ -135,15 +136,18 @@ function hello() {
   font-family: MiSans-M;
   font-size: 20px;
   margin-bottom: 0;
+  color: var(--color-text-title);
+  display: flex;
 }
 
 .Div .AboutList .boxDiv .itemList .introduction {
-  height: 48px;
+  height: 36px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  color: var(--color-text-body);
 }
 
 .Div .AboutList .boxDiv .itemList .iconList {
@@ -155,5 +159,6 @@ function hello() {
 
 .Div .AboutList .boxDiv .itemList .icon {
   margin-left: 5px;
+  user-select: none;
 }
 </style>

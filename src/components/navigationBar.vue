@@ -18,7 +18,7 @@
         </button>
       </div>
       <div class="notNecessary">
-        <div class="options" v-for="item in NNnavigationBarList">
+        <div class="options" v-for="item in nNavigationBarList">
           <button @click="RouterLinkPush(item.path)">
             <img :src="'/static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
             <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
@@ -97,7 +97,7 @@ let navigationBarList = [
 
 ]
 
-let NNnavigationBarList = [
+let nNavigationBarList = [
   {"name": "20241108", "path": "/20241108"},
   {"name": "eye8", "path": "/eye8"},
   {"name": "chat", "path": "/chat"}
@@ -210,7 +210,7 @@ function closeDialog() {
 }
 
 .navigationBar .listDiv .options button:hover {
-  background-color: #e2e2e2;
+  background-color: var(--color-background-3);
 }
 
 .navigationBar #navigation .options button img {
@@ -227,7 +227,7 @@ function closeDialog() {
   justify-content: center;
   align-items: center;
   font-family: RHRCN-H;
-  color: #323232;
+  color: var(--color-text-title);
   white-space: nowrap;
   overflow: hidden;
   transition-duration: 0.2s;
@@ -236,7 +236,7 @@ function closeDialog() {
 .navigationBar .listDiv .line {
   width: calc(100% - 18px);
   height: 1px;
-  background-color: #c9c9c9;
+  background-color: var(--color-border-3);
   margin-left: 9px;
   margin-bottom: 5px;
 }
@@ -245,7 +245,7 @@ function closeDialog() {
   width: 100%;
   position: absolute;
   bottom: 0;
-  background-color: #F5F5F5;
+  background-color: var(--color-background-2);
 }
 
 .navigationBar #tool .options .button img {
@@ -307,7 +307,7 @@ function closeDialog() {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #F5F5F5;
+  background-color: var(--color-background-2);
 }
 
 .titleBar {
@@ -407,7 +407,7 @@ function closeDialog() {
 }
 
 #setting_Div .winControl button:hover {
-  background-color: #e2e2e2;
+  background-color: var(--color-background-3);
   border-radius: 10px;
   overflow: hidden;
 }

@@ -143,7 +143,7 @@ watchEffect(() => {
 .Div .home .newsList .newsDiv {
   display: flex;
   flex-direction: column;
-  border: 1px solid #c9c9c9;
+  border: 1px solid var(--color-border-2);
   border-radius: 10px;
   width: 170px;
   /* height: 155px; */
@@ -170,7 +170,7 @@ watchEffect(() => {
   margin-bottom: -5px;
   border-width: 0 0 1px 0;
   border-style: solid;
-  border-color: #c9c9c9;
+  border-color: var(--color-border-2);
   user-select: none;
 }
 
@@ -178,7 +178,7 @@ watchEffect(() => {
 .Div .home .newsList .newsDiv .text {
   font-family: RHRCN-H;
   font-size: 15px;
-  color: #3c3c3c;
+  color: var(--color-text-body);
   padding: 3px 3px 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -187,7 +187,7 @@ watchEffect(() => {
 
 .Div .home .newsList .newsDiv .date {
   font-family: RHRCN-H;
-  color: #787878;
+  color: var(--color-text-body-subtle);
   font-size: 10px;
   padding-left: 3PX;
   padding-right: 3PX;
@@ -211,8 +211,16 @@ watchEffect(() => {
   margin-top: 20px;
 }
 
+.Div .home .updateList .updateDiv .date {
+  color: var(--color-text-title)
+}
+
+.Div .home .updateList .updateDiv li {
+  color: var(--color-text-body)
+}
+
 .Div .home .updateList .updateDiv .imgDiv .ring {
-  background: #04AAEB;
+  background: var(--color-primary-normal);
   width: 15px;
   height: 15px;
   border-radius: 50%;
