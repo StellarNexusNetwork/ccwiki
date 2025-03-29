@@ -82,6 +82,7 @@ watchEffect(() => {
 .optionList .optionBox .option img {
   width: 180px;
   height: auto;
+  user-select: none;
 }
 
 </style>
