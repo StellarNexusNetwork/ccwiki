@@ -216,6 +216,8 @@ function closeDialog() {
 .navigationBar #navigation .options button img {
   width: 30px;
   height: 30px;
+  filter: drop-shadow(var(--color-text-title) 250vw 0);
+  transform: translateX(-250vw);
 }
 
 .navigationBar .listDiv .options button .textDiv {
@@ -245,7 +247,6 @@ function closeDialog() {
   width: 100%;
   position: absolute;
   bottom: 0;
-  background-color: var(--color-background-2);
 }
 
 .navigationBar #tool .options .button img {
@@ -253,6 +254,8 @@ function closeDialog() {
   height: 25px;
   margin-left: 2.5px;
   margin-right: 2.5px;
+  filter: drop-shadow(var(--color-text-title) 250vw 0);
+  transform: translateX(-250vw);
 }
 
 #setting_dialog {
