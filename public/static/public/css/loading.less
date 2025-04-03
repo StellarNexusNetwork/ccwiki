@@ -1,0 +1,188 @@
+@containerSize: 250px;
+@pDeg: (360deg / 36);
+
+.loop(@i) when (@i<=36) {
+  .dot:nth-child(@{i}) {
+    transform: rotate(calc(@pDeg * @i)) translateY(calc(@containerSize / 2));
+
+    &::before, &::after {
+      animation-delay: calc(2s / 36 * 6 * @i * -1);
+    }
+  }
+  .loop(@i+1)
+}
+
+.loop(1);
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 49.5%;
+  left: 49.5%;
+  perspective: 70px;
+  transform-style: preserve-3d;
+  transition-duration: 0.5s;
+
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  &::before {
+    background: var(--color-information-active);
+    top: -100%;
+    animation: moveBefore 2s infinite;
+  }
+
+  &::after {
+    background: var(--color-border-2);
+    top: 100%;
+    animation: moveAfter 2s infinite;
+  }
+}
+
+@keyframes moveBefore {
+  0% {
+    animation-timing-function: ease-in;
+  }
+  25% {
+    transform: translate3d(0, 100%, 10px);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform: translate3d(0, 200%, 0);
+    animation-timing-function: ease-in;
+  }
+  75% {
+    transform: translate3d(0, 100%, -10px);
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes moveAfter {
+  0% {
+    animation-timing-function: ease-in;
+  }
+  25% {
+    transform: translate3d(0, -100%, -10px);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform: translate3d(0, -200%, 0);
+    animation-timing-function: ease-in;
+  }
+  75% {
+    transform: translate3d(0, -100%, 10px);
+    animation-timing-function: ease-out;
+  }
+}
+
+.init_loading_bg {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background-color: var(--color-background-1);
+}
+
+.init_loading {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  text-align: center;
+  transition-duration: 0.5s;
+  user-select: none;
+}
+
+.init_loading .init_loadingImg {
+  width: 250px;
+  height: 250px;
+  //transform: rotate(45deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition-duration: 0.5s;
+}
+
+.init_loading .init_loadingImg .init_loading_logo {
+  transition-duration: 0.5s;
+}
+
+.init_loading_bg .init_loading .poweredBy {
+  bottom: 5%;
+  position: absolute;
+  color: darkgray;
+  font-size: 15px;
+  font-family: RHRCN-H, serif;
+  transition-duration: 0.5s;
+}
+
+@keyframes init_loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes init_loading2 {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes routerLoading {
+  0% {
+    transform: rotate(0deg);
+    stroke-dashoffset: 70;
+  }
+  50% {
+    stroke-dashoffset: 330;
+  }
+  100% {
+    stroke-dashoffset: 70;
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes Eye8_logoA1 {
+  0% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(0px);
+  }
+  40% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  60% {
+    transform: translateX(20px);
+  }
+  60% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
