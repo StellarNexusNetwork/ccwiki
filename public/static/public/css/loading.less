@@ -122,8 +122,19 @@
   transition-duration: 0.5s;
 }
 
+@media (min-width: 670px) {
+  .init_loading_bg .init_loading .poweredBy {
+    bottom: 5%;
+  }
+}
+
+@media (max-width: 670px) {
+  .init_loading_bg .init_loading .poweredBy {
+    bottom: 160px;
+  }
+}
+
 .init_loading_bg .init_loading .poweredBy {
-  bottom: 5%;
   position: absolute;
   color: darkgray;
   font-size: 15px;
