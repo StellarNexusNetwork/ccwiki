@@ -20,16 +20,32 @@
       <button class="button" @click="switchDetail(3)">
         <img src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
         <div class="textDiv">{{ $t("public.setting.test") }}</div>
-
       </button>
     </div>
   </div>
   <div class="optionsDetail">
-    <component :is="components[currentIndex]"></component>
+    <div class="winControl">
+      <div class="title">{{ $t(currentDisplayName) }}</div>
+      <button @click="closeDialog">
+        <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
+      </button>
+    </div>
+    <div class="optionsDetailContent">
+      <component :is="components[currentIndex]"></component>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+function closeDialog() {
+  const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
+  const setting = document.getElementById("setting_Div");
+  dialog.classList.remove("show"); // 移除动画类
+  setting!.classList.remove("show");
+  dialog.style.pointerEvents = "none";
+  setTimeout(() => dialog!.close(), 300); // 等待动画结束后关闭对话框
+}
+
 import {ref} from 'vue'
 import V_default from './setting/default.vue'
 import V_theme from './setting/theme.vue'
@@ -38,7 +54,8 @@ import V_test from './setting/test.vue'
 import {eventBus} from '@/utils/eventBus'
 
 const components = [V_default, V_theme, V_lang, V_test]
-
+const currentNames = ['theme', 'language', 'test']
+const currentDisplayName = ref('')
 
 const currentIndex = ref(0)
 
@@ -46,24 +63,15 @@ eventBus.on('callOpenSettingsDialog2', switchDetail)
 
 function switchDetail(index: any) {
   currentIndex.value = index
+  if (index == 0 || index > currentNames.length) {
+    currentDisplayName.value = ''
+  } else {
+    currentDisplayName.value = 'public.setting.' + currentNames[index - 1]
+  }
 }
 </script>
 
 <style scoped>
-@media (min-width: 615px) {
-  .optionsDetail {
-    padding-left: 20px;
-  }
-
-}
-
-@media (max-width: 615px) {
-  .mainDiv {
-    padding-left: 5px;
-  }
-
-}
-
 .optionsList {
   width: 10vw;
   min-width: 125px;
@@ -72,14 +80,75 @@ function switchDetail(index: any) {
   transition-duration: 0.5s;
 }
 
+@media (min-width: 670px) {
+  .optionsDetail {
+    width: 45vw;
+  }
+}
+
+@media (max-width: 670px) {
+  .optionsDetail {
+    width: calc(100vw - 125px - 40px);
+  }
+}
+
 .optionsDetail {
-  width: 45vw;
-  min-width: 450px;
   height: 100%;
   background: var(--color-background-1);
   transition-duration: 0.5s;
-  padding-top: 45px;
-  padding-right: 20px;
+}
+
+.optionsDetail .winControl {
+  width: 100%;
+  height: 45px;
+  display: flex;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-left: 15px;
+  margin-bottom: 5px;
+  transition-duration: 0.5s;
+  pointer-events: none;
+}
+
+.optionsDetail .winControl .title {
+  font-size: 20px;
+  color: var(--color-text-title);
+}
+
+.optionsDetail .winControl button {
+  outline: none;
+  border: none;
+  background: transparent;
+  width: 35px;
+  height: 35px;
+  transition-duration: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  pointer-events: auto;
+  margin-left: auto;
+}
+
+.optionsDetail .winControl button:hover {
+  background-color: var(--color-background-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.optionsDetail .winControl button img {
+  width: 20px;
+  height: 20px;
+  user-select: none;
+}
+
+.optionsDetail .optionsDetailContent {
+  width: 100%;
+  height: calc(100% - 45px - 5px);
+  padding-left: 15px;
+  padding-right: 15px;
+  overflow-y: auto;
 }
 
 .optionsList .button {

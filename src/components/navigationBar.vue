@@ -67,11 +67,6 @@
       <div id="setting_Div">
         <div class="setting2">
           <div class="setting">
-            <div class="winControl">
-              <button @click="closeDialog">
-                <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
-              </button>
-            </div>
             <div style="display: flex;">
               <setting></setting>
             </div>
@@ -176,15 +171,6 @@ function openDialog() {
   dialog.showModal(); // 打开对话框
   dialog.classList.add("show"); // 添加动画类
   setting!.classList.add("show");
-}
-
-function closeDialog() {
-  const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
-  const setting = document.getElementById("setting_Div");
-  dialog.classList.remove("show"); // 移除动画类
-  setting!.classList.remove("show");
-  dialog.style.pointerEvents = "none";
-  setTimeout(() => dialog!.close(), 300); // 等待动画结束后关闭对话框
 }
 </script>
 
@@ -365,60 +351,6 @@ function closeDialog() {
     width: calc(100vw - 40px);
     margin-left: 20px;
   }
-
-
-}
-
-@media (min-width: 615px) {
-  #setting_Div .winControl {
-    min-width: 575px;
-    width: 55vw;
-  }
-}
-
-@media (max-width: 615px) {
-  #setting_Div .winControl {
-    width: calc(100vw - 39px);
-  }
-
-}
-
-#setting_Div .winControl {
-  position: absolute;
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 10px;
-  padding-right: 10px;
-  transition-duration: 0.5s;
-  pointer-events: none;
-}
-
-
-#setting_Div .winControl button {
-  outline: none;
-  border: none;
-  background: transparent;
-  width: 35px;
-  height: 35px;
-  transition-duration: 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  overflow: hidden;
-  pointer-events: auto;
-}
-
-#setting_Div .winControl button:hover {
-  background-color: var(--color-background-3);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-#setting_Div .winControl button img {
-  width: 20px;
-  height: 20px;
-  user-select: none;
 }
 
 .setting2 {
