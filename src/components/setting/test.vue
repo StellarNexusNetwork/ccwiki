@@ -5,7 +5,7 @@
 <script setup lang="ts">
 async function openFolder() {
   try {
-    const handle = window.showDirectoryPicker();
+    const handle = showDirectoryPicker();
     const root = await processHandle(handle)
   } catch {
     console.error("用户取消了操作");
