@@ -1,5 +1,4 @@
 <template>
-  <div class="mainTitle">{{ $t("public.setting.theme") }}</div>
   <div class="title">{{ $t("public.setting.theme_O.appearance.title") }}</div>
   <div class="optionList">
     <div class="optionBox" v-for="(item, index) in appearanceOptions">
@@ -45,11 +44,6 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.mainTitle {
-  font-size: 20px;
-  color: var(--color-text-title);
-  margin-bottom: 5px;
-}
 
 .title {
   font-size: 17px;
@@ -59,6 +53,14 @@ watchEffect(() => {
 
 .optionList {
   display: flex;
+  flex-wrap: wrap;
+}
+
+.optionList .optionBox {
+  display: flex;
+  flex: 1 1 100px;
+  flex-direction: column;
+  max-width: 200px;
 }
 
 .optionList .optionBox .text {
@@ -69,18 +71,17 @@ watchEffect(() => {
 }
 
 .optionList .optionBox .option {
-  width: 200px;
-  height: 146px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
   transition-duration: 0.25s;
+  padding: 6px;
 }
 
 
 .optionList .optionBox .option img {
-  width: 180px;
+  width: 100%;
   height: auto;
   user-select: none;
 }

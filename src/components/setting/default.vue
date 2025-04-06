@@ -26,13 +26,6 @@
   }
 }
 
-@media (max-width: 615px) {
-  .mainDiv {
-    width: 60vw;
-  }
-
-}
-
 .mainDiv {
   height: 100%;
   display: flex;
