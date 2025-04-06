@@ -2,17 +2,17 @@
   <div>测试</div>
   <button @click="openFolder">打开文件夹</button>
 </template>
-<script setup lang="ts">
+<script setup lang="js">
 async function openFolder() {
   try {
-    const handle = showDirectoryPicker();
+    const handle = window.showDirectoryPicker();
     const root = await processHandle(handle)
   } catch {
     console.error("用户取消了操作");
   }
 }
 
-async function processHandle(handle: any) {
+async function processHandle(handle) {
   if (handle.kind === 'file') {
     return handle
   }
