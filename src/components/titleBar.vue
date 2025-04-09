@@ -32,7 +32,7 @@ import {eventBus} from '@/utils/eventBus';
 
 const openDialog = () => {
   eventBus.emit('callOpenSettingsDialog1')
-  eventBus.emit('callOpenSettingsDialog2', 1)
+  eventBus.emit('callOpenSettingsDialog2', 2)
 }
 
 

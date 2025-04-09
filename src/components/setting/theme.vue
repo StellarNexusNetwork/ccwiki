@@ -6,7 +6,7 @@
         <img class="b_img" :src="'/static/public/svg/setting/theme/'+item" alt="SVG Image" draggable="false" style="margin-left: 0;">
       </div>
       <div class="text" :style="appearanceTextActive[index]">
-        {{ $t("public.setting.theme_O.appearance." + item.slice(0, -4)) }}
+        {{ $t("public.setting.themeDetail.appearance." + item.slice(0, -4)) }}
       </div>
     </div>
   </div>

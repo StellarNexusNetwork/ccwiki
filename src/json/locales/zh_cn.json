@@ -19,8 +19,10 @@
     },
     "setting": {
       "settings": "设置",
+      "systemError": "未知",
+      "default": "",
       "theme": "个性化",
-      "theme_O": {
+      "themeDetail": {
         "appearance": {
           "title": "外观",
           "auto": "自动",
@@ -29,7 +31,9 @@
         }
       },
       "language": "语言",
-      "test": "测试"
+      "test": "测试",
+      "testDetail": {
+      }
     }
   },
   "home": {
