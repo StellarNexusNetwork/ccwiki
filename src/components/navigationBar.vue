@@ -310,6 +310,15 @@ function openDialog() {
 }
 
 @media (min-width: 670px) {
+  .navigationBar #navigation {
+    max-height: calc(100% - 95px);
+    overflow-y: auto;
+  }
+
+  .navigationBar #navigation::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+
   .navigationBar .listDiv .options {
     width: 100%;
   }

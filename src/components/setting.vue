@@ -54,8 +54,8 @@ import V_test from './setting/test.vue'
 import {eventBus} from '@/utils/eventBus'
 
 const components = [V_default, V_theme, V_lang, V_test]
-const currentNames = ['theme', 'language', 'test']
-const currentDisplayName = ref('')
+const currentNames = ['default', 'theme', 'language', 'test']
+const currentDisplayName = ref('public.setting.default')
 
 const currentIndex = ref(0)
 
@@ -63,10 +63,10 @@ eventBus.on('callOpenSettingsDialog2', switchDetail)
 
 function switchDetail(index: any) {
   currentIndex.value = index
-  if (index == 0 || index > currentNames.length) {
-    currentDisplayName.value = ''
+  if (index > currentNames.length) {
+    currentDisplayName.value = 'public.setting.systemError'
   } else {
-    currentDisplayName.value = 'public.setting.' + currentNames[index - 1]
+    currentDisplayName.value = 'public.setting.' + currentNames[index]
   }
 }
 </script>

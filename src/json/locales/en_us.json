@@ -19,8 +19,10 @@
     },
     "setting": {
       "settings": "Settings",
+      "systemError": "Unknown",
+      "default": "",
       "theme": "Theme",
-      "theme_O": {
+      "themeDetail": {
         "appearance": {
           "title": "Appearance",
           "auto": "Auto",

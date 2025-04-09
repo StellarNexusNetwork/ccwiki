@@ -125,11 +125,16 @@ function hello() {
   width: 210px;
   min-width: 180px;
   height: 108px;
-  border: 1px solid var(--color-border-2);
   padding: 10px;
   border-radius: 10px;
   margin-left: 20px;
-  background-color: rgba(0, 0, 0, 0);
+  background: var(--color-background-2);
+  border: 1px solid rgba(0, 0, 0, 0);
+  transition-duration: 0.3s;
+}
+
+.Div .AboutList .boxDiv .itemList .item:hover {
+  border: 1px solid var(--color-border-3);
 }
 
 .Div .AboutList .boxDiv .itemList .item .title {
