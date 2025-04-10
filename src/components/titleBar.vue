@@ -39,6 +39,10 @@ const openDialog = () => {
 </script>
 
 <style scoped>
+.titleBar {
+  transition-duration: 0.3s;
+}
+
 .titleBar .logo img {
   margin-top: 3.5px;
   margin-left: 3.5px;

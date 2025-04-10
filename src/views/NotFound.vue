@@ -33,6 +33,7 @@
   font-family: RHRCN-H;
   font-size: 40px;
   color: var(--color-text-title);
+  transition-duration: 0.3s;
 }
 
 .Div .notFound .imgAndTitle img {
@@ -50,11 +51,13 @@
   font-family: RHRCN-M;
   font-size: 20px;
   color: var(--color-text-body-subtle);
+  transition-duration: 0.3s;
 }
 
 .Div .notFound .textDiv .errorCode {
   font-family: RHRCN-N;
   font-size: 15px;
   color: var(--color-text-caption);
+  transition-duration: 0.3s;
 }
 </style>

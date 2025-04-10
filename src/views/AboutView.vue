@@ -17,7 +17,7 @@
       <div class="boxDiv" id="Cooperative">
         <div class="title">{{ $t("about.title.partners") }}</div>
         <div class="logoList">
-          <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank">
+          <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank" class="fisrtItem">
             <!-- <img src="/static/about/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
             <img src="/static/about/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
           </a>
@@ -77,12 +77,14 @@
   font-family: MiSans-B;
   font-size: 40px;
   color: var(--color-text-title);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .AboutProject .detail {
   font-family: MiSans;
   font-size: 16px;
   color: var(--color-text-body);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .line {
@@ -90,6 +92,7 @@
   border-top: 0.5px solid var(--color-border-3);
   margin-top: 20px;
   margin-bottom: 20px;
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .boxDiv {
@@ -101,25 +104,35 @@
   font-family: MiSans-B;
   font-size: 25px;
   color: var(--color-text-title);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList #Developers .Developer {
   font-family: MiSans;
   font-size: 15px;
   color: var(--color-text-body);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList #Cooperative .logoList {
   display: flex;
   margin-top: 10px;
-  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.Div .AboutList #Cooperative .logoList a {
+  margin-left: 30px;
+  margin-bottom: 10px;
+}
+
+.Div .AboutList #Cooperative .logoList .fisrtItem {
+  margin-left: 0;
 }
 
 .Div .AboutList #Cooperative .logoList img {
   width: auto;
   height: 80px;
-  margin-left: 30px;
-  margin-bottom: 10px;
+
   user-select: none;
 }
 
@@ -127,6 +140,7 @@
   font-family: MiSans;
   font-size: 15px;
   color: var(--color-text-body);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .boxDiv .detailA {

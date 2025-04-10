@@ -112,6 +112,7 @@ a {
     outline: none;
     text-decoration: underline;
     color: var(--color-text-caption);
+    transition-duration: 0.3s;
 }
 
 a:hover {
@@ -129,4 +130,8 @@ a:hover {
         grid-template-columns: 1fr 1fr;
         padding: 0 2rem;
     }
+}
+
+.main::-webkit-scrollbar-track {
+    background: var(--color-background-1);
 }

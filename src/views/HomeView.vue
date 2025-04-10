@@ -148,6 +148,7 @@ watchEffect(() => {
   width: 170px;
   /* height: 155px; */
   margin-left: 20px;
+  transition-duration: 0.3s;
 }
 
 /* .Div .home .newsList .newsDiv::after {
@@ -172,6 +173,7 @@ watchEffect(() => {
   border-style: solid;
   border-color: var(--color-border-2);
   user-select: none;
+  transition-duration: 0.3s;
 }
 
 
@@ -183,6 +185,7 @@ watchEffect(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition-duration: 0.3s;
 }
 
 .Div .home .newsList .newsDiv .date {
@@ -195,6 +198,7 @@ watchEffect(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition-duration: 0.3s;
 }
 
 .Div .home .updateList {
@@ -212,11 +216,13 @@ watchEffect(() => {
 }
 
 .Div .home .updateList .updateDiv .date {
-  color: var(--color-text-title)
+  color: var(--color-text-title);
+  transition-duration: 0.3s;
 }
 
 .Div .home .updateList .updateDiv li {
-  color: var(--color-text-body)
+  color: var(--color-text-body);
+  transition-duration: 0.3s;
 }
 
 .Div .home .updateList .updateDiv .imgDiv .ring {
