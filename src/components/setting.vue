@@ -113,6 +113,7 @@ function switchDetail(index: any) {
 .optionsDetail .winControl .title {
   font-size: 20px;
   color: var(--color-text-title);
+  transition-duration: 0.3s;
 }
 
 .optionsDetail .winControl button {
@@ -172,6 +173,7 @@ function switchDetail(index: any) {
   align-items: center;
   padding-left: 15px;
   color: var(--color-text-title);
+  transition-duration: 0.3s;
 }
 
 .optionsList .line {
@@ -227,5 +229,6 @@ function switchDetail(index: any) {
   white-space: nowrap;
   overflow: hidden;
   font-size: 15px;
+  transition-duration: 0.3s;
 }
 </style>

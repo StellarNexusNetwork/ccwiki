@@ -99,6 +99,7 @@ function hello() {
   border-top: 0.5px solid var(--color-border-3);
   margin-top: 30px;
   margin-bottom: 30px;
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .boxDiv {
@@ -110,7 +111,8 @@ function hello() {
   font-family: MiSans-B;
   font-size: 25px;
   margin-bottom: 5px;
-  color: var(--color-text-title)
+  color: var(--color-text-title);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .boxDiv .itemList {
@@ -135,6 +137,7 @@ function hello() {
 
 .Div .AboutList .boxDiv .itemList .item:hover {
   border: 1px solid var(--color-border-3);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .boxDiv .itemList .item .title {
@@ -143,6 +146,7 @@ function hello() {
   margin-bottom: 0;
   color: var(--color-text-title);
   display: flex;
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .boxDiv .itemList .introduction {
@@ -153,6 +157,7 @@ function hello() {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   color: var(--color-text-body);
+  transition-duration: 0.3s;
 }
 
 .Div .AboutList .boxDiv .itemList .iconList {

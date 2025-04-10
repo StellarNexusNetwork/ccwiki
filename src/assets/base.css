@@ -58,6 +58,10 @@
     font-weight: normal;
 }
 
+* {
+    scrollbar-color: var(--color-text-caption) var(--color-background-1);
+}
+
 body {
     min-height: 100vh;
     background-color: var(--color-background-2);
