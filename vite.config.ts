@@ -6,6 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    //使用自定义域名请禁用此行👇
     base: process.env.NODE_ENV === 'production' ? '/cc.wiki.project.v4.web2/' : '/',
     plugins: [
         vue(),

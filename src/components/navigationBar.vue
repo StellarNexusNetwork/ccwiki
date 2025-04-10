@@ -13,14 +13,14 @@
       </div>
       <div class="options" v-for="item in navigationBarList">
         <button @click="RouterLinkPush(item.path)">
-          <img :src="'/static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
+          <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
           <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
         </button>
       </div>
       <div class="notNecessary">
         <div class="options" v-for="item in nNavigationBarList">
           <button @click="RouterLinkPush(item.path)">
-            <img :src="'/static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
+            <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
             <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
           </button>
         </div>
@@ -84,6 +84,8 @@ import {reactive, watchEffect} from 'vue'
 import {useRouter} from 'vue-router'
 import {eventBus} from '@/utils/eventBus';
 import {useWindowStore} from '@/stores/window'
+
+const baseUrl = import.meta.env.BASE_URL
 
 let navigationBarList = [
   {"name": "home", "path": "/"},
