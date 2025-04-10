@@ -3,10 +3,10 @@
   <div class="optionList">
     <div class="optionBox" v-for="(item, index) in appearanceOptions">
       <div class="option" :id="index === 0 ? 'firstItem' : undefined" @click="setAppearance(index)" :style="appearanceActive[index]">
-        <img class="b_img" :src="item" alt="SVG Image" draggable="false" style="margin-left: 0;">
+        <img class="b_img" :src="baseUrl+'static/public/svg/setting/theme/'+item" alt="SVG Image" draggable="false" style="margin-left: 0;">
       </div>
       <div class="text" :style="appearanceTextActive[index]">
-        {{ $t("public.setting.themeDetail.appearance." + item.slice(33, -4)) }}
+        {{ $t("public.setting.themeDetail.appearance." + item.slice(0, -4)) }}
       </div>
     </div>
   </div>
@@ -17,12 +17,14 @@
 import {useSettingStore} from '@/stores/setting';
 import {ref, watchEffect} from "vue"
 
-let appearanceOptions = ['/static/public/svg/setting/theme/auto.svg', '/static/public/svg/setting/theme/light.svg', '/static/public/svg/setting/theme/dark.svg']
+const baseUrl = import.meta.env.BASE_URL
+
+let appearanceOptions = ['auto.svg', 'light.svg', 'dark.svg']
 let appearanceActive = ref([{'border': 'none'}, {'border': 'none'}, {'border': 'none'}])
 let appearanceTextActive = ref([{'color': 'var(--color-text-body)'}, {'color': 'var(--color-text-body)'}, {'color': 'var(--color-text-body)'}])
 
 function setAppearance(index: number) {
-  useSettingStore().setting.theme.appearance = appearanceOptions[index].slice(33, -4);
+  useSettingStore().setting.theme.appearance = appearanceOptions[index].slice(0, -4);
 }
 
 watchEffect(() => {
