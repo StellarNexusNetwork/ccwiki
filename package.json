@@ -11,23 +11,23 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
-    "apexcharts": "^3.54.1",
+    "apexcharts": "^4.0.0",
     "axios": "^1.7.7",
     "i18n": "^0.15.1",
     "mitt": "^3.0.1",
     "pinia": "^2.2.5",
     "sql.js": "^1.13.0",
-    "sql.js-httpvfs": "^0.8.12",
     "three": "^0.171.0",
     "vue": "^3.5.12",
-    "vue-apexcharts": "^1.6.2",
     "vue-i18n": "^11.0.1",
     "vue-router": "^4.4.5",
-    "vue3-apexcharts": "^1.7.0"
+    "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
+    "@rollup/plugin-wasm": "^6.2.2",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.17.5",
+    "@types/sql.js": "^1.4.9",
     "@types/three": "^0.171.0",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitejs/plugin-vue-jsx": "^4.0.1",

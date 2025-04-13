@@ -37,7 +37,9 @@ async function openFolder() {
         if ('from' in jsonDataRaw && jsonDataRaw.from === "ccwikiproject") {
           if (!useDataSourcesStore().localRepositories.some((obj => obj.ulid === jsonDataRaw.ulid))) {
             useDataSourcesStore().localRepositories.push({'ulid': jsonDataRaw.ulid, 'root': root})
-            const iconURL = await getIconURL(root)
+            const iconData = await getIconURL(root)
+            const iconURL = iconData['iconURL']
+            const iconHandle = iconData['iconHandle']
             const jsonData = reactive(Object.assign({
               'name': "Unknown",
               "version": "Unknown"
@@ -46,7 +48,8 @@ async function openFolder() {
               'ulid': jsonData.ulid,
               'name': jsonData.name,
               "version": jsonData.version,
-              "iconURL": iconURL
+              "iconURL": iconURL,
+              "iconHandle": iconHandle
             })
           } else {
             console.warn("请勿重复添加仓库！")
@@ -79,16 +82,17 @@ async function processHandle(handle) {
 
 async function getIconURL(root) {
   let iconURL = '/static/public/svg/NotFound.svg'
+  let iconHandle = 'notFound'
   if (root.children.some((obj => obj.name === "icon.svg"))) {
-    const iconHandle = root.children.find(obj => obj.name === "icon.svg")
+    iconHandle = root.children.find(obj => obj.name === "icon.svg")
     const icon = await iconHandle.getFile()
     iconURL = URL.createObjectURL(icon);
   } else if (root.children.some((obj => obj.name === "icon.png"))) {
-    const iconHandle = root.children.find(obj => obj.name === "icon.png")
+    iconHandle = root.children.find(obj => obj.name === "icon.png")
     const icon = await iconHandle.getFile()
     iconURL = URL.createObjectURL(icon);
   }
-  return iconURL
+  return {iconURL: iconURL, iconHandle: iconHandle}
 }
 
 function deleteLocalData(index) {
