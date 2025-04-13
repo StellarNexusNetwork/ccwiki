@@ -22,7 +22,9 @@ import navigationBar from './components/navigationBar.vue'
 import {RouterView, useRouter} from 'vue-router'
 import {ref, watchEffect} from 'vue'
 import {useWindowStore} from '@/stores/window'
+import {useDataSourcesStore} from '@/stores/dataSources';
 
+useDataSourcesStore().initFetchData()
 
 let ifLoadingFinish = false;
 window.addEventListener('load', function () {
