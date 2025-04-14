@@ -24,6 +24,8 @@ import {useDataSourcesStore} from '@/stores/dataSources';
 import {reactive} from "vue";
 import defaultSetting from "@/json/defaultSetting.json";
 
+useDataSourcesStore().refreshData()
+
 async function openFolder() {
   try {
     const handle = await window.showDirectoryPicker();
@@ -46,10 +48,11 @@ async function openFolder() {
             }, defaultSetting, jsonDataRaw))
             useDataSourcesStore().localRepositoriesDisplay.push({
               'ulid': jsonData.ulid,
+              'configHandle': config,
+              "iconHandle": iconHandle,
               'name': jsonData.name,
               "version": jsonData.version,
-              "iconURL": iconURL,
-              "iconHandle": iconHandle
+              "iconURL": iconURL
             })
           } else {
             console.warn("请勿重复添加仓库！")

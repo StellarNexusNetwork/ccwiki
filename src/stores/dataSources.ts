@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import {ref, toRaw, watch} from "vue";
+import defaultSetting from "@/json/defaultSetting.json";
 
 
 export const useDataSourcesStore = defineStore('DataSources', () => {
@@ -57,6 +58,26 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             initState = true;
         }
 
+        async function refreshData() {
+            let lrd: any = [];
+
+            for (const i of toRaw(localRepositoriesDisplay.value)) {
+                const configData = await i.configHandle.getFile();
+                const fileText = await readFileAsText(configData);
+                const jsonDataRaw = JSON.parse(fileText);
+
+                const jsonData = Object.assign({
+                    name: "Unknown",
+                    version: "Unknown"
+                }, defaultSetting, jsonDataRaw);
+
+                i.name = jsonData.name;
+                i.version = jsonData.version;
+                lrd.push(i);
+            }
+            localRepositoriesDisplay.value = lrd;
+        }
+
 
         // watchEffect(() => {
         //     saveHandles('localRepositories', localRepositories)
@@ -77,7 +98,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             }
         }, {deep: true})
 
-        return {localRepositories, localRepositoriesDisplay, initState, initFetchData}
+        return {localRepositories, localRepositoriesDisplay, initState, initFetchData, refreshData}
     }
 )
 
@@ -146,4 +167,13 @@ async function getIconURL(lrd: any) {
         x++
     }
     return lrd
+}
+
+function readFileAsText(file: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.onerror = reject
+        reader.readAsText(file, 'utf-8')
+    });
 }
