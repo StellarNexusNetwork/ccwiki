@@ -1,10 +1,10 @@
 <template>
   <div v-for="(group, index) in useDataSourcesStore().routeGroups">
-    <div class="line" :id="index === 0 ? 'firstItem' : null"></div>
+    <div class="line" :id="index === 0 ? 'firstItem' : undefined"></div>
     <div class="boxDiv">
       <div class="title">{{ $t("docs." + group.path + ".title") }}</div>
       <div class="itemList">
-        <button class="item" :id="index === 0 ? 'firstItem' : null" @click="hello()" v-for="(item, index) in group.items">
+        <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="" v-for="(item, index) in group.items">
           <div class="title">{{ $t("docs." + group.path + ".items." + item.path + ".title") }}</div>
           <div class="introduction">{{ $t("docs." + group.path + ".items." + item.path + ".content") }}</div>
           <div class="iconList">

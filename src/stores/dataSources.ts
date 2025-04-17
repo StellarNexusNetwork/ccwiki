@@ -53,7 +53,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
         //     })
         // })
 
-        async function processHandle(handle) {
+        async function processHandle(handle: any) {
             if (handle.kind === 'file') {
                 return handle
             }
@@ -79,8 +79,8 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             langHandles.value = []
             for (const ir of toRaw(localRepositories.value)) {
                 const root = await processHandle(ir.root)
-                const lang = root.children.find(obj => obj.name === 'lang');
-                const langObject = {};
+                const lang = root.children.find((obj: { 'name': string }) => obj.name === 'lang');
+                const langObject: Record<string, any> = {};
                 for (const i of lang.children) {
                     langObject[i.name.slice(0, 5)] = i;
                 }
@@ -108,7 +108,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
         }
 
         async function mergeLangData() {
-            let updataLang = {}
+            let updataLang: Record<string, any> = {}
             updataLang['zh_cn'] = await mergeLangDataI('zh_cn')
             if (useSettingStore().setting.lang !== 'zh_cn') {
                 updataLang[useSettingStore().setting.lang] = await mergeLangDataI(useSettingStore().setting.lang)
@@ -243,7 +243,7 @@ function mergeRouteGroups(routeGroups: any[]): any[] {
     for (const group of routeGroups) {
         for (const route of group) {
             const existingRoute = mergedRoutes.find((r) => r.path === route.path);
-            
+
             if (existingRoute) {
                 // 合并子路由
                 if (Array.isArray(route.items)) {
@@ -251,7 +251,7 @@ function mergeRouteGroups(routeGroups: any[]): any[] {
                         existingRoute.items = [];
                     }
                     for (const item of route.items) {
-                        if (!existingRoute.items.some((i) => i.path === item.path)) {
+                        if (!existingRoute.items.some((i: { 'path': string }) => i.path === item.path)) {
                             existingRoute.items.push(item);
                         }
                     }
@@ -265,7 +265,7 @@ function mergeRouteGroups(routeGroups: any[]): any[] {
 }
 
 
-function deepMergeOnlyNew(oldObj, newObj) {
+function deepMergeOnlyNew(oldObj: any, newObj: any) {
     for (const key in newObj) {
         if (Object.prototype.hasOwnProperty.call(newObj, key)) {
             if (typeof newObj[key] === 'object' && newObj[key] !== null) {
