@@ -18,6 +18,8 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
+useSettingStore().langData = {zh_cn, en_us};
+
 const i18n = createI18n({
     locale: useSettingStore().setting.lang, // 设置当前语言，默认使用 "en"
     fallbackLocale: "zh_cn", // 定义后备语言，当当前语言缺少翻译时使用

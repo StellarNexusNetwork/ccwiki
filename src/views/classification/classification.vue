@@ -1,69 +1,12 @@
 <template>
   <div class="Div">
     <div class="AboutList">
-      <div class="boxDiv">
-        <div class="title">条目</div>
-        <div class="itemList">
-          <button class="item" id="firstItem" @click="hello()">
-            <div class="title">测试</div>
-            <div class="introduction">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</div>
-            <div class="iconList">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-            </div>
-          </button>
-          <button class="item" @click="hello()">
-            <div class="title">测试</div>
-            <div class="introduction">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</div>
-            <div class="iconList">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-            </div>
-          </button>
-          <button class="item" @click="hello()">
-            <div class="title">测试</div>
-            <div class="introduction">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</div>
-            <div class="iconList">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-            </div>
-          </button>
-        </div>
-      </div>
-      <div class="line"></div>
-      <div class="boxDiv">
-        <div class="title">新闻</div>
-        <div class="itemList">
-          <button class="item" id="firstItem" @click="hello()">
-            <div class="title">测试</div>
-            <div class="introduction">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</div>
-            <div class="iconList">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-            </div>
-          </button>
-        </div>
-      </div>
-      <div class="line"></div>
-      <div class="boxDiv">
-        <div class="title">安全</div>
-        <div class="itemList">
-          <button class="item" id="firstItem" @click="hello()">
-            <div class="title">测试</div>
-            <div class="introduction">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</div>
-            <div class="iconList">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-              <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-            </div>
-          </button>
-        </div>
-      </div>
-
+      <suspense>
+        <template #default>
+          <classificationMain/>
+        </template>
+      </suspense>
+      
       <div class="line"></div>
       <Suspense>
         <template #default>
@@ -75,6 +18,7 @@
 </template>
 <script setup lang="ts">
 import boxDiv from './boxDiv.vue';
+import classificationMain from './classificationMain.vue';
 
 function hello() {
   console.log("hello")
@@ -102,6 +46,10 @@ function hello() {
   transition-duration: 0.3s;
 }
 
+.Div .AboutList .line#firstItem {
+  display: none;
+}
+
 .Div .AboutList .boxDiv {
   display: flex;
   flex-direction: column;
@@ -117,6 +65,7 @@ function hello() {
 
 .Div .AboutList .boxDiv .itemList {
   display: flex;
+  overflow-x: auto;
 }
 
 .Div .AboutList .boxDiv .itemList #firstItem {

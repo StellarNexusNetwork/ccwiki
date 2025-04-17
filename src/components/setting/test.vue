@@ -21,15 +21,23 @@
 </template>
 <script setup lang="js">
 import {useDataSourcesStore} from '@/stores/dataSources';
-import {reactive} from "vue";
-import defaultSetting from "@/json/defaultSetting.json";
 
-useDataSourcesStore().refreshData()
+useDataSourcesStore().refreshData();
 
 async function openFolder() {
   try {
     const handle = await window.showDirectoryPicker();
-    const root = await processHandle(handle)
+    const root = await useDataSourcesStore().processHandle(handle);
+    // 读取仓库语言文件
+    const lang = root.children.find(obj => obj.name === 'lang');
+    const langObject = {};
+    for (const i of lang.children) {
+      langObject[i.name.slice(0, 5)] = i;
+    }
+    useDataSourcesStore().langHandles.push(langObject)
+    // todo：刷新语言
+    
+    // 处理展示数据和存储数据
     if (root.children.some((obj => obj.name === "config.json"))) {
       const config = root.children.find(obj => obj.name === "config.json");
       const configData = await config.getFile()
@@ -42,17 +50,19 @@ async function openFolder() {
             const iconData = await getIconURL(root)
             const iconURL = iconData['iconURL']
             const iconHandle = iconData['iconHandle']
-            const jsonData = reactive(Object.assign({
+            const jsonData = Object.assign({}, {
               'name': "Unknown",
-              "version": "Unknown"
-            }, defaultSetting, jsonDataRaw))
+              "version": "Unknown",
+              "routes": []
+            }, jsonDataRaw)
             useDataSourcesStore().localRepositoriesDisplay.push({
               'ulid': jsonData.ulid,
               'configHandle': config,
               "iconHandle": iconHandle,
               'name': jsonData.name,
               "version": jsonData.version,
-              "iconURL": iconURL
+              "iconURL": iconURL,
+              "routes": jsonData.routes
             })
           } else {
             console.warn("请勿重复添加仓库！")
@@ -69,18 +79,6 @@ async function openFolder() {
   } catch {
     console.warn("未获得用户授权或发生错误！");
   }
-}
-
-async function processHandle(handle) {
-  if (handle.kind === 'file') {
-    return handle
-  }
-  handle.children = []
-  const iter = handle.entries();
-  for await (const item of iter) {
-    handle.children.push(await processHandle(item[1]));
-  }
-  return handle
 }
 
 async function getIconURL(root) {
@@ -101,6 +99,7 @@ async function getIconURL(root) {
 function deleteLocalData(index) {
   useDataSourcesStore().localRepositories.splice(index, 1);
   useDataSourcesStore().localRepositoriesDisplay.splice(index, 1);
+  useDataSourcesStore().langHandles.splice(index, 1);
 }
 </script>
 <style scoped>
