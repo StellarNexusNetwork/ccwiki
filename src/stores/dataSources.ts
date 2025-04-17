@@ -1,12 +1,14 @@
 import {defineStore} from "pinia";
 import {ref, toRaw, watch} from "vue";
-import defaultSetting from "@/json/defaultSetting.json";
-
+import {useSettingStore} from '@/stores/setting';
+import {useI18n} from 'vue-i18n';
 
 export const useDataSourcesStore = defineStore('DataSources', () => {
-        let localRepositories = ref()
-        let localRepositoriesDisplay = ref()
-        let initState = false
+        let localRepositories = ref();
+        let localRepositoriesDisplay = ref();
+        let initState = false;
+        let routeGroups: any = ref([]);
+        let langHandles: any = ref([]);
 
         // let db = ref<any>(null)
         // let opfsRoot = null
@@ -51,31 +53,67 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
         //     })
         // })
 
+        async function processHandle(handle) {
+            if (handle.kind === 'file') {
+                return handle
+            }
+            handle.children = []
+            const iter = handle.entries();
+            for await (const item of iter) {
+                handle.children.push(await processHandle(item[1]));
+            }
+            return handle
+        }
+
         async function initFetchData() {
             localRepositories.value = await loadData('localRepositories')
             localRepositoriesDisplay.value = await loadData('localRepositoriesDisplay');
+            langHandles.value = await loadData('langHandles');
             localRepositoriesDisplay.value = await getIconURL(localRepositoriesDisplay.value)
             initState = true;
         }
 
         async function refreshData() {
             let lrd: any = [];
+            // 读取仓库语言文件
+            langHandles.value = []
+            for (const ir of toRaw(localRepositories.value)) {
+                const root = await processHandle(ir.root)
+                const lang = root.children.find(obj => obj.name === 'lang');
+                const langObject = {};
+                for (const i of lang.children) {
+                    langObject[i.name.slice(0, 5)] = i;
+                }
+                langHandles.value.push(langObject)
+            }
+            // 处理展示数据和存储数据
 
             for (const i of toRaw(localRepositoriesDisplay.value)) {
                 const configData = await i.configHandle.getFile();
                 const fileText = await readFileAsText(configData);
                 const jsonDataRaw = JSON.parse(fileText);
 
-                const jsonData = Object.assign({
-                    name: "Unknown",
-                    version: "Unknown"
-                }, defaultSetting, jsonDataRaw);
+                const jsonData = Object.assign({}, {
+                    "name": "Unknown",
+                    "version": "Unknown",
+                    "routes": []
+                }, jsonDataRaw);
 
                 i.name = jsonData.name;
                 i.version = jsonData.version;
+                i.routes = jsonData.routes;
                 lrd.push(i);
             }
             localRepositoriesDisplay.value = lrd;
+        }
+
+        async function mergeLangData() {
+            let updataLang = {}
+            updataLang['zh_cn'] = await mergeLangDataI('zh_cn')
+            if (useSettingStore().setting.lang !== 'zh_cn') {
+                updataLang[useSettingStore().setting.lang] = await mergeLangDataI(useSettingStore().setting.lang)
+            }
+            return updataLang;
         }
 
 
@@ -94,11 +132,33 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
 
         watch(localRepositoriesDisplay, (newVal) => {
             if (initState) {
-                saveData('localRepositoriesDisplay', toRaw(newVal))
+                let routeGroupsI: any = []
+                newVal = toRaw(newVal)
+                saveData('localRepositoriesDisplay', newVal)
+                for (const i of newVal) {
+                    routeGroupsI.push(i.routes)
+                }
+                routeGroups.value = mergeRouteGroups(routeGroupsI)
             }
         }, {deep: true})
 
-        return {localRepositories, localRepositoriesDisplay, initState, initFetchData, refreshData}
+        watch(langHandles, (newVal) => {
+            if (initState) {
+                saveData('langHandles', toRaw(newVal));
+            }
+        }, {deep: true})
+
+        return {
+            localRepositories,
+            localRepositoriesDisplay,
+            initState,
+            routeGroups,
+            langHandles,
+            processHandle,
+            initFetchData,
+            refreshData,
+            mergeLangData
+        }
     }
 )
 
@@ -132,7 +192,6 @@ async function saveData(key: string, data: any) {
     const store = tx.objectStore("dataSources");
 
 
-    // 存储对象结构：{ key: ..., handles: [...] }
     store.put({key, data});
 
     return new Promise((resolve, reject) => {
@@ -176,4 +235,67 @@ function readFileAsText(file: Blob): Promise<string> {
         reader.onerror = reject
         reader.readAsText(file, 'utf-8')
     });
+}
+
+function mergeRouteGroups(routeGroups: any[]): any[] {
+    const mergedRoutes: any[] = [];
+
+    for (const group of routeGroups) {
+        for (const route of group) {
+            const existingRoute = mergedRoutes.find((r) => r.path === route.path);
+            
+            if (existingRoute) {
+                // 合并子路由
+                if (Array.isArray(route.items)) {
+                    if (!Array.isArray(existingRoute.items)) {
+                        existingRoute.items = [];
+                    }
+                    for (const item of route.items) {
+                        if (!existingRoute.items.some((i) => i.path === item.path)) {
+                            existingRoute.items.push(item);
+                        }
+                    }
+                }
+            } else {
+                mergedRoutes.push({...route});
+            }
+        }
+    }
+    return mergedRoutes;
+}
+
+
+function deepMergeOnlyNew(oldObj, newObj) {
+    for (const key in newObj) {
+        if (Object.prototype.hasOwnProperty.call(newObj, key)) {
+            if (typeof newObj[key] === 'object' && newObj[key] !== null) {
+                if (typeof oldObj[key] !== 'object' || oldObj[key] === null) {
+                    oldObj[key] = Array.isArray(newObj[key]) ? [] : {};
+                }
+                deepMergeOnlyNew(oldObj[key], newObj[key]);
+            } else {
+                if (!(key in oldObj)) {
+                    oldObj[key] = newObj[key];
+                }
+            }
+        }
+    }
+    return oldObj;
+}
+
+async function mergeLangDataI(lang: string) {
+    const oldMessages = toRaw(useI18n().getLocaleMessage(lang));
+    let updataLangData = {};
+    for (const i of toRaw(useDataSourcesStore().langHandles)) {
+        if (i?.[lang] !== undefined) {
+            const langData = await i[lang].getFile();
+            const fileText = await readFileAsText(langData);
+            const jsonDataRaw = JSON.parse(fileText);
+            updataLangData = deepMergeOnlyNew({...updataLangData}, jsonDataRaw)
+        }
+    }
+    return {
+        ...oldMessages,
+        ...updataLangData
+    }
 }

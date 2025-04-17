@@ -4,6 +4,7 @@ import defaultSetting from '../json/defaultSetting.json';
 
 
 export const useSettingStore = defineStore('setting', () => {
+        let langData = {}
         const oldSetting = reactive(
             JSON.parse(localStorage.getItem('setting') as string) || {}
         )
@@ -22,6 +23,6 @@ export const useSettingStore = defineStore('setting', () => {
                 document.documentElement.removeAttribute("data-theme");
             }
         })
-        return {setting}
+        return {setting, langData}
     }
 )
