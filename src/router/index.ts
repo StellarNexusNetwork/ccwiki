@@ -43,11 +43,11 @@ const router = createRouter({
             name: 'docs',
             component: () => import('../views/docs/docs.vue')
         },
-        {
-            path: '/tools/map/',
-            name: 'tools_map',
-            component: () => import('../views/tools/index.vue')
-        },
+        // {
+        //     path: '/tools/map/',
+        //     name: 'tools_map',
+        //     component: () => import('../views/tools/index.vue')
+        // },
         {
             path: '/setting/uninstall/',
             name: 'uninstall',
