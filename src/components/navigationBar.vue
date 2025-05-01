@@ -64,6 +64,7 @@
           <titleBar></titleBar>
         </div>
       </div>
+      <notice/>
       <div id="setting_Div">
         <div class="setting2">
           <div class="setting">
@@ -80,6 +81,7 @@
 <script setup lang="ts">
 import titleBar from './titleBar.vue'
 import setting from './setting.vue';
+import notice from './notice/index.vue'
 import {reactive, watchEffect} from 'vue'
 import {useRouter} from 'vue-router'
 import {eventBus} from '@/utils/eventBus';

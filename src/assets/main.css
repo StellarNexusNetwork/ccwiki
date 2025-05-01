@@ -6,6 +6,7 @@
         --color-primary-hover: #31C6FF;
         --color-primary-active: #008AC9;
         --color-information-active: #3482ff;
+        --color-warning-normal: #FF9510;
         --color-danger-normal: #F74020;
         --color-text-title: #0A0A0A;
         --color-text-body: #292929;
@@ -14,6 +15,7 @@
         --color-background-1: #FAFAFA;
         --color-background-2: #F5F5F5;
         --color-background-3: #E6E6E6;
+        --color-background-noticeBar: #FAFAFA;
         --color-border-1: #F5F5F5;
         /*卡片*/
         --color-border-2: #D6D6D6;
@@ -31,6 +33,7 @@
         --color-primary-hover: #008AC9;
         --color-primary-active: #31C6FF;
         --color-information-active: #3482ff;
+        --color-warning-normal: #FF9510;
         --color-danger-normal: #F74020;
         --color-text-title: #FAFAFA;
         --color-text-body: #E6E6E6;
@@ -39,6 +42,7 @@
         --color-background-3: #0A0A0A;
         --color-background-2: #1A1A1A;
         --color-background-1: #292929;
+        --color-background-noticeBar: #1A1A1A;
         --color-border-1: #1A1A1A;
         /*卡片*/
         --color-border-2: #434343;
@@ -56,6 +60,7 @@
     --color-primary-hover: #31C6FF;
     --color-primary-active: #008AC9;
     --color-information-active: #3482ff;
+    --color-warning-normal: #FF9510;
     --color-danger-normal: #F74020;
     --color-text-title: #0A0A0A;
     --color-text-body: #292929;
@@ -64,6 +69,7 @@
     --color-background-1: #FAFAFA;
     --color-background-2: #F5F5F5;
     --color-background-3: #E6E6E6;
+    --color-background-noticeBar: #FAFAFA;
     --color-border-1: #F5F5F5;
     /*卡片*/
     --color-border-2: #D6D6D6;
@@ -80,6 +86,7 @@
     --color-primary-hover: #008AC9;
     --color-primary-active: #31C6FF;
     --color-information-active: #3482ff;
+    --color-warning-normal: #FF9510;
     --color-danger-normal: #F74020;
     --color-text-title: #FAFAFA;
     --color-text-body: #E6E6E6;
@@ -88,6 +95,7 @@
     --color-background-3: #0A0A0A;
     --color-background-2: #1A1A1A;
     --color-background-1: #292929;
+    --color-background-noticeBar: #1A1A1A;
     --color-border-1: #1A1A1A;
     /*卡片*/
     --color-border-2: #434343;

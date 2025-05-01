@@ -1,5 +1,6 @@
 <template>
   <titleBar/>
+  <notice/>
   <navigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
   <div class="mainDiv" :style="mainDivStyle">
     <div class="main" :style="mainStyle">
@@ -19,6 +20,7 @@
 <script setup lang="ts">
 import titleBar from './components/titleBar.vue'
 import navigationBar from './components/navigationBar.vue'
+import notice from './components/notice/index.vue'
 import {RouterView, useRouter} from 'vue-router'
 import {ref, watchEffect} from 'vue'
 import {useWindowStore} from '@/stores/window'
