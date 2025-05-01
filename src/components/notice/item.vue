@@ -1,5 +1,5 @@
 <template>
-  <div :id="index === 0 ? 'firstItem' : undefined" class="item" @mousedown="handleMouseDown" :style="'transform:translateX('+deltaX+'px)'+dt">
+  <div :id="index === 0 ? 'firstItem' : undefined" class="item" @mousedown="handleMouseDown" @touchstart="handleMouseDown" :style="'transform:translateX('+deltaX+'px)'+dt">
     <div class="contentBox">
       <img :src="baseUrl+'static/public/svg/notice/' + item.type + '.svg'" alt="" draggable="false">
       <div class="textDiv">
@@ -36,17 +36,21 @@ let isDragging = false
 let dt = ref('')
 
 const handleMouseDown = (e: any) => {
-
+  if (e instanceof TouchEvent) {
+    e = e.touches[0]
+  }
   startX.value = e.clientX
   isDragging = true
   dt.value = ''
 
   const onMouseMove = (e: any) => {
+    if (e instanceof TouchEvent) {
+      e = e.touches[0]
+    }
     if (isDragging) {
       deltaX.value = e.clientX - startX.value
       deltaX.value = Math.min(deltaX.value, 150)
       deltaX.value = Math.max(deltaX.value, -150)
-      console.log(deltaX.value)
     }
   }
 
@@ -60,10 +64,16 @@ const handleMouseDown = (e: any) => {
     }
     window.removeEventListener('mousemove', onMouseMove)
     window.removeEventListener('mouseup', onMouseUp)
+    window.removeEventListener('touchmove', onMouseMove)
+    window.removeEventListener('touchend', onMouseUp)
+    window.removeEventListener('touchcancel', onMouseUp)
   }
 
   window.addEventListener('mousemove', onMouseMove)
   window.addEventListener('mouseup', onMouseUp)
+  window.addEventListener('touchmove', onMouseMove)
+  window.addEventListener('touchend', onMouseUp)
+  window.addEventListener('touchcancel', onMouseUp)
 }
 </script>
 
@@ -137,7 +147,7 @@ const handleMouseDown = (e: any) => {
     width: 100%
   }
   100% {
-    width: 0%
+    width: 0
   }
 }
 </style>
