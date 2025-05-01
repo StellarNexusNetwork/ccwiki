@@ -1,22 +1,24 @@
 <template>
-  <div>测试</div>
-  <button @click="openFolder">打开文件夹</button>
-  <div class="localRepositoriesList">
-    <TransitionGroup name="fade" tag="ul">
-      <li class="localRepositories" v-for="(item, index) in useDataSourcesStore().localRepositoriesDisplay" :key="item.ulid">
-        <img :src="item.iconURL" alt="SVG Image" draggable="false">
-        <div class="textDiv">
-          <div class="name">{{ item.name }}</div>
-          <div class="version">{{ item.version }}</div>
-        </div>
-        <div class="optionList">
-          <div class="div"></div>
-          <div class="option" @click="deleteLocalData(index)">
-            <img class="icon" src="/static/public/svg/setting/test/delete.svg" alt="SVG Image" draggable="false">
+  <div>
+    <div>测试</div>
+    <button @click="openFolder">打开文件夹</button>
+    <div class="localRepositoriesList">
+      <TransitionGroup name="fade" tag="ul" mode="out-in">
+        <li class="localRepositories" v-for="(item, index) in useDataSourcesStore().localRepositoriesDisplay" :key="item.ulid">
+          <img :src="item.iconURL" alt="SVG Image" draggable="false">
+          <div class="textDiv">
+            <div class="name">{{ item.name }}</div>
+            <div class="version">{{ item.version }}</div>
           </div>
-        </div>
-      </li>
-    </TransitionGroup>
+          <div class="optionList">
+            <div class="div"></div>
+            <div class="option" @click="deleteLocalData(index)">
+              <img class="icon" src="/static/public/svg/setting/test/delete.svg" alt="SVG Image" draggable="false">
+            </div>
+          </div>
+        </li>
+      </TransitionGroup>
+    </div>
   </div>
 </template>
 <script setup lang="js">
@@ -36,7 +38,7 @@ async function openFolder() {
     }
     useDataSourcesStore().langHandles.push(langObject)
     // todo：刷新语言
-    
+
     // 处理展示数据和存储数据
     if (root.children.some((obj => obj.name === "config.json"))) {
       const config = root.children.find(obj => obj.name === "config.json");

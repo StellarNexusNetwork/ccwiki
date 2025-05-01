@@ -31,7 +31,9 @@
       </button>
     </div>
     <div class="optionsDetailContent">
-      <component :is="components[currentIndex]"></component>
+      <transition name="fade" mode="out-in">
+        <component :is="components[currentIndex]"></component>
+      </transition>
     </div>
   </div>
 </template>
@@ -72,6 +74,17 @@ function switchDetail(index: any) {
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(25px) scale(0.9);
+}
+
 .optionsList {
   width: 10vw;
   min-width: 125px;
