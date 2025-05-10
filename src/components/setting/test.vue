@@ -23,6 +23,9 @@
 </template>
 <script setup lang="js">
 import {useDataSourcesStore} from '@/stores/dataSources';
+import {useNoticeStore} from '@/stores/setting';
+
+const notice = useNoticeStore()
 
 useDataSourcesStore().refreshData();
 
@@ -30,17 +33,19 @@ async function openFolder() {
   try {
     const handle = await window.showDirectoryPicker();
     const root = await useDataSourcesStore().processHandle(handle);
-    // 读取仓库语言文件
-    const lang = root.children.find(obj => obj.name === 'lang');
-    const langObject = {};
-    for (const i of lang.children) {
-      langObject[i.name.slice(0, 5)] = i;
-    }
-    useDataSourcesStore().langHandles.push(langObject)
-    // todo：刷新语言
 
     // 处理展示数据和存储数据
     if (root.children.some((obj => obj.name === "config.json"))) {
+
+      // 读取仓库语言文件
+      const lang = root.children.find(obj => obj.name === 'lang');
+      const langObject = {};
+      for (const i of lang.children) {
+        langObject[i.name.slice(0, 5)] = i;
+      }
+      useDataSourcesStore().langHandles.push(langObject)
+      // todo：刷新语言
+
       const config = root.children.find(obj => obj.name === "config.json");
       const configData = await config.getFile()
       const reader = new FileReader();
@@ -66,20 +71,37 @@ async function openFolder() {
               "iconURL": iconURL,
               "routes": jsonData.routes
             })
+            notice.addNotice({'type': 'success', 'title': '仓库添加成功！', 'content': '已加载所选仓库！'})
           } else {
             console.warn("请勿重复添加仓库！")
+            notice.addNotice({'type': 'warn', 'title': '请勿重复添加仓库！', 'content': '该仓库已加载，请勿重复添加！'})
           }
         } else {
           console.warn("选择仓库非标准仓库！")
+          notice.addNotice({
+            'type': 'error',
+            'title': '选择仓库非标准仓库！',
+            'content': '无法识别该仓库，请确认仓库类型！'
+          })
         }
       }
       reader.readAsText(configData, 'utf-8')
       console.log(configData)
     } else {
       console.error("选择仓库非标准仓库！")
+      notice.addNotice({
+        'type': 'error',
+        'title': '选择仓库非标准仓库！',
+        'content': '无法识别该仓库，请确认仓库类型！'
+      })
     }
   } catch {
-    console.warn("未获得用户授权或发生错误！");
+    console.warn("未获得授权或发生错误！");
+    notice.addNotice({
+      'type': 'warn',
+      'title': '请授权浏览器进行操作！',
+      'content': '未获得用户授权或发生错误！'
+    })
   }
 }
 
@@ -102,6 +124,7 @@ function deleteLocalData(index) {
   useDataSourcesStore().localRepositories.splice(index, 1);
   useDataSourcesStore().localRepositoriesDisplay.splice(index, 1);
   useDataSourcesStore().langHandles.splice(index, 1);
+  notice.addNotice({'type': 'success', 'title': '仓库删除成功！', 'content': '已移除所选仓库！'})
 }
 </script>
 <style scoped>

@@ -2,8 +2,8 @@
   <div class="noticeBar">
     <div class="notice">
       <TransitionGroup name="fade" tag="div" mode="out-in" class="group" @mouseenter="pauseTimer()" @mouseleave="resumeTimer()">
-        <div v-for=" (item, index) in noticeList" :key='item.id'>
-          <nItem :item="item" :index="index" @rmove-notice="removeNotice"/>
+        <div v-for=" (item, index) in notice.noticeList" :key='item.id'>
+          <nItem :item="item" :index="index" @rmove-notice="notice.removeNotice"/>
         </div>
       </TransitionGroup>
     </div>
@@ -11,79 +11,18 @@
 </template>
 
 <script setup lang="ts">
-import {nextTick, onMounted, ref} from 'vue'
-import {ulid} from "ulid";
 import nItem from './item.vue'
+import {useNoticeStore} from '@/stores/setting';
+
+const notice = useNoticeStore()
 
 let mouseenterItem = false
-
-const noticeList = ref<{
-  type: string,
-  title: string,
-  content: string,
-  id: number,
-  timer: any,
-  startTime: any,
-  remaining: number
-  progressBar: string
-}[]>([])
-
-const noticeList2 = ref([
-  {
-    'type': 'success',
-    'title': '成功',
-    'content': '操作成功'
-  },
-  {
-    'type': 'warn',
-    'title': '警告！提示信息不宜过长，否则将无法显示！',
-    'content': '警告！提示信息不宜过长，否则将无法显示！'
-  },
-  {
-    'type': 'error',
-    'title': '错误',
-    'content': '操作失败'
-  }
-])
-onMounted(() => {
-  for (const i of noticeList2.value) {
-    addNotice(i)
-  }
-});
-
-function addNotice(item: any) {
-  const id = ulid()
-
-  noticeList.value.push({
-    ...item,
-    id,
-    timer: null,
-    startTime: null,
-    remaining: 15000, // 初始15秒
-    progressBar: '100%'
-  })
-
-  nextTick(() => {
-    startTimer(id)
-  })
-}
-
-// 开始倒计时
-function startTimer(id: any) {
-  const item: any = noticeList.value.find(i => i.id === id)
-  if (!item) return
-
-  item.startTime = Date.now()
-  item.timer = setTimeout(() => {
-    removeNotice(id)
-  }, item.remaining)
-}
 
 // 暂停计时
 function pauseTimer() {
   mouseenterItem = true;
-  for (let i = 0; i < noticeList.value.length; i++) {
-    const item: any = noticeList.value[i]
+  for (let i = 0; i < notice.noticeList.length; i++) {
+    const item: any = notice.noticeList[i]
     if (!item) return
 
     clearTimeout(item.timer)
@@ -95,19 +34,13 @@ function pauseTimer() {
 // 继续计时
 function resumeTimer() {
   mouseenterItem = false;
-  for (let i = 0; i < noticeList.value.length; i++) {
-    const item = noticeList.value[i]
+  for (let i = 0; i < notice.noticeList.length; i++) {
+    const item = notice.noticeList[i]
     if (!item) return
 
-    startTimer(item.id)
+    notice.startTimer(item.id)
   }
 }
-
-// 删除通知
-function removeNotice(id: any) {
-  noticeList.value = noticeList.value.filter(i => i.id !== id)
-}
-
 </script>
 
 <style scoped>
@@ -157,7 +90,7 @@ function removeNotice(id: any) {
 
 .noticeBar .notice .group {
   pointer-events: auto;
-  width: 250px;
+  width: 270px;
   position: relative
 }
 </style>

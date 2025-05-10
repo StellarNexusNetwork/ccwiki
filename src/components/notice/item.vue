@@ -79,7 +79,7 @@ const handleMouseDown = (e: any) => {
 
 <style scoped>
 .item {
-  width: 250px;
+  width: 270px;
   height: 65px;
   box-shadow: 0 0 8px 0 var(--color-shadow-l);
   border-radius: 10px;
@@ -110,7 +110,7 @@ const handleMouseDown = (e: any) => {
 }
 
 .item .contentBox .textDiv .title {
-  max-width: calc(250px - 75px - 10px);
+  max-width: calc(270px - 75px - 10px);
   color: var(--color-text-title);
   font-size: 15px;
   overflow: hidden;
@@ -119,7 +119,7 @@ const handleMouseDown = (e: any) => {
 }
 
 .item .contentBox .textDiv .content {
-  max-width: calc(250px - 75px - 10px);
+  max-width: calc(270px - 75px - 10px);
   color: var(--color-text-body);
   font-size: 11px;
   overflow: hidden;
