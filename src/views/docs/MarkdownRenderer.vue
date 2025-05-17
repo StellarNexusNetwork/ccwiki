@@ -29,7 +29,7 @@ if (!dataSources.localRepositoriesData) {
 const root = toRaw(dataSources.localRepositoriesData)
 
 
-const pageHandle = get(root, ['docs', useSettingStore().setting.lang, category, subcategory, id])
+const pageHandle = get(root, ['docs', useSettingStore().setting.lang, category, subcategory, id]) as any
 if (pageHandle === undefined) {
   useRouter().push('/404')
 }
@@ -42,7 +42,7 @@ const md = new MarkdownIt({html: true});
 
 let iconSrc = ref('')
 console.log(pageHandle)
-const iconHandle = get(pageHandle, 'icon_png')
+const iconHandle = get(pageHandle, 'icon_png') as any
 if (iconHandle !== undefined) {
   iconSrc.value = URL.createObjectURL(await iconHandle.getFile())
 } else {
@@ -50,6 +50,10 @@ if (iconHandle !== undefined) {
 }
 
 onMounted(async () => {
+  if (!pageHandle) {
+    useRouter().push('/404')
+    return
+  }
   const file = await pageHandle.index_md.getFile()
   const text = await file.text()
 
