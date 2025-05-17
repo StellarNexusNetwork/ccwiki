@@ -102,8 +102,8 @@ const renderedMarkdown = computed(() => {
 
 <style scoped>
 @media (min-width: 670px) {
-  .mainContent {
-    padding-right: 30px;
+  .subContent {
+    margin-left: auto;
   }
 }
 

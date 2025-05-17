@@ -119,11 +119,11 @@
 
 @media (min-width: 670px) {
     .markdown-body img {
-        max-width: calc(100vw - 60px - 90px - 225px - 40px);
+        max-width: calc(100vw - 60px - 90px - 225px - 40px - 45px);
     }
 
     .markdown-body table {
-        max-width: calc(100vw - 60px - 90px - 225px - 40px);
+        max-width: calc(100vw - 60px - 90px - 225px - 40px - 45px);
     }
 }
 
