@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import nItem from './item.vue'
-import {useNoticeStore} from '@/stores/setting';
+import {useNoticeStore} from '../../stores/setting';
 
 const notice = useNoticeStore()
 

@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {ref, toRaw, watch} from "vue";
-import {useSettingStore} from '@/stores/setting';
+import {useSettingStore} from './setting';
 import {useI18n} from 'vue-i18n';
 
 export const useDataSourcesStore = defineStore('DataSources', () => {

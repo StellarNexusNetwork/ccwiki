@@ -23,8 +23,8 @@ import navigationBar from './components/navigationBar.vue'
 import notice from './components/notice/index.vue'
 import {RouterView, useRouter} from 'vue-router'
 import {ref, watchEffect} from 'vue'
-import {useWindowStore} from '@/stores/window'
-import {useDataSourcesStore} from '@/stores/dataSources';
+import {useWindowStore} from './stores/window'
+import {useDataSourcesStore} from './stores/dataSources';
 
 useDataSourcesStore().initFetchData()
 

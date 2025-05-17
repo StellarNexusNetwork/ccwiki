@@ -13,8 +13,8 @@ import {computed, onMounted, ref, toRaw} from "vue";
 import {useRoute, useRouter} from 'vue-router'
 import get from 'lodash/get';
 import MarkdownIt from 'markdown-it'
-import {useDataSourcesStore} from "@/stores/dataSources";
-import {useSettingStore} from "@/stores/setting";
+import {useDataSourcesStore} from "../../stores/dataSources";
+import {useSettingStore} from "../../stores/setting";
 
 const {category, subcategory, id} = useRoute().params
 const source = ref('')

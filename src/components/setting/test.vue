@@ -26,8 +26,8 @@
   </div>
 </template>
 <script setup lang="js">
-import {useDataSourcesStore} from '@/stores/dataSources';
-import {useNoticeStore} from '@/stores/setting';
+import {useDataSourcesStore} from '../../stores/dataSources';
+import {useNoticeStore} from '../../stores/setting';
 import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 

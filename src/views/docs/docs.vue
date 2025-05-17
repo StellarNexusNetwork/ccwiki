@@ -10,7 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import MarkdownRenderer from "@/views/docs/MarkdownRenderer.vue";
+import MarkdownRenderer from "./MarkdownRenderer.vue";
 import {ref, watch} from "vue";
 import {useRoute} from "vue-router";
 

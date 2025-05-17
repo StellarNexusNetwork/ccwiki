@@ -84,10 +84,10 @@ import setting from './setting.vue';
 import notice from './notice/index.vue'
 import {reactive, watchEffect} from 'vue'
 import {useRouter} from 'vue-router'
-import {eventBus} from '@/utils/eventBus';
-import {useWindowStore} from '@/stores/window'
+import {eventBus} from '../utils/eventBus';
+import {useWindowStore} from '../stores/window'
 
-const baseUrl = import.meta.env.BASE_URL
+const baseUrl = '/'
 
 let navigationBarList = [
   {"name": "home", "path": "/"},

@@ -18,7 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {useDataSourcesStore} from "@/stores/dataSources";
+import {useDataSourcesStore} from "../../stores/dataSources";
 import {useI18n} from 'vue-i18n';
 
 // 刷新数据

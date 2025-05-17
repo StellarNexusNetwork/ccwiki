@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import {useSettingStore} from '@/stores/setting';
+import {useSettingStore} from '../../stores/setting';
 import {ref, watchEffect} from "vue"
 
-const baseUrl = import.meta.env.BASE_URL
+const baseUrl = '/'
 
 let appearanceOptions = ['auto.svg', 'light.svg', 'dark.svg']
 let appearanceActive = ref([{'border': 'none'}, {'border': 'none'}, {'border': 'none'}])

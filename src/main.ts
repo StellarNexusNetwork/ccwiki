@@ -11,7 +11,7 @@ import router from './router'
 import zh_cn from './json/locales/zh_cn.json';
 import en_us from './json/locales/en_us.json';
 
-import {useSettingStore} from '@/stores/setting';
+import {useSettingStore} from '../src/stores/setting';
 
 const app = createApp(App)
 

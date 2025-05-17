@@ -5,17 +5,17 @@
     </div>
     <div class="appControl">
       <div class="options">
-        <button id="red">
+        <button id="red" @click="closeWindow()">
           <img src="/static/public/svg/titleBar/closeApp.svg" alt="close App" draggable="false">
         </button>
       </div>
       <div class="options">
-        <button id="normal">
+        <button id="normal" @click="toggleMaximizeWindow()">
           <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="maximize Restore App" draggable="false">
         </button>
       </div>
       <div class="options">
-        <button id="normal">
+        <button id="normal" @click="minimizeWindow()">
           <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="minimize App" draggable="false">
         </button>
       </div>

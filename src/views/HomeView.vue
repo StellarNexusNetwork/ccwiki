@@ -65,7 +65,7 @@
 </template>
 <script setup lang="ts">
 import {onMounted, onUnmounted, reactive, ref, watchEffect} from 'vue'
-import {useWindowStore} from '@/stores/window'
+import {useWindowStore} from '../stores/window'
 
 
 const mainDiv = ref();
