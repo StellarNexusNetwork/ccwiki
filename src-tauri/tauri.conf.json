@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "cc-wiki-project",
-        "width": 1120,
-        "height": 700,
+        "width": 1200,
+        "height": 800,
         "minWidth": 700,
         "minHeight": 550,
         "decorations": false
