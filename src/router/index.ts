@@ -39,7 +39,7 @@ const router = createRouter({
             component: () => import('../views/NotFound.vue')
         },
         {
-            path: '/docs/:id',
+            path: '/docs/:category/:subcategory/:id',
             name: 'docs',
             component: () => import('../views/docs/docs.vue')
         },

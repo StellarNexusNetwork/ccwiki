@@ -33,6 +33,7 @@ async function openFolder() {
   try {
     const handle = await window.showDirectoryPicker();
     const root = await useDataSourcesStore().processHandle(handle);
+    console.log(root)
 
     // 处理展示数据和存储数据
     if (root.children.some((obj => obj.name === "config.json"))) {
