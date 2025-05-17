@@ -66,48 +66,53 @@ watchEffect(() => {
 
 
 const router = useRouter()
+const blackList = ['docs']
 router.beforeEach((to, from, next) => {
-  if (ifLoadingFinish && !rt_isAnimating) {
-    rt_isAnimating = true;
-    allowRouting = false;
-    Object.assign(rt_loading_bgS, {
-      width: '100px',
-      height: '100px',
-      opacity: 0,
-      marginBottom: '0px',
-      transitionDuration: '0.5s'
-    })
-    routerLoadingS.value.display = 'none';
-    rt_loadingS.value.opacity = 0;
-    setTimeout(() => {
-      routerLoadingS.value.display = 'flex';
-    }, 10);
-    setTimeout(() => {
-      Object.assign(rt_loading_bgS.value, {width: '250px', height: '250px', opacity: 1, marginBottom: '70px'});
-    }, 20);
-    setTimeout(() => {
-      Object.assign(rt_loading_bgS.value, {width: '200px', height: '200px', marginBottom: '0px'});
-    }, 500);
-    setTimeout(() => {
-      rt_loadingS.value.opacity = 1;
-    }, 1000);
-    setTimeout(() => {
-      rt_loading_bgS.value.transitionDuration = '0.75s';
-    }, 1499);
-    setTimeout(() => {
-      Object.assign(rt_loading_bgS.value, {width: 'calc(100vw + 100vh)', height: 'calc(100vw + 100vh)'});
-    }, 1500);
-    setTimeout(() => {
-      next()
-      rt_loading_bgS.value.transitionDuration = '0.5s';
-      allowRouting = true;
-    }, 2250);
-  } else {
-    //这里是更改路由 但好像又失效了.
-    if (allowRouting || !ifLoadingFinish) {
-      next()
-      rt_ae_f = true
+  if (!blackList.includes(to.name as string)) {
+    if (ifLoadingFinish && !rt_isAnimating) {
+      rt_isAnimating = true;
+      allowRouting = false;
+      Object.assign(rt_loading_bgS, {
+        width: '100px',
+        height: '100px',
+        opacity: 0,
+        marginBottom: '0px',
+        transitionDuration: '0.5s'
+      })
+      routerLoadingS.value.display = 'none';
+      rt_loadingS.value.opacity = 0;
+      setTimeout(() => {
+        routerLoadingS.value.display = 'flex';
+      }, 10);
+      setTimeout(() => {
+        Object.assign(rt_loading_bgS.value, {width: '250px', height: '250px', opacity: 1, marginBottom: '70px'});
+      }, 20);
+      setTimeout(() => {
+        Object.assign(rt_loading_bgS.value, {width: '200px', height: '200px', marginBottom: '0px'});
+      }, 500);
+      setTimeout(() => {
+        rt_loadingS.value.opacity = 1;
+      }, 1000);
+      setTimeout(() => {
+        rt_loading_bgS.value.transitionDuration = '0.75s';
+      }, 1499);
+      setTimeout(() => {
+        Object.assign(rt_loading_bgS.value, {width: 'calc(100vw + 100vh)', height: 'calc(100vw + 100vh)'});
+      }, 1500);
+      setTimeout(() => {
+        next()
+        rt_loading_bgS.value.transitionDuration = '0.5s';
+        allowRouting = true;
+      }, 2250);
+    } else {
+      //这里是更改路由 但好像又失效了.
+      if (allowRouting || !ifLoadingFinish) {
+        next()
+        rt_ae_f = true
+      }
     }
+  } else {
+    next()
   }
 })
 
