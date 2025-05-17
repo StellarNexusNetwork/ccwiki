@@ -1,6 +1,10 @@
 <template>
   <div>
     <div>测试</div>
+    <input v-model="urlText">
+    <button @click="redirect">跳转</button>
+    <br/>
+    <br/>
     <button @click="openFolder">打开文件夹</button>
     <div class="localRepositoriesList">
       <TransitionGroup name="fade" tag="ul" mode="out-in">
@@ -24,6 +28,15 @@
 <script setup lang="js">
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useNoticeStore} from '@/stores/setting';
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+
+const urlText = ref('')
+const router = useRouter()
+
+function redirect() {
+  router.push(urlText.value)
+}
 
 const notice = useNoticeStore()
 
