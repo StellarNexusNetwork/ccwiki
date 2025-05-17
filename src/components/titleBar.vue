@@ -4,19 +4,19 @@
       <img class='logoImg' src="/static/public/svg/ccwiki_logo.svg" alt='' width='auto' height='30' draggable="false">
     </div>
     <div class="appControl">
-      <div class="options" @click="closeWindow">
+      <div class="options">
         <button id="red">
           <img src="/static/public/svg/titleBar/closeApp.svg" alt="close App" draggable="false">
         </button>
       </div>
       <div class="options">
-        <button id="normal" @click="toggleMaximizeWindow">
-          <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="SVG Image" draggable="false">
+        <button id="normal">
+          <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="maximize Restore App" draggable="false">
         </button>
       </div>
       <div class="options">
-        <button id="normal" @click="minimizeWindow">
-          <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="SVG Image" draggable="false">
+        <button id="normal">
+          <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="minimize App" draggable="false">
         </button>
       </div>
       <div class="options">
@@ -28,13 +28,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { window } from '@tauri-apps/api';
-import { eventBus } from '../utils/eventBus';
+import {window} from '@tauri-apps/api';
+import {eventBus} from '../utils/eventBus';
 
 async function minimizeWindow() {
   const currentWindow = await window.getCurrentWindow();
   await currentWindow.minimize();
 }
+
 async function toggleMaximizeWindow() {
   const currentWindow = await window.getCurrentWindow();
   const isMaximized = await currentWindow.isMaximized();
@@ -44,6 +45,7 @@ async function toggleMaximizeWindow() {
     await currentWindow.maximize();
   }
 }
+
 async function closeWindow() {
   const currentWindow = await window.getCurrentWindow();
   await currentWindow.close();
@@ -51,7 +53,7 @@ async function closeWindow() {
 
 const openDialog = () => {
   eventBus.emit('callOpenSettingsDialog1')
-  eventBus.emit('callOpenSettingsDialog2', 1)
+  eventBus.emit('callOpenSettingsDialog2', 2)
 }
 
 
@@ -59,6 +61,7 @@ const openDialog = () => {
 
 <style scoped>
 .titleBar {
+  transition-duration: 0.3s;
   -webkit-app-region: drag;
 }
 
@@ -90,18 +93,18 @@ const openDialog = () => {
 }
 
 .titleBar .appControl .options #red:hover {
-  background-color: #ff4551;
+  background-color: var(--color-danger-normal);
 }
 
 .titleBar .appControl .options #red:hover img {
   position: relative;
   top: -42px;
-  filter: drop-shadow(#fff 0 42px);
+  filter: drop-shadow(var(--color-background-1) 0 42px);
   user-select: none;
 }
 
 .titleBar .appControl .options #normal:hover {
-  background-color: #e2e2e2;
+  background-color: var(--color-background-3);
 }
 
 .titleBar .appControl .options button img {

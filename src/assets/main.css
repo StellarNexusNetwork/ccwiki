@@ -1,32 +1,162 @@
 @import './base.css';
 
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+        --color-primary-normal: #04AAEB;
+        --color-primary-hover: #31C6FF;
+        --color-primary-active: #008AC9;
+        --color-information-active: #3482ff;
+        --color-warning-normal: #FF9510;
+        --color-danger-normal: #F74020;
+        --color-text-title: #0A0A0A;
+        --color-text-body: #292929;
+        --color-text-body-subtle: #575757;
+        --color-text-caption: #A5A5A5;
+        --color-background-1: #FAFAFA;
+        --color-background-2: #F5F5F5;
+        --color-background-3: #E6E6E6;
+        --color-background-noticeBar: #FAFAFA;
+        --color-border-1: #F5F5F5;
+        /*卡片*/
+        --color-border-2: #D6D6D6;
+        /*分割线*/
+        --color-border-3: #767676;
+        --color-shadow-s: rgba(0, 0, 0, 0.1);
+        --color-shadow-m: rgba(0, 0, 0, 0.2);
+        --color-shadow-l: rgba(0, 0, 0, 0.3);
+        --markdown-bgColor-default: #ffffff;
+        --markdown-bgColor-muted: #f6f8fa;
+        --markdown-borderColor-default: #d1d9e0;
+        --markdown-borderColor-muted: #d1d9e0b3;
+
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --color-primary-normal: #04AAEB;
+        --color-primary-hover: #008AC9;
+        --color-primary-active: #31C6FF;
+        --color-information-active: #3482ff;
+        --color-warning-normal: #FF9510;
+        --color-danger-normal: #F74020;
+        --color-text-title: #FAFAFA;
+        --color-text-body: #E6E6E6;
+        --color-text-body-subtle: #A5A5A5;
+        --color-text-caption: #575757;
+        --color-background-3: #0A0A0A;
+        --color-background-2: #1A1A1A;
+        --color-background-1: #292929;
+        --color-background-noticeBar: #1A1A1A;
+        --color-border-1: #1A1A1A;
+        /*卡片*/
+        --color-border-2: #434343;
+        /*分割线*/
+        --color-border-3: #767676;
+        --color-shadow-s: rgba(255, 255, 255, 0.1);
+        --color-shadow-m: rgba(255, 255, 255, 0.2);
+        --color-shadow-l: rgba(255, 255, 255, 0.3);
+        --markdown-bgColor-default: #0d1117;
+        --markdown-bgColor-muted: #151b23;
+        --markdown-borderColor-default: #3d444d;
+        --markdown-borderColor-muted: #3d444db3;
+    }
+}
+
+
+[data-theme="light"] {
+    --color-primary-normal: #04AAEB;
+    --color-primary-hover: #31C6FF;
+    --color-primary-active: #008AC9;
+    --color-information-active: #3482ff;
+    --color-warning-normal: #FF9510;
+    --color-danger-normal: #F74020;
+    --color-text-title: #0A0A0A;
+    --color-text-body: #292929;
+    --color-text-body-subtle: #575757;
+    --color-text-caption: #A5A5A5;
+    --color-background-1: #FAFAFA;
+    --color-background-2: #F5F5F5;
+    --color-background-3: #E6E6E6;
+    --color-background-noticeBar: #FAFAFA;
+    --color-border-1: #F5F5F5;
+    /*卡片*/
+    --color-border-2: #D6D6D6;
+    /*分割线*/
+    --color-border-3: #767676;
+    --color-shadow-s: rgba(0, 0, 0, 0.1);
+    --color-shadow-m: rgba(0, 0, 0, 0.2);
+    --color-shadow-l: rgba(0, 0, 0, 0.3);
+    --markdown-bgColor-default: #ffffff;
+    --markdown-bgColor-muted: #f6f8fa;
+    --markdown-borderColor-default: #d1d9e0;
+    --markdown-borderColor-muted: #d1d9e0b3;
+}
+
+
+[data-theme="dark"] {
+    --color-primary-normal: #04AAEB;
+    --color-primary-hover: #008AC9;
+    --color-primary-active: #31C6FF;
+    --color-information-active: #3482ff;
+    --color-warning-normal: #FF9510;
+    --color-danger-normal: #F74020;
+    --color-text-title: #FAFAFA;
+    --color-text-body: #E6E6E6;
+    --color-text-body-subtle: #A5A5A5;
+    --color-text-caption: #575757;
+    --color-background-3: #0A0A0A;
+    --color-background-2: #1A1A1A;
+    --color-background-1: #292929;
+    --color-background-noticeBar: #1A1A1A;
+    --color-border-1: #1A1A1A;
+    /*卡片*/
+    --color-border-2: #434343;
+    /*分割线*/
+    --color-border-3: #767676;
+    --color-shadow-s: rgba(255, 255, 255, 0.1);
+    --color-shadow-m: rgba(255, 255, 255, 0.2);
+    --color-shadow-l: rgba(255, 255, 255, 0.3);
+    --markdown-bgColor-default: #0d1117;
+    --markdown-bgColor-muted: #151b23;
+    --markdown-borderColor-default: #3d444d;
+    --markdown-borderColor-muted: #3d444db3;
+}
+
+
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-weight: normal;
 }
 
 a {
-  text-decoration: none;
-  target: _blank;
-  outline: none;
-  color: #777;
+    text-decoration: none;
+    target: _blank;
+    outline: none;
+    text-decoration: underline;
+    color: var(--color-text-caption);
+    transition-duration: 0.3s;
 }
 
 a:hover {
-  color: #04AAEB;
+    color: var(--color-primary-normal);
 }
 
 @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+    body {
+        display: flex;
+        place-items: center;
+    }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+    #app {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 0 2rem;
+    }
+}
+
+.main::-webkit-scrollbar-track {
+    background: var(--color-background-1);
 }

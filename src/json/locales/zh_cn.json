@@ -1,48 +1,60 @@
 {
-    "public": {
-        "navigationBar": {
-            "unfold": "展开",
-            "home": "首页",
-            "classification": "分类",
-            "components": "工具",
-            "20241108": "**",
-            "eye8": "**",
-            "chat": "闲聊",
-            "AI": "**",
-            "others": "关于",
-            "account": "账号",
-            "settings": "设置"
-        },
-        "NotFound": {
-            "imgAndTitle": "啊哦，没有找到页面哦！",
-            "suggestion": "您正在跳转到未知页面，请检查您正在访问的地址!"
-        },
-        "setting": {
-            "settings": "设置",
-            "theme": "个性化",
-            "language": "语言",
-            "test": "测试"
-        }
+  "public": {
+    "navigationBar": {
+      "unfold": "展开",
+      "home": "首页",
+      "classification": "分类",
+      "components": "工具",
+      "20241108": "**",
+      "eye8": "**",
+      "chat": "闲聊",
+      "AI": "**",
+      "others": "关于",
+      "account": "账号",
+      "settings": "设置"
     },
-    "home": {
-        "news": {
-            "text_none": "无信息",
-            "date_none": "无数据"
-        }
+    "NotFound": {
+      "imgAndTitle": "啊哦，没有找到页面哦！",
+      "suggestion": "您正在跳转到未知页面，请检查您正在访问的地址!"
     },
-    "about": {
-        "title": {
-            "mainDeveloper": "主要开发者",
-            "partners": "合作伙伴",
-            "CI": "客户端信息",
-            "Licenses": "开源协议与数据使用许可",
-            "OLicenses": "开源许可"
-        },
-        "detail": {
-            "version": "版本号:",
-            "DPS": "数据提供服务:",
-            "Licenses": "开源协议:",
-            "DLicenses": "数据使用许可:"
+    "setting": {
+      "settings": "设置",
+      "systemError": "未知",
+      "default": "",
+      "theme": "个性化",
+      "themeDetail": {
+        "appearance": {
+          "title": "外观",
+          "auto": "自动",
+          "light": "浅色",
+          "dark": "深色"
         }
+      },
+      "language": "语言",
+      "test": "测试",
+      "testDetail": {
+      }
     }
+  },
+  "home": {
+    "news": {
+      "text_none": "无信息",
+      "date_none": "无数据"
+    }
+  },
+  "about": {
+    "title": {
+      "mainDeveloper": "主要开发者",
+      "partners": "合作伙伴",
+      "CI": "客户端信息",
+      "Licenses": "开源协议与数据使用许可",
+      "OLicenses": "开源许可"
+    },
+    "detail": {
+      "version": "版本号:",
+      "DPS": "数据提供服务:",
+      "Licenses": "开源协议:",
+      "DLicenses": "数据使用许可:"
+    }
+  }
 }

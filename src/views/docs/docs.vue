@@ -1,39 +1,51 @@
 <template>
-    <div class="Div">
-        <div class="mainDiv">
-            <div class="mainContent">
-            </div>
-            <div class="subContent">
-                <div class="introduction">
-
-                </div>
-            </div>
-        </div>
+  <div class="Div">
+    <div class="mainDiv">
+      <suspense>
+        <template #default>
+          <MarkdownRenderer :key="routeParams"/>
+        </template>
+      </suspense>
     </div>
+  </div>
 </template>
 <script setup lang="ts">
+import MarkdownRenderer from "@/views/docs/MarkdownRenderer.vue";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute()
+let routeParams = ref('')
+watch(
+    () => [route.params.category, route.params.subcategory, route.params.id],
+    ([newCategory, newSubcategory, newId]) => {
+      routeParams.value = String(newCategory) + String(newSubcategory) + String(newId)
+    }
+)
 </script>
 <style scoped>
 .Div {
-    display: flex;
+  display: flex;
+}
+
+@media (min-width: 670px) {
+  .Div .mainDiv {
+    padding: 30px;
+    flex-direction: row-reverse;
+  }
+}
+
+@media (max-width: 670px) {
+  .Div .mainDiv {
+    padding: 15px;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .Div .mainDiv {
-    width: calc(100vw - 30px);
-    margin: 15px;
-}
-
-.Div .mainDiv .subContent {
-    width: 300px;
-}
-
-.Div .mainDiv .subContent .introduction {
-    width: 100%;
-    padding-bottom: 5px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 0.8px solid #A0A0A0;
+  display: flex;
+  width: 100vw;
+  overflow-y: auto;
 }
 </style>
