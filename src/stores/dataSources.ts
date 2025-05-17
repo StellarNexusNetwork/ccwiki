@@ -6,6 +6,7 @@ import {useI18n} from 'vue-i18n';
 export const useDataSourcesStore = defineStore('DataSources', () => {
         let localRepositories = ref();
         let localRepositoriesDisplay = ref();
+        let localRepositoriesData = ref();
         let initState = false;
         let routeGroups: any = ref([]);
         let langHandles: any = ref([]);
@@ -65,6 +66,21 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             return handle
         }
 
+        async function processHandleDocs(handle: any) {
+            if (handle.kind === 'file') {
+                return handle
+            }
+
+            const iter = handle.entries();
+            for await (const item of iter) {
+                const returnHandle = await processHandleDocs(item[1])
+                if (returnHandle.name !== 'kind' && returnHandle.name !== 'name') {
+                    handle[returnHandle.name.replace(/\./g, "_")] = returnHandle
+                }
+            }
+            return handle
+        }
+
         async function initFetchData() {
             localRepositories.value = await loadData('localRepositories')
             localRepositoriesDisplay.value = await loadData('localRepositoriesDisplay');
@@ -105,6 +121,9 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
                 lrd.push(i);
             }
             localRepositoriesDisplay.value = lrd;
+            if (localRepositories.value.length > 0) {
+                localRepositoriesData.value = await processHandleDocs(toRaw(localRepositories.value)[0].root)
+            }
         }
 
         async function mergeLangData() {
@@ -151,10 +170,12 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
         return {
             localRepositories,
             localRepositoriesDisplay,
+            localRepositoriesData,
             initState,
             routeGroups,
             langHandles,
             processHandle,
+            processHandleDocs,
             initFetchData,
             refreshData,
             mergeLangData

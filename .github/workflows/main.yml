@@ -10,39 +10,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'  # 使用指定版本的 Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # 使用指定版本的 Node.js
 
-    - name: 确保 Corepack 是最新的
-      run: npm install -g corepack@latest
+      - name: 确保 Corepack 是最新的
+        run: npm install -g corepack@latest
 
-    - name: Enable Corepack (for pnpm)
-      run: corepack enable
+      - name: Enable Corepack (for pnpm)
+        run: corepack enable
 
-    - name: Install dependencies
-      run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-    - name: Type check with vue-tsc
-      run: npx vue-tsc --noEmit  # 添加类型检查步骤
+      - name: Type check with vue-tsc
+        run: npx vue-tsc --noEmit  # 添加类型检查步骤
 
-    - name: Build Vue.js project
-      env:
+      - name: Build Vue.js project
+        env:
           # VITE_BASE_PATH: '/cc.wiki.project.v4.web2/'
           VITE_BASE_PATH: '/'
-      run: pnpm run build
+        run: pnpm run build
 
-    - name: Copy CNAME to dist
-      run: |
-        cp CNAME dist/  # 确保 CNAME 文件保存在发布目录
+      - name: 生成 licenses.txt
+        run: pnpm license-checker-rseidelsohn --customPath customFormat.tpl --out public/static/licenses.txt
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        personal_token: ${{ secrets.PAT_TOKEN }}  # 使用 PAT
-        publish_dir: ./dist  # Vue 项目构建后生成的文件目录
-        publish_branch: actions-pages  # 发布到 actions-pages 分支
+      - name: Copy CNAME to dist
+        run: |
+          cp CNAME dist/  # 确保 CNAME 文件保存在发布目录
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.PAT_TOKEN }}  # 使用 PAT
+          publish_dir: ./dist  # Vue 项目构建后生成的文件目录
+          publish_branch: actions-pages  # 发布到 actions-pages 分支

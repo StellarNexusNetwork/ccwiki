@@ -48,7 +48,9 @@
       </div>
       <div class="line"></div>
       <div class="boxDiv" id="OtherOpenSource" style="paddingBottom: 30px;">
-        <div class="title">{{ $t("about.title.OLicenses") }}</div>
+        <a href="/static/licenses.txt">
+          <div class="title">{{ $t("about.title.OLicenses") }}</div>
+        </a>
       </div>
     </div>
   </div>
