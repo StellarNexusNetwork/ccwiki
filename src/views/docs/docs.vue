@@ -32,6 +32,7 @@ watch(
   .Div .mainDiv {
     padding: 30px;
     flex-direction: row-reverse;
+    justify-content: flex-end;
   }
 }
 
