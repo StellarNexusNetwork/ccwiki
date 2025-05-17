@@ -30,7 +30,9 @@ const root = toRaw(dataSources.localRepositoriesData)
 
 
 const pageHandle = get(root, ['docs', useSettingStore().setting.lang, category, subcategory, id]) as any
-if (pageHandle === undefined) {
+const indexMdHandle = get(pageHandle, 'index_md') as any
+
+if (pageHandle === undefined || indexMdHandle === undefined) {
   useRouter().push('/404')
 }
 
@@ -41,7 +43,6 @@ const md = new MarkdownIt({html: true});
 // md.use(sanitizer);
 
 let iconSrc = ref('')
-console.log(pageHandle)
 const iconHandle = get(pageHandle, 'icon_png') as any
 if (iconHandle !== undefined) {
   iconSrc.value = URL.createObjectURL(await iconHandle.getFile())
@@ -50,47 +51,45 @@ if (iconHandle !== undefined) {
 }
 
 onMounted(async () => {
-  if (!pageHandle) {
-    useRouter().push('/404')
-    return
-  }
-  const file = await pageHandle.index_md.getFile()
-  const text = await file.text()
+  if (indexMdHandle !== undefined) {
+    const file = await indexMdHandle.getFile()
+    const text = await file.text()
 
-  source.value = text
+    source.value = text
 
-  // 处理格式 替换所有 [[path]] 为 ![path](path)
-  source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![\$1](\$1)');
+    // 处理格式 替换所有 [[path]] 为 ![path](path)
+    source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![\$1](\$1)');
 
-  // 匹配所有 markdown 图片语法
-  const regex = /\!\[(.*?)\]\((.*?)\)/g;
-  const matches = [...source.value.matchAll(regex)];
+    // 匹配所有 markdown 图片语法
+    const regex = /\!\[(.*?)\]\((.*?)\)/g;
+    const matches = [...source.value.matchAll(regex)];
 
-  const replacements = await Promise.all(matches.map(async match => {
-    const fullMatch = match[0]; // 整个 ![alt](path)
-    const alt = match[1];       // alt 文本
-    const oldPath = match[2];   // 括号内路径
+    const replacements = await Promise.all(matches.map(async match => {
+      const fullMatch = match[0]; // 整个 ![alt](path)
+      const alt = match[1];       // alt 文本
+      const oldPath = match[2];   // 括号内路径
 
-    let imgURL = ''
+      let imgURL = ''
 
-    if (get(pageHandle, oldPath.replace(/\./g, "_")) !== undefined) {
-      const img = await pageHandle[oldPath.replace(/\./g, "_")].getFile()
-      imgURL = URL.createObjectURL(img);
-    } else {
-      //todo 替换为占位图片
-      imgURL = oldPath
+      if (get(pageHandle, oldPath.replace(/\./g, "_")) !== undefined) {
+        const img = await pageHandle[oldPath.replace(/\./g, "_")].getFile()
+        imgURL = URL.createObjectURL(img);
+      } else {
+        //todo 替换为占位图片
+        imgURL = oldPath
+      }
+
+      const newMarkdown = `![${alt}](${imgURL})`;
+      return {
+        old: fullMatch,
+        new: newMarkdown
+      };
+    }));
+
+    // 替换所有 old -> new
+    for (const {old, new: newVal} of replacements) {
+      source.value = source.value.replace(old, newVal);
     }
-
-    const newMarkdown = `![${alt}](${imgURL})`;
-    return {
-      old: fullMatch,
-      new: newMarkdown
-    };
-  }));
-
-  // 替换所有 old -> new
-  for (const {old, new: newVal} of replacements) {
-    source.value = source.value.replace(old, newVal);
   }
 })
 

@@ -3,7 +3,7 @@
     <div class="mainDiv">
       <suspense>
         <template #default>
-          <MarkdownRenderer/>
+          <MarkdownRenderer :key="routeParams"/>
         </template>
       </suspense>
     </div>
@@ -11,6 +11,17 @@
 </template>
 <script setup lang="ts">
 import MarkdownRenderer from "@/views/docs/MarkdownRenderer.vue";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute()
+let routeParams = ref('')
+watch(
+    () => [route.params.category, route.params.subcategory, route.params.id],
+    ([newCategory, newSubcategory, newId]) => {
+      routeParams.value = String(newCategory) + String(newSubcategory) + String(newId)
+    }
+)
 </script>
 <style scoped>
 .Div {
