@@ -34,6 +34,8 @@
   "devDependencies": {
     "@rollup/plugin-wasm": "^6.2.2",
     "@tsconfig/node20": "^20.1.4",
+    "@types/lodash": "^4.17.16",
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^20.17.5",
     "@types/sql.js": "^1.4.9",
     "@types/three": "^0.171.0",
