@@ -2,8 +2,8 @@
   <div class="Div" :style="mainDevStyle">
     <div class="home" ref="mainDiv" :style="homeStyle">
       <div class="logo">
-        <img class='ring' src="/static/home/svg/ring.svg" alt='' width='auto' height='170px' draggable="false">
-        <img class='logo_image' src="/static/public/svg/ccwiki_logo0.svg" alt='' width='auto' height='120px'
+        <img class='ring' src="/static/home/svg/ring.svg" fetchpriority=high width='auto' height='170px' draggable="false">
+        <img class='logo_image' src="/static/public/svg/ccwiki_logo0.svg" fetchpriority=high width='auto' height='120px'
              draggable="false">
       </div>
       <div class='newsList'>

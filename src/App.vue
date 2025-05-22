@@ -119,17 +119,19 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   if (ifLoadingFinish && !rt_ae_f) {
     allowRouting = false;
-    Object.assign(rt_loading_bgS.value, {width: '200px', height: '200px'});
-    setTimeout(() => {
-      rt_loadingS.value.opacity = 0;
-    }, 500);
+    rt_loadingS.value.opacity = 0;
     setTimeout(() => {
       rt_loading_bgS.value.opacity = 0;
-    }, 1000);
+    }, 500);
     setTimeout(() => {
       routerLoadingS.value.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+      if (Math.random() < 0.5) {
+        Object.assign(rt_loading_bgS.value, {width: '200px', height: '200px'});
+      }
       rt_isAnimating = false;
-    }, 1500);
+    }, 1100);
   } else {
     rt_ae_f = false
   }
@@ -204,6 +206,9 @@ router.afterEach(() => {
   transition-duration: 0.3s;
   overflow-y: auto;
   overflow-x: hidden;
+  border-width: 2px 0px 0px 2px;
+  border-style: solid;
+  border-color: var(--color-border-main);
 }
 
 .router-view {
