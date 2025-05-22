@@ -204,6 +204,9 @@ router.afterEach(() => {
   transition-duration: 0.3s;
   overflow-y: auto;
   overflow-x: hidden;
+  border-width: 2px 0px 0px 2px;
+  border-style: solid;
+  border-color: var(--color-border-main);
 }
 
 .router-view {
