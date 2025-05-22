@@ -21,6 +21,7 @@
         --color-border-2: #D6D6D6;
         /*分割线*/
         --color-border-3: #767676;
+        --color-border-main: #ededed;
         --color-shadow-s: rgba(0, 0, 0, 0.1);
         --color-shadow-m: rgba(0, 0, 0, 0.2);
         --color-shadow-l: rgba(0, 0, 0, 0.3);
@@ -53,6 +54,7 @@
         --color-border-2: #434343;
         /*分割线*/
         --color-border-3: #767676;
+        --color-border-main: #444444;
         --color-shadow-s: rgba(255, 255, 255, 0.1);
         --color-shadow-m: rgba(255, 255, 255, 0.2);
         --color-shadow-l: rgba(255, 255, 255, 0.3);
@@ -84,6 +86,7 @@
     --color-border-2: #D6D6D6;
     /*分割线*/
     --color-border-3: #767676;
+    --color-border-main: #ededed;
     --color-shadow-s: rgba(0, 0, 0, 0.1);
     --color-shadow-m: rgba(0, 0, 0, 0.2);
     --color-shadow-l: rgba(0, 0, 0, 0.3);
@@ -114,6 +117,7 @@
     --color-border-2: #434343;
     /*分割线*/
     --color-border-3: #767676;
+    --color-border-main: #444444;
     --color-shadow-s: rgba(255, 255, 255, 0.1);
     --color-shadow-m: rgba(255, 255, 255, 0.2);
     --color-shadow-l: rgba(255, 255, 255, 0.3);
