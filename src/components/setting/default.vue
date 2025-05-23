@@ -5,8 +5,8 @@
       <div class="title" id="title">CC Wiki project</div>
       <div class="title" id="title_m">CC Wiki</div>
       <div id="detiails">
-        <div class="data">版本号: 开发中...</div>
-        <div class="data">更新日期: ****</div>
+        <div class="data">版本号: 25w21a</div>
+        <div class="data">更新日期: 2025.05.22</div>
       </div>
     </div>
   </div>
