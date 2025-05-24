@@ -47,91 +47,91 @@ const notice = useNoticeStore()
 useDataSourcesStore().refreshData();
 
 async function openFolder() {
-  // try {
-  const handle = await window.showDirectoryPicker();
-  const root = await useDataSourcesStore().processHandle(handle);
+  try {
+    const handle = await window.showDirectoryPicker();
+    const root = await useDataSourcesStore().processHandle(handle);
 
-  const config = get(root, "config_json")
+    const config = get(root, "config_json")
 
-  // 处理展示数据和存储数据
-  if (config !== undefined) {
+    // 处理展示数据和存储数据
+    if (config !== undefined) {
 
-    // 读取仓库语言文件
-    const lang = get(root, "lang")
-    console.log(lang)
-    const langObject = {};
-    for (const key in lang ?? {}) {
-      if (Object.hasOwn(lang, key)) {
-        langObject[key.slice(0, -5)] = lang[key];
+      // 读取仓库语言文件
+      const lang = get(root, "lang")
+      console.log(lang)
+      const langObject = {};
+      for (const key in lang ?? {}) {
+        if (Object.hasOwn(lang, key)) {
+          langObject[key.slice(0, -5)] = lang[key];
+        }
       }
-    }
-    useDataSourcesStore().langHandles.push(langObject)
-    // 刷新语言数据
-    const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
-    for (const lang in updateLang) {
-      setLocaleMessage(lang, updateLang[lang])
-    }
+      useDataSourcesStore().langHandles.push(langObject)
+      // 刷新语言数据
+      const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+      for (const lang in updateLang) {
+        setLocaleMessage(lang, updateLang[lang])
+      }
 
-    let jsonDataRaw = {}
-    try {
-      const configData = await config.getFile()
-      console.log(configData)
-      const jsonText = await configData.text()
-      jsonDataRaw = JSON.parse(jsonText)
-      // 使用 jsonDataRaw 做后续操作
-    } catch (err) {
-      console.error("读取或解析配置文件失败：", err)
-    }
-    if (get(jsonDataRaw, 'from') === "ccwikiproject") {
-      if (!useDataSourcesStore().localRepositories.some((obj => obj.ulid === jsonDataRaw.ulid))) {
-        useDataSourcesStore().localRepositories.push({'ulid': jsonDataRaw.ulid, 'root': root})
-        const iconData = await getIconURL(root)
-        const iconURL = iconData['iconURL']
-        const iconHandle = iconData['iconHandle']
-        const jsonData = Object.assign({}, {
-          'name': "Unknown",
-          "version": "Unknown",
-          "routes": []
-        }, jsonDataRaw)
-        useDataSourcesStore().localRepositoriesDisplay.push({
-          'ulid': jsonData.ulid,
-          'configHandle': config,
-          "iconHandle": iconHandle,
-          'name': jsonData.name,
-          "version": jsonData.version,
-          "iconURL": iconURL,
-          "routes": jsonData.routes
-        })
-        notice.addNotice({'type': 'success', 'title': '仓库添加成功！', 'content': '已加载所选仓库！'})
+      let jsonDataRaw = {}
+      try {
+        const configData = await config.getFile()
+        console.log(configData)
+        const jsonText = await configData.text()
+        jsonDataRaw = JSON.parse(jsonText)
+        // 使用 jsonDataRaw 做后续操作
+      } catch (err) {
+        console.error("读取或解析配置文件失败：", err)
+      }
+      if (get(jsonDataRaw, 'from') === "ccwikiproject") {
+        if (!useDataSourcesStore().localRepositories.some((obj => obj.ulid === jsonDataRaw.ulid))) {
+          useDataSourcesStore().localRepositories.push({'ulid': jsonDataRaw.ulid, 'root': root})
+          const iconData = await getIconURL(root)
+          const iconURL = iconData['iconURL']
+          const iconHandle = iconData['iconHandle']
+          const jsonData = Object.assign({}, {
+            'name': "Unknown",
+            "version": "Unknown",
+            "routes": []
+          }, jsonDataRaw)
+          useDataSourcesStore().localRepositoriesDisplay.push({
+            'ulid': jsonData.ulid,
+            'configHandle': config,
+            "iconHandle": iconHandle,
+            'name': jsonData.name,
+            "version": jsonData.version,
+            "iconURL": iconURL,
+            "routes": jsonData.routes
+          })
+          notice.addNotice({'type': 'success', 'title': '仓库添加成功！', 'content': '已加载所选仓库！'})
+        } else {
+          console.warn("请勿重复添加仓库！")
+          notice.addNotice({'type': 'warn', 'title': '请勿重复添加仓库！', 'content': '该仓库已加载，请勿重复添加！'})
+        }
       } else {
-        console.warn("请勿重复添加仓库！")
-        notice.addNotice({'type': 'warn', 'title': '请勿重复添加仓库！', 'content': '该仓库已加载，请勿重复添加！'})
+        console.warn("选择仓库非标准仓库！")
+        notice.addNotice({
+          'type': 'error',
+          'title': '选择仓库非标准仓库！',
+          'content': '无法识别该仓库，请确认仓库类型！'
+        })
       }
+
     } else {
-      console.warn("选择仓库非标准仓库！")
+      console.error("选择仓库非标准仓库！")
       notice.addNotice({
         'type': 'error',
         'title': '选择仓库非标准仓库！',
         'content': '无法识别该仓库，请确认仓库类型！'
       })
     }
-
-  } else {
-    console.error("选择仓库非标准仓库！")
+  } catch {
+    console.warn("未获得授权或发生错误！");
     notice.addNotice({
-      'type': 'error',
-      'title': '选择仓库非标准仓库！',
-      'content': '无法识别该仓库，请确认仓库类型！'
+      'type': 'warn',
+      'title': '请授权浏览器进行操作！',
+      'content': '未获得用户授权或发生错误！'
     })
   }
-  // } catch {
-  //   console.warn("未获得授权或发生错误！");
-  //   notice.addNotice({
-  //     'type': 'warn',
-  //     'title': '请授权浏览器进行操作！',
-  //     'content': '未获得用户授权或发生错误！'
-  //   })
-  // }
 }
 
 async function getIconURL(root) {
