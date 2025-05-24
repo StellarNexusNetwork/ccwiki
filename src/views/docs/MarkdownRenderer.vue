@@ -69,7 +69,7 @@ onMounted(async () => {
       const alt = match[1];       // alt 文本
       const oldPath = match[2];   // 括号内路径
 
-      let imgURL = ''
+      let imgURL
 
       if (get(pageHandle, oldPath.replace(/\./g, "_")) !== undefined) {
         const img = await pageHandle[oldPath.replace(/\./g, "_")].getFile()

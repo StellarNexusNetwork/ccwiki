@@ -26,9 +26,9 @@ const {getLocaleMessage} = useI18n();
 // 刷新数据
 await useDataSourcesStore().refreshData()
 // 合并语言数据
-const updataLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
-for (const lang in updataLang) {
-  useI18n().setLocaleMessage(lang, updataLang[lang])
+const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+for (const lang in updateLang) {
+  useI18n().setLocaleMessage(lang, updateLang[lang])
 }
 </script>
 <style scoped>
