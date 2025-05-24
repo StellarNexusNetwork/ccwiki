@@ -17,7 +17,7 @@ import {ref} from "vue";
 const baseUrl = import.meta.env.BASE_URL
 
 const {item, index} = defineProps(['item', 'index'])
-const emit = defineEmits(['rmove-notice'])
+const emit = defineEmits(['remove-notice'])
 
 // 获取对应颜色
 const typeColorMap: any = {
@@ -57,7 +57,7 @@ const handleMouseDown = (e: any) => {
   const onMouseUp = () => {
     isDragging = false
     if (deltaX.value > 110 || deltaX.value < -110) {
-      emit("rmove-notice", item.id)
+      emit("remove-notice", item.id)
     } else {
       dt.value = ';transition-duration:0.5s'
       deltaX.value = 0
