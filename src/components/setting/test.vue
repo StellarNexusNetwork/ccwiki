@@ -67,9 +67,9 @@ async function openFolder() {
     }
     useDataSourcesStore().langHandles.push(langObject)
     // 刷新语言数据
-    const updataLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
-    for (const lang in updataLang) {
-      setLocaleMessage(lang, updataLang[lang])
+    const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+    for (const lang in updateLang) {
+      setLocaleMessage(lang, updateLang[lang])
     }
 
     let jsonDataRaw = {}

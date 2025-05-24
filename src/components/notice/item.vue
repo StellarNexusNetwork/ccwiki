@@ -94,15 +94,10 @@ const handleMouseDown = (e: any) => {
   display: flex;
 }
 
-#firstItem {
-  margin-top: 0;
-}
-
 .item .contentBox img {
   width: 50px;
   height: 50px;
-  margin: 5px;
-  margin-bottom: 6px;
+  margin: 5px 5px 6px;
 }
 
 .item .contentBox .textDiv {
