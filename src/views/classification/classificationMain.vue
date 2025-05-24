@@ -21,10 +21,12 @@
 import {useDataSourcesStore} from "@/stores/dataSources";
 import {useI18n} from 'vue-i18n';
 
+const {getLocaleMessage} = useI18n();
+
 // 刷新数据
 await useDataSourcesStore().refreshData()
 // 合并语言数据
-const updataLang = await useDataSourcesStore().mergeLangData()
+const updataLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
 for (const lang in updataLang) {
   useI18n().setLocaleMessage(lang, updataLang[lang])
 }
