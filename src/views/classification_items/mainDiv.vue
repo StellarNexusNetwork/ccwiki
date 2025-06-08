@@ -3,7 +3,7 @@
     <div class="AboutList">
       <suspense v-for="([id, item], index) in entries">
         <template #default>
-          <item :category="category" :subcategory="subcategory" :id="id" :data="item"/>
+          <ItemCard :category="category" :subcategory="subcategory" :id="id" :data="item"/>
         </template>
       </suspense>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import item from "./item.vue";
+import ItemCard from "./ItemCard.vue";
 import get from 'lodash/get';
 import {computed, ref, toRaw} from "vue";
 import {useRoute, useRouter} from "vue-router";
