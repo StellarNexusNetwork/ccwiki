@@ -24,20 +24,30 @@
           <img src="/static/public/svg/titleBar/language.svg" alt="language" draggable="false">
         </button>
       </div>
+      <div class="options">
+        <button id="normal" @click='goForward'>
+          <img src="/static/public/svg/titleBar/goForward.svg" alt="goForward" draggable="false">
+        </button>
+      </div>
+      <div class="options">
+        <button id="normal" @click='goBack'>
+          <img src="/static/public/svg/titleBar/goBack.svg" alt="goBack" draggable="false">
+        </button>
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {window} from '@tauri-apps/api';
+import {window as tauriWindow} from '@tauri-apps/api';
 import {eventBus} from '../utils/eventBus';
 
 async function minimizeWindow() {
-  const currentWindow = await window.getCurrentWindow();
+  const currentWindow = await tauriWindow.getCurrentWindow();
   await currentWindow.minimize();
 }
 
 async function toggleMaximizeWindow() {
-  const currentWindow = await window.getCurrentWindow();
+  const currentWindow = await tauriWindow.getCurrentWindow();
   const isMaximized = await currentWindow.isMaximized();
   if (isMaximized) {
     await currentWindow.unmaximize();
@@ -47,7 +57,7 @@ async function toggleMaximizeWindow() {
 }
 
 async function closeWindow() {
-  const currentWindow = await window.getCurrentWindow();
+  const currentWindow = await tauriWindow.getCurrentWindow();
   await currentWindow.close();
 }
 
@@ -56,6 +66,14 @@ const openDialog = () => {
   eventBus.emit('callOpenSettingsDialog2', 2)
 }
 
+const goBack = () => {
+  window.history.back()
+}
+
+// 前进到下一页
+const goForward = () => {
+  window.history.forward()
+}
 
 </script>
 

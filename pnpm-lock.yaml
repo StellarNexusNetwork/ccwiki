@@ -57,6 +57,9 @@ importers:
       '@tauri-apps/cli':
         specifier: ^2
         version: 2.1.0
+      '@types/lodash':
+        specifier: ^4.17.17
+        version: 4.17.17
       '@vitejs/plugin-vue':
         specifier: ^5.2.1
         version: 5.2.1(vite@6.0.3)(vue@3.5.13)
@@ -464,6 +467,9 @@ packages:
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
+
+  '@types/lodash@4.17.17':
+    resolution: {integrity: sha512-RRVJ+J3J+WmyOTqnz3PiBLA501eKwXl2noseKOrNo/6+XEHjTAxO4xHvxQB6QuNm+s4WRbn6rSiap8+EA+ykFQ==}
 
   '@vitejs/plugin-vue@5.2.1':
     resolution: {integrity: sha512-cxh314tzaWwOLqVes2gnnCtvBDcM1UMdn+iFR+UjAn411dPT3tOmqrJjbMd7koZpMAmBM/GqeV4n9ge7JSiJJQ==}
@@ -1050,6 +1056,8 @@ snapshots:
       '@tauri-apps/api': 2.1.1
 
   '@types/estree@1.0.6': {}
+
+  '@types/lodash@4.17.17': {}
 
   '@vitejs/plugin-vue@5.2.1(vite@6.0.3)(vue@3.5.13)':
     dependencies:

@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
+    "@types/lodash": "^4.17.17",
     "@vitejs/plugin-vue": "^5.2.1",
     "vite": "^6.0.3"
   }

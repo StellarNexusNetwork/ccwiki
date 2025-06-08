@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "cc-wiki-project",
-  "version": "0.1.0",
-  "identifier": "com.cc-wiki-project.app",
+  "productName": "cc wiki project",
+  "version": "0.0.1",
+  "identifier": "com.cc.wiki.project.app",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",
@@ -12,8 +12,8 @@
   "app": {
     "windows": [
       {
-        "title": "cc-wiki-project",
-        "width": 1200,
+        "title": "cc wiki project",
+        "width": 1250,
         "height": 800,
         "minWidth": 700,
         "minHeight": 550,
@@ -32,6 +32,9 @@
       "icons/128x128.png",
       "icons/128x128@2x.png",
       "icons/icon.ico"
-    ]
+    ],
+    "publisher": "Stellar Nexus Network",
+    "copyright": "Copyright © 2022-present Stellar Nexus Network. All rights reserved. Created with ❤️ by cat and Vesta.",
+    "license": "AGPL-3.0 license"
   }
 }
