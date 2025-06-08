@@ -11,7 +11,12 @@ const router = createRouter({
         {
             path: '/classification/',
             name: 'classification',
-            component: () => import('../views/classification/classification.vue')
+            component: () => import('../views/classification/index.vue')
+        },
+        {
+            path: '/classification/:category/:subcategory',
+            name: 'classification_items',
+            component: () => import('../views/classification_items/index.vue')
         },
         {
             path: '/20241108/',
@@ -41,13 +46,8 @@ const router = createRouter({
         {
             path: '/docs/:category/:subcategory/:id',
             name: 'docs',
-            component: () => import('../views/docs/docs.vue')
+            component: () => import('../views/docs/index.vue')
         },
-        // {
-        //     path: '/tools/map/',
-        //     name: 'tools_map',
-        //     component: () => import('../views/tools/index.vue')
-        // },
         {
             path: '/setting/uninstall/',
             name: 'uninstall',

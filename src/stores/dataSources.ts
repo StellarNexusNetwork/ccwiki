@@ -8,7 +8,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
         let localRepositoriesDisplay = ref();
         let localRepositoriesData = ref();
         let initState = false;
-        let routeGroups: any = ref([]);
+        let routeGroups: any = ref({});
         let langHandles: any = ref([]);
 
         // let db = ref<any>(null)
@@ -139,9 +139,9 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
                 newVal = toRaw(newVal)
                 saveData('localRepositoriesDisplay', newVal)
                 for (const i of newVal) {
-                    routeGroupsI.push(i.routes)
+                    routeGroupsI[i.ulid] = processRouteData(i.routes)
                 }
-                routeGroups.value = mergeRouteGroups(routeGroupsI)
+                routeGroups.value = routeGroupsI
             }
         }, {deep: true})
 
@@ -238,6 +238,31 @@ function readFileAsText(file: Blob): Promise<string> {
         reader.onerror = reject
         reader.readAsText(file, 'utf-8')
     });
+}
+
+function processRouteData(route: any) {
+
+    let processedData: Record<string, any> = {}
+    for (const lang in route) {
+        if (!processedData[lang]) {
+            processedData[lang] = {};
+        }
+        for (const i of route[lang]) {
+            const items = get(i, 'items')
+
+            if (!items) {
+                processedData[lang][i.path] = {...i}
+            } else {
+                processedData[lang][i.path] = {...i}
+                processedData[lang][i.path].items = {}
+                for (const i2 of items) {
+                    processedData[lang][i.path].items[i2.path] = i2
+                }
+
+            }
+        }
+    }
+    return processedData
 }
 
 function mergeRouteGroups(routeGroups: any[]): any[] {
