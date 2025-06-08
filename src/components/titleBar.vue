@@ -24,6 +24,16 @@
           <img src="/static/public/svg/titleBar/language.svg" alt="language" draggable="false">
         </button>
       </div>
+      <div class="options">
+        <button id="normal" @click='goForward'>
+          <img src="/static/public/svg/titleBar/goForward.svg" alt="goForward" draggable="false">
+        </button>
+      </div>
+      <div class="options">
+        <button id="normal" @click='goBack'>
+          <img src="/static/public/svg/titleBar/goBack.svg" alt="goBack" draggable="false">
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -35,6 +45,14 @@ const openDialog = () => {
   eventBus.emit('callOpenSettingsDialog2', 2)
 }
 
+const goBack = () => {
+  window.history.back()
+}
+
+// 前进到下一页
+const goForward = () => {
+  window.history.forward()
+}
 
 </script>
 
