@@ -1,6 +1,8 @@
 <template>
   <div>
     <div>测试</div>
+    <button @click="clearLocalStorage()">清除数据</button>
+    <br/>
     <input v-model="urlText">
     <button @click="redirect">跳转</button>
     <br/>
@@ -45,6 +47,13 @@ function redirect() {
 const notice = useNoticeStore()
 
 useDataSourcesStore().refreshData();
+
+const clearLocalStorage = () => {
+  localStorage.clear()
+  useDataSourcesStore().deleteDatabase('dataSourcesDB')
+  console.log('本地数据已清除～喵♪')
+  notice.addNotice({'type': 'success', 'title': '操作成功！', 'content': '本地数据已清除～喵♪'})
+}
 
 async function openFolder() {
   try {
