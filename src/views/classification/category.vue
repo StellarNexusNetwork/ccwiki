@@ -1,12 +1,12 @@
 <template>
-  <div v-for="(group, index) in useDataSourcesStore().routeGroups">
+  <div v-for="([key,value], index) in entries">
     <div class="line" :id="index === 0 ? 'firstItem' : undefined"></div>
     <div class="boxDiv">
-      <div class="title">{{ $t("docs." + group.path + ".title") }}</div>
+      <div class="title">{{ $t("docs." + value.path + ".title") }}</div>
       <div class="itemList">
-        <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="" v-for="(item, index) in group.items">
-          <div class="title">{{ $t("docs." + group.path + ".items." + item.path + ".title") }}</div>
-          <div class="introduction">{{ $t("docs." + group.path + ".items." + item.path + ".content") }}</div>
+        <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="routePush('/classification/'+value.path+'/'+item.path)" v-for="(item, index) in value.items">
+          <div class="title">{{ $t("docs." + value.path + ".items." + item.path + ".title") }}</div>
+          <div class="introduction">{{ $t("docs." + value.path + ".items." + item.path + ".content") }}</div>
           <div class="iconList">
             <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
             <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
@@ -19,14 +19,32 @@
 </template>
 <script setup lang="ts">
 import {useDataSourcesStore} from "../../stores/dataSources";
+import {useSettingStore} from "../../stores/setting";
 import {useI18n} from 'vue-i18n';
+import {computed} from "vue";
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
+
+const lang = computed(() => useSettingStore().setting.lang)
+const routes = computed(() => useDataSourcesStore().routeGroups)
+
+const {getLocaleMessage} = useI18n();
 
 // 刷新数据
 await useDataSourcesStore().refreshData()
 // 合并语言数据
-const updataLang = await useDataSourcesStore().mergeLangData()
-for (const lang in updataLang) {
-  useI18n().setLocaleMessage(lang, updataLang[lang])
+const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+for (const lang in updateLang) {
+  useI18n().setLocaleMessage(lang, updateLang[lang])
+}
+const entries = computed(() => {
+  const obj = routes.value[Object.keys(routes.value)[0]]?.[lang.value] || {};
+  return Object.entries(obj) as [string, any][];
+});
+
+function routePush(url: string) {
+  router.push(url)
 }
 </script>
 <style scoped>
@@ -48,6 +66,9 @@ for (const lang in updataLang) {
 }
 
 .boxDiv .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: MiSans-B;
   font-size: 25px;
   margin-bottom: 5px;

@@ -3,7 +3,7 @@
     <div class="notice">
       <TransitionGroup name="fade" tag="div" mode="out-in" class="group" @mouseenter="pauseTimer()" @mouseleave="resumeTimer()">
         <div v-for=" (item, index) in notice.noticeList" :key='item.id'>
-          <nItem :item="item" :index="index" @rmove-notice="notice.removeNotice"/>
+          <nItem :item="item" :index="index" @remove-notice="notice.removeNotice"/>
         </div>
       </TransitionGroup>
     </div>

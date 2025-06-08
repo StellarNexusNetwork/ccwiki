@@ -1,14 +1,14 @@
 import {defineStore} from "pinia";
 import {ref, toRaw, watch} from "vue";
 import {useSettingStore} from './setting';
-import {useI18n} from 'vue-i18n';
+import get from 'lodash/get';
 
 export const useDataSourcesStore = defineStore('DataSources', () => {
         let localRepositories = ref();
         let localRepositoriesDisplay = ref();
         let localRepositoriesData = ref();
         let initState = false;
-        let routeGroups: any = ref([]);
+        let routeGroups: any = ref({});
         let langHandles: any = ref([]);
 
         // let db = ref<any>(null)
@@ -58,22 +58,10 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             if (handle.kind === 'file') {
                 return handle
             }
-            handle.children = []
-            const iter = handle.entries();
-            for await (const item of iter) {
-                handle.children.push(await processHandle(item[1]));
-            }
-            return handle
-        }
-
-        async function processHandleDocs(handle: any) {
-            if (handle.kind === 'file') {
-                return handle
-            }
 
             const iter = handle.entries();
             for await (const item of iter) {
-                const returnHandle = await processHandleDocs(item[1])
+                const returnHandle = await processHandle(item[1])
                 if (returnHandle.name !== 'kind' && returnHandle.name !== 'name') {
                     handle[returnHandle.name.replace(/\./g, "_")] = returnHandle
                 }
@@ -95,10 +83,12 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             langHandles.value = []
             for (const ir of toRaw(localRepositories.value)) {
                 const root = await processHandle(ir.root)
-                const lang = root.children.find((obj: { 'name': string }) => obj.name === 'lang');
+                const lang = get(root, 'lang')
                 const langObject: Record<string, any> = {};
-                for (const i of lang.children) {
-                    langObject[i.name.slice(0, 5)] = i;
+                for (const key in lang ?? {}) {
+                    if (Object.hasOwn(lang, key)) {
+                        langObject[key.slice(0, -5)] = lang[key];
+                    }
                 }
                 langHandles.value.push(langObject)
             }
@@ -106,7 +96,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
 
             for (const i of toRaw(localRepositoriesDisplay.value)) {
                 const configData = await i.configHandle.getFile();
-                const fileText = await readFileAsText(configData);
+                const fileText = await configData.text()
                 const jsonDataRaw = JSON.parse(fileText);
 
                 const jsonData = Object.assign({}, {
@@ -122,27 +112,20 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             }
             localRepositoriesDisplay.value = lrd;
             if (localRepositories.value.length > 0) {
-                localRepositoriesData.value = await processHandleDocs(toRaw(localRepositories.value)[0].root)
+                localRepositoriesData.value = await processHandle(toRaw(localRepositories.value)[0].root)
             }
         }
 
-        async function mergeLangData() {
+        async function mergeLangData(getLocaleMessage: any) {
             let updataLang: Record<string, any> = {}
-            updataLang['zh_cn'] = await mergeLangDataI('zh_cn')
+            updataLang['zh_cn'] = await mergeLangDataI('zh_cn', getLocaleMessage)
             if (useSettingStore().setting.lang !== 'zh_cn') {
-                updataLang[useSettingStore().setting.lang] = await mergeLangDataI(useSettingStore().setting.lang)
+                updataLang[useSettingStore().setting.lang] = await mergeLangDataI(useSettingStore().setting.lang, getLocaleMessage)
             }
             return updataLang;
         }
 
 
-        // watchEffect(() => {
-        //     saveHandles('localRepositories', localRepositories)
-        // })
-        // watchEffect(() => {
-        //     console.log(toRaw(localRepositoriesDisplay.value))
-        //     //
-        // })
         watch(localRepositories, (newVal) => {
             if (initState) {
                 saveData('localRepositories', toRaw(newVal))
@@ -155,9 +138,9 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
                 newVal = toRaw(newVal)
                 saveData('localRepositoriesDisplay', newVal)
                 for (const i of newVal) {
-                    routeGroupsI.push(i.routes)
+                    routeGroupsI[i.ulid] = processRouteData(i.routes)
                 }
-                routeGroups.value = mergeRouteGroups(routeGroupsI)
+                routeGroups.value = routeGroupsI
             }
         }, {deep: true})
 
@@ -175,7 +158,6 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             routeGroups,
             langHandles,
             processHandle,
-            processHandleDocs,
             initFetchData,
             refreshData,
             mergeLangData
@@ -211,7 +193,6 @@ async function saveData(key: string, data: any) {
     const db: any = await openDB();
     const tx = db.transaction("dataSources", "readwrite");
     const store = tx.objectStore("dataSources");
-
 
     store.put({key, data});
 
@@ -256,6 +237,31 @@ function readFileAsText(file: Blob): Promise<string> {
         reader.onerror = reject
         reader.readAsText(file, 'utf-8')
     });
+}
+
+function processRouteData(route: any) {
+
+    let processedData: Record<string, any> = {}
+    for (const lang in route) {
+        if (!processedData[lang]) {
+            processedData[lang] = {};
+        }
+        for (const i of route[lang]) {
+            const items = get(i, 'items')
+
+            if (!items) {
+                processedData[lang][i.path] = {...i}
+            } else {
+                processedData[lang][i.path] = {...i}
+                processedData[lang][i.path].items = {}
+                for (const i2 of items) {
+                    processedData[lang][i.path].items[i2.path] = i2
+                }
+
+            }
+        }
+    }
+    return processedData
 }
 
 function mergeRouteGroups(routeGroups: any[]): any[] {
@@ -304,8 +310,8 @@ function deepMergeOnlyNew(oldObj: any, newObj: any) {
     return oldObj;
 }
 
-async function mergeLangDataI(lang: string) {
-    const oldMessages = toRaw(useI18n().getLocaleMessage(lang));
+async function mergeLangDataI(lang: string, getLocaleMessage: any) {
+    const oldMessages = toRaw(getLocaleMessage(lang));
     let updataLangData = {};
     for (const i of toRaw(useDataSourcesStore().langHandles)) {
         if (i?.[lang] !== undefined) {

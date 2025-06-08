@@ -1,13 +1,13 @@
 <template>
   <div :id="index === 0 ? 'firstItem' : undefined" class="item" @mousedown="handleMouseDown" @touchstart="handleMouseDown" :style="'transform:translateX('+deltaX+'px)'+dt">
-    <div class="contentBox">
+    <div class="contentBox" :style="{opacity:1-Math.abs(deltaX)/180}">
       <img :src="baseUrl+'static/public/svg/notice/' + item.type + '.svg'" alt="" draggable="false">
       <div class="textDiv">
         <div class="title">{{ item.title }}</div>
         <div class="content">{{ item.content }}</div>
       </div>
     </div>
-    <div class="progressBar" :style="{ background: getColor(item.type)}"></div>
+    <div class="progressBar" :style="{ background: getColor(item.type),opacity:1-Math.abs(deltaX)/180}"></div>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ import {ref} from "vue";
 const baseUrl = import.meta.env.BASE_URL
 
 const {item, index} = defineProps(['item', 'index'])
-const emit = defineEmits(['rmove-notice'])
+const emit = defineEmits(['remove-notice'])
 
 // 获取对应颜色
 const typeColorMap: any = {
@@ -57,7 +57,7 @@ const handleMouseDown = (e: any) => {
   const onMouseUp = () => {
     isDragging = false
     if (deltaX.value > 110 || deltaX.value < -110) {
-      emit("rmove-notice", item.id)
+      emit("remove-notice", item.id)
     } else {
       dt.value = ';transition-duration:0.5s'
       deltaX.value = 0
@@ -94,15 +94,10 @@ const handleMouseDown = (e: any) => {
   display: flex;
 }
 
-#firstItem {
-  margin-top: 0;
-}
-
 .item .contentBox img {
   width: 50px;
   height: 50px;
-  margin: 5px;
-  margin-bottom: 6px;
+  margin: 5px 5px 6px;
 }
 
 .item .contentBox .textDiv {

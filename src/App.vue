@@ -26,6 +26,11 @@ import {ref, watchEffect} from 'vue'
 import {useWindowStore} from './stores/window'
 import {useDataSourcesStore} from './stores/dataSources';
 
+type RouteRule = {
+  from: string | RegExp
+  to: string | RegExp
+}
+
 useDataSourcesStore().initFetchData()
 
 let ifLoadingFinish = false;
@@ -64,11 +69,29 @@ watchEffect(() => {
   }
 })
 
-
 const router = useRouter()
-const blackList = ['docs']
-router.beforeEach((to, from, next) => {
-  if (!blackList.includes(to.name as string)) {
+const blackList: RouteRule[] = [
+  {'from': 'classification', 'to': 'classification_items'},
+  {'from': 'classification_items', 'to': 'classification'},
+  {'from': 'classification_items', 'to': 'docs'},
+  {'from': 'docs', 'to': 'classification_items'}
+]
+
+router.beforeEach((to: any, from: any, next) => {
+
+  const isBlacklisted = blackList.some(rule => {
+    const fromMatch = typeof rule.from === 'string'
+        ? from.name === rule.from
+        : rule.from.test(from.name)
+
+    const toMatch = typeof rule.to === 'string'
+        ? to.name === rule.to
+        : rule.to.test(to.name)
+
+    return fromMatch && toMatch
+  })
+
+  if (!isBlacklisted) {
     if (ifLoadingFinish && !rt_isAnimating) {
       rt_isAnimating = true;
       allowRouting = false;
@@ -206,7 +229,7 @@ router.afterEach(() => {
   transition-duration: 0.3s;
   overflow-y: auto;
   overflow-x: hidden;
-  border-width: 2px 0px 0px 2px;
+  border-width: 2px 0 0 2px;
   border-style: solid;
   border-color: var(--color-border-main);
 }

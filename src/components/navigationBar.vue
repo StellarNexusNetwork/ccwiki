@@ -26,7 +26,7 @@
         </div>
         <div class="options">
           <button class="button">
-            <img id="_navigation_Co-createdWikiCopilotAI_svg" src="/static/public/svg/navigationBar/Co-createdWikiCopilotAI.svg" alt="SVG Image" draggable="false" style="margin-left: 0;">
+            <img id="_navigation_AI_svg" src="/static/public/svg/navigationBar/AI.svg" alt="SVG Image" draggable="false" style="margin-left: 0;">
             <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.AI") }}</div>
           </button>
         </div>
