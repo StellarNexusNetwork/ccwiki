@@ -1,9 +1,11 @@
 <template>
-  <suspense>
-    <template #default>
-      <MainDiv/>
-    </template>
-  </suspense>
+  <div>
+    <suspense>
+      <template #default>
+        <MainDiv/>
+      </template>
+    </suspense>
+  </div>
 </template>
 
 <script setup lang="ts">
