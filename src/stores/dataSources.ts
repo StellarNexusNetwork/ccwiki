@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import {ref, toRaw, watch} from "vue";
-import {useSettingStore} from './setting';
+import {useNoticeStore, useSettingStore} from './setting';
+
 import get from 'lodash/get';
 
 export const useDataSourcesStore = defineStore('DataSources', () => {
@@ -10,6 +11,8 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
         let initState = false;
         let routeGroups: any = ref({});
         let langHandles: any = ref([]);
+
+        const notice = useNoticeStore()
 
         // let db = ref<any>(null)
         // let opfsRoot = null
@@ -125,6 +128,28 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             return updataLang;
         }
 
+        function deleteDatabase(dbName: string): Promise<boolean> {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.deleteDatabase(dbName);
+
+                request.onsuccess = () => {
+                    console.log(`数据库 "${dbName}" 删除成功～喵`);
+                    notice.addNotice({'type': 'success', 'title': '操作成功！', 'content': `数据库 "${dbName}" 删除成功～喵`})
+                    resolve(true);
+                };
+
+                request.onerror = (event) => {
+                    console.error(`数据库删除失败:`, event);
+                    notice.addNotice({'type': 'error', 'title': '操作失败！', 'content': `数据库删除失败`})
+                    reject(event);
+                };
+
+                request.onblocked = () => {
+                    console.warn(`数据库 "${dbName}" 删除被阻止（可能有打开的连接）`);
+                    notice.addNotice({'type': 'warn', 'title': '操作被阻止', 'content': `数据库 "${dbName}" 删除被阻止`})
+                };
+            });
+        }
 
         watch(localRepositories, (newVal) => {
             if (initState) {
@@ -160,7 +185,8 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             processHandle,
             initFetchData,
             refreshData,
-            mergeLangData
+            mergeLangData,
+            deleteDatabase
         }
     }
 )
