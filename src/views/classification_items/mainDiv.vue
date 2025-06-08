@@ -15,8 +15,8 @@ import item from "./item.vue";
 import get from 'lodash/get';
 import {computed, ref, toRaw} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {useDataSourcesStore} from "@/stores/dataSources";
-import {useSettingStore} from "@/stores/setting";
+import {useDataSourcesStore} from "../../stores/dataSources";
+import {useSettingStore} from "../../stores/setting";
 
 const route = useRoute()
 const {category, subcategory} = route.params
