@@ -3,10 +3,10 @@
     <div class="AboutList">
       <suspense>
         <template #default>
-          <classificationMain/>
+          <Category/>
         </template>
       </suspense>
-      
+
       <div class="line"></div>
       <Suspense>
         <template #default>
@@ -18,7 +18,7 @@
 </template>
 <script setup lang="ts">
 import boxDiv from './boxDiv.vue';
-import classificationMain from './classificationMain.vue';
+import Category from './category.vue';
 
 function hello() {
   console.log("hello")
