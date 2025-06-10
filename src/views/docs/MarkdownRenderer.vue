@@ -1,16 +1,23 @@
 <template>
   <div class="subContent">
     <div class="introduction">
-      <img data-v-ef16d5dc="" class="img" :src=iconSrc alt="" width="auto" height="30" draggable="false">
+      <img data-v-ef16d5dc="" class="img" :src=item.iconSrc alt="" width="auto" height="30" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
     </div>
   </div>
   <div class="mainContent">
+    <div class="markdown-body">
+      <h1 :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id ,'borderBottom':'none'}">
+        {{ item.name }}
+      </h1>
+    </div>
+    <br/>
     <div class="markdown-body" v-html="renderedMarkdown"></div>
   </div>
 </template>
 <script setup lang="ts">
 import {computed, onMounted, ref, toRaw} from "vue";
 import {useRoute, useRouter} from 'vue-router'
+import {useI18n} from 'vue-i18n';
 import get from 'lodash/get';
 import MarkdownIt from 'markdown-it'
 import {useDataSourcesStore} from "../../stores/dataSources";
@@ -21,34 +28,37 @@ const source = ref('')
 
 const dataSources = useDataSourcesStore()
 
-
-if (!dataSources.localRepositoriesData) {
+// 刷新数据
+if (Object.keys(dataSources.localRepositoriesData).length === 0) {
   await dataSources.refreshData()
+
+  // 合并语言数据
+  const {getLocaleMessage} = useI18n();
+
+  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+  for (const lang in updateLang) {
+    useI18n().setLocaleMessage(lang, updateLang[lang])
+  }
 }
 
 const root = toRaw(dataSources.localRepositoriesData)
 
+const routes = computed(() => useDataSourcesStore().routeGroups)
 
-const pageHandle = get(root, ['docs', useSettingStore().setting.lang, category, subcategory, id]) as any
+const pageHandle = get(root, [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]) as any
 const indexMdHandle = get(pageHandle, 'index_md') as any
 
 if (pageHandle === undefined || indexMdHandle === undefined) {
   useRouter().push('/404')
 }
 
+let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id])
+
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});
 
 // todo 屏蔽<script>等标签
 // md.use(sanitizer);
-
-let iconSrc = ref('')
-const iconHandle = get(pageHandle, 'icon_png') as any
-if (iconHandle !== undefined) {
-  iconSrc.value = URL.createObjectURL(await iconHandle.getFile())
-} else {
-  iconSrc.value = '/static/public/svg/ccwiki_logo.svg'
-}
 
 onMounted(async () => {
   if (indexMdHandle !== undefined) {

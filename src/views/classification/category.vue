@@ -5,12 +5,12 @@
       <div class="title">{{ $t("docs." + value.path + ".title") }}</div>
       <div class="itemList">
         <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="routePush('/classification/'+value.path+'/'+item.path)" v-for="(item, index) in value.items">
-          <div class="title">{{ $t("docs." + value.path + ".items." + item.path + ".title") }}</div>
+          <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
+            {{ $t("docs." + value.path + ".items." + item.path + ".title") }}
+          </div>
           <div class="introduction">{{ $t("docs." + value.path + ".items." + item.path + ".content") }}</div>
           <div class="iconList">
-            <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-            <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-            <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
+            <img class="icon" :src="icon_value.iconSrc" alt="SVG Image" draggable="false" v-for="([icon_key,icon_value], index) in Object.entries(iconList[value.path][item.path]) as [string, any][]" :style="{ 'viewTransitionName': 'class-item-img-' + value.path + '-' + item.path + '-' + icon_value.id }">
           </div>
         </button>
       </div>
@@ -21,27 +21,64 @@
 import {useDataSourcesStore} from "../../stores/dataSources";
 import {useSettingStore} from "../../stores/setting";
 import {useI18n} from 'vue-i18n';
-import {computed} from "vue";
+import {computed, toRaw} from "vue";
 import {useRouter} from 'vue-router';
+import get from 'lodash/get';
 
 const router = useRouter();
 
 const lang = computed(() => useSettingStore().setting.lang)
 const routes = computed(() => useDataSourcesStore().routeGroups)
 
-const {getLocaleMessage} = useI18n();
-
 // 刷新数据
-await useDataSourcesStore().refreshData()
-// 合并语言数据
-const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
-for (const lang in updateLang) {
-  useI18n().setLocaleMessage(lang, updateLang[lang])
+if (Object.keys(useDataSourcesStore().localRepositoriesData).length === 0) {
+  await useDataSourcesStore().refreshData()
+
+  // 合并语言数据
+  const {getLocaleMessage} = useI18n();
+
+  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+  for (const lang in updateLang) {
+    useI18n().setLocaleMessage(lang, updateLang[lang])
+  }
 }
+
 const entries = computed(() => {
   const obj = routes.value[Object.keys(routes.value)[0]]?.[lang.value] || {};
   return Object.entries(obj) as [string, any][];
 });
+
+const iconList: Record<string, any> = await getAllIconList(entries.value)
+
+async function getAllIconList(entries: any) {
+  let iconList = {}
+  for (const [key, value] of entries) {
+    for (const item in toRaw(value).items) {
+      useDataSourcesStore().deepSet(iconList, [value.path, item], await getIconList(value.path, item))
+    }
+  }
+  return iconList
+}
+
+async function getIconList(category: string, subcategory: string) {
+  let iconList = []
+  const group = get(useDataSourcesStore().localRepositoriesData, [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory])
+  if (group) {
+    const first3 = Object.fromEntries(Object.entries(group).slice(0, 3));
+    for (const [key, value] of Object.entries(first3)) {
+      const item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, key])
+      item['id'] = key
+      iconList.push(item)
+    }
+    return iconList
+  } else {
+    return [
+      {'iconSrc': '/static/public/svg/Test.svg'},
+      {'iconSrc': '/static/public/svg/Test.svg'},
+      {'iconSrc': '/static/public/svg/Test.svg'}
+    ]
+  }
+}
 
 function routePush(url: string) {
   router.push(url)

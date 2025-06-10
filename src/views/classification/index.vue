@@ -7,17 +7,17 @@
         </template>
       </suspense>
 
-      <div class="line"></div>
-      <Suspense>
-        <template #default>
-          <boxDiv/>
-        </template>
-      </Suspense>
+      <!--      <div class="line"></div>-->
+      <!--      <Suspense>-->
+      <!--        <template #default>-->
+      <!--          <boxDiv/>-->
+      <!--        </template>-->
+      <!--      </Suspense>-->
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import boxDiv from './boxDiv.vue';
+// import boxDiv from './boxDiv.vue';
 import Category from './category.vue';
 
 function hello() {

@@ -1,37 +1,27 @@
 <template>
   <button class="item" @click="routePush('/docs/'+category+'/'+subcategory+'/'+id)">
-    <img class="icon" :src="item.iconSrc" alt="SVG Image" draggable="false">
+    <img class="icon" :src="item.iconSrc" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
     <div class="textBox">
-      <div class="title">{{ item.name }}</div>
+      <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id }">
+        {{ item.name }}
+      </div>
       <div class="introduction"></div>
     </div>
   </button>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
-import get from "lodash/get";
+import {computed} from "vue";
 import {useRouter} from 'vue-router';
+import {useDataSourcesStore} from "@/stores/dataSources";
+import {useSettingStore} from "@/stores/setting";
 
 const router = useRouter();
 
 const {category, subcategory, id, data} = defineProps(['category', 'subcategory', 'id', 'data'])
 
-let item = ref({"name": "未知", "iconSrc": "/static/public/svg/Test.svg"})
+const routes = computed(() => useDataSourcesStore().routeGroups)
 
-const iconHandle = get(data, 'icon_png') as any
-if (iconHandle !== undefined) {
-  item.value.iconSrc = URL.createObjectURL(await iconHandle.getFile())
-}
-const configHandle = get(data, 'config_json') as any
-if (configHandle !== undefined) {
-  const configData = await configHandle.getFile()
-  const jsonText = await configData.text()
-  const jsonData = JSON.parse(jsonText)
-  const itemName = get(jsonData, "name")
-  if (itemName !== undefined) {
-    item.value.name = itemName
-  }
-}
+let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id])
 
 function routePush(url: string) {
   router.push(url)

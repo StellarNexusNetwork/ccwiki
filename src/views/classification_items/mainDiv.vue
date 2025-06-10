@@ -1,9 +1,14 @@
 <template>
   <div class="Div">
+    <div class="markdown-body">
+      <h2 :style="{ 'viewTransitionName': 'class-itemList-title-' + category + '-' + subcategory ,'borderBottom':'none'}">
+        {{ $t("docs." + category + ".items." + subcategory + ".title") }}
+      </h2>
+    </div>
     <div class="AboutList">
       <suspense v-for="([id, item], index) in entries">
         <template #default>
-          <item :category="category" :subcategory="subcategory" :id="id" :data="item"/>
+          <ItemCard :category="category" :subcategory="subcategory" :id="id" :data="item"/>
         </template>
       </suspense>
     </div>
@@ -11,10 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import item from "./item.vue";
+import ItemCard from "./ItemCard.vue";
 import get from 'lodash/get';
 import {computed, ref, toRaw} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {useI18n} from 'vue-i18n';
 import {useDataSourcesStore} from "../../stores/dataSources";
 import {useSettingStore} from "../../stores/setting";
 
@@ -25,15 +31,26 @@ const itemList = ref<any[]>([]);
 
 const dataSources = useDataSourcesStore()
 
-if (!dataSources.localRepositoriesData) {
+// 刷新数据
+if (Object.keys(dataSources.localRepositoriesData).length === 0) {
   await dataSources.refreshData()
+
+  // 合并语言数据
+  const {getLocaleMessage} = useI18n();
+
+  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+  for (const lang in updateLang) {
+    useI18n().setLocaleMessage(lang, updateLang[lang])
+  }
 }
 
 const root = toRaw(dataSources.localRepositoriesData)
 
 const lang = computed(() => useSettingStore().setting.lang)
 
-const items = get(root, ['docs', lang.value, category, subcategory])
+const routes = computed(() => useDataSourcesStore().routeGroups)
+
+const items = get(root, [Object.keys(routes.value)[0], 'docs', lang.value, category, subcategory])
 
 
 if (items === undefined) {
@@ -51,7 +68,13 @@ const entries = computed(() => Object.entries(items ?? {} as Record<string, any>
 <style scoped>
 .Div {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Div .markdown-body {
+  margin-top: 20px;
+  width: 95%;
 }
 
 .Div .AboutList {
@@ -60,6 +83,6 @@ const entries = computed(() => Object.entries(items ?? {} as Record<string, any>
   flex-wrap: wrap;
   align-content: flex-start;
   gap: 20px;
-  margin-top: 25px;
+  margin-top: 10px;
 }
 </style>
