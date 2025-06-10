@@ -7,7 +7,7 @@ import get from 'lodash/get';
 export const useDataSourcesStore = defineStore('DataSources', () => {
         let localRepositories = ref();
         let localRepositoriesDisplay = ref();
-        let localRepositoriesData = ref({});
+        let localRepositoriesData: Record<string, any> = ref({});
         let initState = false;
         let routeGroups: any = ref({});
         let langHandles: any = ref([]);
@@ -179,7 +179,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             }
         }, {deep: true})
 
-        function deepSet(obj, keys, value) {
+        function deepSet(obj: any, keys: string[], value: any) {
             let current = obj;
             for (let i = 0; i < keys.length - 1; i++) {
                 const key = keys[i];
@@ -189,7 +189,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             current[keys[keys.length - 1]] = value;
         }
 
-        async function getOrCacheItem(route: [String, String, String, String, String, String]) {
+        async function getOrCacheItem(route: string[]) {
             const data = get(localRepositoriesData.value, route)
             const cache = get(cachedItems, route)
             if (!cache) {
