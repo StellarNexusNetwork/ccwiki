@@ -1,5 +1,9 @@
 @import './base.css';
 
+@view-transition {
+    navigation: auto;
+}
+
 @media (prefers-color-scheme: light) {
     :root:not([data-theme]) {
         --color-primary-normal: #04AAEB;

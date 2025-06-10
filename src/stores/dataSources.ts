@@ -4,14 +4,14 @@ import {useNoticeStore, useSettingStore} from '@/stores/setting';
 
 import get from 'lodash/get';
 
-
 export const useDataSourcesStore = defineStore('DataSources', () => {
         let localRepositories = ref();
         let localRepositoriesDisplay = ref();
-        let localRepositoriesData = ref();
+        let localRepositoriesData = ref({});
         let initState = false;
         let routeGroups: any = ref({});
         let langHandles: any = ref([]);
+        let cachedItems: any = ref({});
 
         const notice = useNoticeStore()
 
@@ -117,7 +117,9 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             }
             localRepositoriesDisplay.value = lrd;
             if (localRepositories.value.length > 0) {
-                localRepositoriesData.value = await processHandle(toRaw(localRepositories.value)[0].root)
+                for (const i of toRaw(localRepositories.value)) {
+                    localRepositoriesData.value[i.ulid] = await processHandle(i.root)
+                }
             }
         }
 
@@ -177,6 +179,44 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             }
         }, {deep: true})
 
+        function deepSet(obj, keys, value) {
+            let current = obj;
+            for (let i = 0; i < keys.length - 1; i++) {
+                const key = keys[i];
+                current[key] = current[key] || {};
+                current = current[key];
+            }
+            current[keys[keys.length - 1]] = value;
+        }
+
+        async function getOrCacheItem(route: [String, String, String, String, String, String]) {
+            const data = get(localRepositoriesData.value, route)
+            const cache = get(cachedItems, route)
+            if (!cache) {
+                let item = {"name": "未知", "iconSrc": "/static/public/svg/Test.svg"}
+                const iconHandle = get(data, ['icon_png']) as any
+                if (iconHandle !== undefined) {
+                    item.iconSrc = URL.createObjectURL(await iconHandle.getFile())
+                }
+                const configHandle = get(data, 'config_json') as any
+                if (configHandle !== undefined) {
+                    const configData = await configHandle.getFile()
+                    const jsonText = await configData.text()
+                    const jsonData = JSON.parse(jsonText)
+                    const itemName = get(jsonData, "name")
+                    if (itemName !== undefined) {
+                        item.name = itemName
+                    }
+                }
+                // 缓存
+                deepSet(cachedItems, route, {...item})
+                return {...item}
+            } else {
+                return {...cache}
+            }
+
+        }
+
         return {
             localRepositories,
             localRepositoriesDisplay,
@@ -188,7 +228,9 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             initFetchData,
             refreshData,
             mergeLangData,
-            deleteDatabase
+            deleteDatabase,
+            deepSet,
+            getOrCacheItem
         }
     }
 )

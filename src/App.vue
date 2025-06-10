@@ -4,7 +4,7 @@
   <navigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
   <div class="mainDiv" :style="mainDivStyle">
     <div class="main" :style="mainStyle">
-      <RouterView class="router-view"/>
+      <RouterView class="router-view" :key="$route.fullPath"/>
     </div>
   </div>
   <div class="routerLoading" :style="[routerLoadingS, { marginLeft: mainDivStyle.paddingLeft }]">
@@ -135,28 +135,47 @@ router.beforeEach((to: any, from: any, next) => {
       }
     }
   } else {
-    next()
+    if ((document as any).startViewTransition) {
+      (document as any).startViewTransition(() =>
+          next()
+      )
+    } else {
+      next()
+    }
   }
 })
 
-router.afterEach(() => {
-  if (ifLoadingFinish && !rt_ae_f) {
-    allowRouting = false;
-    rt_loadingS.value.opacity = 0;
-    setTimeout(() => {
-      rt_loading_bgS.value.opacity = 0;
-    }, 500);
-    setTimeout(() => {
-      routerLoadingS.value.display = 'none';
-    }, 1000);
-    setTimeout(() => {
-      if (Math.random() < 0.5) {
-        Object.assign(rt_loading_bgS.value, {width: '200px', height: '200px'});
-      }
-      rt_isAnimating = false;
-    }, 1100);
-  } else {
-    rt_ae_f = false
+router.afterEach((from: any, to: any) => {
+  const isBlacklisted = blackList.some(rule => {
+    const fromMatch = typeof rule.from === 'string'
+        ? from.name === rule.from
+        : rule.from.test(from.name)
+
+    const toMatch = typeof rule.to === 'string'
+        ? to.name === rule.to
+        : rule.to.test(to.name)
+
+    return fromMatch && toMatch
+  })
+  if (!isBlacklisted) {
+    if (ifLoadingFinish && !rt_ae_f) {
+      allowRouting = false;
+      rt_loadingS.value.opacity = 0;
+      setTimeout(() => {
+        rt_loading_bgS.value.opacity = 0;
+      }, 500);
+      setTimeout(() => {
+        routerLoadingS.value.display = 'none';
+      }, 1000);
+      setTimeout(() => {
+        if (Math.random() < 0.5) {
+          Object.assign(rt_loading_bgS.value, {width: '200px', height: '200px'});
+        }
+        rt_isAnimating = false;
+      }, 1100);
+    } else {
+      rt_ae_f = false
+    }
   }
 })
 
