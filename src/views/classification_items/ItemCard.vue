@@ -12,8 +12,8 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import {useRouter} from 'vue-router';
-import {useDataSourcesStore} from "@/stores/dataSources";
-import {useSettingStore} from "@/stores/setting";
+import {useDataSourcesStore} from "../../stores/dataSources";
+import {useSettingStore} from "../../stores/setting";
 
 const router = useRouter();
 

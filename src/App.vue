@@ -268,6 +268,7 @@ router.afterEach((from: any, to: any) => {
   border-radius: 20px 0 20px 0;
   overflow: hidden;
   transition-duration: 0.5s;
+  -webkit-app-region: drag;
 }
 
 .routerLoading .loading_bg {
