@@ -48,7 +48,7 @@ const entries = computed(() => {
   return Object.entries(obj) as [string, any][];
 });
 
-const iconList = await getAllIconList(entries.value)
+const iconList: Record<string, any> = await getAllIconList(entries.value)
 
 async function getAllIconList(entries: any) {
   let iconList = {}
