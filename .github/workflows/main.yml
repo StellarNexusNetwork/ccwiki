@@ -24,6 +24,9 @@ jobs:
       - name: Enable Corepack (for pnpm)
         run: corepack enable
 
+      - name: Set registry to npmmirror（临时切换）
+        run: pnpm config set registry https://registry.npmmirror.com
+
       - name: Install dependencies
         run: pnpm install
 
