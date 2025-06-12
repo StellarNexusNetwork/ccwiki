@@ -40,10 +40,12 @@ jobs:
       #        run: pnpm license-checker-rseidelsohn --customPath customFormat.tpl --out public/static/licenses.txt
 
       - name: Copy CNAME to dist
+        if: ${{ success() }}
         run: |
           cp CNAME dist/  # 确保 CNAME 文件保存在发布目录
 
       - name: Deploy to GitHub Pages
+        if: ${{ success() }}
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.PAT_TOKEN }}  # 使用 PAT
