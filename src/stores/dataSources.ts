@@ -193,7 +193,7 @@ export const useDataSourcesStore = defineStore('DataSources', () => {
             const data = get(localRepositoriesData.value, route)
             const cache = get(cachedItems, route)
             if (!cache) {
-                let item = {"name": "未知", "iconSrc": "/static/public/svg/Test.svg"}
+                let item = {"name": "未知", "iconSrc": "/static/public/svg/NotFound.svg"}
                 const iconHandle = get(data, ['icon_png']) as any
                 if (iconHandle !== undefined) {
                     item.iconSrc = URL.createObjectURL(await iconHandle.getFile())
