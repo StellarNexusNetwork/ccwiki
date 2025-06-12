@@ -70,12 +70,17 @@ async function getIconList(category: string, subcategory: string) {
       item['id'] = key
       iconList.push(item)
     }
+
+    // 图标不足时补齐
+    // for (let i = 0; i < 3 - Object.keys(first3).length; i++) {
+    //   iconList.push({'iconSrc': '/static/public/svg/NotFound.svg'})
+    // }
     return iconList
   } else {
     return [
-      {'iconSrc': '/static/public/svg/Test.svg'},
-      {'iconSrc': '/static/public/svg/Test.svg'},
-      {'iconSrc': '/static/public/svg/Test.svg'}
+      {'iconSrc': '/static/public/svg/NotFound.svg'},
+      {'iconSrc': '/static/public/svg/NotFound.svg'},
+      {'iconSrc': '/static/public/svg/NotFound.svg'}
     ]
   }
 }

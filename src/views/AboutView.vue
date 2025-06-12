@@ -22,7 +22,7 @@
             <img src="/static/about/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
           </a>
           <a href="https://github.com/StellarNexusNetwork" target="_blank">
-            <img src="/static/about/svg/SNN_logo.svg" alt="SVG Image" draggable="false">
+            <img src="/static/about/svg/SNNetwork_logo.svg" alt="SVG Image" draggable="false">
           </a>
         </div>
       </div>
@@ -134,8 +134,17 @@
 .Div .AboutList #Cooperative .logoList img {
   width: auto;
   height: 80px;
-
   user-select: none;
+  border-radius: 15px;
+  overflow: hidden;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--color-border-main);
+  transition-duration: 0.3s;
+}
+
+.Div .AboutList #Cooperative .logoList img:hover {
+  border-color: var(--color-border-2);
 }
 
 .Div .AboutList .boxDiv .detail {
