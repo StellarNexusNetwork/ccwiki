@@ -30,18 +30,22 @@ export const useSettingStore = defineStore('setting', () => {
 
 export const useNoticeStore = defineStore('notice', () => {
 
-        const noticeList = ref<{
-            type: string,
-            title: string,
-            content: string,
-            id: string,
-            timer: any,
-            startTime: any,
-            remaining: number
-            progressBar: string
-        }[]>([])
+        type NotificationType = 'success' | 'error' | 'warn' | 'other';
 
-        function addNotice(item: { type: string, title: string, content: string }) {
+        type Notification = {
+            type: NotificationType;
+            title: string;
+            content: string;
+            id: string;
+            timer: number | undefined;
+            startTime: number | undefined;
+            remaining: number;
+            progressBar: string;
+        }
+
+        const noticeList = ref<Notification[]>([])
+
+        function addNotice(item: { type: NotificationType, title: string, content: string }) {
             const id: string = ulid()
 
             if (!['success', 'warn', 'error'].includes(item.type)) {
@@ -51,8 +55,8 @@ export const useNoticeStore = defineStore('notice', () => {
             noticeList.value.push({
                 ...item,
                 id,
-                timer: null,
-                startTime: null,
+                timer: undefined,
+                startTime: undefined,
                 remaining: 15000, // 初始15秒
                 progressBar: '100%'
             })

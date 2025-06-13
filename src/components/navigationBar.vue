@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import titleBar from './titleBar.vue';
 import setting from './setting.vue';
-import notice from './notice/index.vue';
+import notice from './notice/IndexPage.vue';
 import {reactive, watchEffect} from 'vue';
 import {useRouter} from 'vue-router';
 import {eventBus} from '@/utils/eventBus';

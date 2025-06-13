@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import titleBar from './components/titleBar.vue';
 import navigationBar from './components/navigationBar.vue';
-import notice from './components/notice/index.vue';
+import notice from './components/notice/IndexPage.vue';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter,} from 'vue-router';
 import {ref, watchEffect} from 'vue';
