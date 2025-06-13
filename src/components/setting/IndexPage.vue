@@ -40,35 +40,35 @@
 
 <script setup lang="ts">
 function closeDialog() {
-  const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
-  const setting = document.getElementById("setting_Div");
-  dialog.classList.remove("show"); // 移除动画类
-  setting!.classList.remove("show");
-  dialog.style.pointerEvents = "none";
+  const dialog = document.getElementById('setting_dialog') as HTMLDialogElement;
+  const setting = document.getElementById('setting_Div');
+  dialog.classList.remove('show'); // 移除动画类
+  setting!.classList.remove('show');
+  dialog.style.pointerEvents = 'none';
   setTimeout(() => dialog!.close(), 300); // 等待动画结束后关闭对话框
 }
 
-import {ref} from 'vue'
-import V_default from './setting/default.vue'
-import V_theme from './setting/theme.vue'
-import V_lang from './setting/lang.vue'
-import V_test from './setting/test.vue'
-import {eventBus} from '@/utils/eventBus'
+import {ref} from 'vue';
+import defaultPage from './DefaultPage.vue';
+import themePage from './ThemePage.vue';
+import langPage from './LangPage.vue';
+import testPage from './TestPage.vue';
+import {eventBus} from '@/utils/eventBus';
 
-const components = [V_default, V_theme, V_lang, V_test]
-const currentNames = ['default', 'theme', 'language', 'test']
-const currentDisplayName = ref('public.setting.default')
+const components = [defaultPage, themePage, langPage, testPage];
+const currentNames = ['default', 'theme', 'language', 'test'];
+const currentDisplayName = ref('public.setting.default');
 
-const currentIndex = ref(0)
+const currentIndex = ref(0);
 
-eventBus.on('callOpenSettingsDialog2', switchDetail)
+eventBus.on('callOpenSettingsDialog2', switchDetail);
 
-function switchDetail(index: any) {
-  currentIndex.value = index
+function switchDetail(index: number) {
+  currentIndex.value = index;
   if (index > currentNames.length) {
-    currentDisplayName.value = 'public.setting.systemError'
+    currentDisplayName.value = 'public.setting.systemError';
   } else {
-    currentDisplayName.value = 'public.setting.' + currentNames[index]
+    currentDisplayName.value = 'public.setting.' + currentNames[index];
   }
 }
 </script>

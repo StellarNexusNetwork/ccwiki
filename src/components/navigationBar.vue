@@ -69,7 +69,7 @@
         <div class="setting2">
           <div class="setting">
             <div style="display: flex;">
-              <setting></setting>
+              <setting/>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 import titleBar from './titleBar.vue';
-import setting from './setting.vue';
+import setting from './setting/IndexPage.vue';
 import notice from './notice/IndexPage.vue';
 import {reactive, watchEffect} from 'vue';
 import {useRouter} from 'vue-router';
