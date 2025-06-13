@@ -11,6 +11,7 @@ export default defineConfig([
         files: ["**/*.{js,mjs,cjs,ts,mts,cts,vue}"], languageOptions: {globals: {...globals.browser, ...globals.node}},
         rules: {
             // 💫 你设定的风格
+            'indent': ['error', 2],
             'quotes': ['error', 'single'], // 单引号
             'no-var': 'error', // 禁用 var
             'semi': ['error', 'always'], // 必须加分号
@@ -18,8 +19,8 @@ export default defineConfig([
 
             // 💚 Vue 风格
             ...pluginVue.configs['vue3-recommended'],
-            'vue/html-indent': ['error', 'tab'],
-            'vue/script-indent': ['error', 'tab', {baseIndent: 1}],
+            'vue/html-indent': ['error', 2],
+            'vue/script-indent': ['error', 2, {baseIndent: 1}],
             'vue/component-definition-name-casing': ['error', 'PascalCase'], // 组件定义名 PascalCase
             'vue/match-component-file-name': ['error', {
                 extensions: ['.vue'],
