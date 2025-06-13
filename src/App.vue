@@ -1,5 +1,5 @@
 <template>
-  <titleBar/>
+  <TitleBar/>
   <notice/>
   <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
   <div class="mainDiv" :style="mainDivStyle">
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import titleBar from './components/titleBar.vue';
+import TitleBar from './components/TitleBar.vue';
 import NavigationBar from './components/NavigationBar.vue';
 import notice from './components/notice/IndexPage.vue';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';

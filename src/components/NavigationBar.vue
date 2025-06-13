@@ -61,7 +61,7 @@
     <dialog id="setting_dialog">
       <div class="titleBar_B ">
         <div class="titleBar2">
-          <titleBar></titleBar>
+          <TitleBar></TitleBar>
         </div>
       </div>
       <notice/>
@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import titleBar from './titleBar.vue';
+import TitleBar from './TitleBar.vue';
 import setting from './setting/IndexPage.vue';
 import notice from './notice/IndexPage.vue';
 import {reactive, watchEffect} from 'vue';
