@@ -1,7 +1,7 @@
 <template>
   <titleBar/>
   <notice/>
-  <navigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
+  <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
   <div class="mainDiv" :style="mainDivStyle">
     <div class="main" :style="mainStyle">
       <RouterView class="router-view" :key="$route.fullPath"/>
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import titleBar from './components/titleBar.vue';
-import navigationBar from './components/navigationBar.vue';
+import NavigationBar from './components/NavigationBar.vue';
 import notice from './components/notice/IndexPage.vue';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter,} from 'vue-router';
