@@ -15,6 +15,7 @@ export default defineConfig([
       'src-tauri/',
       'node_modules/',
       'src/main.ts',
+      'src/shims-vue.d.ts'
     ],
     rules: {
       // 💫 你设定的风格
