@@ -11,7 +11,6 @@ export default defineConfig([
         files: ["**/*.{js,mjs,cjs,ts,mts,cts,vue}"], languageOptions: {globals: {...globals.browser, ...globals.node}},
         rules: {
             // 💫 你设定的风格
-            'indent': ['error', 'tab'], // 用 tab 缩进
             'quotes': ['error', 'single'], // 单引号
             'no-var': 'error', // 禁用 var
             'semi': ['error', 'always'], // 必须加分号
