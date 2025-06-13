@@ -1,8 +1,8 @@
 name: Vue CI Pipeline
 
 on:
-  push:
-    branches: [ dev ]  # 日常开发在 dev 分支
+  #  push:
+  #    branches: [ dev ]  # 日常开发在 dev 分支
   pull_request:
     branches: [ main,dev ] # 只允许向 main,dev 发起 PR
     types: [ opened, synchronize, reopened ]
