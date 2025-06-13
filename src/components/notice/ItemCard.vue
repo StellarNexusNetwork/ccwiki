@@ -12,69 +12,69 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref} from 'vue';
 
-const baseUrl = import.meta.env.BASE_URL
+const baseUrl = import.meta.env.BASE_URL;
 
-const {item, index} = defineProps(['item', 'index'])
-const emit = defineEmits(['remove-notice'])
+const {item, index} = defineProps(['item', 'index']);
+const emit = defineEmits(['remove-notice']);
 
 // 获取对应颜色
-const typeColorMap: any = {
-  'success': 'var(--color-primary-normal)',
-  'warn': 'var(--color-warning-normal)',
-  'error': 'var(--color-danger-normal)'
+const typeColorMap: Record<string, string> = {
+  success: 'var(--color-primary-normal)',
+  warn: 'var(--color-warning-normal)',
+  error: 'var(--color-danger-normal)'
 };
 
 function getColor(type: string) {
   return typeColorMap[type] || 'black';
 }
 
-const startX = ref(0)
-const deltaX = ref(0)
-let isDragging = false
-let dt = ref('')
+const startX = ref(0);
+const deltaX = ref(0);
+let isDragging = false;
+let dt = ref('');
 
 const handleMouseDown = (e: any) => {
   if (e instanceof TouchEvent) {
-    e = e.touches[0]
+    e = e.touches[0];
   }
-  startX.value = e.clientX
-  isDragging = true
-  dt.value = ''
+  startX.value = e.clientX;
+  isDragging = true;
+  dt.value = '';
 
   const onMouseMove = (e: any) => {
     if (e instanceof TouchEvent) {
-      e = e.touches[0]
+      e = e.touches[0];
     }
     if (isDragging) {
-      deltaX.value = e.clientX - startX.value
-      deltaX.value = Math.min(deltaX.value, 150)
-      deltaX.value = Math.max(deltaX.value, -150)
+      deltaX.value = e.clientX - startX.value;
+      deltaX.value = Math.min(deltaX.value, 150);
+      deltaX.value = Math.max(deltaX.value, -150);
     }
-  }
+  };
 
   const onMouseUp = () => {
-    isDragging = false
+    isDragging = false;
     if (deltaX.value > 110 || deltaX.value < -110) {
-      emit("remove-notice", item.id)
+      emit('remove-notice', item.id);
     } else {
-      dt.value = ';transition-duration:0.5s'
-      deltaX.value = 0
+      dt.value = ';transition-duration:0.5s';
+      deltaX.value = 0;
     }
-    window.removeEventListener('mousemove', onMouseMove)
-    window.removeEventListener('mouseup', onMouseUp)
-    window.removeEventListener('touchmove', onMouseMove)
-    window.removeEventListener('touchend', onMouseUp)
-    window.removeEventListener('touchcancel', onMouseUp)
-  }
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+    window.removeEventListener('touchmove', onMouseMove);
+    window.removeEventListener('touchend', onMouseUp);
+    window.removeEventListener('touchcancel', onMouseUp);
+  };
 
-  window.addEventListener('mousemove', onMouseMove)
-  window.addEventListener('mouseup', onMouseUp)
-  window.addEventListener('touchmove', onMouseMove)
-  window.addEventListener('touchend', onMouseUp)
-  window.addEventListener('touchcancel', onMouseUp)
-}
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mouseup', onMouseUp);
+  window.addEventListener('touchmove', onMouseMove);
+  window.addEventListener('touchend', onMouseUp);
+  window.addEventListener('touchcancel', onMouseUp);
+};
 </script>
 
 <style scoped>

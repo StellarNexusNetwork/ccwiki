@@ -3,7 +3,7 @@
     <div class="notice">
       <TransitionGroup name="fade" tag="div" mode="out-in" class="group" @mouseenter="pauseTimer()" @mouseleave="resumeTimer()">
         <div v-for=" (item, index) in notice.noticeList" :key='item.id'>
-          <nItem :item="item" :index="index" @remove-notice="notice.removeNotice"/>
+          <ItemCard :item="item" :index="index" @remove-notice="notice.removeNotice"/>
         </div>
       </TransitionGroup>
     </div>
@@ -11,34 +11,46 @@
 </template>
 
 <script setup lang="ts">
-import nItem from './item.vue'
+import ItemCard from './ItemCard.vue';
 import {useNoticeStore} from '@/stores/setting';
 
-const notice = useNoticeStore()
+type NotificationType = 'success' | 'error' | 'warn' | 'other';
 
-let mouseenterItem = false
+type Notification = {
+  type: NotificationType;
+  title: string;
+  content: string;
+  id: string;
+  timer: number | undefined;
+  startTime: number | undefined
+  remaining: number;
+  progressBar: string;
+}
+
+const notice = useNoticeStore();
 
 // 暂停计时
 function pauseTimer() {
-  mouseenterItem = true;
   for (let i = 0; i < notice.noticeList.length; i++) {
-    const item: any = notice.noticeList[i]
-    if (!item) return
+    const item: Notification = notice.noticeList[i];
+    if (!item) return;
 
-    clearTimeout(item.timer)
-    const elapsed = Date.now() - item.startTime
-    item.remaining -= elapsed
+    clearTimeout(item.timer);
+    let elapsed = Date.now();
+    if (item.startTime) {
+      elapsed = Date.now() - item.startTime;
+    }
+    item.remaining -= elapsed;
   }
 }
 
 // 继续计时
 function resumeTimer() {
-  mouseenterItem = false;
   for (let i = 0; i < notice.noticeList.length; i++) {
-    const item = notice.noticeList[i]
-    if (!item) return
+    const item = notice.noticeList[i];
+    if (!item) return;
 
-    notice.startTimer(item.id)
+    notice.startTimer(item.id);
   }
 }
 </script>
