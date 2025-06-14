@@ -7,6 +7,7 @@ import {defineConfig} from "eslint/config";
 
 export default defineConfig([
   tseslint.configs.recommended,
+  pluginVue.configs["flat/essential"],
   {files: ["**/*.{js,mjs,cjs,ts,mts,cts,vue}"], plugins: {js}, extends: ["js/recommended"]},
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,vue}"], languageOptions: {globals: {...globals.browser, ...globals.node}},
@@ -30,7 +31,7 @@ export default defineConfig([
       'camelcase': ['error', {properties: 'always'}], // 驼峰命名
 
       // 💚 Vue 风格
-      ...pluginVue.configs['vue3-recommended'],
+      'vue/no-unused-vars': 'warn',
       'vue/html-indent': ['error', 2],
       "vue/script-indent": "off",
       'vue/component-definition-name-casing': ['error', 'PascalCase'], // 组件定义名 PascalCase
@@ -44,7 +45,6 @@ export default defineConfig([
       }],
     },
   },
-  pluginVue.configs["flat/essential"],
   {files: ["**/*.vue"], languageOptions: {parserOptions: {parser: tseslint.parser}}},
   // {files: ["**/*.json"], plugins: {json}, language: "json/json", extends: ["json/recommended"]},
 ]);
