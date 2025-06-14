@@ -16,7 +16,7 @@ const router = createRouter({
     {
       path: '/classification/:category/:subcategory',
       name: 'classification_items',
-      component: () => import('../views/classification_items/index.vue')
+      component: () => import('../views/classification_items/IndexPage.vue')
     },
     {
       path: '/20241108/',
@@ -46,7 +46,7 @@ const router = createRouter({
     {
       path: '/docs/:category/:subcategory/:id',
       name: 'docs',
-      component: () => import('../views/docs/index.vue')
+      component: () => import('../views/docs/IndexPage.vue')
     },
     {
       path: '/setting/uninstall/',

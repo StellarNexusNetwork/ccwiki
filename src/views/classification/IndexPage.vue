@@ -19,11 +19,6 @@
 <script setup lang="ts">
 // import ItemCard from './ItemCard.vue';
 import Category from './CategoryList.vue';
-
-function hello() {
-  console.log("hello")
-}
-
 </script>
 <style scoped>
 .Div {

@@ -6,7 +6,7 @@
       </h2>
     </div>
     <div class="AboutList">
-      <suspense v-for="([id, item], index) in entries">
+      <suspense v-for="([id, item], index) in entries" :key="id">
         <template #default>
           <ItemCard :category="category" :subcategory="subcategory" :id="id" :data="item"/>
         </template>
@@ -16,45 +16,45 @@
 </template>
 
 <script setup lang="ts">
-import ItemCard from "./ItemCard.vue";
+import ItemCard from './ItemCard.vue';
 import get from 'lodash/get';
-import {computed, ref, toRaw} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import {computed, ref, toRaw} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
-import {useDataSourcesStore} from "@/stores/dataSources";
-import {useSettingStore} from "@/stores/setting";
+import {useDataSourcesStore} from '@/stores/dataSources';
+import {useSettingStore} from '@/stores/setting';
 
-const route = useRoute()
-const {category, subcategory} = route.params
+const route = useRoute();
+const {category, subcategory} = route.params;
 
 const itemList = ref<any[]>([]);
 
-const dataSources = useDataSourcesStore()
+const dataSources = useDataSourcesStore();
 
 // 刷新数据
 if (Object.keys(dataSources.localRepositoriesData).length === 0) {
-  await dataSources.refreshData()
+  await dataSources.refreshData();
 
   // 合并语言数据
   const {getLocaleMessage} = useI18n();
 
-  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage);
   for (const lang in updateLang) {
-    useI18n().setLocaleMessage(lang, updateLang[lang])
+    useI18n().setLocaleMessage(lang, updateLang[lang]);
   }
 }
 
-const root = toRaw(dataSources.localRepositoriesData)
+const root = toRaw(dataSources.localRepositoriesData);
 
-const lang = computed(() => useSettingStore().setting.lang)
+const lang = computed(() => useSettingStore().setting.lang);
 
-const routes = computed(() => useDataSourcesStore().routeGroups)
+const routes = computed(() => useDataSourcesStore().routeGroups);
 
-const items = get(root, [Object.keys(routes.value)[0], 'docs', lang.value, category, subcategory])
+const items = get(root, [Object.keys(routes.value)[0], 'docs', lang.value, category, subcategory]);
 
 
 if (items === undefined) {
-  useRouter().push('/404')
+  useRouter().push('/404');
 }
 const entries = computed(() => Object.entries(items ?? {} as Record<string, any>));
 // else {
