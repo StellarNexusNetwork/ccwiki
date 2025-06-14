@@ -17,7 +17,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'  # 使用指定版本的 Node.js
-          cache: 'pnpm'
 
       - name: 确保 Corepack 是最新的
         run: npm install -g corepack@latest
