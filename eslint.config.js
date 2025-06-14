@@ -21,6 +21,8 @@ export default defineConfig([
       // 💫 你设定的风格
       // 把禁止使用 any 改成警告
       '@typescript-eslint/no-explicit-any': 'warn',
+      "no-unused-vars": 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
       'indent': ['error', 2],
       'quotes': ['warn', 'single'], // 单引号
       'no-var': 'error', // 禁用 var
