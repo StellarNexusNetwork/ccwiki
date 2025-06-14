@@ -64,8 +64,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted, onUnmounted, reactive, ref, watchEffect} from 'vue'
-import {useWindowStore} from '@/stores/window'
+import {onMounted, onUnmounted, reactive, ref, watchEffect} from 'vue';
+import {useWindowStore} from '@/stores/window';
 
 
 const mainDiv = ref();
@@ -103,7 +103,7 @@ watchEffect(() => {
   } else {
     newsDiv2Style.display = 'flex';
   }
-})
+});
 </script>
 <style scoped>
 .Div {
@@ -175,7 +175,6 @@ watchEffect(() => {
   user-select: none;
   transition-duration: 0.3s;
 }
-
 
 .Div .home .newsList .newsDiv .text {
   font-family: RHRCN-H;
