@@ -94,7 +94,7 @@ const chartOptions = {
   },
   yaxis: {min: 0},
   colors: ['#04AAEB'],
-}
+};
 
 const series = [
   {
@@ -113,9 +113,7 @@ const series = [
       y: 30
     }],
   },
-]
-
-
+];
 </script>
 
 <style scoped>
