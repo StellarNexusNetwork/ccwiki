@@ -10,21 +10,21 @@
   </button>
 </template>
 <script setup lang="ts">
-import {computed} from "vue";
+import {computed} from 'vue';
 import {useRouter} from 'vue-router';
-import {useDataSourcesStore} from "@/stores/dataSources";
-import {useSettingStore} from "@/stores/setting";
+import {useDataSourcesStore} from '@/stores/dataSources';
+import {useSettingStore} from '@/stores/setting';
 
 const router = useRouter();
 
-const {category, subcategory, id, data} = defineProps(['category', 'subcategory', 'id', 'data'])
+const {category, subcategory, id, data} = defineProps(['category', 'subcategory', 'id', 'data']);
 
-const routes = computed(() => useDataSourcesStore().routeGroups)
+const routes = computed(() => useDataSourcesStore().routeGroups);
 
-let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id])
+let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]);
 
 function routePush(url: string) {
-  router.push(url)
+  router.push(url);
 }
 </script>
 <style scoped>
