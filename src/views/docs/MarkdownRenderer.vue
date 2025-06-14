@@ -15,44 +15,44 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted, ref, toRaw} from "vue";
-import {useRoute, useRouter} from 'vue-router'
+import {computed, onMounted, ref, toRaw} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import get from 'lodash/get';
-import MarkdownIt from 'markdown-it'
-import {useDataSourcesStore} from "@/stores/dataSources";
-import {useSettingStore} from "@/stores/setting";
+import MarkdownIt from 'markdown-it';
+import {useDataSourcesStore} from '@/stores/dataSources';
+import {useSettingStore} from '@/stores/setting';
 
-const {category, subcategory, id} = useRoute().params
-const source = ref('')
+const {category, subcategory, id} = useRoute().params;
+const source = ref('');
 
-const dataSources = useDataSourcesStore()
+const dataSources = useDataSourcesStore();
 
 // 刷新数据
 if (Object.keys(dataSources.localRepositoriesData).length === 0) {
-  await dataSources.refreshData()
+  await dataSources.refreshData();
 
   // 合并语言数据
   const {getLocaleMessage} = useI18n();
 
-  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage)
+  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage);
   for (const lang in updateLang) {
-    useI18n().setLocaleMessage(lang, updateLang[lang])
+    useI18n().setLocaleMessage(lang, updateLang[lang]);
   }
 }
 
-const root = toRaw(dataSources.localRepositoriesData)
+const root = toRaw(dataSources.localRepositoriesData);
 
-const routes = computed(() => useDataSourcesStore().routeGroups)
+const routes = computed(() => useDataSourcesStore().routeGroups);
 
-const pageHandle = get(root, [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]) as any
-const indexMdHandle = get(pageHandle, 'index_md') as any
+const pageHandle = get(root, [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]) as any;
+const indexMdHandle = get(pageHandle, 'index_md') as any;
 
 if (pageHandle === undefined || indexMdHandle === undefined) {
-  useRouter().push('/404')
+  useRouter().push('/404');
 }
 
-let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id])
+let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]);
 
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});
@@ -62,16 +62,16 @@ const md = new MarkdownIt({html: true});
 
 onMounted(async () => {
   if (indexMdHandle !== undefined) {
-    const file = await indexMdHandle.getFile()
-    const text = await file.text()
+    const file = await indexMdHandle.getFile();
+    const text = await file.text();
 
-    source.value = text
+    source.value = text;
 
     // 处理格式 替换所有 [[path]] 为 ![path](path)
-    source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![\$1](\$1)');
+    source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![$1]($1)');
 
     // 匹配所有 markdown 图片语法
-    const regex = /\!\[(.*?)\]\((.*?)\)/g;
+    const regex = /!\[(.*?)\]\((.*?)\)/g;
     const matches = [...source.value.matchAll(regex)];
 
     const replacements = await Promise.all(matches.map(async match => {
@@ -79,14 +79,14 @@ onMounted(async () => {
       const alt = match[1];       // alt 文本
       const oldPath = match[2];   // 括号内路径
 
-      let imgURL
+      let imgURL;
 
-      if (get(pageHandle, oldPath.replace(/\./g, "_")) !== undefined) {
-        const img = await pageHandle[oldPath.replace(/\./g, "_")].getFile()
+      if (get(pageHandle, oldPath.replace(/\./g, '_')) !== undefined) {
+        const img = await pageHandle[oldPath.replace(/\./g, '_')].getFile();
         imgURL = URL.createObjectURL(img);
       } else {
         //todo 替换为占位图片
-        imgURL = oldPath
+        imgURL = oldPath;
       }
 
       const newMarkdown = `![${alt}](${imgURL})`;
@@ -101,12 +101,12 @@ onMounted(async () => {
       source.value = source.value.replace(old, newVal);
     }
   }
-})
+});
 
 // 渲染后的 HTML
 const renderedMarkdown = computed(() => {
-  return md.render(typeof source.value === 'string' ? source.value : '')
-})
+  return md.render(typeof source.value === 'string' ? source.value : '');
+});
 </script>
 
 

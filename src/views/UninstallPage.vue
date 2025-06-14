@@ -21,41 +21,40 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 
-let counter = 0
-let imgSrc = ref("/static/public/svg/NotFound.svg")
-let text = ref("真的要卸载吗？ /(ㄒoㄒ)/~~")
-let textList = ['是... 是点错了吧...', '你... 为什么还要点？...', '真的要离开我吗...', '离开我有什么好的？！', '这是你最后的机会咯！', '❤️你跑不掉的❤️，❤️乖乖取消吧❤️！']
+let counter = 0;
+let imgSrc = ref('/static/public/svg/NotFound.svg');
+let text = ref('真的要卸载吗？ /(ㄒoㄒ)/~~');
+let textList = ['是... 是点错了吧...', '你... 为什么还要点？...', '真的要离开我吗...', '离开我有什么好的？！', '这是你最后的机会咯！', '❤️你跑不掉的❤️，❤️乖乖取消吧❤️！'];
 
 let cancel = ref({
-  "width": 160,
-  "height": 50,
-  "display": "flex"
-})
+  'width': 160,
+  'height': 50,
+  'display': 'flex'
+});
 let uninstall = ref({
-  "width": 160,
-  "height": 50,
-  "display": "flex"
-})
+  'width': 160,
+  'height': 50,
+  'display': 'flex'
+});
 
 function clickUninstall() {
-  uninstall.value.width *= 0.95
-  uninstall.value.height *= 0.95
-  cancel.value.width *= 1.3
-  cancel.value.height *= 1.3
-  text.value = textList[counter]
-  counter += 1
+  uninstall.value.width *= 0.95;
+  uninstall.value.height *= 0.95;
+  cancel.value.width *= 1.3;
+  cancel.value.height *= 1.3;
+  text.value = textList[counter];
+  counter += 1;
   if (counter == 6) {
-    uninstall.value.display = "none"
+    uninstall.value.display = 'none';
   }
 }
 
 function clickCancel() {
-  uninstall.value.display = "none"
-  cancel.value.display = "none"
-  imgSrc.value = "/static/public/svg/ccwiki_logo0.svg"
-  text.value = "太好了，要和我过一辈子哦！❤️"
+  uninstall.value.display = 'none';
+  cancel.value.display = 'none';
+  imgSrc.value = '/static/public/svg/ccwiki_logo0.svg';
+  text.value = '太好了，要和我过一辈子哦！❤️';
 }
-
 </script>
 <style scoped>
 .Div {

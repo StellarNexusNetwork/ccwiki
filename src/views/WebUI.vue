@@ -63,19 +63,18 @@
 </template>
 
 <script setup lang="ts">
+import ApexCharts from 'vue3-apexcharts';
+import {ref} from 'vue';
 
-import ApexCharts from 'vue3-apexcharts'
-import {ref} from 'vue'
-
-let oMarginRight = ref('10px')
+let oMarginRight = ref('10px');
 
 const chartOptions = {
   chart: {type: 'area', height: 140, sparkline: {enabled: true}},
   stroke: {curve: 'smooth'},
   fill: {
-    type: "gradient",
+    type: 'gradient',
     gradient: {
-      type: "vertical",
+      type: 'vertical',
       opacityFrom: 1,
       opacityTo: 0,
       stops: [0, 100],
@@ -83,19 +82,19 @@ const chartOptions = {
         {
           offset: 0,
           opacity: .2,
-          color: "#04AAEB"
+          color: '#04AAEB'
         },
         {
           offset: 100,
           opacity: 0,
-          color: "#04AAEB"
+          color: '#04AAEB'
         }
       ]
     }
   },
   yaxis: {min: 0},
   colors: ['#04AAEB'],
-}
+};
 
 const series = [
   {
@@ -114,9 +113,7 @@ const series = [
       y: 30
     }],
   },
-]
-
-
+];
 </script>
 
 <style scoped>

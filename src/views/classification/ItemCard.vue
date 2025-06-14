@@ -5,7 +5,7 @@
   <div class="boxDiv" v-else>
     <div class="title">测试</div>
     <div class="itemList">
-      <button class="item" :id="index === 0 ? 'firstItem' : null" @click="" v-for="(item, index) in dataList">
+      <button class="item" :id="index === 0 ? 'firstItem' : null" v-for="(item, index) in dataList" :key="item.name">
         <div class="title">{{ item.name }}</div>
         <div class="introduction">{{ item.path }}</div>
         <div class="iconList">
@@ -18,22 +18,19 @@
   </div>
 </template>
 <script setup lang="js">
-import axios from 'axios'
+import axios from 'axios';
 
-let dataList = null
-let Error = null
+let dataList = null;
+let Error = null;
 
-await axios.get('https://api.github.com/repos/StellarNexusNetwork/cc.wiki.project.v4.data/contents/d3')
-    .then(function (response) {
-      // 处理成功情况
-      dataList = response.data
-    })
-    .catch(function (error) {
-      // 处理错误情况
-      Error = true
-      console.log(error);
-    });
-
+await axios.get('https://api.github.com/repos/StellarNexusNetwork/cc.wiki.project.v4.data/contents/d3').then(function (response) {
+  // 处理成功情况
+  dataList = response.data;
+}).catch(function (error) {
+  // 处理错误情况
+  Error = true;
+  console.log(error);
+});
 </script>
 <style scoped>
 .boxDiv {
