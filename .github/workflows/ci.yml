@@ -28,7 +28,7 @@ jobs:
         run: pnpm config set registry https://registry.npmmirror.com
 
       - name: 安装依赖
-        run: pnpm ci
+        run: pnpm install --frozen-lockfile
 
       - name: 运行 Linter
         run: pnpm run lint
