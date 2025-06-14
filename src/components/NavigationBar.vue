@@ -11,14 +11,14 @@
         <div class="line">
         </div>
       </div>
-      <div class="options" v-for="item in navigationBarList">
+      <div class="options" v-for="item in navigationBarList" :key="item.name">
         <button @click="RouterLinkPush(item.path)">
           <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
           <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
         </button>
       </div>
       <div class="notNecessary">
-        <div class="options" v-for="item in nNavigationBarList">
+        <div class="options" v-for="item in nNavigationBarList" :key="item.name">
           <button @click="RouterLinkPush(item.path)">
             <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
             <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
@@ -61,7 +61,7 @@
     <dialog id="setting_dialog">
       <div class="titleBar_B ">
         <div class="titleBar2">
-          <titleBar></titleBar>
+          <TitleBar></TitleBar>
         </div>
       </div>
       <notice/>
@@ -69,7 +69,7 @@
         <div class="setting2">
           <div class="setting">
             <div style="display: flex;">
-              <setting></setting>
+              <setting/>
             </div>
           </div>
         </div>
@@ -79,50 +79,49 @@
 </template>
 
 <script setup lang="ts">
-import titleBar from './titleBar.vue'
-import setting from './setting.vue';
-import notice from './notice/index.vue'
-import {reactive, watchEffect} from 'vue'
-import {useRouter} from 'vue-router'
+import TitleBar from './TitleBar.vue';
+import setting from './setting/IndexPage.vue';
+import notice from './notice/IndexPage.vue';
+import {reactive, watchEffect} from 'vue';
+import {useRouter} from 'vue-router';
 import {eventBus} from '@/utils/eventBus';
-import {useWindowStore} from '@/stores/window'
+import {useWindowStore} from '@/stores/window';
 
-const baseUrl = import.meta.env.BASE_URL
+const baseUrl = import.meta.env.BASE_URL;
 
 let navigationBarList = [
-  {"name": "home", "path": "/"},
-  {"name": "classification", "path": "/classification"},
-  {"name": "components", "path": "/components"},
-
-]
+  {'name': 'home', 'path': '/'},
+  {'name': 'classification', 'path': '/classification'},
+  {'name': 'components', 'path': '/components'},
+];
 
 let nNavigationBarList = [
-  {"name": "20241108", "path": "/20241108"},
-  {"name": "eye8", "path": "/eye8"},
-  {"name": "chat", "path": "/chat"}
-]
+  {'name': '20241108', 'path': '/20241108'},
+  {'name': 'eye8', 'path': '/eye8'},
+  // {'name': 'chat', 'path': '/chat'}
+];
 
-let unfoldStyle = reactive({state: false, opacity: 0, fontSize: '15px'})
-let navigationBarStyle = reactive({width: "50px"})
+let unfoldStyle = reactive({state: false, opacity: 0, fontSize: '15px'});
+let navigationBarStyle = reactive({width: '50px'});
 
 
-let oldNavigationBarWidth = '50px'
-const router = useRouter()
+let oldNavigationBarWidth = '50px';
+const router = useRouter();
 
 function RouterLinkPush(path: string) {
-  router.push(path)
+  router.push(path);
 }
 
 // 移动端适配
 watchEffect(() => {
-  if (useWindowStore().windowWidth < 670 && navigationBarStyle.width != "100vw") {
-    oldNavigationBarWidth = navigationBarStyle.width
-    navigationBarStyle.width = "100vw";
+  if (useWindowStore().windowWidth < 670 && navigationBarStyle.width != '100vw') {
+    oldNavigationBarWidth = navigationBarStyle.width;
+    navigationBarStyle.width = '100vw';
   }
-  if (useWindowStore().windowWidth >= 670 && navigationBarStyle.width == "100vw") {
-    navigationBarStyle.width = oldNavigationBarWidth
+  if (useWindowStore().windowWidth >= 670 && navigationBarStyle.width == '100vw') {
+    navigationBarStyle.width = oldNavigationBarWidth;
   }
-})
+});
 
 
 const props = defineProps({
@@ -136,7 +135,7 @@ const localMainStyle = {...props.mainStyle};
 
 function unfold() {
   if (unfoldStyle.state) {
-    navigationBarStyle.width = "50px";
+    navigationBarStyle.width = '50px';
     localMainDivStyle.paddingLeft = '50px';
     Object.assign(localMainStyle, {width: 'calc(100vw - 50px)', position: 'fixed', right: '0'});
     emit('update:mainDivStyle', localMainDivStyle);
@@ -150,7 +149,7 @@ function unfold() {
     }, 300);
     unfoldStyle.state = false;
   } else {
-    navigationBarStyle.width = "95px";
+    navigationBarStyle.width = '95px';
     localMainDivStyle.paddingLeft = '95px';
     Object.assign(localMainStyle, {width: 'calc(100vw - 95px)', position: 'fixed', right: '0'});
     emit('update:mainDivStyle', localMainDivStyle);
@@ -166,15 +165,15 @@ function unfold() {
   }
 }
 
-eventBus.on('callOpenSettingsDialog1', openDialog)
+eventBus.on('callOpenSettingsDialog1', openDialog);
 
 function openDialog() {
-  const dialog = document.getElementById("setting_dialog") as HTMLDialogElement;
-  const setting = document.getElementById("setting_Div");
-  dialog.style.pointerEvents = "auto";
+  const dialog = document.getElementById('setting_dialog') as HTMLDialogElement;
+  const setting = document.getElementById('setting_Div');
+  dialog.style.pointerEvents = 'auto';
   dialog.showModal(); // 打开对话框
-  dialog.classList.add("show"); // 添加动画类
-  setting!.classList.add("show");
+  dialog.classList.add('show'); // 添加动画类
+  setting!.classList.add('show');
 }
 </script>
 

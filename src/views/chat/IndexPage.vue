@@ -125,9 +125,7 @@ import {onMounted, ref, watchEffect} from 'vue';
 import axios from 'axios';
 import AutoResizeTextarea from './AutoResizeTextarea.vue';
 
-
-const userInput = ref(""); // 定义一个 ref 来存储用户的输入
-
+const userInput = ref(''); // 定义一个 ref 来存储用户的输入
 
 const imageUrl = ref(''); // 创建响应式变量
 const imageUrl2 = ref(''); // 创建响应式变量
@@ -142,34 +140,29 @@ const updateBoxHeight = (height: number) => {
   }
 };
 
-
 // 定义一个函数来获取图片
 const fetchImage = () => {
   axios({
     url: 'http://localhost:5000/get-image/system', // 请求服务器返回图片的 URL
     method: 'GET',
     responseType: 'blob', // 将响应类型设置为 blob 以处理二进制文件
-  })
-      .then((response) => {
-        // 使用 URL.createObjectURL 将二进制数据转换为可显示的图片 URL
-        imageUrl.value = URL.createObjectURL(response.data);
-      })
-      .catch((error) => {
-        console.error('获取图片失败:', error);
-      });
+  }).then((response) => {
+    // 使用 URL.createObjectURL 将二进制数据转换为可显示的图片 URL
+    imageUrl.value = URL.createObjectURL(response.data);
+  }).catch((error) => {
+    console.error('获取图片失败:', error);
+  });
 
   axios({
     url: 'http://localhost:5000/get-image/user', // 请求服务器返回图片的 URL
     method: 'GET',
     responseType: 'blob', // 将响应类型设置为 blob 以处理二进制文件
-  })
-      .then((response) => {
-        // 使用 URL.createObjectURL 将二进制数据转换为可显示的图片 URL
-        imageUrl2.value = URL.createObjectURL(response.data);
-      })
-      .catch((error) => {
-        console.error('获取图片失败:', error);
-      });
+  }).then((response) => {
+    // 使用 URL.createObjectURL 将二进制数据转换为可显示的图片 URL
+    imageUrl2.value = URL.createObjectURL(response.data);
+  }).catch((error) => {
+    console.error('获取图片失败:', error);
+  });
 };
 
 // 使用 onMounted 让组件挂载时调用 fetchImage
@@ -183,8 +176,7 @@ watchEffect(() => {
   } else {
     sendButtonColor.value = '#494949';
   }
-})
-
+});
 </script>
 <style scoped>
 .chat {

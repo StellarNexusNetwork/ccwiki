@@ -41,19 +41,18 @@
 import {eventBus} from '@/utils/eventBus';
 
 const openDialog = () => {
-  eventBus.emit('callOpenSettingsDialog1')
-  eventBus.emit('callOpenSettingsDialog2', 2)
-}
+  eventBus.emit('callOpenSettingsDialog1');
+  eventBus.emit('callOpenSettingsDialog2', 2);
+};
 
 const goBack = () => {
-  window.history.back()
-}
+  window.history.back();
+};
 
 // 前进到下一页
 const goForward = () => {
-  window.history.forward()
-}
-
+  window.history.forward();
+};
 </script>
 
 <style scoped>

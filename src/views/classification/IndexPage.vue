@@ -10,20 +10,15 @@
       <!--      <div class="line"></div>-->
       <!--      <Suspense>-->
       <!--        <template #default>-->
-      <!--          <boxDiv/>-->
+      <!--          <ItemCard/>-->
       <!--        </template>-->
       <!--      </Suspense>-->
     </div>
   </div>
 </template>
 <script setup lang="ts">
-// import boxDiv from './boxDiv.vue';
-import Category from './category.vue';
-
-function hello() {
-  console.log("hello")
-}
-
+// import ItemCard from './ItemCard.vue';
+import Category from './CategoryList.vue';
 </script>
 <style scoped>
 .Div {

@@ -2,12 +2,12 @@
   <div>
     <suspense>
       <template #default>
-        <MainDiv/>
+        <ItemList/>
       </template>
     </suspense>
   </div>
 </template>
 
 <script setup lang="ts">
-import MainDiv from "./mainDiv.vue"
+import ItemList from './ItemList.vue';
 </script>
