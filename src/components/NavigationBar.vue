@@ -98,7 +98,7 @@ let navigationBarList = [
 let nNavigationBarList = [
   {'name': '20241108', 'path': '/20241108'},
   {'name': 'eye8', 'path': '/eye8'},
-  {'name': 'chat', 'path': '/chat'}
+  // {'name': 'chat', 'path': '/chat'}
 ];
 
 let unfoldStyle = reactive({state: false, opacity: 0, fontSize: '15px'});

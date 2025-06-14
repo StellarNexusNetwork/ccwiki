@@ -11,7 +11,7 @@ const router = createRouter({
     {
       path: '/classification/',
       name: 'classification',
-      component: () => import('../views/classification/index.vue')
+      component: () => import('../views/classification/IndexPage.vue')
     },
     {
       path: '/classification/:category/:subcategory',
