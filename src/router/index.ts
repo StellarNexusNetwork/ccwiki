@@ -21,12 +21,12 @@ const router = createRouter({
     {
       path: '/20241108/',
       name: '20241108',
-      component: () => import('../views/20241108/eye8_copy.vue')
+      component: () => import('../views/20241108/WebUI2.vue')
     },
     {
       path: '/eye8/',
       name: 'eye8',
-      component: () => import('../views/eye8.vue')
+      component: () => import('../views/WebUI.vue')
     },
     {
       path: '/chat/',

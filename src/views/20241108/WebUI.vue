@@ -64,22 +64,21 @@
 </template>
 
 <script setup lang="ts">
+import ApexCharts from 'vue3-apexcharts';
+import {onMounted, onUnmounted, ref} from 'vue';
 
-import ApexCharts from 'vue3-apexcharts'
-import {onMounted, onUnmounted, ref} from 'vue'
-
-let oMarginRight = ref('10px')
-let jsonData
-let series = ref([])
-let xaxis = ref([])
+let oMarginRight = ref('10px');
+let jsonData;
+let series = ref([]);
+let xaxis = ref([]);
 
 const chartOptions = {
   chart: {type: 'area', height: 140, sparkline: {enabled: true}},
   stroke: {curve: 'smooth'},
   fill: {
-    type: "gradient",
+    type: 'gradient',
     gradient: {
-      type: "vertical",
+      type: 'vertical',
       opacityFrom: 1,
       opacityTo: 0,
       stops: [0, 100],
@@ -99,7 +98,7 @@ const chartOptions = {
   },
   yaxis: {min: 0},
   // colors: ['#04AAEB'],
-}
+};
 
 // const series = ref([
 //     {
@@ -138,9 +137,9 @@ const connectWebSocket = () => {
   socket.onmessage = (event) => {
     message.value = event.data;  // Store received message in `message`
     console.log('Received message:', event.data);  // Print the received message
-    jsonData = JSON.parse(event.data.replace(/'/g, '"'))
-    series.value = jsonData.series
-    xaxis.value = jsonData.xaxis
+    jsonData = JSON.parse(event.data.replace(/'/g, '"'));
+    series.value = jsonData.series;
+    xaxis.value = jsonData.xaxis;
   };
 
   // Handle connection errors
@@ -165,8 +164,6 @@ onUnmounted(() => {
     socket.close();
   }
 });
-
-
 </script>
 
 <style scoped>

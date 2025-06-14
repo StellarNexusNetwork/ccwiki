@@ -5,8 +5,7 @@
 </template>
 
 <script setup lang="ts">
-
-import {onMounted} from 'vue'
+import {onMounted} from 'vue';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -14,17 +13,11 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 onMounted(() => {
   const Dbody = document.querySelector('.body');
 
-  const scene = new THREE.Scene()
+  const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0x999999, 1, 200);
   scene.background = new THREE.Color(0x999999);
 
-  const camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-  );
-
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -39,12 +32,12 @@ onMounted(() => {
   const gltfLoader = new GLTFLoader();
 
   gltfLoader.load('./static/20241108/model/dg-lab-v3.glb', (gltf) => {
-    console.log(gltf)
-    scene.add(gltf.scene)
-  })
+    console.log(gltf);
+    scene.add(gltf.scene);
+  });
 
   camera.position.z = 5;
-  camera.lookAt(0, 0, 0)
+  camera.lookAt(0, 0, 0);
 
   const axisHelper = new THREE.AxesHelper(5);
   scene.add(axisHelper);
@@ -70,10 +63,8 @@ onMounted(() => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 
-  })
-})
-
-
+  });
+});
 </script>
 
 <style scoped></style>
