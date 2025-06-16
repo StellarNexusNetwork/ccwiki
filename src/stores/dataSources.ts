@@ -4,6 +4,8 @@ import {useNoticeStore, useSettingStore} from '@/stores/setting';
 
 import get from 'lodash/get';
 
+const baseUrl = import.meta.env.BASE_URL;
+
 export const useDataSourcesStore = defineStore(
   'DataSources', () => {
     const localRepositories = ref<any[]>([]);
@@ -194,7 +196,7 @@ export const useDataSourcesStore = defineStore(
       const data = get(localRepositoriesData.value, route);
       const cache = get(cachedItems, route);
       if (!cache) {
-        const item = {'name': '未知', 'iconSrc': '/static/public/svg/NotFound.svg'};
+        const item = {'name': '未知', 'iconSrc': baseUrl + 'static/public/svg/NotFound.svg'};
         const iconHandle = get(data, ['icon_png']) as any;
         if (iconHandle !== undefined) {
           item.iconSrc = URL.createObjectURL(await iconHandle.getFile());
