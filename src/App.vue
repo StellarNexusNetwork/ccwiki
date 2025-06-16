@@ -22,7 +22,7 @@ import TitleBar from './components/TitleBar.vue';
 import NavigationBar from './components/NavigationBar.vue';
 import notice from './components/notice/IndexPage.vue';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
-import {RouterView, useRouter,} from 'vue-router';
+import {RouterView, useRouter} from 'vue-router';
 import {ref, watchEffect} from 'vue';
 import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
@@ -134,6 +134,7 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
   } else {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((document as any).startViewTransition) {
+      useWindowStore().isMarqueeEnabled = false;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (document as any).startViewTransition(() => next());
     } else {
@@ -171,7 +172,6 @@ router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) =>
     }
   }
 });
-
 </script>
 
 <style scoped>

@@ -5,6 +5,7 @@ import {onMounted, ref} from 'vue';
 export const useWindowStore = defineStore('window',
   () => {
     const windowWidth = ref(window.innerWidth);
+    let isMarqueeEnabled = ref(false);
 
     const updateWindowWidth = () => {
       windowWidth.value = window.innerWidth;
@@ -15,6 +16,9 @@ export const useWindowStore = defineStore('window',
       window.addEventListener('resize', updateWindowWidth); // 监听窗口大小变化
     });
 
-    return {windowWidth};
+    return {
+      windowWidth,
+      isMarqueeEnabled
+    };
   }
 );

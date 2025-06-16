@@ -5,7 +5,13 @@
       <div class="title">{{ $t("docs." + value.path + ".title") }}</div>
       <div class="itemList">
         <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="routePush('/classification/'+value.path+'/'+item.path)" v-for="(item, index) in value.items" :key="item.path">
-          <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
+          <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
+            <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
+              {{ $t("docs." + value.path + ".items." + item.path + ".title") }}
+              <span v-if="shouldAddGap" style="display:inline-block;width:40px;"></span>
+            </div>
+          </Vue3Marquee>
+          <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
             {{ $t("docs." + value.path + ".items." + item.path + ".title") }}
           </div>
           <div class="introduction">{{ $t("docs." + value.path + ".items." + item.path + ".content") }}</div>
@@ -21,9 +27,19 @@
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
 import {useI18n} from 'vue-i18n';
-import {computed, toRaw} from 'vue';
+import {computed, onMounted, toRaw} from 'vue';
 import {useRouter} from 'vue-router';
 import get from 'lodash/get';
+import {useTextOverflow} from '@/composables/useTextOverflow';
+import {useWindowStore} from '@/stores/window';
+
+onMounted(() => {
+  setTimeout(() => {
+    useWindowStore().isMarqueeEnabled = true;
+  }, 250)
+})
+
+const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
 
 const router = useRouter();
 
