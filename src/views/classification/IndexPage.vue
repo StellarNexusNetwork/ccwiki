@@ -24,6 +24,7 @@ import Category from './CategoryList.vue';
 .Div {
   display: flex;
   justify-content: center;
+  padding-bottom: 20px;
 }
 
 .Div .AboutList {

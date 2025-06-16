@@ -2,7 +2,13 @@
   <button class="item" @click="routePush('/docs/'+category+'/'+subcategory+'/'+id)">
     <img class="icon" :src="item.iconSrc" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
     <div class="textBox">
-      <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id }">
+      <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
+        <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id }">
+          {{ item.name }}
+          <span v-if="shouldAddGap" style="display:inline-block;width:40px;"></span>
+        </div>
+      </Vue3Marquee>
+      <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id }">
         {{ item.name }}
       </div>
       <div class="introduction"></div>
@@ -10,10 +16,20 @@
   </button>
 </template>
 <script setup lang="ts">
-import {computed} from 'vue';
+import {computed, onMounted} from 'vue';
 import {useRouter} from 'vue-router';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
+import {useTextOverflow} from '@/composables/useTextOverflow';
+import {useWindowStore} from '@/stores/window';
+
+onMounted(() => {
+  setTimeout(() => {
+    useWindowStore().isMarqueeEnabled = true;
+  }, 250);
+});
+
+const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
 
 const router = useRouter();
 

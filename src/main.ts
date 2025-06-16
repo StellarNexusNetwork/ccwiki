@@ -3,6 +3,7 @@ import './assets/main.css';
 import {createApp} from 'vue';
 import {createPinia} from 'pinia';
 import {createI18n} from 'vue-i18n';
+import Vue3Marquee from 'vue3-marquee';
 
 import App from './App.vue';
 import router from './router';
@@ -29,5 +30,7 @@ const i18n = createI18n({
 });
 
 app.use(i18n);
+
+app.use(i18n).use(Vue3Marquee);
 
 app.mount('#app');
