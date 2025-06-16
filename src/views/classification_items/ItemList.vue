@@ -70,6 +70,7 @@ const entries = computed(() => Object.entries(items ?? {} as Record<string, any>
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 20px;
 }
 
 .Div .markdown-body {
