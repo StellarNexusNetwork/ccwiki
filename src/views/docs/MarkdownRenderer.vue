@@ -145,5 +145,6 @@ const renderedMarkdown = computed(() => {
   height: 225px;
   object-fit: contain;
   image-rendering: pixelated;
+  user-select: none;
 }
 </style>
