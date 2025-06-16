@@ -5,7 +5,7 @@ import {onMounted, ref} from 'vue';
 export const useWindowStore = defineStore('window',
   () => {
     const windowWidth = ref(window.innerWidth);
-    let isMarqueeEnabled = ref(false);
+    const isMarqueeEnabled = ref(false);
 
     const updateWindowWidth = () => {
       windowWidth.value = window.innerWidth;
