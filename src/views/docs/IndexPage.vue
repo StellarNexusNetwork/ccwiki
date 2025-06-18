@@ -27,7 +27,7 @@ watch(() => [route.params.category, route.params.subcategory, route.params.id], 
 
 @media (min-width: 670px) {
   .Div .mainDiv {
-    padding: 30px;
+    padding: 20px;
     flex-direction: row-reverse;
     justify-content: flex-end;
   }
