@@ -196,10 +196,27 @@ export const useDataSourcesStore = defineStore(
       const data = get(localRepositoriesData.value, route);
       const cache = get(cachedItems, route);
       if (!cache) {
-        const item = {'name': '未知', 'iconSrc': baseUrl + 'static/public/svg/NotFound.svg'};
+        const item = {
+          'name': '未知',
+          'iconSrc': baseUrl + 'static/public/svg/NotFound.svg',
+          'width': 256,
+          'height': 256
+        };
         const iconHandle = get(data, ['icon_png']) as any;
         if (iconHandle !== undefined) {
           item.iconSrc = URL.createObjectURL(await iconHandle.getFile());
+          // 获取图片大小
+          const img = new Image();
+          img.onload = () => {
+            item.width = img.naturalWidth;
+            item.height = img.naturalHeight;
+            if (Math.max(item.width, item.height) < 256) {
+              const mathX = 256 / Math.max(item.width, item.height);
+              item.width *= mathX;
+              item.height *= mathX;
+            }
+          }
+          img.src = item.iconSrc;
         }
         const configHandle = get(data, 'config_json') as any;
         if (configHandle !== undefined) {

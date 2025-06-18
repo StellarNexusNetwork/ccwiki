@@ -26,7 +26,7 @@ import {useWindowStore} from '@/stores/window';
 onMounted(() => {
   setTimeout(() => {
     useWindowStore().isMarqueeEnabled = true;
-  }, 250);
+  }, 1000);
 });
 
 const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
@@ -45,7 +45,7 @@ function routePush(url: string) {
 </script>
 <style scoped>
 .item {
-  width: 200px;
+  width: 195px;
   height: 90px;
   display: flex;
   align-items: center;
@@ -73,7 +73,7 @@ function routePush(url: string) {
 
 .item .textBox {
   display: block;
-  width: 110px;
+  width: 105px;
 }
 
 .item .textBox .title {

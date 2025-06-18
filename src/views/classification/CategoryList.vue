@@ -36,7 +36,7 @@ import {useWindowStore} from '@/stores/window';
 onMounted(() => {
   setTimeout(() => {
     useWindowStore().isMarqueeEnabled = true;
-  }, 250);
+  }, 1000);
 });
 
 const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
