@@ -26,6 +26,7 @@
     "markdown-it-container": "^4.0.0",
     "markdown-it-sanitizer": "^0.4.3",
     "mitt": "^3.0.1",
+    "photoswipe": "^5.4.4",
     "pinia": "^2.2.5",
     "sql.js": "^1.13.0",
     "three": "^0.171.0",

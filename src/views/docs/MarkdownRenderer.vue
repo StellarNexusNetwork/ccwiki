@@ -1,27 +1,33 @@
 <template>
-  <div class="subContent">
-    <div class="introduction">
-      <img data-v-ef16d5dc="" class="img" :src=item.iconSrc alt="" width="auto" height="30" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
+  <div class="mainDiv">
+    <div class="subContent">
+      <div class="introduction">
+        <a class="isImg" :href="item.iconSrc" :data-pswp-width="item.width" :data-pswp-height="item.height" target="_blank">
+          <img class="img" :src="item.iconSrc" alt="" width="auto" height="30" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="mainContent">
-    <div class="markdown-body">
-      <h1 :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id ,'borderBottom':'none'}">
-        {{ item.name }}
-      </h1>
+    <div class="mainContent">
+      <div class="markdown-body">
+        <h1 :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id ,'borderBottom':'none'}">
+          {{ item.name }}
+        </h1>
+      </div>
+      <br/>
+      <div class="markdown-body" v-html="renderedMarkdown"></div>
     </div>
-    <br/>
-    <div class="markdown-body" v-html="renderedMarkdown"></div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted, ref, toRaw} from 'vue';
+import {computed, nextTick, onMounted, ref, toRaw} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import get from 'lodash/get';
 import MarkdownIt from 'markdown-it';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
+import 'photoswipe/style.css';
 
 const {category, subcategory, id} = useRoute().params;
 const source = ref('');
@@ -106,6 +112,43 @@ onMounted(async () => {
 // 渲染后的 HTML
 const renderedMarkdown = computed(() => {
   return md.render(typeof source.value === 'string' ? source.value : '');
+});
+
+function isPhonePortrait() {
+  return window.matchMedia('(max-width: 670px) and (orientation: portrait)').matches;
+}
+
+let lightbox;
+onMounted(async () => {
+  await nextTick();        // 等 v‑dom 真插入
+  lightbox = new PhotoSwipeLightbox({
+    gallery: '.mainDiv',
+    children: 'a.isImg',
+    initialZoomLevel: (zoomLevelObject) => {
+      if (isPhonePortrait()) {
+        return zoomLevelObject.vFill;
+      } else {
+        return zoomLevelObject.fit;
+      }
+    },
+    secondaryZoomLevel: (zoomLevelObject) => {
+      if (isPhonePortrait()) {
+        return zoomLevelObject.fit;
+      } else {
+        return 1;
+      }
+    },
+
+    maxZoomLevel: 5,
+
+    imageClickAction: 'close',
+    tapAction: 'close',
+    // tap delay is removed if set to false
+    doubleTapAction: false,
+
+    pswpModule: () => import('photoswipe')
+  });
+  lightbox.init();
 });
 </script>
 

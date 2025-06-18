@@ -88,6 +88,8 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
     return fromMatch && toMatch;
   });
 
+  useWindowStore().isMarqueeEnabled = false;
+
   if (!isBlacklisted) {
     if (ifLoadingFinish && !rtIsAnimating) {
       rtIsAnimating = true;
@@ -134,7 +136,6 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
   } else {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((document as any).startViewTransition) {
-      useWindowStore().isMarqueeEnabled = false;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (document as any).startViewTransition(() => next());
     } else {
