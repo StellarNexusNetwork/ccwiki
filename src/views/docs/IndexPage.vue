@@ -43,7 +43,6 @@ watch(() => [route.params.category, route.params.subcategory, route.params.id], 
 
 .Div .mainDiv {
   display: flex;
-  width: 100vw;
-  overflow-y: auto;
+  width: 100%;
 }
 </style>
