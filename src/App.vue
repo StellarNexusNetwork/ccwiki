@@ -75,7 +75,8 @@ const blackList: RouteRule[] = [
   {'from': 'classification', 'to': 'classification_items'},
   {'from': 'classification_items', 'to': 'classification'},
   {'from': 'classification_items', 'to': 'docs'},
-  {'from': 'docs', 'to': 'classification_items'}
+  {'from': 'docs', 'to': 'classification_items'},
+  {'from': 'tools_db', 'to': 'tools_db'}
 ];
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
