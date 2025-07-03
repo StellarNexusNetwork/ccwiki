@@ -168,3 +168,7 @@ a:hover {
 .main::-webkit-scrollbar-track {
     background: var(--color-background-1);
 }
+
+.pswp img {
+    image-rendering: pixelated;
+}

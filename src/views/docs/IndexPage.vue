@@ -27,7 +27,7 @@ watch(() => [route.params.category, route.params.subcategory, route.params.id], 
 
 @media (min-width: 670px) {
   .Div .mainDiv {
-    padding: 30px;
+    padding: 20px;
     flex-direction: row-reverse;
     justify-content: flex-end;
   }
@@ -43,7 +43,6 @@ watch(() => [route.params.category, route.params.subcategory, route.params.id], 
 
 .Div .mainDiv {
   display: flex;
-  width: 100vw;
-  overflow-y: auto;
+  width: 100%;
 }
 </style>
