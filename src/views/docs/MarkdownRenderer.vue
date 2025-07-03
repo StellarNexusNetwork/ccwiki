@@ -51,14 +51,16 @@ const root = toRaw(dataSources.localRepositoriesData);
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-const pageHandle = get(root, [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]) as any;
+const baseAddress = [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]
+
+const pageHandle = get(root, baseAddress) as any;
 const indexMdHandle = get(pageHandle, 'index_md') as any;
 
 if (pageHandle === undefined || indexMdHandle === undefined) {
   useRouter().push('/404');
 }
 
-let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]);
+let item = await useDataSourcesStore().getOrCacheItem(baseAddress, ['icon_png']);
 
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});
@@ -87,15 +89,16 @@ onMounted(async () => {
 
       let imgURL;
 
-      if (get(pageHandle, oldPath.replace(/\./g, '_')) !== undefined) {
-        const img = await pageHandle[oldPath.replace(/\./g, '_')].getFile();
-        imgURL = URL.createObjectURL(img);
-      } else {
-        //todo 替换为占位图片
-        imgURL = oldPath;
-      }
+      const imgPath = oldPath.split('/').map(part => part.replace(/\./g, '_'))
 
-      const newMarkdown = `![${alt}](${imgURL})`;
+      // 获取图片路径
+      const img = await dataSources.getOrCacheItem(baseAddress, imgPath);
+
+      // const newMarkdown = `![${alt}](${imgURL})`;
+      const newMarkdown = '<a class="isImg" href="' + img.iconSrc + '" data-pswp-width="' + img.width + '" data-pswp-height="' + img.height + '" target="_blank">\n' +
+          '<img src="' + img.iconSrc + '" alt="' + alt + '" draggable="false">\n' +
+          '</a>';
+
       return {
         old: fullMatch,
         new: newMarkdown
@@ -151,7 +154,6 @@ onMounted(async () => {
   lightbox.init();
 });
 </script>
-
 
 <style scoped>
 @media (min-width: 670px) {
