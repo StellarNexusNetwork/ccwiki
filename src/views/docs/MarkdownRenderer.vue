@@ -51,7 +51,7 @@ const root = toRaw(dataSources.localRepositoriesData);
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-const baseAddress = [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]
+const baseAddress = [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id];
 
 const pageHandle = get(root, baseAddress) as any;
 const indexMdHandle = get(pageHandle, 'index_md') as any;
@@ -89,7 +89,7 @@ onMounted(async () => {
 
       let imgURL;
 
-      const imgPath = oldPath.split('/').map(part => part.replace(/\./g, '_'))
+      const imgPath = oldPath.split('/').map(part => part.replace(/\./g, '_'));
 
       // 获取图片路径
       const img = await dataSources.getOrCacheItem(baseAddress, imgPath);
