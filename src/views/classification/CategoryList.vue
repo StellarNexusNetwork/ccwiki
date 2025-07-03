@@ -82,7 +82,7 @@ async function getIconList(category: string, subcategory: string) {
   if (group) {
     const first3 = Object.fromEntries(Object.entries(group).slice(0, 3));
     for (const [key, value] of Object.entries(first3)) {
-      const item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, key]);
+      const item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, key], ['icon_png']);
       item['id'] = key;
       iconList.push(item);
     }

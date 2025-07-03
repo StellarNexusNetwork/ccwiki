@@ -192,9 +192,9 @@ export const useDataSourcesStore = defineStore(
       current[keys[keys.length - 1]] = value;
     }
 
-    async function getOrCacheItem(route: string[]) {
+    async function getOrCacheItem(route: string[], imgAdd: string[]) {
       const data = get(localRepositoriesData.value, route);
-      const cache = get(cachedItems, route);
+      const cache = get(cachedItems, [...route, ...imgAdd]);
       if (!cache) {
         const item = {
           'name': '未知',
@@ -202,21 +202,26 @@ export const useDataSourcesStore = defineStore(
           'width': 256,
           'height': 256
         };
-        const iconHandle = get(data, ['icon_png']) as any;
+        const iconHandle = get(data, imgAdd) as any;
         if (iconHandle !== undefined) {
           item.iconSrc = URL.createObjectURL(await iconHandle.getFile());
-          // 获取图片大小
-          const img = new Image();
-          img.onload = () => {
-            item.width = img.naturalWidth;
-            item.height = img.naturalHeight;
-            if (Math.max(item.width, item.height) < 256) {
-              const mathX = 256 / Math.max(item.width, item.height);
-              item.width *= mathX;
-              item.height *= mathX;
-            }
-          }
-          img.src = item.iconSrc;
+
+          // 等待图片加载完再处理尺寸
+          await new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+              item.width = img.naturalWidth;
+              item.height = img.naturalHeight;
+
+              if (Math.max(item.width, item.height) < 256) {
+                const scale = 256 / Math.max(item.width, item.height);
+                item.width = Math.round(item.width * scale);
+                item.height = Math.round(item.height * scale);
+              }
+              resolve(); // 通知外部图片加载完了
+            };
+            img.src = item.iconSrc;
+          });
         }
         const configHandle = get(data, 'config_json') as any;
         if (configHandle !== undefined) {
@@ -229,7 +234,7 @@ export const useDataSourcesStore = defineStore(
           }
         }
         // 缓存
-        deepSet(cachedItems, route, {...item});
+        deepSet(cachedItems, [...route, ...imgAdd], {...item});
         return {...item};
       } else {
         return {...cache};

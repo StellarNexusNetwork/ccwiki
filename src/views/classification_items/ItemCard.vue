@@ -37,7 +37,7 @@ const {category, subcategory, id, data} = defineProps(['category', 'subcategory'
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id]);
+let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id], ['icon_png']);
 
 function routePush(url: string) {
   router.push(url);
