@@ -45,7 +45,7 @@ function routePush(url: string) {
 </script>
 <style scoped>
 .item {
-  width: 195px;
+  width: 200px;
   height: 90px;
   display: flex;
   align-items: center;
@@ -73,7 +73,7 @@ function routePush(url: string) {
 
 .item .textBox {
   display: block;
-  width: 105px;
+  width: 110px;
 }
 
 .item .textBox .title {

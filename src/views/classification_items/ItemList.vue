@@ -1,9 +1,9 @@
 <template>
-  <div class="Div">
-    <div class="markdown-body">
-      <h2 :style="{ 'viewTransitionName': 'class-itemList-title-' + category + '-' + subcategory ,'borderBottom':'none'}">
+  <div class="mainDiv">
+    <div class="titleDiv">
+      <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + category + '-' + subcategory ,'borderBottom':'none'}">
         {{ $t("docs." + category + ".items." + subcategory + ".title") }}
-      </h2>
+      </div>
     </div>
     <div class="AboutList">
       <suspense v-for="([id, item], index) in entries" :key="id">
@@ -66,20 +66,32 @@ const entries = computed(() => Object.entries(items ?? {} as Record<string, any>
 </script>
 
 <style scoped>
-.Div {
+.mainDiv {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 20px;
+  width: 95%;
+  margin-top: 25px;
 }
 
-.Div .markdown-body {
-  margin-top: 20px;
-  width: 95%;
+.titleDiv {
+  width: 100%;
 }
 
-.Div .AboutList {
-  width: 95%;
+.mainDiv .title {
+  max-width: 90vw;
+  overflow: hidden;
+  white-space: pre-line;
+  font-family: MiSans-B;
+  font-size: 25px;
+  margin-bottom: 5px;
+  color: var(--color-text-title);
+  transition-duration: 0.3s;
+}
+
+
+.mainDiv .AboutList {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;

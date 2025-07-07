@@ -124,9 +124,9 @@ function routePush(url: string) {
 }
 
 .boxDiv .title {
+  max-width: 90vw;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: pre-line;
   font-family: MiSans-B;
   font-size: 25px;
   margin-bottom: 5px;
