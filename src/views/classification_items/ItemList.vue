@@ -97,5 +97,6 @@ const entries = computed(() => Object.entries(items ?? {} as Record<string, any>
   align-content: flex-start;
   gap: 20px;
   margin-top: 10px;
+  padding-bottom: 40px;
 }
 </style>

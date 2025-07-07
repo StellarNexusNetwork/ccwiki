@@ -137,6 +137,7 @@ function routePush(url: string) {
 .boxDiv .itemList {
   display: flex;
   overflow-x: auto;
+  padding-bottom: 40px;
 }
 
 .boxDiv .itemList #firstItem {
