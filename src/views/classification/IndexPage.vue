@@ -1,100 +1,82 @@
 <template>
-  <div class="Div">
-    <div class="AboutList">
-      <suspense>
-        <template #default>
-          <Category/>
-        </template>
-      </suspense>
-
-      <!--      <div class="line"></div>-->
-      <!--      <Suspense>-->
-      <!--        <template #default>-->
-      <!--          <ItemCard/>-->
-      <!--        </template>-->
-      <!--      </Suspense>-->
-    </div>
+  <div>
+    <ul>
+      <li class="localRepositories" v-for="(item, index) in useDataSourcesStore().localRepositoriesDisplay" :key="item.ulid" @click="routePush('/classification/' + index)">
+        <img :src="item.iconURL" alt="SVG Image" draggable="false">
+        <div class="textDiv">
+          <div class="name">{{ item.name }}</div>
+          <div class="version">{{ item.version }}</div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
+
 <script setup lang="ts">
-// import ItemCard from './ItemCard.vue';
-import Category from './CategoryList.vue';
+import {useDataSourcesStore} from "@/stores/dataSources";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
+
+function routePush(url: string) {
+  router.push(url);
+}
 </script>
+
 <style scoped>
-.Div {
+ul {
   display: flex;
-  justify-content: center;
-  padding-bottom: 20px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 20px;
+  padding: 25px;
 }
 
-.Div .AboutList {
-  width: 95%;
+.localRepositories {
+  width: 200px;
+  height: 90px;
   display: flex;
-  flex-direction: column;
-  margin-top: 25px;
-}
-
-.Div .AboutList .line {
-  width: 100%;
-  border-top: 0.5px solid var(--color-border-3);
-  margin-top: 30px;
-  margin-bottom: 30px;
-  transition-duration: 0.3s;
-}
-
-.Div .AboutList .line#firstItem {
-  display: none;
-}
-
-.Div .AboutList .boxDiv {
-  display: flex;
-  flex-direction: column;
-}
-
-.Div .AboutList .boxDiv .title {
-  font-family: MiSans-B;
-  font-size: 25px;
-  margin-bottom: 5px;
-  color: var(--color-text-title);
-  transition-duration: 0.3s;
-}
-
-.Div .AboutList .boxDiv .itemList {
-  display: flex;
-  overflow-x: auto;
-}
-
-.Div .AboutList .boxDiv .itemList #firstItem {
-  margin-left: 0;
-}
-
-.Div .AboutList .boxDiv .itemList .item {
-  width: 210px;
-  min-width: 180px;
-  height: 108px;
+  align-items: center;
   padding: 10px;
   border-radius: 10px;
-  margin-left: 20px;
   background: var(--color-background-2);
   border: 1px solid rgba(0, 0, 0, 0);
   transition-duration: 0.3s;
 }
 
-.Div .AboutList .boxDiv .itemList .item:hover {
+.localRepositories:hover {
   border: 1px solid var(--color-border-3);
   transition-duration: 0.3s;
 }
 
-.Div .AboutList .boxDiv .itemList .item .title {
+.localRepositories img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-left: 5px;
+  margin-right: 20px;
+  user-select: none;
+}
+
+.localRepositories .textDiv {
+  display: block;
+  width: 110px;
+}
+
+.localRepositories .textDiv .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: MiSans-M;
-  font-size: 20px;
+  font-size: 16px;
   margin-bottom: 0;
   color: var(--color-text-title);
   display: flex;
   transition-duration: 0.3s;
 }
 
-.Div .AboutList .boxDiv .itemList .introduction {
+.localRepositories .textDiv .version {
   height: 36px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -103,17 +85,6 @@ import Category from './CategoryList.vue';
   -webkit-line-clamp: 2;
   color: var(--color-text-body);
   transition-duration: 0.3s;
-}
-
-.Div .AboutList .boxDiv .itemList .iconList {
-  display: flex;
-  height: 20px;
-  justify-content: flex-end;
-  padding-top: 5px;
-}
-
-.Div .AboutList .boxDiv .itemList .icon {
-  margin-left: 5px;
-  user-select: none;
+  text-align: left;
 }
 </style>
