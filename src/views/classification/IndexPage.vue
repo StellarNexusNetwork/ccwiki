@@ -4,7 +4,10 @@
       <li class="localRepositories" v-for="(item, index) in useDataSourcesStore().localRepositoriesDisplay" :key="item.ulid" @click="routePush('/classification/' + index)">
         <img :src="item.iconURL" alt="SVG Image" draggable="false">
         <div class="textDiv">
-          <div class="name">{{ item.name }}</div>
+          <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
+            <div class="name">{{ item.name }}</div>
+          </Vue3Marquee>
+          <div v-if="!useWindowStore().isMarqueeEnabled" class="name">{{ item.name }}</div>
           <div class="version">{{ item.version }}</div>
         </div>
       </li>
@@ -15,6 +18,18 @@
 <script setup lang="ts">
 import {useDataSourcesStore} from "@/stores/dataSources";
 import {useRouter} from "vue-router";
+import {useWindowStore} from "@/stores/window";
+import {onMounted} from "vue";
+import {useTextOverflow} from "@/composables/useTextOverflow";
+
+onMounted(() => {
+  setTimeout(() => {
+    useWindowStore().isMarqueeEnabled = true;
+  }, 1000);
+});
+
+const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
+
 
 const router = useRouter();
 
