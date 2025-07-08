@@ -11,12 +11,22 @@ const router = createRouter({
     {
       path: '/classification/',
       name: 'classification',
-      component: () => import('../views/classification/IndexPage.vue')
+      component: () => import('@/views/classification/IndexPage.vue')
     },
     {
-      path: '/classification/:category/:subcategory',
+      path: '/classification/:rid',
+      name: 'classificationR',
+      component: () => import('@/views/classificationR/IndexPage.vue')
+    },
+    {
+      path: '/classification/:rid/:category/:subcategory',
       name: 'classification_items',
       component: () => import('../views/classification_items/IndexPage.vue')
+    },
+    {
+      path: '/docs/:rid/:category/:subcategory/:id',
+      name: 'docs',
+      component: () => import('../views/docs/IndexPage.vue')
     },
     {
       path: '/20241108/',
@@ -42,11 +52,6 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/NotFound.vue')
-    },
-    {
-      path: '/docs/:category/:subcategory/:id',
-      name: 'docs',
-      component: () => import('../views/docs/IndexPage.vue')
     },
     {
       path: '/setting/uninstall/',

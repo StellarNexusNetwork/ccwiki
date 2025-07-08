@@ -8,7 +8,7 @@
     <div class="AboutList">
       <suspense v-for="([id, item], index) in entries" :key="id">
         <template #default>
-          <ItemCard :category="category" :subcategory="subcategory" :id="id" :data="item"/>
+          <ItemCard :rid="rid0" :category="category" :subcategory="subcategory" :id="id" :data="item"/>
         </template>
       </suspense>
     </div>
@@ -25,7 +25,19 @@ import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
 
 const route = useRoute();
-const {category, subcategory} = route.params;
+const {rid, category, subcategory} = route.params as {
+  rid: string;
+  category: string;
+  subcategory: string;
+};
+
+const rid0 = ref()
+if (/^\d+$/.test(rid)) {
+  rid0.value = Number(rid)
+} else {
+  useRouter().push('/404');
+}
+
 
 const itemList = ref<any[]>([]);
 
@@ -50,8 +62,7 @@ const lang = computed(() => useSettingStore().setting.lang);
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-const items = get(root, [Object.keys(routes.value)[0], 'docs', lang.value, category, subcategory]);
-
+const items = get(root, [Object.keys(routes.value)[rid0.value], 'docs', lang.value, category, subcategory]);
 
 if (items === undefined) {
   useRouter().push('/404');

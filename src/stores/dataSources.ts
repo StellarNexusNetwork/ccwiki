@@ -12,7 +12,7 @@ export const useDataSourcesStore = defineStore(
     const localRepositoriesDisplay = ref<any[]>([]);
     const localRepositoriesData: Record<string, any> = ref({});
     let initState = false;
-    const routeGroups: any = ref({});
+    const routeGroups: Record<string, any> = ref({});
     const langHandles: any = ref([]);
     const cachedItems: any = ref({});
 

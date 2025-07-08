@@ -26,6 +26,8 @@ import {RouterView, useRouter} from 'vue-router';
 import {ref, watchEffect} from 'vue';
 import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
+import get from 'lodash/get';
+
 
 type RouteRule = {
   from: string | RegExp
@@ -71,22 +73,29 @@ watchEffect(() => {
 });
 
 const router = useRouter();
-const blackList: RouteRule[] = [
-  {'from': 'classification', 'to': 'classification_items'},
-  {'from': 'classification_items', 'to': 'classification'},
-  {'from': 'classification_items', 'to': 'docs'},
-  {'from': 'docs', 'to': 'classification_items'}
-];
+const blackList: Record<string, any> = {
+  'classification': ['classification', 'classificationR', 'classification_items', 'docs'],
+  'classificationR': ['classification', 'classificationR', 'classification_items', 'docs'],
+  'classification_items': ['classification', 'classificationR', 'classification_items', 'docs'],
+  'docs': ['classification', 'classificationR', 'classification_items', 'docs']
+}
+
+function IsBlacklisted(from: string, to: string) {
+  const getItem = get(blackList, from)
+  if (getItem !== undefined) {
+    if (Array.isArray(getItem) && getItem.includes(to)) {
+      return true
+    }
+  }
+  return false
+}
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
 
-  const isBlacklisted = blackList.some(rule => {
-    const fromMatch = typeof rule.from === 'string' ? from.name === rule.from : rule.from.test(from.name as string);
-
-    const toMatch = typeof rule.to === 'string' ? to.name === rule.to : rule.to.test(to.name as string);
-
-    return fromMatch && toMatch;
-  });
+  let isBlacklisted = false;
+  if (typeof from.name === 'string' && typeof to.name === 'string') {
+    isBlacklisted = IsBlacklisted(from.name, to.name);
+  }
 
   useWindowStore().isMarqueeEnabled = false;
 
@@ -145,13 +154,11 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
 });
 
 router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-  const isBlacklisted = blackList.some(rule => {
-    const fromMatch = typeof rule.from === 'string' ? from.name === rule.from : rule.from.test(from.name as string);
+  let isBlacklisted = false;
+  if (typeof from.name === 'string' && typeof to.name === 'string') {
+    isBlacklisted = IsBlacklisted(from.name, to.name);
+  }
 
-    const toMatch = typeof rule.to === 'string' ? to.name === rule.to : rule.to.test(to.name as string);
-
-    return fromMatch && toMatch;
-  });
   if (!isBlacklisted) {
     if (ifLoadingFinish && !rtAeF) {
       allowRouting = false;
