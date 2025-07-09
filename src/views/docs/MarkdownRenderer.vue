@@ -36,9 +36,9 @@ const {rid, category, subcategory, id} = useRoute().params as {
   id: string;
 };
 
-const rid0 = ref()
+const rid0 = ref();
 if (/^\d+$/.test(rid)) {
-  rid0.value = Number(rid)
+  rid0.value = Number(rid);
 } else {
   useRouter().push('/404');
 }
