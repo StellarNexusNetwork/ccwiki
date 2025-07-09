@@ -78,16 +78,16 @@ const blackList: Record<string, any> = {
   'classificationR': ['classification', 'classificationR', 'classification_items', 'docs'],
   'classification_items': ['classification', 'classificationR', 'classification_items', 'docs'],
   'docs': ['classification', 'classificationR', 'classification_items', 'docs']
-}
+};
 
 function IsBlacklisted(from: string, to: string) {
-  const getItem = get(blackList, from)
+  const getItem = get(blackList, from);
   if (getItem !== undefined) {
     if (Array.isArray(getItem) && getItem.includes(to)) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

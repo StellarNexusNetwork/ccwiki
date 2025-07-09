@@ -35,9 +35,9 @@ const router = useRouter();
 
 const {rid, category, subcategory, id, data} = defineProps(['rid', 'category', 'subcategory', 'id', 'data']);
 
-const rid0 = ref()
+const rid0 = ref();
 if (/^\d+$/.test(rid)) {
-  rid0.value = Number(rid)
+  rid0.value = Number(rid);
 } else {
   useRouter().push('/404');
 }
