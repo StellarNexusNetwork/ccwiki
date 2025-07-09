@@ -1,14 +1,14 @@
 <template>
-  <div class="Div">
-    <div class="markdown-body">
-      <h2 :style="{ 'viewTransitionName': 'class-itemList-title-' + category + '-' + subcategory ,'borderBottom':'none'}">
+  <div class="mainDiv">
+    <div class="titleDiv">
+      <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + category + '-' + subcategory ,'borderBottom':'none'}">
         {{ $t("docs." + category + ".items." + subcategory + ".title") }}
-      </h2>
+      </div>
     </div>
     <div class="AboutList">
       <suspense v-for="([id, item], index) in entries" :key="id">
         <template #default>
-          <ItemCard :category="category" :subcategory="subcategory" :id="id" :data="item"/>
+          <ItemCard :rid="rid0" :category="category" :subcategory="subcategory" :id="id" :data="item"/>
         </template>
       </suspense>
     </div>
@@ -25,7 +25,19 @@ import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
 
 const route = useRoute();
-const {category, subcategory} = route.params;
+const {rid, category, subcategory} = route.params as {
+  rid: string;
+  category: string;
+  subcategory: string;
+};
+
+const rid0 = ref();
+if (/^\d+$/.test(rid)) {
+  rid0.value = Number(rid);
+} else {
+  useRouter().push('/404');
+}
+
 
 const itemList = ref<any[]>([]);
 
@@ -50,8 +62,7 @@ const lang = computed(() => useSettingStore().setting.lang);
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-const items = get(root, [Object.keys(routes.value)[0], 'docs', lang.value, category, subcategory]);
-
+const items = get(root, [Object.keys(routes.value)[rid0.value], 'docs', lang.value, category, subcategory]);
 
 if (items === undefined) {
   useRouter().push('/404');
@@ -66,24 +77,37 @@ const entries = computed(() => Object.entries(items ?? {} as Record<string, any>
 </script>
 
 <style scoped>
-.Div {
+.mainDiv {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 20px;
+  width: 95%;
+  margin-top: 25px;
 }
 
-.Div .markdown-body {
-  margin-top: 20px;
-  width: 95%;
+.titleDiv {
+  width: 100%;
 }
 
-.Div .AboutList {
-  width: 95%;
+.mainDiv .title {
+  max-width: 90vw;
+  overflow: hidden;
+  white-space: pre-line;
+  font-family: MiSans-B;
+  font-size: 25px;
+  margin-bottom: 5px;
+  color: var(--color-text-title);
+  transition-duration: 0.3s;
+}
+
+
+.mainDiv .AboutList {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
   gap: 20px;
   margin-top: 10px;
+  padding-bottom: 40px;
 }
 </style>

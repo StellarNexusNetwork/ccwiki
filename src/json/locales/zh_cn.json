@@ -42,6 +42,9 @@
       "date_none": "无数据"
     }
   },
+  "classification": {
+    "NotFound": "这里什么也没有哦！请先前往“设置-数据”添加一下吧！"
+  },
   "about": {
     "title": {
       "mainDeveloper": "主要开发者",

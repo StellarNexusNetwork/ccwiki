@@ -29,7 +29,20 @@ import {useSettingStore} from '@/stores/setting';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
 
-const {category, subcategory, id} = useRoute().params;
+const {rid, category, subcategory, id} = useRoute().params as {
+  rid: string;
+  category: string;
+  subcategory: string;
+  id: string;
+};
+
+const rid0 = ref();
+if (/^\d+$/.test(rid)) {
+  rid0.value = Number(rid);
+} else {
+  useRouter().push('/404');
+}
+
 const source = ref('');
 
 const dataSources = useDataSourcesStore();
@@ -51,7 +64,7 @@ const root = toRaw(dataSources.localRepositoriesData);
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-const baseAddress = [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id];
+const baseAddress = [Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory, id];
 
 const pageHandle = get(root, baseAddress) as any;
 const indexMdHandle = get(pageHandle, 'index_md') as any;

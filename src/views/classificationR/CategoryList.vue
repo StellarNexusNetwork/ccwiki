@@ -4,7 +4,7 @@
     <div class="boxDiv">
       <div class="title">{{ $t("docs." + value.path + ".title") }}</div>
       <div class="itemList">
-        <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="routePush('/classification/'+value.path+'/'+item.path)" v-for="(item, index) in value.items" :key="item.path">
+        <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="routePush('/classification/'+rid0+'/'+value.path+'/'+item.path)" v-for="(item, index) in value.items" :key="item.path">
           <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
             <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
               {{ $t("docs." + value.path + ".items." + item.path + ".title") }}
@@ -27,8 +27,8 @@
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
 import {useI18n} from 'vue-i18n';
-import {computed, onMounted, toRaw} from 'vue';
-import {useRouter} from 'vue-router';
+import {computed, onMounted, ref, toRaw} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import get from 'lodash/get';
 import {useTextOverflow} from '@/composables/useTextOverflow';
 import {useWindowStore} from '@/stores/window';
@@ -46,6 +46,18 @@ const router = useRouter();
 const lang = computed(() => useSettingStore().setting.lang);
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
+const route = useRoute();
+const {rid} = route.params as {
+  rid: string
+};
+
+const rid0 = ref();
+if (/^\d+$/.test(rid)) {
+  rid0.value = Number(rid);
+} else {
+  useRouter().push('/404');
+}
+
 // 刷新数据
 if (Object.keys(useDataSourcesStore().localRepositoriesData).length === 0) {
   await useDataSourcesStore().refreshData();
@@ -59,8 +71,12 @@ if (Object.keys(useDataSourcesStore().localRepositoriesData).length === 0) {
   }
 }
 
+if (get(Object.keys(routes.value), rid0.value) === undefined) {
+  useRouter().push('/404');
+}
+
 const entries = computed(() => {
-  const obj = routes.value[Object.keys(routes.value)[0]]?.[lang.value] || {};
+  const obj = routes.value[Object.keys(routes.value)[rid0.value]]?.[lang.value] || {};
   return Object.entries(obj) as [string, any][];
 });
 
@@ -78,11 +94,11 @@ async function getAllIconList(entries: any) {
 
 async function getIconList(category: string, subcategory: string) {
   let iconList = [];
-  const group = get(useDataSourcesStore().localRepositoriesData, [Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory]);
+  const group = get(useDataSourcesStore().localRepositoriesData, [Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory]);
   if (group) {
     const first3 = Object.fromEntries(Object.entries(group).slice(0, 3));
     for (const [key, value] of Object.entries(first3)) {
-      const item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, key], ['icon_png']);
+      const item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory, key], ['icon_png']);
       item['id'] = key;
       iconList.push(item);
     }
@@ -124,9 +140,9 @@ function routePush(url: string) {
 }
 
 .boxDiv .title {
+  max-width: 90vw;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: pre-line;
   font-family: MiSans-B;
   font-size: 25px;
   margin-bottom: 5px;
@@ -137,6 +153,7 @@ function routePush(url: string) {
 .boxDiv .itemList {
   display: flex;
   overflow-x: auto;
+  padding-bottom: 40px;
 }
 
 .boxDiv .itemList #firstItem {

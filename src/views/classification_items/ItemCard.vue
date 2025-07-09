@@ -1,5 +1,5 @@
 <template>
-  <button class="item" @click="routePush('/docs/'+category+'/'+subcategory+'/'+id)">
+  <button class="item" @click="routePush('/docs/'+rid0+'/'+category+'/'+subcategory+'/'+id)">
     <img class="icon" :src="item.iconSrc" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
     <div class="textBox">
       <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
@@ -16,7 +16,7 @@
   </button>
 </template>
 <script setup lang="ts">
-import {computed, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
@@ -33,11 +33,18 @@ const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
 
 const router = useRouter();
 
-const {category, subcategory, id, data} = defineProps(['category', 'subcategory', 'id', 'data']);
+const {rid, category, subcategory, id, data} = defineProps(['rid', 'category', 'subcategory', 'id', 'data']);
+
+const rid0 = ref();
+if (/^\d+$/.test(rid)) {
+  rid0.value = Number(rid);
+} else {
+  useRouter().push('/404');
+}
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[0], 'docs', useSettingStore().setting.lang, category, subcategory, id], ['icon_png']);
+let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory, id], ['icon_png']);
 
 function routePush(url: string) {
   router.push(url);
@@ -45,7 +52,7 @@ function routePush(url: string) {
 </script>
 <style scoped>
 .item {
-  width: 195px;
+  width: 200px;
   height: 90px;
   display: flex;
   align-items: center;
@@ -73,7 +80,7 @@ function routePush(url: string) {
 
 .item .textBox {
   display: block;
-  width: 105px;
+  width: 110px;
 }
 
 .item .textBox .title {
