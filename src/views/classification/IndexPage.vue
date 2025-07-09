@@ -1,17 +1,23 @@
 <template>
   <div>
-    <ul>
+    <ul v-if="Object.keys(useDataSourcesStore().localRepositoriesDisplay).length >= 1">
       <li class="localRepositories" v-for="(item, index) in useDataSourcesStore().localRepositoriesDisplay" :key="item.ulid" @click="routePush('/classification/' + index)">
         <img :src="item.iconURL" alt="SVG Image" draggable="false">
         <div class="textDiv">
           <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
             <div class="name">{{ item.name }}</div>
           </Vue3Marquee>
-          <div v-if="!useWindowStore().isMarqueeEnabled" class="name">{{ item.name }}</div>
+          <div v-else class="name">{{ item.name }}</div>
           <div class="version">{{ item.version }}</div>
         </div>
       </li>
     </ul>
+    <div class="notFoundR" v-else>
+      <div class="imgAndTitle">
+        <img src="/static/classification/svg/NotFound.svg" alt="SVG Image" draggable="false">
+        <p>{{ $t("classification.NotFound") }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,5 +107,32 @@ ul {
   color: var(--color-text-body);
   transition-duration: 0.3s;
   text-align: left;
+}
+
+.notFoundR {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notFoundR .imgAndTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: RHRCN-H;
+  font-size: 22.5px;
+  color: var(--color-text-caption);
+  transition-duration: 0.3s;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.notFoundR .imgAndTitle img {
+  max-width: 250px;
+  max-height: 250px;
+  user-select: none;
+  margin-bottom: 15px;
 }
 </style>
