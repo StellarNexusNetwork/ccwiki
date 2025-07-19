@@ -1,25 +1,25 @@
 <template>
   <div class="optionsList">
     <button class="button" @click="switchDetail(0)">
-      <div class="title">{{ $t("public.setting.settings") }}</div>
+      <div class="title">{{ $t("public.setting.title.setting") }}</div>
     </button>
     <div class="line"></div>
     <div class="options">
       <button class="button" @click="switchDetail(1)">
         <img src="/static/public/svg/setting/theme.svg" alt="SVG Image" draggable="false">
-        <div class="textDiv">{{ $t("public.setting.theme") }}</div>
+        <div class="textDiv">{{ $t("public.setting.title.theme") }}</div>
       </button>
     </div>
     <div class="options">
       <button class="button" @click="switchDetail(2)">
         <img src="/static/public/svg/setting/language.svg" alt="SVG Image" draggable="false">
-        <div class="textDiv">{{ $t("public.setting.language") }}</div>
+        <div class="textDiv">{{ $t("public.setting.title.language") }}</div>
       </button>
     </div>
     <div class="options">
       <button class="button" @click="switchDetail(3)">
         <img src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-        <div class="textDiv">{{ $t("public.setting.test") }}</div>
+        <div class="textDiv">{{ $t("public.setting.title.test") }}</div>
       </button>
     </div>
   </div>
@@ -56,7 +56,7 @@ import {eventBus} from '@/utils/eventBus';
 
 const components = [defaultPage, themePage, langPage, testPage];
 const currentNames = ['default', 'theme', 'language', 'test'];
-const currentDisplayName = ref('public.setting.default');
+const currentDisplayName = ref('public.setting.title.default');
 
 const currentIndex = ref(0);
 
@@ -65,9 +65,9 @@ eventBus.on('callOpenSettingsDialog2', switchDetail);
 function switchDetail(index: number) {
   currentIndex.value = index;
   if (index > currentNames.length) {
-    currentDisplayName.value = 'public.setting.systemError';
+    currentDisplayName.value = 'public.setting.title.systemError';
   } else {
-    currentDisplayName.value = 'public.setting.' + currentNames[index];
+    currentDisplayName.value = 'public.setting.title.' + currentNames[index];
   }
 }
 </script>

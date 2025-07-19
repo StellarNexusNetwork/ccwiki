@@ -1,63 +1,40 @@
 {
-  "public": {
-    "navigationBar": {
-      "unfold": "展开",
-      "home": "首页",
-      "classification": "分类",
-      "components": "工具",
-      "20241108": "**",
-      "eye8": "**",
-      "chat": "闲聊",
-      "AI": "**",
-      "others": "关于",
-      "account": "账号",
-      "settings": "设置"
-    },
-    "NotFound": {
-      "imgAndTitle": "啊哦，没有找到页面哦！",
-      "suggestion": "您正在跳转到未知页面，请检查您正在访问的地址!"
-    },
-    "setting": {
-      "settings": "设置",
-      "systemError": "未知",
-      "default": "",
-      "theme": "个性化",
-      "themeDetail": {
-        "appearance": {
-          "title": "外观",
-          "auto": "自动",
-          "light": "浅色",
-          "dark": "深色"
-        }
-      },
-      "language": "语言",
-      "test": "测试",
-      "testDetail": {
-      }
-    }
-  },
-  "home": {
-    "news": {
-      "text_none": "无信息",
-      "date_none": "无数据"
-    }
-  },
-  "classification": {
-    "NotFound": "这里什么也没有哦！请先前往“设置-数据”添加一下吧！"
-  },
-  "about": {
-    "title": {
-      "mainDeveloper": "主要开发者",
-      "partners": "合作伙伴",
-      "CI": "客户端信息",
-      "Licenses": "开源协议与数据使用许可",
-      "OLicenses": "开源许可"
-    },
-    "detail": {
-      "version": "版本号:",
-      "DPS": "数据提供服务:",
-      "Licenses": "开源协议:",
-      "DLicenses": "数据使用许可:"
-    }
-  }
+  "public.navigationBar.unfold": "展开",
+  "public.navigationBar.home": "首页",
+  "public.navigationBar.classification": "分类",
+  "public.navigationBar.components": "工具",
+  "public.navigationBar.20241108": "**",
+  "public.navigationBar.eye8": "**",
+  "public.navigationBar.chat": "闲聊",
+  "public.navigationBar.AI": "**",
+  "public.navigationBar.others": "关于",
+  "public.navigationBar.account": "账号",
+  "public.navigationBar.settings": "设置",
+  "public.setting.systemError": "未知",
+  "public.setting.title.setting": "设置",
+  "public.setting.title.default": "",
+  "public.setting.title.theme": "个性化",
+  "public.setting.title.language": "语言",
+  "public.setting.title.test": "测试",
+  "public.setting.default.version": "版本:",
+  "public.setting.default.releaseDate": "更新日期:",
+  "public.setting.theme.appearance.title": "外观",
+  "public.setting.theme.appearance.auto": "自动",
+  "public.setting.theme.appearance.light": "浅色",
+  "public.setting.theme.appearance.dark": "深色",
+  "public.setting.language.lang.title": "语言",
+  "page.NotFound.title": "啊哦，没有找到页面哦！",
+  "page.NotFound.suggestion": "您正在跳转到未知页面，请检查您正在访问的地址!",
+  "page.home.news.text_none": "无信息",
+  "page.home.news.date_none": "无数据",
+  "page.classification.NotFound": "这里什么也没有哦！请先前往“设置-数据”添加一下吧！",
+  "page.about.title.mainDeveloper": "主要开发者",
+  "page.about.title.partners": "合作伙伴",
+  "page.about.title.CI": "客户端信息",
+  "page.about.title.Licenses": "开源协议与数据使用许可",
+  "page.about.title.OLicenses": "开源许可",
+  "page.about.detail.version": "版本号:",
+  "page.about.detail.DPS": "数据提供服务:",
+  "page.about.detail.Licenses": "开源协议:",
+  "page.about.detail.DLicenses": "数据使用许可:"
 }
