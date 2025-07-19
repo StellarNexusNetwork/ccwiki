@@ -2,7 +2,6 @@
   <TitleBar/>
   <notice/>
   <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
-  <SettingDialog/>
   <div class="mainDiv" :style="mainDivStyle">
     <div class="main" :style="mainStyle">
       <RouterView class="router-view" :key="$route.fullPath"/>
@@ -22,7 +21,6 @@
 import TitleBar from './components/TitleBar.vue';
 import NavigationBar from './components/NavigationBar.vue';
 import notice from './components/notice/IndexPage.vue';
-import SettingDialog from "@/components/setting/SettingDialog.vue";
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter} from 'vue-router';
 import {ref, watchEffect} from 'vue';
@@ -186,6 +184,16 @@ router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) =>
 
 <style scoped>
 @media (min-width: 670px) {
+  .titleBar {
+    display: block;
+  }
+
+  .navigationBar {
+    top: 42px;
+    height: calc(100vh - 42px);
+    padding-top: 5px;
+  }
+
   .mainDiv {
     padding-top: 42px;
   }
@@ -197,9 +205,38 @@ router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) =>
 }
 
 @media (max-width: 670px) {
+  .titleBar {
+    display: none;
+  }
+
+  .navigationBar {
+    bottom: 0;
+    height: 50px;
+  }
+
   .main {
     height: calc(100vh - 50px);
   }
+}
+
+.titleBar {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 42px;
+  user-select: none;
+  transition-duration: 0.3s;
+  z-index: 99998;
+  background-color: var(--color-background-2);
+}
+
+.navigationBar {
+  position: fixed;
+  left: 0;
+  user-select: none;
+  transition-duration: 0.3s;
+  z-index: 99997;
+  background-color: var(--color-background-2);
 }
 
 .mainDiv {

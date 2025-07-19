@@ -89,7 +89,7 @@ function resumeTimer() {
   left: 0;
   width: 100vw;
   transition-duration: 0.3s;
-  z-index: 2002;
+  z-index: 100;
   pointer-events: none;
 }
 

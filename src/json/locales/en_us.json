@@ -1,40 +1,58 @@
 {
-  "public.navigationBar.unfold": "Unfold",
-  "public.navigationBar.home": "Home",
-  "public.navigationBar.classification": "Classification",
-  "public.navigationBar.components": "Tools",
-  "public.navigationBar.20241108": "**",
-  "public.navigationBar.eye8": "**",
-  "public.navigationBar.chat": "Chat",
-  "public.navigationBar.AI": "**",
-  "public.navigationBar.others": "About",
-  "public.navigationBar.account": "Account",
-  "public.navigationBar.settings": "Settings",
-  "public.setting.systemError": "Unknown",
-  "public.setting.title.setting": "Settings",
-  "public.setting.title.default": "",
-  "public.setting.title.theme": "Personalization",
-  "public.setting.title.language": "Language",
-  "public.setting.title.test": "Test",
-  "public.setting.default.version": "Version:",
-  "public.setting.default.releaseDate": "Release Date:",
-  "public.setting.theme.appearance.title": "Appearance",
-  "public.setting.theme.appearance.auto": "Auto",
-  "public.setting.theme.appearance.light": "Light",
-  "public.setting.theme.appearance.dark": "Dark",
-  "public.setting.language.lang.title": "Language",
-  "page.NotFound.title": "Oops, the page was not found!",
-  "page.NotFound.suggestion": "You are being redirected to an unknown page. Please check the address you are accessing!",
-  "page.home.news.text_none": "No information",
-  "page.home.news.date_none": "No data",
-  "page.classification.NotFound": "There's nothing here yet! Please go to 'Settings - Data' and add some first!",
-  "page.about.title.mainDeveloper": "Main Developer",
-  "page.about.title.partners": "Partners",
-  "page.about.title.CI": "Client Information",
-  "page.about.title.Licenses": "Open Source Licenses & Data Usage",
-  "page.about.title.OLicenses": "Open Source Licenses",
-  "page.about.detail.version": "Version:",
-  "page.about.detail.DPS": "Data Provision Service:",
-  "page.about.detail.Licenses": "Open Source Licenses:",
-  "page.about.detail.DLicenses": "Data Usage Licenses:"
+  "public": {
+    "navigationBar": {
+      "unfold": "Unfold",
+      "home": "Home",
+      "classification": "Classification",
+      "components": "Components",
+      "20241108": "**",
+      "eye8": "**",
+      "chat": "Chat",
+      "AI": "**",
+      "others": "Others",
+      "account": "Account",
+      "settings": "Settings"
+    },
+    "NotFound": {
+      "imgAndTitle": "Uh oh, the page was not found!",
+      "suggestion": "You are being redirected to an unknown page, please check the address you are visiting!"
+    },
+    "setting": {
+      "settings": "Settings",
+      "systemError": "Unknown",
+      "default": "",
+      "theme": "Theme",
+      "themeDetail": {
+        "appearance": {
+          "title": "Appearance",
+          "auto": "Auto",
+          "light": "Light",
+          "dark": "Dark"
+        }
+      },
+      "language": "Language",
+      "test": "Test"
+    }
+  },
+  "home": {
+    "news": {
+      "text_none": "No information",
+      "date_none": "No data"
+    }
+  },
+  "about": {
+    "title": {
+      "mainDeveloper": "Main Developer",
+      "partners": "Cooperative organization",
+      "CI": "Client Information",
+      "Licenses": "Open Source Licenses and Data Usage Licenses",
+      "OLicenses": "Licenses"
+    },
+    "detail": {
+      "version": "Version:",
+      "DPS": "Data provision service:",
+      "Licenses": "Licenses:",
+      "DLicenses": "Data usage license:"
+    }
+  }
 }

@@ -3,10 +3,10 @@
     <div class="notFound">
       <div class="imgAndTitle">
         <img src="/static/public/svg/NotFound.svg" alt="SVG Image" draggable="false">
-        {{ $t("page.NotFound.title") }}
+        {{ $t("public.NotFound.imgAndTitle") }}
       </div>
       <div class="textDiv">
-        <div class="suggestion">{{ $t("page.NotFound.suggestion") }}</div>
+        <div class="suggestion">{{ $t("public.NotFound.suggestion") }}</div>
         <div class="errorCode">404 Not Found.</div>
       </div>
     </div>
