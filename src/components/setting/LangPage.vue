@@ -15,7 +15,7 @@ import {useI18n} from 'vue-i18n';
 import {useSettingStore} from '@/stores/setting';
 
 const {locale} = useI18n();
-const settingStore = useSettingStore()
+const settingStore = useSettingStore();
 
 // 切换语言的函数
 const setLocale = (langCode: string) => {
@@ -24,11 +24,11 @@ const setLocale = (langCode: string) => {
 };
 
 const getNameByCode = (code: string) => {
-  const item = langs.value.find(c => c.code === code)
-  return item ? item.name : null
-}
+  const item = langs.value.find(c => c.code === code);
+  return item ? item.name : null;
+};
 
-const defaultLang: string = settingStore.setting.lang
+const defaultLang: string = settingStore.setting.lang;
 
 const selectedLang: Record<string, string> = ref();
 const langs = ref([
@@ -37,13 +37,13 @@ const langs = ref([
 ]);
 
 
-selectedLang.value = {name: getNameByCode(defaultLang), code: defaultLang}
+selectedLang.value = {name: getNameByCode(defaultLang), code: defaultLang};
 
 watchEffect(() => {
   if (selectedLang.value?.code) {
-    setLocale(selectedLang.value.code)
+    setLocale(selectedLang.value.code);
   }
-})
+});
 </script>
 <style scoped>
 .box {
