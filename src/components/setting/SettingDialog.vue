@@ -13,13 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
 import setting from './IndexPage.vue';
 import {eventBus} from '@/utils/eventBus';
-
-const settingDialogStyle = ref({
-  display: 'none',
-})
 
 eventBus.on('callOpenSettingsDialog1', openDialog);
 
@@ -32,8 +27,7 @@ function openDialog() {
     setting_dialog!.classList.add('show');
     setting!.classList.add('show');
   }, 50);
-
-}
+};
 </script>
 
 <style scoped>
