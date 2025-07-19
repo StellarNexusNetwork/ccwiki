@@ -30,7 +30,7 @@ const getNameByCode = (code: string) => {
 
 const defaultLang: string = settingStore.setting.lang;
 
-const selectedLang: Record<string, string> = ref();
+const selectedLang = ref();
 const langs = ref([
   {name: '简体中文', code: 'zh_cn'},
   {name: 'English', code: 'en_us'}
