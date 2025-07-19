@@ -9,26 +9,26 @@
       <div class='newsList'>
         <div class="newsDiv" style="margin-left: 0;">
           <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+          <div class="text">{{ $t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ $t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
         <div class="newsDiv">
           <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+          <div class="text">{{ $t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ $t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
         <div class="newsDiv" :style="newsDiv2Style">
           <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+          <div class="text">{{ $t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ $t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
         <div class="newsDiv" :style="newsDiv2Style">
           <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+          <div class="text">{{ $t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ $t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
       </div>

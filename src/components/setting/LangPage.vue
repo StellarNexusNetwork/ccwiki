@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="box">
-      <div class="name">语言</div>
+      <div class="name">{{ $t("public.setting.language.lang.title") }}</div>
       <Select v-model="selectedLang" :options="langs" optionLabel="name" placeholder="Select a language" class="selectDiv w-full md:w-56" appendTo="#setting_dialog"/>
     </div>
     <!--    <button @click="setLocale('zh_cn')">中文</button>-->

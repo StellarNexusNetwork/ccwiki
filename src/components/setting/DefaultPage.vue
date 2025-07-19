@@ -5,8 +5,8 @@
       <div class="title" id="title">CC Wiki project</div>
       <div class="title" id="title_m">CC Wiki</div>
       <div id="details">
-        <div class="data">版本号: 开发中...</div>
-        <div class="data">更新日期: ****</div>
+        <div class="data">{{ $t('public.setting.default.version') }} 开发中...</div>
+        <div class="data">{{ $t('public.setting.default.releaseDate') }} ****</div>
       </div>
     </div>
   </div>
