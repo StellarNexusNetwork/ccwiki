@@ -56,8 +56,27 @@ const goForward = () => {
 </script>
 
 <style scoped>
+@media (min-width: 670px) {
+  .titleBar {
+    display: block;
+  }
+}
+
+@media (max-width: 670px) {
+  .titleBar {
+    display: none;
+  }
+}
+
 .titleBar {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 42px;
+  user-select: none;
   transition-duration: 0.3s;
+  z-index: 2002;
+  background-color: var(--color-background-2);
 }
 
 .titleBar .logo img {
