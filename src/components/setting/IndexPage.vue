@@ -44,8 +44,7 @@ function closeDialog() {
   const setting = document.getElementById('setting_Div');
   dialog.classList.remove('show'); // 移除动画类
   setting!.classList.remove('show');
-  dialog.style.pointerEvents = 'none';
-  setTimeout(() => dialog!.close(), 300); // 等待动画结束后关闭对话框
+  setTimeout(() => dialog.style.display = 'none', 500); // 等待动画结束后关闭对话框
 }
 
 import {ref} from 'vue';
@@ -118,7 +117,7 @@ function switchDetail(index: number) {
   padding-top: 10px;
   padding-right: 10px;
   padding-left: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   transition-duration: 0.5s;
   pointer-events: none;
 }
@@ -160,8 +159,8 @@ function switchDetail(index: number) {
 .optionsDetail .optionsDetailContent {
   width: 100%;
   height: calc(100% - 45px - 5px);
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
   overflow-y: auto;
 }
 

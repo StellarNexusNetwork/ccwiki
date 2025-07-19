@@ -2,42 +2,43 @@
   <div class="navigationBar" :style="navigationBarStyle">
     <div class="listDiv" id="navigation">
       <div class="notNecessary">
-        <div class="options">
-          <button class="button" @click="unfold">
-            <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0;">
-            <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.unfold") }}</div>
-          </button>
-        </div>
-        <div class="line">
-        </div>
-      </div>
-      <div class="options" v-for="item in navigationBarList" :key="item.name">
-        <button @click="RouterLinkPush(item.path)">
-          <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
-          <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
-        </button>
-      </div>
-      <div class="notNecessary">
-        <div class="options" v-for="item in nNavigationBarList" :key="item.name">
-          <button @click="RouterLinkPush(item.path)">
-            <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
-            <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
-          </button>
-        </div>
+        <!--              <div class="options">-->
+        <!--                <button class="button" @click="unfold">-->
+        <!--                  <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0;">-->
+        <!--                  <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.unfold") }}</div>-->
+        <!--                </button>-->
+        <!--              </div>-->
         <div class="options">
           <button class="button">
             <img id="_navigation_AI_svg" src="/static/public/svg/navigationBar/AI.svg" alt="SVG Image" draggable="false" style="margin-left: 0;">
             <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.AI") }}</div>
           </button>
         </div>
+        <div class="line">
+        </div>
       </div>
-      <div class="options">
+      <div class="options" v-for="item in navigationBarList" :key="item.name" v-tooltip='$t("public.navigationBar." + item.name)' placeholder="Right">
+        <button @click="RouterLinkPush(item.path)">
+          <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
+          <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
+        </button>
+      </div>
+      <div class="notNecessary" :style="'display:'+onDev">
+        <!--        <div class="options" v-for="item in nNavigationBarList" :key="item.name" v-tooltip='$t("public.navigationBar." + item.name)' placeholder="Right">-->
+        <div class="options" v-for="item in nNavigationBarList" :key="item.name">
+          <button @click="RouterLinkPush(item.path)">
+            <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
+            <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
+          </button>
+        </div>
+      </div>
+      <div class="options" v-tooltip='$t("public.navigationBar.others")' placeholder="Right">
         <button @click="RouterLinkPush('/about')">
           <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
           <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.others") }}</div>
         </button>
       </div>
-      <div class="options" id="setting2">
+      <div class="options" id="setting2" v-tooltip='$t("public.navigationBar.settings")' placeholder="Right">
         <button class="button" @click="openDialog">
           <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
           <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.settings") }}</div>
@@ -45,47 +46,32 @@
       </div>
     </div>
     <div class="listDiv" id="tool">
-      <div class="options">
+      <div class="options" v-tooltip='$t("public.navigationBar.account")' placeholder="Right">
         <button class="button">
           <img id="_navigation_account_svg" src="/static/public/svg/navigationBar/account.svg" alt="SVG Image" draggable="false">
           <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.account") }}</div>
         </button>
       </div>
       <div class="options">
-        <button class="button" @click="openDialog">
+        <button class="button" @click="openDialog" v-tooltip='$t("public.navigationBar.settings")' placeholder="Right">
           <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
           <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.settings") }}</div>
         </button>
       </div>
     </div>
-    <dialog id="setting_dialog">
-      <div class="titleBar_B ">
-        <div class="titleBar2">
-          <TitleBar></TitleBar>
-        </div>
-      </div>
-      <notice/>
-      <div id="setting_Div">
-        <div class="setting2">
-          <div class="setting">
-            <div style="display: flex;">
-              <setting/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import TitleBar from './TitleBar.vue';
-import setting from './setting/IndexPage.vue';
-import notice from './notice/IndexPage.vue';
-import {reactive, watchEffect} from 'vue';
+import {reactive, ref, watchEffect} from 'vue';
 import {useRouter} from 'vue-router';
-import {eventBus} from '@/utils/eventBus';
 import {useWindowStore} from '@/stores/window';
+import {eventBus} from '@/utils/eventBus';
+
+let onDev = ref('');
+if (!import.meta.env.DEV) {
+  onDev.value = 'none';
+}
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -165,19 +151,72 @@ function unfold() {
   }
 }
 
-eventBus.on('callOpenSettingsDialog1', openDialog);
-
-function openDialog() {
-  const dialog = document.getElementById('setting_dialog') as HTMLDialogElement;
-  const setting = document.getElementById('setting_Div');
-  dialog.style.pointerEvents = 'auto';
-  dialog.showModal(); // 打开对话框
-  dialog.classList.add('show'); // 添加动画类
-  setting!.classList.add('show');
-}
+// 弹出设置页面
+const openDialog = () => {
+  eventBus.emit('callOpenSettingsDialog1');
+};
 </script>
 
 <style scoped>
+@media (min-width: 670px) {
+  .navigationBar {
+    top: 42px;
+    height: calc(100vh - 42px);
+    padding-top: 5px;
+  }
+
+  .navigationBar #navigation {
+    max-height: calc(100% - 95px);
+    overflow-y: auto;
+  }
+
+  .navigationBar #navigation::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+
+  .navigationBar .listDiv .options {
+    width: 100%;
+  }
+
+  #setting2 {
+    display: none;
+  }
+}
+
+@media (max-width: 670px) {
+  .navigationBar {
+    bottom: 0;
+    height: 50px;
+  }
+
+  .navigationBar .listDiv .notNecessary {
+    display: none;
+  }
+
+  .navigationBar #navigation {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .navigationBar .listDiv .options {
+    width: 50px;
+    height: 50px;
+  }
+
+  .navigationBar #tool {
+    display: none;
+  }
+}
+
+.navigationBar {
+  position: fixed;
+  left: 0;
+  user-select: none;
+  transition-duration: 0.3s;
+  z-index: 2000;
+  background-color: var(--color-background-2);
+}
+
 .navigationBar .listDiv .options {
   margin-bottom: 5px;
   height: 40px;
@@ -245,140 +284,5 @@ function openDialog() {
   margin-right: 2.5px;
   filter: drop-shadow(var(--color-text-title) 250vw 0);
   transform: translateX(-250vw);
-}
-
-#setting_dialog {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  /* 确保宽度100% */
-  height: calc(100vh - 100px);
-  /* 确保高度100% */
-  margin-top: 50px;
-  /* 移除默认外边距 */
-  padding: 0;
-  /* 移除内边距（如不需要） */
-  border: none;
-  /* 去除默认边框 */
-  /* 白色背景，略带透明效果 */
-  background-color: rgba(0, 0, 0, 0);
-  transition-duration: 0.5s;
-  overflow: hidden;
-}
-
-
-#setting_dialog.show::backdrop {
-  backdrop-filter: blur(8px);
-  background-color: rgba(0, 0, 0, 0.15);
-}
-
-#setting_dialog::backdrop {
-  width: 100%;
-  transition-duration: 0.3s;
-  background-color: rgba(0, 0, 0, 0);
-  backdrop-filter: blur(0px);
-  padding: 0;
-}
-
-#setting_Div {
-  width: 100%;
-  height: 100%;
-  transform: scale(0.85);
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  opacity: 0;
-}
-
-#setting_Div.show {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.titleBar_B {
-  height: 42px;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: var(--color-background-2);
-  transition-duration: 0.3s;
-}
-
-.titleBar {
-  width: 100vw;
-  height: 42px;
-  user-select: none;
-  transition-duration: 0.3s;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-@media (min-width: 670px) {
-  .navigationBar #navigation {
-    max-height: calc(100% - 95px);
-    overflow-y: auto;
-  }
-
-  .navigationBar #navigation::-webkit-scrollbar {
-    display: none; /* Chrome Safari */
-  }
-
-  .navigationBar .listDiv .options {
-    width: 100%;
-  }
-
-  #setting2 {
-    display: none;
-  }
-
-  #setting_dialog {
-    width: calc(100vw - 100px);
-    margin-left: 50px;
-  }
-}
-
-@media (max-width: 670px) {
-  .navigationBar .listDiv .notNecessary {
-    display: none;
-  }
-
-  .navigationBar #navigation {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .navigationBar .listDiv .options {
-    width: 50px;
-    height: 50px;
-  }
-
-  .navigationBar #tool {
-    display: none;
-  }
-
-  .titleBar_B {
-    display: none;
-  }
-
-  #setting_dialog {
-    width: calc(100vw - 40px);
-    margin-left: 20px;
-  }
-}
-
-.setting2 {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.setting {
-  display: flex;
-  height: 60vh;
-  min-height: 350px;
-  transition-duration: 0.5s;
-  border-radius: 10px;
-  overflow: hidden;
 }
 </style>
