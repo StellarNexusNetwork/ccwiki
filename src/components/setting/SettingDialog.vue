@@ -19,12 +19,12 @@ import {eventBus} from '@/utils/eventBus';
 eventBus.on('callOpenSettingsDialog1', openDialog);
 
 function openDialog() {
-  const setting_dialog = document.getElementById('setting_dialog');
+  const settingDialog = document.getElementById('setting_dialog');
   const setting = document.getElementById('setting_Div');
 
-  setting_dialog!.style.display = 'block';
+  settingDialog!.style.display = 'block';
   setTimeout(() => {
-    setting_dialog!.classList.add('show');
+    settingDialog!.classList.add('show');
     setting!.classList.add('show');
   }, 50);
 };
