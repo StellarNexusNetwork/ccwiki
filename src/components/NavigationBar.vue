@@ -165,6 +165,10 @@ const openDialog = () => {
     padding-top: 5px;
   }
 
+  .navigationBar .listDiv .options {
+    margin-bottom: 5px;
+  }
+
   .navigationBar #navigation {
     max-height: calc(100% - 95px);
     overflow-y: auto;
@@ -187,6 +191,10 @@ const openDialog = () => {
   .navigationBar {
     bottom: 0;
     height: 50px;
+  }
+
+  .navigationBar .listDiv .options {
+    margin-top: 5px;
   }
 
   .navigationBar .listDiv .notNecessary {
@@ -218,7 +226,6 @@ const openDialog = () => {
 }
 
 .navigationBar .listDiv .options {
-  margin-bottom: 5px;
   height: 40px;
   display: flex;
   justify-content: center;
