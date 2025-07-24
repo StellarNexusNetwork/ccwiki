@@ -98,11 +98,14 @@ watchEffect(() => {
     mainDevStyle.alignItems = 'center';
     homeStyle.paddingBottom = '70px';
   }
-  if (useWindowStore().windowWidth <= 800) {
-    newsDiv2Style.display = 'none';
-  } else {
-    newsDiv2Style.display = 'flex';
-  }
+  // todo:暂时不用了 后面写个轮播解决（？）
+  // if (useWindowStore().windowWidth <= 800) {
+  //   newsDiv2Style.display = 'none';
+  // } else {
+  //   newsDiv2Style.display = 'flex';
+  // }
+  newsDiv2Style.display = 'none';
+
 });
 </script>
 <style scoped>
