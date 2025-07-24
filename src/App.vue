@@ -1,19 +1,21 @@
 <template>
-  <TitleBar/>
-  <notice/>
-  <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
-  <SettingDialog/>
-  <div class="mainDiv" :style="mainDivStyle">
-    <div class="main" :style="mainStyle">
-      <RouterView class="router-view" :key="$route.fullPath"/>
+  <div class="app app-dark">
+    <TitleBar/>
+    <notice/>
+    <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
+    <SettingDialog/>
+    <div class="mainDiv" :style="mainDivStyle">
+      <div class="main" :style="mainStyle">
+        <RouterView class="router-view" :key="$route.fullPath"/>
+      </div>
     </div>
-  </div>
-  <div class="routerLoading" :style="[routerLoadingS, { marginLeft: mainDivStyle.paddingLeft }]">
-    <div class="loading_bg" :style="rtLoadingBgS">
-      <svg xmlns="http://www.w3.org/2000/svg" class="loading" :style="rtLoadingS" width="130" height="130"
-           viewBox="0 0 130 130">
-        <circle cx="65" cy="65" r="60" stroke="#04AAEB" stroke-width="10" fill="none" class="circle"/>
-      </svg>
+    <div class="routerLoading" :style="[routerLoadingS, { marginLeft: mainDivStyle.paddingLeft }]">
+      <div class="loading_bg" :style="rtLoadingBgS">
+        <svg xmlns="http://www.w3.org/2000/svg" class="loading" :style="rtLoadingS" width="130" height="130"
+             viewBox="0 0 130 130">
+          <circle cx="65" cy="65" r="60" stroke="#04AAEB" stroke-width="10" fill="none" class="circle"/>
+        </svg>
+      </div>
     </div>
   </div>
 </template>
@@ -30,13 +32,14 @@ import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import get from 'lodash/get';
 
-
 type RouteRule = {
   from: string | RegExp
   to: string | RegExp
 }
 
 useDataSourcesStore().initFetchData();
+
+const sysWindows = useWindowStore();
 
 let ifLoadingFinish = false;
 window.addEventListener('load', function () {
@@ -62,13 +65,13 @@ let rtAeF = false;
 let oldMainDivPL = '50px';
 let oldMainStyleW = 'calc(100vw - 50px)';
 watchEffect(() => {
-  if (useWindowStore().windowWidth < 670 && mainDivStyle.value.paddingLeft != '0') {
+  if (sysWindows.enableMobileSupport && mainDivStyle.value.paddingLeft != '0') {
     oldMainDivPL = mainDivStyle.value.paddingLeft;
     oldMainStyleW = mainStyle.value.width;
     mainDivStyle.value.paddingLeft = '0';
     mainStyle.value.width = '100vw';
   }
-  if (useWindowStore().windowWidth >= 670 && mainDivStyle.value.paddingLeft == '0') {
+  if (!sysWindows.enableMobileSupport && mainDivStyle.value.paddingLeft == '0') {
     mainDivStyle.value.paddingLeft = oldMainDivPL;
     mainStyle.value.width = oldMainStyleW;
   }
@@ -99,7 +102,7 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
     isBlacklisted = IsBlacklisted(from.name, to.name);
   }
 
-  useWindowStore().isMarqueeEnabled = false;
+  sysWindows.isMarqueeEnabled = false;
 
   if (!isBlacklisted) {
     if (ifLoadingFinish && !rtIsAnimating) {

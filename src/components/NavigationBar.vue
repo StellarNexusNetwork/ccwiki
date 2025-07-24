@@ -68,6 +68,8 @@ import {useRouter} from 'vue-router';
 import {useWindowStore} from '@/stores/window';
 import {eventBus} from '@/utils/eventBus';
 
+const sysWindows = useWindowStore();
+
 let onDev = ref('');
 if (!import.meta.env.DEV) {
   onDev.value = 'none';
@@ -100,11 +102,11 @@ function RouterLinkPush(path: string) {
 
 // 移动端适配
 watchEffect(() => {
-  if (useWindowStore().windowWidth < 670 && navigationBarStyle.width != '100vw') {
+  if (sysWindows.enableMobileSupport && navigationBarStyle.width != '100vw') {
     oldNavigationBarWidth = navigationBarStyle.width;
     navigationBarStyle.width = '100vw';
   }
-  if (useWindowStore().windowWidth >= 670 && navigationBarStyle.width == '100vw') {
+  if (!sysWindows.enableMobileSupport && navigationBarStyle.width == '100vw') {
     navigationBarStyle.width = oldNavigationBarWidth;
   }
 });
