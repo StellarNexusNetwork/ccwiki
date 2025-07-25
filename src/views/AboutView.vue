@@ -32,8 +32,8 @@
         <div class="detail">{{ $t("page.about.detail.version") }} 24w37c</div>
         <div class="detail">{{ $t("page.about.detail.DPS") }}</div>
         <div class="detailList" style="marginLeft:20px ;">
-          <a href="https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2/" target="_blank">
-            <div class="detailA">https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2</div>
+          <a href="https://github.com/StellarNexusNetwork/ccwiki" target="_blank">
+            <div class="detailA">https://github.com/StellarNexusNetwork/ccwiki</div>
           </a>
           <a href="https://github.com/StellarNexusNetwork" target="_blank">
             <div class="detailA">https://github.com/StellarNexusNetwork</div>
