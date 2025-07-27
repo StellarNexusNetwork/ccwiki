@@ -3,16 +3,19 @@
     <div class="notFound">
       <div class="imgAndTitle">
         <img src="/static/public/svg/NotFound.svg" alt="SVG Image" draggable="false">
-        {{ $t("page.NotFound.title") }}
+        {{ t("page.NotFound.title") }}
       </div>
       <div class="textDiv">
-        <div class="suggestion">{{ $t("page.NotFound.suggestion") }}</div>
+        <div class="suggestion">{{ t("page.NotFound.suggestion") }}</div>
         <div class="errorCode">404 Not Found.</div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 </script>
 <style scoped>
 .Div {

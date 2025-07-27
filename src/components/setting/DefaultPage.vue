@@ -5,13 +5,16 @@
       <div class="title" id="title">CC Wiki project</div>
       <div class="title" id="title_m">CC Wiki</div>
       <div id="details">
-        <div class="data">{{ $t('public.setting.default.version') }} 开发中...</div>
-        <div class="data">{{ $t('public.setting.default.releaseDate') }} ****</div>
+        <div class="data">{{ t('public.setting.default.version') }} 开发中...</div>
+        <div class="data">{{ t('public.setting.default.releaseDate') }} ****</div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 </script>
 <style scoped>
 @media (min-width: 670px) {

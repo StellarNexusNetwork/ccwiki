@@ -2,7 +2,7 @@
   <div class="mainDiv">
     <div class="titleDiv">
       <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + category + '-' + subcategory ,'borderBottom':'none'}">
-        {{ $t("docs." + category + ".items." + subcategory + ".title") }}
+        {{ t("docs." + category + ".items." + subcategory + ".title") }}
       </div>
     </div>
     <div class="AboutList">
@@ -23,6 +23,8 @@ import {useRoute, useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
+
+const {t} = useI18n();
 
 const route = useRoute();
 const {rid, category, subcategory} = route.params as {

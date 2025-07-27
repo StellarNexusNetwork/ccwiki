@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="title">{{ $t("public.setting.theme.appearance.title") }}</div>
+    <div class="title">{{ t("public.setting.theme.appearance.title") }}</div>
     <div class="optionList">
       <div class="optionBox" v-for="(item, index) in appearanceOptions" :key="item">
         <div class="option" :id="index === 0 ? 'firstItem' : undefined" @click="setAppearance(index)" :style="appearanceActive[index]">
           <img class="b_img" :src="baseUrl+'static/public/svg/setting/theme/'+item" alt="SVG Image" draggable="false" style="margin-left: 0;">
         </div>
         <div class="text" :style="appearanceTextActive[index]">
-          {{ $t("public.setting.theme.appearance." + item.slice(0, -4)) }}
+          {{ t("public.setting.theme.appearance." + item.slice(0, -4)) }}
         </div>
       </div>
     </div>
@@ -17,6 +17,9 @@
 <script setup lang="ts">
 import {useSettingStore} from '@/stores/setting';
 import {ref, watchEffect} from 'vue';
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 
 const baseUrl = import.meta.env.BASE_URL;
 
