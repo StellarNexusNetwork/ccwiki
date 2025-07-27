@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="box">
-      <div class="name">{{ $t("public.setting.language.lang.title") }}</div>
+      <div class="name">{{ t("public.setting.language.lang.title") }}</div>
       <Select v-model="selectedLang" :options="langs" optionLabel="name" placeholder="Select a language" class="selectDiv w-full md:w-56" appendTo="#setting_dialog"/>
     </div>
     <!--    <button @click="setLocale('zh_cn')">中文</button>-->
@@ -13,6 +13,8 @@
 import {ref, watchEffect} from 'vue';
 import {useI18n} from 'vue-i18n';
 import {useSettingStore} from '@/stores/setting';
+
+const {t} = useI18n();
 
 const {locale} = useI18n();
 const settingStore = useSettingStore();

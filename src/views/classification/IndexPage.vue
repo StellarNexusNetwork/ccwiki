@@ -15,7 +15,7 @@
     <div class="notFoundR" v-else>
       <div class="imgAndTitle">
         <img src="/static/classification/svg/NotFound.svg" alt="SVG Image" draggable="false">
-        <p>{{ $t("page.classification.NotFound") }}</p>
+        <p>{{ t("page.classification.NotFound") }}</p>
       </div>
     </div>
   </div>
@@ -27,6 +27,9 @@ import {useRouter} from "vue-router";
 import {useWindowStore} from "@/stores/window";
 import {onMounted} from "vue";
 import {useTextOverflow} from "@/composables/useTextOverflow";
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 
 onMounted(() => {
   setTimeout(() => {

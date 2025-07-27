@@ -2,19 +2,19 @@
   <div v-for="([key,value], index) in entries" :key="value.path">
     <div class="line" :id="index === 0 ? 'firstItem' : undefined"></div>
     <div class="boxDiv">
-      <div class="title">{{ $t("docs." + value.path + ".title") }}</div>
+      <div class="title">{{ t("docs." + value.path + ".title") }}</div>
       <div class="itemList">
         <button class="item" :id="index === 0 ? 'firstItem' : undefined" @click="routePush('/classification/'+rid0+'/'+value.path+'/'+item.path)" v-for="(item, index) in value.items" :key="item.path">
           <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
             <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
-              {{ $t("docs." + value.path + ".items." + item.path + ".title") }}
+              {{ t("docs." + value.path + ".items." + item.path + ".title") }}
               <span v-if="shouldAddGap" style="display:inline-block;width:40px;"></span>
             </div>
           </Vue3Marquee>
           <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
-            {{ $t("docs." + value.path + ".items." + item.path + ".title") }}
+            {{ t("docs." + value.path + ".items." + item.path + ".title") }}
           </div>
-          <div class="introduction">{{ $t("docs." + value.path + ".items." + item.path + ".content") }}</div>
+          <div class="introduction">{{ t("docs." + value.path + ".items." + item.path + ".content") }}</div>
           <div class="iconList">
             <img class="icon" :src="icon_value.iconSrc" alt="SVG Image" draggable="false" v-for="([icon_key,icon_value], index) in Object.entries(iconList[value.path][item.path]) as [string, any][]" :style="{ 'viewTransitionName': 'class-item-img-' + value.path + '-' + item.path + '-' + icon_value.id }" :key="index">
           </div>
@@ -32,6 +32,8 @@ import {useRoute, useRouter} from 'vue-router';
 import get from 'lodash/get';
 import {useTextOverflow} from '@/composables/useTextOverflow';
 import {useWindowStore} from '@/stores/window';
+
+const {t} = useI18n();
 
 onMounted(() => {
   setTimeout(() => {

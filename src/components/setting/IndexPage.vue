@@ -1,31 +1,31 @@
 <template>
   <div class="optionsList">
     <button class="button" @click="switchDetail(0)">
-      <div class="title">{{ $t("public.setting.title.setting") }}</div>
+      <div class="title">{{ t("public.setting.title.setting") }}</div>
     </button>
     <div class="line"></div>
     <div class="options">
       <button class="button" @click="switchDetail(1)">
         <img src="/static/public/svg/setting/theme.svg" alt="SVG Image" draggable="false">
-        <div class="textDiv">{{ $t("public.setting.title.theme") }}</div>
+        <div class="textDiv">{{ t("public.setting.title.theme") }}</div>
       </button>
     </div>
     <div class="options">
       <button class="button" @click="switchDetail(2)">
         <img src="/static/public/svg/setting/language.svg" alt="SVG Image" draggable="false">
-        <div class="textDiv">{{ $t("public.setting.title.language") }}</div>
+        <div class="textDiv">{{ t("public.setting.title.language") }}</div>
       </button>
     </div>
     <div class="options">
       <button class="button" @click="switchDetail(3)">
         <img src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-        <div class="textDiv">{{ $t("public.setting.title.test") }}</div>
+        <div class="textDiv">{{ t("public.setting.title.test") }}</div>
       </button>
     </div>
   </div>
   <div class="optionsDetail">
     <div class="winControl">
-      <div class="title">{{ $t(currentDisplayName) }}</div>
+      <div class="title">{{ t(currentDisplayName) }}</div>
       <button @click="closeDialog">
         <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
       </button>
@@ -39,6 +39,16 @@
 </template>
 
 <script setup lang="ts">
+import {useI18n} from 'vue-i18n';
+import {ref} from 'vue';
+import defaultPage from './DefaultPage.vue';
+import themePage from './ThemePage.vue';
+import langPage from './LangPage.vue';
+import testPage from './TestPage.vue';
+import {eventBus} from '@/utils/eventBus';
+
+const {t} = useI18n();
+
 function closeDialog() {
   const dialog = document.getElementById('setting_dialog') as HTMLDialogElement;
   const setting = document.getElementById('setting_Div');
@@ -46,13 +56,6 @@ function closeDialog() {
   setting!.classList.remove('show');
   setTimeout(() => dialog.style.display = 'none', 500); // 等待动画结束后关闭对话框
 }
-
-import {ref} from 'vue';
-import defaultPage from './DefaultPage.vue';
-import themePage from './ThemePage.vue';
-import langPage from './LangPage.vue';
-import testPage from './TestPage.vue';
-import {eventBus} from '@/utils/eventBus';
 
 const components = [defaultPage, themePage, langPage, testPage];
 const currentNames = ['default', 'theme', 'language', 'test'];

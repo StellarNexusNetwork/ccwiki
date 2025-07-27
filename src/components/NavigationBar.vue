@@ -5,57 +5,57 @@
         <!--              <div class="options">-->
         <!--                <button class="button" @click="unfold">-->
         <!--                  <img class="b_img" src="/static/public/svg/navigationBar/fold.svg" alt="SVG Image" draggable="false" style="margin-left: 0;">-->
-        <!--                  <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.unfold") }}</div>-->
+        <!--                  <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar.unfold") }}</div>-->
         <!--                </button>-->
         <!--              </div>-->
         <div class="options">
           <button class="button">
             <img id="_navigation_AI_svg" src="/static/public/svg/navigationBar/AI.svg" alt="SVG Image" draggable="false" style="margin-left: 0;">
-            <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.AI") }}</div>
+            <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar.AI") }}</div>
           </button>
         </div>
         <div class="line">
         </div>
       </div>
-      <div class="options" v-for="item in navigationBarList" :key="item.name" v-tooltip='$t("public.navigationBar." + item.name)' placeholder="Right">
+      <div class="options" v-for="item in navigationBarList" :key="item.name" v-tooltip='t("public.navigationBar." + item.name)' placeholder="Right">
         <button @click="RouterLinkPush(item.path)">
           <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
-          <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
+          <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar." + item.name) }}</div>
         </button>
       </div>
       <div class="notNecessary" :style="'display:'+onDev">
-        <!--        <div class="options" v-for="item in nNavigationBarList" :key="item.name" v-tooltip='$t("public.navigationBar." + item.name)' placeholder="Right">-->
+        <!--        <div class="options" v-for="item in nNavigationBarList" :key="item.name" v-tooltip='t("public.navigationBar." + item.name)' placeholder="Right">-->
         <div class="options" v-for="item in nNavigationBarList" :key="item.name">
           <button @click="RouterLinkPush(item.path)">
             <img :src="baseUrl+'static/public/svg/navigationBar/' + item.name + '.svg'" :alt="item.name" draggable="false">
-            <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar." + item.name) }}</div>
+            <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar." + item.name) }}</div>
           </button>
         </div>
       </div>
-      <div class="options" v-tooltip='$t("public.navigationBar.others")' placeholder="Right">
+      <div class="options" v-tooltip='t("public.navigationBar.others")' placeholder="Right">
         <button @click="RouterLinkPush('/about')">
           <img id="_navigation_others_svg" src="/static/public/svg/navigationBar/others.svg" alt="SVG Image" draggable="false">
-          <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.others") }}</div>
+          <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar.others") }}</div>
         </button>
       </div>
-      <div class="options" id="setting2" v-tooltip='$t("public.navigationBar.settings")' placeholder="Right">
+      <div class="options" id="setting2" v-tooltip='t("public.navigationBar.settings")' placeholder="Right">
         <button class="button" @click="openDialog">
           <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
-          <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.settings") }}</div>
+          <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar.settings") }}</div>
         </button>
       </div>
     </div>
     <div class="listDiv" id="tool">
-      <div class="options" v-tooltip='$t("public.navigationBar.account")' placeholder="Right">
+      <div class="options" v-tooltip='t("public.navigationBar.account")' placeholder="Right">
         <button class="button">
           <img id="_navigation_account_svg" src="/static/public/svg/navigationBar/account.svg" alt="SVG Image" draggable="false">
-          <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.account") }}</div>
+          <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar.account") }}</div>
         </button>
       </div>
       <div class="options">
-        <button class="button" @click="openDialog" v-tooltip='$t("public.navigationBar.settings")' placeholder="Right">
+        <button class="button" @click="openDialog" v-tooltip='t("public.navigationBar.settings")' placeholder="Right">
           <img id="_navigation_settings_svg" src="/static/public/svg/navigationBar/settings.svg" alt="SVG Image" draggable="false">
-          <div class="textDiv" :style="unfoldStyle">{{ $t("public.navigationBar.settings") }}</div>
+          <div class="textDiv" :style="unfoldStyle">{{ t("public.navigationBar.settings") }}</div>
         </button>
       </div>
     </div>
@@ -67,6 +67,9 @@ import {reactive, ref, watchEffect} from 'vue';
 import {useRouter} from 'vue-router';
 import {useWindowStore} from '@/stores/window';
 import {eventBus} from '@/utils/eventBus';
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 
 const sysWindows = useWindowStore();
 
