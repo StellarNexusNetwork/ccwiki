@@ -70,8 +70,8 @@ import {useI18n} from 'vue-i18n';
 const {t} = useI18n();
 
 const mainDiv = ref();
-let mainDevStyle = reactive({alignItems: 'center'});
-let homeStyle = reactive({paddingBottom: '70px'});
+const mainDevStyle = reactive({alignItems: 'center'});
+const homeStyle = reactive({paddingBottom: '70px'});
 const mainDevHeight = ref(0);
 
 const windowHeight = ref(window.innerHeight);

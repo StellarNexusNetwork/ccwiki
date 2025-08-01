@@ -28,11 +28,11 @@ const router = createRouter({
       name: 'docs',
       component: () => import('../views/docs/IndexPage.vue')
     },
-    {
-      path: '/20241108/',
-      name: '20241108',
-      component: () => import('../views/20241108/WebUI2.vue')
-    },
+    // {
+    //   path: '/20241108/',
+    //   name: '20241108',
+    //   component: () => import('../views/20241108/WebUI2.vue')
+    // },
     {
       path: '/eye8/',
       name: 'eye8',

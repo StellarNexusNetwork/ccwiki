@@ -85,7 +85,7 @@ const entries = computed(() => {
 const iconList: Record<string, any> = await getAllIconList(entries.value);
 
 async function getAllIconList(entries: any) {
-  let iconList = {};
+  const iconList = {};
   for (const [key, value] of entries) {
     for (const item in toRaw(value).items) {
       useDataSourcesStore().deepSet(iconList, [value.path, item], await getIconList(value.path, item));
@@ -95,7 +95,7 @@ async function getAllIconList(entries: any) {
 }
 
 async function getIconList(category: string, subcategory: string) {
-  let iconList = [];
+  const iconList = [];
   const group = get(useDataSourcesStore().localRepositoriesData, [Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory]);
   if (group) {
     const first3 = Object.fromEntries(Object.entries(group).slice(0, 3));

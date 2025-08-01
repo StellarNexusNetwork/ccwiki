@@ -47,16 +47,16 @@ window.addEventListener('load', function () {
 });
 
 
-let mainDivStyle = ref({paddingLeft: '50px'});
-let mainStyle = ref({
+const mainDivStyle = ref({paddingLeft: '50px'});
+const mainStyle = ref({
   width: 'calc(100vw - 50px)',
   position: 'static' as 'static' | 'absolute' | 'relative' | 'fixed',
   right: 'auto'
 });
 
-let routerLoadingS = ref({display: 'none'});
-let rtLoadingBgS = ref({width: '100px', height: '100px', opacity: 0, marginBottom: '0px', transitionDuration: '0.5s'});
-let rtLoadingS = ref({opacity: 0});
+const routerLoadingS = ref({display: 'none'});
+const rtLoadingBgS = ref({width: '100px', height: '100px', opacity: 0, marginBottom: '0px', transitionDuration: '0.5s'});
+const rtLoadingS = ref({opacity: 0});
 let rtIsAnimating = false;
 let allowRouting = false;
 let rtAeF = false;

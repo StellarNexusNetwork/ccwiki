@@ -22,16 +22,16 @@
 import {ref} from 'vue';
 
 let counter = 0;
-let imgSrc = ref('/static/public/svg/NotFound.svg');
-let text = ref('真的要卸载吗？ /(ㄒoㄒ)/~~');
-let textList = ['是... 是点错了吧...', '你... 为什么还要点？...', '真的要离开我吗...', '离开我有什么好的？！', '这是你最后的机会咯！', '❤️你跑不掉的❤️，❤️乖乖取消吧❤️！'];
+const imgSrc = ref('/static/public/svg/NotFound.svg');
+const text = ref('真的要卸载吗？ /(ㄒoㄒ)/~~');
+const textList = ['是... 是点错了吧...', '你... 为什么还要点？...', '真的要离开我吗...', '离开我有什么好的？！', '这是你最后的机会咯！', '❤️你跑不掉的❤️，❤️乖乖取消吧❤️！'];
 
-let cancel = ref({
+const cancel = ref({
   'width': 160,
   'height': 50,
   'display': 'flex'
 });
-let uninstall = ref({
+const uninstall = ref({
   'width': 160,
   'height': 50,
   'display': 'flex'

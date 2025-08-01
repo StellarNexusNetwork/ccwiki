@@ -66,7 +66,7 @@
 import ApexCharts from 'vue3-apexcharts';
 import {ref} from 'vue';
 
-let oMarginRight = ref('10px');
+const oMarginRight = ref('10px');
 
 const chartOptions = {
   chart: {type: 'area', height: 140, sparkline: {enabled: true}},

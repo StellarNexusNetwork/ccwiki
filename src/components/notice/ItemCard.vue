@@ -33,7 +33,7 @@ function getColor(type: string) {
 const startX = ref(0);
 const deltaX = ref(0);
 let isDragging = false;
-let dt = ref('');
+const dt = ref('');
 
 const handleMouseDown = (e: any) => {
   if (e instanceof TouchEvent) {

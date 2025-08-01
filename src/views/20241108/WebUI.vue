@@ -67,10 +67,10 @@
 import ApexCharts from 'vue3-apexcharts';
 import {onMounted, onUnmounted, ref} from 'vue';
 
-let oMarginRight = ref('10px');
+const oMarginRight = ref('10px');
 let jsonData;
-let series = ref([]);
-let xaxis = ref([]);
+const series = ref([]);
+const xaxis = ref([]);
 
 const chartOptions = {
   chart: {type: 'area', height: 140, sparkline: {enabled: true}},
