@@ -7,7 +7,7 @@ const sysWindow = useWindow()
 export const useWindowStore = defineStore('window',
   () => {
     const isMarqueeEnabled = ref(false);
-    let enableMobileSupport = ref(false);
+    const enableMobileSupport = ref(false);
 
     watchEffect(() => {
       enableMobileSupport.value = sysWindow.width.value < 670;

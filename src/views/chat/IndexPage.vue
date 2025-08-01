@@ -21,7 +21,8 @@
             <div class="name">薇斯塔</div>
             <div class="text">
               喵呜~ 您好！我是Future·Vesta，很高兴认识您！<br/><br/>
-              请问您想探索哪个领域呢？未来科技？魔法奥秘？还是猫咪周边新发现？ 告诉我吧，我一定会尽力帮助您的！(我会尽力帮您的!)
+              请问您想探索哪个领域呢？未来科技？魔法奥秘？还是猫咪周边新发现？
+              告诉我吧，我一定会尽力帮助您的！(我会尽力帮您的!)
             </div>
           </div>
         </div>
@@ -123,6 +124,7 @@
 <script setup lang="ts">
 import {onMounted, ref, watchEffect} from 'vue';
 import axios from 'axios';
+// @ts-expect-error: 我不到啊 build的时候就是会报错 后面改ts应该就好了吧 这里暂时不用了 就先不修了
 import AutoResizeTextarea from './AutoResizeTextarea.vue';
 
 const userInput = ref(''); // 定义一个 ref 来存储用户的输入

@@ -73,27 +73,27 @@ const {t} = useI18n();
 
 const sysWindows = useWindowStore();
 
-let onDev = ref('');
+const onDev = ref('');
 if (!import.meta.env.DEV) {
   onDev.value = 'none';
 }
 
 const baseUrl = import.meta.env.BASE_URL;
 
-let navigationBarList = [
+const navigationBarList = [
   {'name': 'home', 'path': '/'},
   {'name': 'classification', 'path': '/classification'},
   {'name': 'components', 'path': '/components'},
 ];
 
-let nNavigationBarList = [
+const nNavigationBarList = [
   {'name': '20241108', 'path': '/20241108'},
   {'name': 'eye8', 'path': '/eye8'},
   // {'name': 'chat', 'path': '/chat'}
 ];
 
-let unfoldStyle = reactive({state: false, opacity: 0, fontSize: '15px'});
-let navigationBarStyle = reactive({width: '50px'});
+const unfoldStyle = reactive({state: false, opacity: 0, fontSize: '15px'});
+const navigationBarStyle = reactive({width: '50px'});
 
 
 let oldNavigationBarWidth = '50px';

@@ -23,9 +23,9 @@ const {t} = useI18n();
 
 const baseUrl = import.meta.env.BASE_URL;
 
-let appearanceOptions = ['auto.svg', 'light.svg', 'dark.svg'];
-let appearanceActive = ref([{'border': 'none'}, {'border': 'none'}, {'border': 'none'}]);
-let appearanceTextActive = ref([{'color': 'var(--color-text-body)'}, {'color': 'var(--color-text-body)'}, {'color': 'var(--color-text-body)'}]);
+const appearanceOptions = ['auto.svg', 'light.svg', 'dark.svg'];
+const appearanceActive = ref([{'border': 'none'}, {'border': 'none'}, {'border': 'none'}]);
+const appearanceTextActive = ref([{'color': 'var(--color-text-body)'}, {'color': 'var(--color-text-body)'}, {'color': 'var(--color-text-body)'}]);
 
 function setAppearance(index: number) {
   useSettingStore().setting.theme.appearance = appearanceOptions[index].slice(0, -4);

@@ -44,7 +44,7 @@ if (/^\d+$/.test(rid)) {
 
 const routes = computed(() => useDataSourcesStore().routeGroups);
 
-let item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory, id], ['icon_png']);
+const item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory, id], ['icon_png']);
 
 function routePush(url: string) {
   router.push(url);

@@ -73,7 +73,7 @@ if (pageHandle === undefined || indexMdHandle === undefined) {
   useRouter().push('/404');
 }
 
-let item = await useDataSourcesStore().getOrCacheItem(baseAddress, ['icon_png']);
+const item = await useDataSourcesStore().getOrCacheItem(baseAddress, ['icon_png']);
 
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});

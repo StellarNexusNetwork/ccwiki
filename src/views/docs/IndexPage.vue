@@ -15,7 +15,7 @@ import {ref, watch} from 'vue';
 import {useRoute} from 'vue-router';
 
 const route = useRoute();
-let routeParams = ref('');
+const routeParams = ref('');
 watch(() => [route.params.rid, route.params.category, route.params.subcategory, route.params.id], ([newRid, newCategory, newSubcategory, newId]) => {
   routeParams.value = String(newRid) + String(newCategory) + String(newSubcategory) + String(newId);
 });
