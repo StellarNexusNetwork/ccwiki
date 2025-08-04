@@ -109,8 +109,8 @@ onMounted(async () => {
 
       // const newMarkdown = `![${alt}](${imgURL})`;
       const newMarkdown = '<a class="isImg" href="' + img.iconSrc + '" data-pswp-width="' + img.width + '" data-pswp-height="' + img.height + '" target="_blank">\n' +
-          '<img src="' + img.iconSrc + '" alt="' + alt + '" draggable="false">\n' +
-          '</a>';
+        '<img src="' + img.iconSrc + '" alt="' + alt + '" draggable="false">\n' +
+        '</a>';
 
       return {
         old: fullMatch,

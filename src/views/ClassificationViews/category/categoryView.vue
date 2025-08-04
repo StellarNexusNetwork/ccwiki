@@ -18,7 +18,7 @@
 </template>
 <script setup lang="ts">
 // import ItemCard from './ItemCard.vue';
-import Category from './CategoryList.vue';
+import Category from './components/CategoryList.vue';
 </script>
 <style scoped>
 .Div {

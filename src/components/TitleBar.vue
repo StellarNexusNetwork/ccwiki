@@ -80,8 +80,8 @@ const goForward = () => {
 }
 
 .titleBar .logo img {
-  margin-top: 3.5px;
-  margin-left: 3.5px;
+  margin-top: 5px;
+  margin-left: 5px;
   user-select: none;
 }
 

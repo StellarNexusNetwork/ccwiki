@@ -2,31 +2,31 @@
   <div class="Div" :style="mainDevStyle">
     <div class="home" ref="mainDiv" :style="homeStyle">
       <div class="logo">
-        <img class='ring' src="/static/home/svg/ring.svg" fetchpriority=high width='auto' height='170px' draggable="false">
+        <img class='ring' src="/static/HomeView/svg/ring.svg" fetchpriority=high width='auto' height='170px' draggable="false">
         <img class='logo_image' src="/static/public/svg/ccwiki_logo0.svg" fetchpriority=high width='auto' height='120px'
              draggable="false">
       </div>
       <div class='newsList'>
         <div class="newsDiv" style="margin-left: 0;">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+          <img class='image' src="/static/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
           <div class="text">{{ t("page.home.news.text_none") }}</div>
           <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
         <div class="newsDiv">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+          <img class='image' src="/static/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
           <div class="text">{{ t("page.home.news.text_none") }}</div>
           <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
         <div class="newsDiv notNecessary">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+          <img class='image' src="/static/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
           <div class="text">{{ t("page.home.news.text_none") }}</div>
           <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
         <div class="newsDiv notNecessary">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
+          <img class='image' src="/static/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
           <div class="text">{{ t("page.home.news.text_none") }}</div>
           <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
@@ -36,7 +36,7 @@
         <div class="updateDiv" style="margin-top: 0;">
           <div class="imgDiv">
             <div class="ring">
-              <img class='ring2' src="/static/home/svg/ring2.svg" alt='' draggable="false">
+              <img class='ring2' src="/static/HomeView/svg/ring2.svg" alt='' draggable="false">
             </div>
           </div>
           <div class="textDiv">

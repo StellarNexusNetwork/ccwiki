@@ -14,7 +14,10 @@
           <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-itemList-title-' + value.path + '-' + item.path}">
             {{ t("docs." + value.path + ".items." + item.path + ".title") }}
           </div>
-          <div class="introduction">{{ t("docs." + value.path + ".items." + item.path + ".content") }}</div>
+          <div class="introduction">{{
+              t("docs." + value.path + ".items." + item.path + ".content")
+            }}
+          </div>
           <div class="iconList">
             <img class="icon" :src="icon_value.iconSrc" alt="SVG Image" draggable="false" v-for="([icon_key,icon_value], index) in Object.entries(iconList[value.path][item.path]) as [string, any][]" :style="{ 'viewTransitionName': 'class-item-img-' + value.path + '-' + item.path + '-' + icon_value.id }" :key="index">
           </div>
@@ -26,12 +29,12 @@
 <script setup lang="ts">
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
+import {useTextOverflow} from '@/composables/useTextOverflow';
+import {useWindowStore} from '@/stores/window';
 import {useI18n} from 'vue-i18n';
 import {computed, onMounted, ref, toRaw} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import get from 'lodash/get';
-import {useTextOverflow} from '@/composables/useTextOverflow';
-import {useWindowStore} from '@/stores/window';
 
 const {t} = useI18n();
 

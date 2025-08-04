@@ -14,7 +14,7 @@
     </ul>
     <div class="notFoundR" v-else>
       <div class="imgAndTitle">
-        <img src="/static/classification/svg/NotFound.svg" alt="SVG Image" draggable="false">
+        <img src="/static/ClassificationView/svg/NotFound.svg" alt="SVG Image" draggable="false">
         <p>{{ t("page.classification.NotFound") }}</p>
       </div>
     </div>
@@ -23,10 +23,10 @@
 
 <script setup lang="ts">
 import {useDataSourcesStore} from "@/stores/dataSources";
-import {useRouter} from "vue-router";
 import {useWindowStore} from "@/stores/window";
-import {onMounted} from "vue";
 import {useTextOverflow} from "@/composables/useTextOverflow";
+import {useRouter} from "vue-router";
+import {onMounted} from "vue";
 import {useI18n} from 'vue-i18n';
 
 const {t} = useI18n();

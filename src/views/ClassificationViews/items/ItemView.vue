@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import ItemList from './ItemList.vue';
+import ItemList from './components/ItemList.vue';
 </script>
 <style scoped>
 .Div {

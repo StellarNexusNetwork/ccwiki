@@ -33,7 +33,13 @@ const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
 
 const router = useRouter();
 
-const {rid, category, subcategory, id, data} = defineProps(['rid', 'category', 'subcategory', 'id', 'data']);
+const {
+  rid,
+  category,
+  subcategory,
+  id,
+  data
+} = defineProps(['rid', 'category', 'subcategory', 'id', 'data']);
 
 const rid0 = ref();
 if (/^\d+$/.test(rid)) {

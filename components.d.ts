@@ -8,17 +8,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    DefaultPage: typeof import('./src/components/setting/DefaultPage.vue')['default']
-    IndexPage: typeof import('./src/components/notice/IndexPage.vue')['default']
-    ItemCard: typeof import('./src/components/notice/ItemCard.vue')['default']
-    LangPage: typeof import('./src/components/setting/LangPage.vue')['default']
+    DefaultPage: typeof import('./src/components/setting/components/DefaultPage.vue')['default']
+    IndexPage: typeof import('./src/components/notice/NoticeComponent.vue')['default']
+    ItemCard: typeof import('./src/components/notice/components/ItemCard.vue')['default']
+    LangPage: typeof import('./src/components/setting/components/LangPage.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
+    NoticeC: typeof import('./src/components/notice/NoticeComponent.vue')['default']
+    NoticeComponent: typeof import('./src/components/notice/NoticeComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
-    TestPage: typeof import('./src/components/setting/TestPage.vue')['default']
-    ThemePage: typeof import('./src/components/setting/ThemePage.vue')['default']
+    SettingPage: typeof import('./src/components/setting/SettingPage.vue')['default']
+    TestPage: typeof import('./src/components/setting/components/TestPage.vue')['default']
+    ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
   }
   export interface GlobalDirectives {
