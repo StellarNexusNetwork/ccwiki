@@ -115,7 +115,7 @@
       <div class="box" :style="{ height: boxHeight + 20 + 'px' }">
         <AutoResizeTextarea v-model="userInput" @update-height="updateBoxHeight"/>
         <div class="sendButton" :style="{ backgroundColor: sendButtonColor }">
-          <img class="sendBoxImg" src="/ChatView/svg/send.svg" alt="SVG Image" draggable="false">
+          <img class="sendBoxImg" src="/static/ChatView/svg/send.svg" alt="SVG Image" draggable="false">
         </div>
       </div>
     </div>
