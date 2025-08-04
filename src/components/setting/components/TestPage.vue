@@ -111,10 +111,18 @@ async function openFolder() {
             'iconURL': iconURL,
             'routes': jsonData.routes
           });
-          notice.addNotice({'type': 'success', 'title': '仓库添加成功！', 'content': '已加载所选仓库！'});
+          notice.addNotice({
+            'type': 'success',
+            'title': '仓库添加成功！',
+            'content': '已加载所选仓库！'
+          });
         } else {
           console.warn('请勿重复添加仓库！');
-          notice.addNotice({'type': 'warn', 'title': '请勿重复添加仓库！', 'content': '该仓库已加载，请勿重复添加！'});
+          notice.addNotice({
+            'type': 'warn',
+            'title': '请勿重复添加仓库！',
+            'content': '该仓库已加载，请勿重复添加！'
+          });
         }
       } else {
         console.warn('选择仓库非标准仓库！');

@@ -1,7 +1,7 @@
 <template>
   <div class="app app-dark">
     <TitleBar/>
-    <notice/>
+    <NoticeComponent/>
     <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
     <SettingDialog/>
     <div class="mainDiv" :style="mainDivStyle">
@@ -21,15 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import TitleBar from './components/TitleBar.vue';
-import NavigationBar from './components/NavigationBar.vue';
-import notice from './components/notice/IndexPage.vue';
+import TitleBar from '@/components/TitleBar.vue';
+import NavigationBar from '@/components/NavigationBar.vue';
+import NoticeComponent from '@/components/notice/NoticeComponent.vue';
 import SettingDialog from "@/components/setting/SettingDialog.vue";
+import {useWindowStore} from '@/stores/window';
+import {useDataSourcesStore} from '@/stores/dataSources';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter} from 'vue-router';
 import {ref, watchEffect} from 'vue';
-import {useWindowStore} from '@/stores/window';
-import {useDataSourcesStore} from '@/stores/dataSources';
 import get from 'lodash/get';
 
 type RouteRule = {
@@ -55,7 +55,13 @@ const mainStyle = ref({
 });
 
 const routerLoadingS = ref({display: 'none'});
-const rtLoadingBgS = ref({width: '100px', height: '100px', opacity: 0, marginBottom: '0px', transitionDuration: '0.5s'});
+const rtLoadingBgS = ref({
+  width: '100px',
+  height: '100px',
+  opacity: 0,
+  marginBottom: '0px',
+  transitionDuration: '0.5s'
+});
 const rtLoadingS = ref({opacity: 0});
 let rtIsAnimating = false;
 let allowRouting = false;
@@ -121,7 +127,12 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
         routerLoadingS.value.display = 'flex';
       }, 10);
       setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {width: '250px', height: '250px', opacity: 1, marginBottom: '70px'});
+        Object.assign(rtLoadingBgS.value, {
+          width: '250px',
+          height: '250px',
+          opacity: 1,
+          marginBottom: '70px'
+        });
       }, 20);
       setTimeout(() => {
         Object.assign(rtLoadingBgS.value, {width: '200px', height: '200px', marginBottom: '0px'});
@@ -133,7 +144,10 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
         rtLoadingBgS.value.transitionDuration = '0.75s';
       }, 1499);
       setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {width: 'calc(100vw + 100vh)', height: 'calc(100vw + 100vh)'});
+        Object.assign(rtLoadingBgS.value, {
+          width: 'calc(100vw + 100vh)',
+          height: 'calc(100vw + 100vh)'
+        });
       }, 1500);
       setTimeout(() => {
         next();

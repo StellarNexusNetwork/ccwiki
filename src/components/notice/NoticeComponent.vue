@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import ItemCard from './ItemCard.vue';
+import ItemCard from './components/ItemCard.vue';
 import {useNoticeStore} from '@/stores/setting';
 
 type NotificationType = 'success' | 'error' | 'warn' | 'other';

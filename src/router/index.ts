@@ -6,57 +6,57 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/HomeView.vue')
+      component: () => import('@/views/HomeView.vue')
     },
     {
       path: '/classification/',
       name: 'classification',
-      component: () => import('@/views/classification/IndexPage.vue')
+      component: () => import('@/views/ClassificationViews/repository/classificationView.vue')
     },
     {
       path: '/classification/:rid',
       name: 'classificationR',
-      component: () => import('@/views/classificationR/IndexPage.vue')
+      component: () => import('@/views/ClassificationViews/category/categoryView.vue')
     },
     {
       path: '/classification/:rid/:category/:subcategory',
       name: 'classification_items',
-      component: () => import('../views/classification_items/IndexPage.vue')
+      component: () => import('@/views/ClassificationViews/items/ItemView.vue')
     },
     {
       path: '/docs/:rid/:category/:subcategory/:id',
       name: 'docs',
-      component: () => import('../views/docs/IndexPage.vue')
+      component: () => import('@/views/DocsView/DocsView.vue')
     },
     // {
     //   path: '/20241108/',
     //   name: '20241108',
-    //   component: () => import('../views/20241108/WebUI2.vue')
+    //   component: () => import('@/views/20241108/WebUI2.vue')
     // },
     {
       path: '/eye8/',
       name: 'eye8',
-      component: () => import('../views/WebUI.vue')
+      component: () => import('@/views/WebUI.vue')
     },
     {
       path: '/chat/',
       name: 'chat',
-      component: () => import('../views/chat/IndexPage.vue')
+      component: () => import('@/views/ChatView/ChatView.vue')
     },
     {
       path: '/about/',
       name: 'about',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('@/views/AboutView.vue')
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('../views/NotFound.vue')
+      component: () => import('@/views/ErrorViews/NotFoundView.vue')
     },
     {
       path: '/setting/uninstall/',
       name: 'uninstall',
-      component: () => import('../views/UninstallPage.vue')
+      component: () => import('@/views/UninstallPage.vue')
     }
   ]
 });

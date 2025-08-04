@@ -41,11 +41,11 @@
 <script setup lang="ts">
 import {useI18n} from 'vue-i18n';
 import {ref} from 'vue';
-import defaultPage from './DefaultPage.vue';
-import themePage from './ThemePage.vue';
-import langPage from './LangPage.vue';
+import defaultPage from './components/DefaultPage.vue';
+import themePage from './components/ThemePage.vue';
+import langPage from './components/LangPage.vue';
 // @ts-expect-error: 我不到啊 build的时候就是会报错 后面改ts应该就好了吧
-import testPage from './TestPage.vue';
+import testPage from './components/TestPage.vue';
 import {eventBus} from '@/utils/eventBus';
 
 const {t} = useI18n();
