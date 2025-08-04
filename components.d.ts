@@ -9,11 +9,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DefaultPage: typeof import('./src/components/setting/components/DefaultPage.vue')['default']
-    IndexPage: typeof import('./src/components/notice/NoticeComponent.vue')['default']
     ItemCard: typeof import('./src/components/notice/components/ItemCard.vue')['default']
     LangPage: typeof import('./src/components/setting/components/LangPage.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
-    NoticeC: typeof import('./src/components/notice/NoticeComponent.vue')['default']
     NoticeComponent: typeof import('./src/components/notice/NoticeComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
