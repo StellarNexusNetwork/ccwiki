@@ -22,5 +22,3 @@ window.onload = () => {
     init_loading_bg.style.display = "none";
   }, 2500);
 }
-
-

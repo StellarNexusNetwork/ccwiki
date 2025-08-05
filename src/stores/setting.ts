@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import {nextTick, reactive, ref, watchEffect} from 'vue';
-import defaultSetting from '../json/defaultSetting.json';
+import defaultSetting from '@/assets/json/defaultSetting.json';
 import {ulid} from 'ulid';
 
 

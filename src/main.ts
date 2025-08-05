@@ -1,4 +1,4 @@
-import './assets/main.css';
+import '@/assets/css/main.css';
 
 import {createApp} from 'vue';
 import {createPinia} from 'pinia';
@@ -7,11 +7,11 @@ import Vue3Marquee from 'vue3-marquee';
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 
-import App from './App.vue';
-import router from './router';
+import App from '@/App.vue';
+import router from '@/router';
 
-import zh_cn from './json/locales/zh_cn.json';
-import en_us from './json/locales/en_us.json';
+import zh_cn from '@/assets/json/locales/zh_cn.json';
+import en_us from '@/assets/json/locales/en_us.json';
 
 import {useSettingStore} from '@/stores/setting';
 

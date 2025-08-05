@@ -9,9 +9,9 @@
         <div class="title">{{ item.name }}</div>
         <div class="introduction">{{ item.path }}</div>
         <div class="iconList">
-          <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-          <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
-          <img class="icon" src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
+          <img class="icon" src="/public/svg/Test.svg" alt="SVG Image" draggable="false">
+          <img class="icon" src="/public/svg/Test.svg" alt="SVG Image" draggable="false">
+          <img class="icon" src="/public/svg/Test.svg" alt="SVG Image" draggable="false">
         </div>
       </button>
     </div>

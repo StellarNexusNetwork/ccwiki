@@ -1,7 +1,7 @@
 <template>
   <div class="mainDiv">
     <div class="div">
-      <img src="/static/public/svg/setting/setting.svg" alt="SVG Image" draggable="false">
+      <img src="/components/setting/svg/setting.svg" alt="SVG Image" draggable="false">
       <div class="title" id="title">CC Wiki project</div>
       <div class="title" id="title_m">CC Wiki</div>
       <div id="details">

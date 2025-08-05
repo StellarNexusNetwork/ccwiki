@@ -2,7 +2,7 @@
   <div class="Div">
     <div class="notFound">
       <div class="imgAndTitle">
-        <img src="/static/public/svg/NotFound.svg" alt="SVG Image" draggable="false">
+        <img src="/views/ErrorViews/NotFound/svg/NotFound.svg" alt="SVG Image" draggable="false">
         {{ t("page.NotFound.title") }}
       </div>
       <div class="textDiv">
