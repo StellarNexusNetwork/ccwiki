@@ -40,7 +40,7 @@ jobs:
         run: pnpm run build
 
       #      - name: 生成 licenses.txt
-      #        run: pnpm license-checker-rseidelsohn --customPath customFormat.tpl --out public/static/licenses.txt
+      #        run: pnpm license-checker-rseidelsohn --customPath customFormat.tpl --out public/licenses.txt
 
       - name: Copy CNAME to dist
         if: ${{ success() }}
