@@ -19,7 +19,7 @@
           <div class="optionList">
             <div class="div"></div>
             <div class="option" @click="deleteLocalData(index)">
-              <img class="icon" src="/static/public/svg/setting/test/delete.svg" alt="SVG Image" draggable="false">
+              <img class="icon" src="/components/setting/components/TestPage/svg/delete.svg" alt="SVG Image" draggable="false">
             </div>
           </div>
         </li>
@@ -151,7 +151,7 @@ async function openFolder() {
 }
 
 async function getIconURL(root) {
-  let iconURL = '/static/public/svg/NotFound.svg';
+  let iconURL = '/public/svg/NotFound.svg';
   let iconHandle = 'notFound';
   if (get(root, 'icon_svg')) {
     iconHandle = root['icon_svg'];

@@ -1,37 +1,37 @@
 <template>
   <div class="titleBar">
     <div class="logo">
-      <img class='logoImg' src="/static/public/svg/ccwiki_logo.svg" alt='' width='auto' height='30' draggable="false">
+      <img class='logoImg' src="/public/svg/ccwiki_logo.svg" alt='' width='auto' height='30' draggable="false">
     </div>
     <div class="appControl">
       <div class="options">
         <button id="red">
-          <img src="/static/public/svg/titleBar/closeApp.svg" alt="close App" draggable="false">
+          <img src="/components/TitleBar/svg/closeApp.svg" alt="close App" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal">
-          <img src="/static/public/svg/titleBar/maximizeRestoreApp.svg" alt="maximize Restore App" draggable="false">
+          <img src="/components/TitleBar/svg/maximizeRestoreApp.svg" alt="maximize Restore App" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal">
-          <img src="/static/public/svg/titleBar/minimizeApp.svg" alt="minimize App" draggable="false">
+          <img src="/components/TitleBar/svg/minimizeApp.svg" alt="minimize App" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal" @click='openDialog'>
-          <img src="/static/public/svg/titleBar/language.svg" alt="language" draggable="false">
+          <img src="/components/TitleBar/svg/language.svg" alt="language" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal" @click='goForward'>
-          <img src="/static/public/svg/titleBar/goForward.svg" alt="goForward" draggable="false">
+          <img src="/components/TitleBar/svg/goForward.svg" alt="goForward" draggable="false">
         </button>
       </div>
       <div class="options">
         <button id="normal" @click='goBack'>
-          <img src="/static/public/svg/titleBar/goBack.svg" alt="goBack" draggable="false">
+          <img src="/components/TitleBar/svg/goBack.svg" alt="goBack" draggable="false">
         </button>
       </div>
     </div>

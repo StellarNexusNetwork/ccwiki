@@ -19,10 +19,10 @@
         <div class="logoList">
           <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank" class="fisrtItem">
             <!-- <img src="/static/AboutView/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
-            <img src="/static/AboutView/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
+            <img src="/views/AboutView/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
           </a>
           <a href="https://github.com/StellarNexusNetwork" target="_blank">
-            <img src="/static/AboutView/svg/SNNetwork_logo.svg" alt="SVG Image" draggable="false">
+            <img src="/views/AboutView/svg/SNNetwork_logo.svg" alt="SVG Image" draggable="false">
           </a>
         </div>
       </div>
@@ -48,7 +48,7 @@
       </div>
       <div class="line"></div>
       <div class="boxDiv" id="OtherOpenSource" style="paddingBottom: 30px;">
-        <a href="/static/licenses.txt">
+        <a href="/licenses.txt">
           <div class="title">{{ t("page.about.title.OLicenses") }}</div>
         </a>
       </div>

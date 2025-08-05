@@ -6,19 +6,19 @@
     <div class="line"></div>
     <div class="options">
       <button class="button" @click="switchDetail(1)">
-        <img src="/static/public/svg/setting/theme.svg" alt="SVG Image" draggable="false">
+        <img src="/components/setting/svg/theme.svg" alt="SVG Image" draggable="false">
         <div class="textDiv">{{ t("public.setting.title.theme") }}</div>
       </button>
     </div>
     <div class="options">
       <button class="button" @click="switchDetail(2)">
-        <img src="/static/public/svg/setting/language.svg" alt="SVG Image" draggable="false">
+        <img src="/components/setting/svg/language.svg" alt="SVG Image" draggable="false">
         <div class="textDiv">{{ t("public.setting.title.language") }}</div>
       </button>
     </div>
     <div class="options">
       <button class="button" @click="switchDetail(3)">
-        <img src="/static/public/svg/Test.svg" alt="SVG Image" draggable="false">
+        <img src="/public/svg/Test.svg" alt="SVG Image" draggable="false">
         <div class="textDiv">{{ t("public.setting.title.test") }}</div>
       </button>
     </div>
@@ -27,7 +27,7 @@
     <div class="winControl">
       <div class="title">{{ t(currentDisplayName) }}</div>
       <button @click="closeDialog">
-        <img src="/static/public/svg/titleBar/closeApp.svg" alt="SVG Image" draggable="false">
+        <img src="/components/TitleBar/svg/closeApp.svg" alt="SVG Image" draggable="false">
       </button>
     </div>
     <div class="optionsDetailContent">

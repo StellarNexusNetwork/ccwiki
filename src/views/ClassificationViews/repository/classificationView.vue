@@ -14,7 +14,7 @@
     </ul>
     <div class="notFoundR" v-else>
       <div class="imgAndTitle">
-        <img src="/static/ClassificationView/svg/NotFound.svg" alt="SVG Image" draggable="false">
+        <img src="/views/ClassificationView/svg/NotFound.svg" alt="SVG Image" draggable="false">
         <p>{{ t("page.classification.NotFound") }}</p>
       </div>
     </div>

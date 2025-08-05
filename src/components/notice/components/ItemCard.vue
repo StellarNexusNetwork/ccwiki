@@ -1,7 +1,7 @@
 <template>
   <div :id="index === 0 ? 'firstItem' : undefined" class="item" @mousedown="handleMouseDown" @touchstart="handleMouseDown" :style="'transform:translateX('+deltaX+'px)'+dt">
     <div class="contentBox" :style="{opacity:1-Math.abs(deltaX)/180}">
-      <img :src="baseUrl+'static/public/svg/notice/' + item.type + '.svg'" alt="" draggable="false">
+      <img :src="baseUrl+'components/notice/svg/' + item.type + '.svg'" alt="" draggable="false">
       <div class="textDiv">
         <div class="title">{{ item.title }}</div>
         <div class="content">{{ item.content }}</div>
