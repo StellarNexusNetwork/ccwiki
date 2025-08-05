@@ -4,9 +4,9 @@
       <div class="logoDiv">
         <div class="logoP">
           <div class="logo">
-            <img id="logo1" src="/static/eye8/svg/logo1.svg" alt="SVG Image" width='auto' height='230px'
+            <img id="logo1" src="/views/eye8/svg/logo1.svg" alt="SVG Image" width='auto' height='230px'
                  draggable="false">
-            <img id="logo2" src="/static/eye8/svg/logo2.svg" alt="SVG Image" width='auto' height='90px'
+            <img id="logo2" src="/views/eye8/svg/logo2.svg" alt="SVG Image" width='auto' height='90px'
                  draggable="false">
           </div>
         </div>
@@ -66,7 +66,7 @@
 import ApexCharts from 'vue3-apexcharts';
 import {ref} from 'vue';
 
-let oMarginRight = ref('10px');
+const oMarginRight = ref('10px');
 
 const chartOptions = {
   chart: {type: 'area', height: 140, sparkline: {enabled: true}},

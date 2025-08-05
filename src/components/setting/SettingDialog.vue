@@ -4,7 +4,7 @@
       <div class="setting2">
         <div class="setting">
           <div style="display: flex;">
-            <setting/>
+            <SettingPage/>
           </div>
         </div>
       </div>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import setting from './IndexPage.vue';
+import SettingPage from './SettingPage.vue';
 import {eventBus} from '@/utils/eventBus';
 
 eventBus.on('callOpenSettingsDialog1', openDialog);

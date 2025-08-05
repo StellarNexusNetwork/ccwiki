@@ -141,7 +141,11 @@ export const useDataSourcesStore = defineStore(
 
         request.onsuccess = () => {
           console.log('数据库 "${dbName}" 删除成功～喵');
-          notice.addNotice({'type': 'success', 'title': '操作成功！', 'content': '数据库 "${dbName}" 删除成功～喵'});
+          notice.addNotice({
+            'type': 'success',
+            'title': '操作成功！',
+            'content': '数据库 "${dbName}" 删除成功～喵'
+          });
           resolve(true);
         };
 
@@ -153,7 +157,11 @@ export const useDataSourcesStore = defineStore(
 
         request.onblocked = () => {
           console.warn('数据库 "${dbName}" 删除被阻止（可能有打开的连接）');
-          notice.addNotice({'type': 'warn', 'title': '操作被阻止', 'content': '数据库 "${dbName}" 删除被阻止'});
+          notice.addNotice({
+            'type': 'warn',
+            'title': '操作被阻止',
+            'content': '数据库 "${dbName}" 删除被阻止'
+          });
         };
       });
     }
@@ -357,32 +365,32 @@ function processRouteData(route: any) {
   return processedData;
 }
 
-function mergeRouteGroups(routeGroups: any[]): any[] {
-  const mergedRoutes: any[] = [];
-
-  for (const group of routeGroups) {
-    for (const route of group) {
-      const existingRoute = mergedRoutes.find((r) => r.path === route.path);
-
-      if (existingRoute) {
-        // 合并子路由
-        if (Array.isArray(route.items)) {
-          if (!Array.isArray(existingRoute.items)) {
-            existingRoute.items = [];
-          }
-          for (const item of route.items) {
-            if (!existingRoute.items.some((i: { 'path': string }) => i.path === item.path)) {
-              existingRoute.items.push(item);
-            }
-          }
-        }
-      } else {
-        mergedRoutes.push({...route});
-      }
-    }
-  }
-  return mergedRoutes;
-}
+// function mergeRouteGroups(routeGroups: any[]): any[] {
+//   const mergedRoutes: any[] = [];
+//
+//   for (const group of routeGroups) {
+//     for (const route of group) {
+//       const existingRoute = mergedRoutes.find((r) => r.path === route.path);
+//
+//       if (existingRoute) {
+//         // 合并子路由
+//         if (Array.isArray(route.items)) {
+//           if (!Array.isArray(existingRoute.items)) {
+//             existingRoute.items = [];
+//           }
+//           for (const item of route.items) {
+//             if (!existingRoute.items.some((i: { 'path': string }) => i.path === item.path)) {
+//               existingRoute.items.push(item);
+//             }
+//           }
+//         }
+//       } else {
+//         mergedRoutes.push({...route});
+//       }
+//     }
+//   }
+//   return mergedRoutes;
+// }
 
 
 function deepMergeOnlyNew(oldObj: any, newObj: any) {
