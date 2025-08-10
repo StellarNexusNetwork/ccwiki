@@ -10,6 +10,10 @@ import Aura from '@primeuix/themes/aura';
 import App from '@/App.vue';
 import router from '@/router';
 
+import "vue-data-ui/style.css" // 包括CSS
+// 您可以全局声明 Vue Data UI 组件
+import {VueUiRadar} from "vue-data-ui"
+
 import zh_cn from '@/assets/json/locales/zh_cn.json';
 import en_us from '@/assets/json/locales/en_us.json';
 
@@ -45,5 +49,7 @@ app.use(PrimeVue, {
     }
   }
 });
+
+app.component("VueUiRadar", VueUiRadar)
 
 app.mount('#app');

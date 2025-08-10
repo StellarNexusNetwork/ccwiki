@@ -41,6 +41,9 @@ importers:
       vue:
         specifier: ^3.5.18
         version: 3.5.18(typescript@5.8.3)
+      vue-data-ui:
+        specifier: ^2.17.11
+        version: 2.17.11(vue@3.5.18(typescript@5.8.3))
       vue-i18n:
         specifier: ^11.1.11
         version: 11.1.11(vue@3.5.18(typescript@5.8.3))
@@ -2849,6 +2852,15 @@ packages:
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
 
+  vue-data-ui@2.17.11:
+    resolution: {integrity: sha512-L81QQCzfL5eFuTv44teh+PUzUvgKhV6Ojw1MzXSBoTffKJe1efl14rNTamimAbvvP6zsj7cT20nCHSZBXJSxQQ==}
+    peerDependencies:
+      jspdf: ^3.0.1
+      vue: '>=3.3.0'
+    peerDependenciesMeta:
+      jspdf:
+        optional: true
+
   vue-eslint-parser@10.2.0:
     resolution: {integrity: sha512-CydUvFOQKD928UzZhTp4pr2vWz1L+H99t7Pkln2QSPdvmURT0MoC4wUccfCnuEaihNsu9aYYyk+bep8rlfkUXw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -5624,6 +5636,10 @@ snapshots:
   vscode-uri@3.1.0: {}
 
   vue-component-type-helpers@2.2.12: {}
+
+  vue-data-ui@2.17.11(vue@3.5.18(typescript@5.8.3)):
+    dependencies:
+      vue: 3.5.18(typescript@5.8.3)
 
   vue-eslint-parser@10.2.0(eslint@9.32.0(jiti@2.5.1)):
     dependencies:

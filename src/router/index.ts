@@ -62,6 +62,11 @@ const router = createRouter({
       path: '/tools/db2/',
       name: 'tools_db2',
       component: () => import('@/views/tools/db/IndexPage.vue')
+    },
+    {
+      path: '/tools/db2/analysis',
+      name: 'tools_db2_analysis',
+      component: () => import('@/views/tools/analysis/IndexPage.vue')
     }
   ]
 });
