@@ -264,7 +264,7 @@ const props = defineProps({
 const getDataset = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:7999/api/db/analysis/getAnalysis1/' + props.config.label + '/' + props.config.isT)
-    dataset.value = response.data.data
+    dataset.value = [...response.data.data]
     Title = response.data.title
     console.log("success")
   } catch (err) {
@@ -290,6 +290,7 @@ onUnmounted(() => {
     <VueUiDonut
       :config="config"
       :dataset="dataset"
+      v-if="dataset && dataset.length"
     />
   </div>
 </template>
