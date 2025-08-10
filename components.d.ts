@@ -8,21 +8,39 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Button: typeof import('primevue/button')['default']
+    Column: typeof import('primevue/column')['default']
+    DataTable: typeof import('primevue/datatable')['default']
     DefaultPage: typeof import('./src/components/setting/components/DefaultPage.vue')['default']
+    Dialog: typeof import('primevue/dialog')['default']
+    FileUpload: typeof import('primevue/fileupload')['default']
+    IconField: typeof import('primevue/iconfield')['default']
+    InputIcon: typeof import('primevue/inputicon')['default']
+    InputNumber: typeof import('primevue/inputnumber')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     ItemCard: typeof import('./src/components/notice/components/ItemCard.vue')['default']
     LangPage: typeof import('./src/components/setting/components/LangPage.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     NoticeComponent: typeof import('./src/components/notice/NoticeComponent.vue')['default']
+    RadioButton: typeof import('primevue/radiobutton')['default']
+    Rating: typeof import('primevue/rating')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
+    SelectButton: typeof import('primevue/selectbutton')['default']
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     SettingPage: typeof import('./src/components/setting/SettingPage.vue')['default']
+    Tag: typeof import('primevue/tag')['default']
     TestPage: typeof import('./src/components/setting/components/TestPage.vue')['default']
+    Textarea: typeof import('primevue/textarea')['default']
     ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
+    ThemeSwitcher: typeof import('./src/components/ThemeSwitcher.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
+    ToggleSwitch: typeof import('primevue/toggleswitch')['default']
+    Toolbar: typeof import('primevue/toolbar')['default']
   }
   export interface GlobalDirectives {
+    StyleClass: typeof import('primevue/styleclass')['default']
     Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

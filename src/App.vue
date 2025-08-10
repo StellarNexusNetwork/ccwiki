@@ -1,5 +1,5 @@
 <template>
-  <div class="app app-dark">
+  <div class="app">
     <TitleBar/>
     <NoticeComponent/>
     <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>

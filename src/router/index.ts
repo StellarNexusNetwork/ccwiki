@@ -57,6 +57,11 @@ const router = createRouter({
       path: '/setting/uninstall/',
       name: 'uninstall',
       component: () => import('@/views/UninstallPage.vue')
+    },
+    {
+      path: '/tools/db2/',
+      name: 'tools_db2',
+      component: () => import('@/views/tools/db/IndexPage.vue')
     }
   ]
 });

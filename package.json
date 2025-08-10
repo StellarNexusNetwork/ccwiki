@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@primeuix/themes": "^1.2.3",
+    "@primevue/core": "^4.3.7",
     "axios": "^1.11.0",
     "lodash": "^4.17.21",
     "markdown-it": "^14.1.0",
