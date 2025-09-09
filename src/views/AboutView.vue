@@ -7,7 +7,7 @@
       </div>
       <div class="line"></div>
       <div class="boxDiv" id="Developers">
-        <div class="title">{{ $t("about.title.mainDeveloper") }}</div>
+        <div class="title">{{ t("page.about.title.mainDeveloper") }}</div>
         <div class="Developer">xxx - xxx</div>
         <div class="Developer">xxx - xxx</div>
         <div class="Developer">xxx - xxx</div>
@@ -15,25 +15,25 @@
       </div>
       <div class="line"></div>
       <div class="boxDiv" id="Cooperative">
-        <div class="title">{{ $t("about.title.partners") }}</div>
+        <div class="title">{{ t("page.about.title.partners") }}</div>
         <div class="logoList">
           <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank" class="fisrtItem">
-            <!-- <img src="/static/about/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
-            <img src="/static/about/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
+            <!-- <img src="/static/AboutView/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
+            <img src="/views/AboutView/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
           </a>
           <a href="https://github.com/StellarNexusNetwork" target="_blank">
-            <img src="/static/about/svg/SNNetwork_logo.svg" alt="SVG Image" draggable="false">
+            <img src="/views/AboutView/svg/SNNetwork_logo.svg" alt="SVG Image" draggable="false">
           </a>
         </div>
       </div>
       <div class="line"></div>
       <div class="boxDiv" id="ClientInfo">
-        <div class="title">{{ $t("about.title.CI") }}</div>
-        <div class="detail">{{ $t("about.detail.version") }} 24w37c</div>
-        <div class="detail">{{ $t("about.detail.DPS") }}</div>
+        <div class="title">{{ t("page.about.title.CI") }}</div>
+        <div class="detail">{{ t("page.about.detail.version") }} 24w37c</div>
+        <div class="detail">{{ t("page.about.detail.DPS") }}</div>
         <div class="detailList" style="marginLeft:20px ;">
-          <a href="https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2/" target="_blank">
-            <div class="detailA">https://stellarnexusnetwork.github.io/cc.wiki.project.v4.web2</div>
+          <a href="https://github.com/StellarNexusNetwork/ccwiki" target="_blank">
+            <div class="detailA">https://github.com/StellarNexusNetwork/ccwiki</div>
           </a>
           <a href="https://github.com/StellarNexusNetwork" target="_blank">
             <div class="detailA">https://github.com/StellarNexusNetwork</div>
@@ -42,20 +42,23 @@
       </div>
       <div class="line"></div>
       <div class="boxDiv" id="OpenSource">
-        <div class="title">{{ $t("about.title.Licenses") }}</div>
-        <div class="detail">{{ $t("about.detail.Licenses") }} xxxx</div>
-        <div class="detail">{{ $t("about.detail.DLicenses") }} xxxx</div>
+        <div class="title">{{ t("page.about.title.Licenses") }}</div>
+        <div class="detail">{{ t("page.about.detail.Licenses") }} xxxx</div>
+        <div class="detail">{{ t("page.about.detail.DLicenses") }} xxxx</div>
       </div>
       <div class="line"></div>
       <div class="boxDiv" id="OtherOpenSource" style="paddingBottom: 30px;">
-        <a href="/static/licenses.txt">
-          <div class="title">{{ $t("about.title.OLicenses") }}</div>
+        <a href="/licenses.txt">
+          <div class="title">{{ t("page.about.title.OLicenses") }}</div>
         </a>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 </script>
 <style scoped>
 .Div {

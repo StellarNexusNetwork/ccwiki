@@ -1,19 +1,21 @@
-import { defineStore } from "pinia";
-import { ref,onMounted } from "vue";
+import {defineStore} from 'pinia';
+import {ref, watchEffect} from 'vue';
+import {useWindow} from '@/composables/useWindow';
 
+const sysWindow = useWindow()
 
-export const useWindowStore = defineStore('window', () => {
-    const windowWidth = ref(window.innerWidth);
+export const useWindowStore = defineStore('window',
+  () => {
+    const isMarqueeEnabled = ref(false);
+    const enableMobileSupport = ref(false);
 
-const updateWindowWidth = () => {
-  windowWidth.value = window.innerWidth;
-};
+    watchEffect(() => {
+      enableMobileSupport.value = sysWindow.width.value < 670;
+    })
 
-onMounted(() => {
-  updateWindowWidth(); // 初始化窗口宽度
-  window.addEventListener('resize', updateWindowWidth); // 监听窗口大小变化
-});
-
-    return { windowWidth }
-}
-)
+    return {
+      enableMobileSupport,
+      isMarqueeEnabled
+    };
+  }
+);

@@ -2,33 +2,33 @@
   <div class="Div" :style="mainDevStyle">
     <div class="home" ref="mainDiv" :style="homeStyle">
       <div class="logo">
-        <img class='ring' src="/static/home/svg/ring.svg" fetchpriority=high width='auto' height='170px' draggable="false">
-        <img class='logo_image' src="/static/public/svg/ccwiki_logo0.svg" fetchpriority=high width='auto' height='120px'
+        <img class='ring' src="/views/HomeView/svg/ring.svg" fetchpriority=high width='auto' height='170px' draggable="false">
+        <img class='logo_image' src="/public/svg/ccwiki_logo0.svg" fetchpriority=high width='auto' height='120px'
              draggable="false">
       </div>
       <div class='newsList'>
         <div class="newsDiv" style="margin-left: 0;">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+          <img class='image' src="/views/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
+          <div class="text">{{ t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
         <div class="newsDiv">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+          <img class='image' src="/views/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
+          <div class="text">{{ t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
-        <div class="newsDiv" :style="newsDiv2Style">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+        <div class="newsDiv notNecessary">
+          <img class='image' src="/views/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
+          <div class="text">{{ t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
-        <div class="newsDiv" :style="newsDiv2Style">
-          <img class='image' src="/static/home/svg/NotFind_bg.svg" alt='' draggable="false">
-          <div class="text">{{ $t("home.news.text_none") }}</div>
-          <div class='date'>{{ $t("home.news.date_none") }}</div>
+        <div class="newsDiv notNecessary">
+          <img class='image' src="/views/HomeView/svg/NotFind_bg.svg" alt='' draggable="false">
+          <div class="text">{{ t("page.home.news.text_none") }}</div>
+          <div class='date'>{{ t("page.home.news.date_none") }}</div>
           <!-- <div class="mainText">暂无信息</div> -->
         </div>
       </div>
@@ -36,7 +36,7 @@
         <div class="updateDiv" style="margin-top: 0;">
           <div class="imgDiv">
             <div class="ring">
-              <img class='ring2' src="/static/home/svg/ring2.svg" alt='' draggable="false">
+              <img class='ring2' src="/views/HomeView/svg/ring2.svg" alt='' draggable="false">
             </div>
           </div>
           <div class="textDiv">
@@ -64,15 +64,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted, onUnmounted, reactive, ref, watchEffect} from 'vue'
-import {useWindowStore} from '@/stores/window'
+import {onMounted, onUnmounted, reactive, ref, watchEffect} from 'vue';
+import {useI18n} from 'vue-i18n';
 
+const {t} = useI18n();
 
 const mainDiv = ref();
-let mainDevStyle = reactive({alignItems: 'center'});
-let homeStyle = reactive({paddingBottom: '70px'});
+const mainDevStyle = reactive({alignItems: 'center'});
+const homeStyle = reactive({paddingBottom: '70px'});
 const mainDevHeight = ref(0);
-let newsDiv2Style = reactive({display: 'flex'});
 
 const windowHeight = ref(window.innerHeight);
 const updateWindowHeight = () => {
@@ -98,12 +98,7 @@ watchEffect(() => {
     mainDevStyle.alignItems = 'center';
     homeStyle.paddingBottom = '70px';
   }
-  if (useWindowStore().windowWidth <= 800) {
-    newsDiv2Style.display = 'none';
-  } else {
-    newsDiv2Style.display = 'flex';
-  }
-})
+});
 </script>
 <style scoped>
 .Div {
@@ -140,8 +135,7 @@ watchEffect(() => {
 
 }
 
-.Div .home .newsList .newsDiv {
-  display: flex;
+.newsList .newsDiv {
   flex-direction: column;
   border: 1px solid var(--color-border-2);
   border-radius: 10px;
@@ -150,6 +144,27 @@ watchEffect(() => {
   margin-left: 20px;
   transition-duration: 0.3s;
 }
+
+@media (max-width: 800px) {
+  .newsList .newsDiv {
+    display: flex;
+  }
+
+  .newsList .newsDiv.notNecessary {
+    display: none;
+  }
+}
+
+@media (min-width: 800px) {
+  .newsList .newsDiv {
+    display: flex;
+  }
+
+  .newsList .newsDiv.notNecessary {
+    display: flex;
+  }
+}
+
 
 /* .Div .home .newsList .newsDiv::after {
     content: "";
@@ -175,7 +190,6 @@ watchEffect(() => {
   user-select: none;
   transition-duration: 0.3s;
 }
-
 
 .Div .home .newsList .newsDiv .text {
   font-family: RHRCN-H;

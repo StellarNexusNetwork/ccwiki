@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # 使用指定版本的 Node.js
+          node-version: '22'  # 使用指定版本的 Node.js
 
       - name: 确保 Corepack 是最新的
         run: npm install -g corepack@latest
@@ -40,7 +40,7 @@ jobs:
         run: pnpm run build
 
       #      - name: 生成 licenses.txt
-      #        run: pnpm license-checker-rseidelsohn --customPath customFormat.tpl --out public/static/licenses.txt
+      #        run: pnpm license-checker-rseidelsohn --customPath customFormat.tpl --out public/licenses.txt
 
       - name: Copy CNAME to dist
         if: ${{ success() }}

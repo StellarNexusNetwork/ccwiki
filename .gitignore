@@ -30,6 +30,6 @@ coverage
 *.tsbuildinfo
 
 src-tauri/
-public/static/20241108/model/
-public/static/public/font/
-/public/static/public/css/loading.css.map
+public/views/20241108/model/
+public/public/font/
+/public/public/css/loading.css.map
