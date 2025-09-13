@@ -92,6 +92,10 @@ const {t} = useI18n();
   }
 }
 
+.Div .notFound img {
+  user-select: none;
+}
+
 .Div .notFound .textDiv .suggestion {
   font-family: RHRCN-M;
   color: var(--color-text-body-subtle);
