@@ -22,7 +22,7 @@
 import {ref} from 'vue';
 
 let counter = 0;
-const imgSrc = ref('/static/public/svg/NotFound.svg');
+const imgSrc = ref('/static/public/svg/not_found.svg');
 const text = ref('真的要卸载吗？ /(ㄒoㄒ)/~~');
 const textList = ['是... 是点错了吧...', '你... 为什么还要点？...', '真的要离开我吗...', '离开我有什么好的？！', '这是你最后的机会咯！', '❤️你跑不掉的❤️，❤️乖乖取消吧❤️！'];
 

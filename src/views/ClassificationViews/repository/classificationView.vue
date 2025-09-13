@@ -14,7 +14,10 @@
     </ul>
     <div class="notFoundR" v-else>
       <div class="imgAndTitle">
-        <img src="/views/ClassificationView/svg/NotFound.svg" alt="SVG Image" draggable="false">
+        <picture>
+          <source class="avif" srcset="/views/ClassificationView/avif/not_found_p.avif" type="image/avif">
+          <img src="/views/ClassificationView/svg/not_found.svg" alt="SVG Image" draggable="false">
+        </picture>
         <p>{{ t("page.classification.NotFound") }}</p>
       </div>
     </div>
@@ -130,11 +133,24 @@ ul {
   transition-duration: 0.3s;
   padding-left: 10px;
   padding-right: 10px;
+  margin-bottom: 100px; /* 配重块（ */
+}
+
+@media (min-width: 622px) {
+  .notFoundR .imgAndTitle img {
+    max-width: 400px;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 622px) {
+  .notFoundR .imgAndTitle img {
+    max-width: 300px;
+    max-height: 300px;
+  }
 }
 
 .notFoundR .imgAndTitle img {
-  max-width: 250px;
-  max-height: 250px;
   user-select: none;
   margin-bottom: 15px;
 }

@@ -151,7 +151,7 @@ async function openFolder() {
 }
 
 async function getIconURL(root) {
-  let iconURL = '/public/svg/NotFound.svg';
+  let iconURL = '/public/svg/not_found.svg';
   let iconHandle = 'notFound';
   if (get(root, 'icon_svg')) {
     iconHandle = root['icon_svg'];
