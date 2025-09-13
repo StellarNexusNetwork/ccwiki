@@ -206,7 +206,7 @@ export const useDataSourcesStore = defineStore(
       if (!cache) {
         const item = {
           'name': '未知',
-          'iconSrc': baseUrl + 'static/public/svg/NotFound.svg',
+          'iconSrc': baseUrl + 'static/public/svg/not_found.svg',
           'width': 256,
           'height': 256
         };
@@ -320,7 +320,7 @@ async function getIconURL(lrd: any) {
   let x = 0;
   for (const i of lrd) {
     const iconHandle = i.iconHandle;
-    let iconURL = '/static/public/svg/NotFound.svg';
+    let iconURL = '/static/public/svg/not_found.svg';
     if (iconHandle != 'notFound') {
       const content = await iconHandle.getFile();
       const icon = new Blob([content], {type: 'image/svg+xml'});
