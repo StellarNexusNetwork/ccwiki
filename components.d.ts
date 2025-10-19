@@ -19,6 +19,7 @@ declare module 'vue' {
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     SettingPage: typeof import('./src/components/setting/SettingPage.vue')['default']
     TestPage: typeof import('./src/components/setting/components/TestPage.vue')['default']
+    TestPage2: typeof import('./src/components/setting/components/TestPage2.vue')['default']
     ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
   }
