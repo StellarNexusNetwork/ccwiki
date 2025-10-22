@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import {reactive} from 'vue';
+import {reactive, toRaw, watch} from 'vue';
 
 import get from 'lodash/get';
 import {z} from "zod"
@@ -11,9 +11,9 @@ const baseUrl = import.meta.env.BASE_URL;
 interface PersistentStorage {
   [id: string]: {  //id不是uild应该是xxx或xxx：xxx.xx
     type: string;
+    config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
     handle?: {
-      root: any;
-      config: any;
+      root: FileSystemDirectoryHandle;
     };
     url?: string;
   };
@@ -37,7 +37,6 @@ class WikiRepo {
   // display
   version: string;
   icon: string = '/public/svg/NotFound.svg';
-  root: any;
 
   constructor(config: Config) {
     this.version = config.version;
@@ -64,14 +63,15 @@ class LocalWikiRepo extends WikiRepo {
 export const useDataSourcesStore2 = defineStore(
   'DataSources2', () => {
     const notice = useNoticeStore();
+    let initState = false;
 
     const persistentStorage: PersistentStorage = reactive({});
     const wikiRepos: Record<string, any> = reactive({});
 
     async function addLocalRepo() {
-      let handle: any;
-      let root: any;
-      let config: any;
+      let handle: FileSystemDirectoryHandle;
+      let root: FileSystemFileHandle;
+      let config: Record<string, any>;
 
       // 尝试获取文件路径
       try {
@@ -83,24 +83,10 @@ export const useDataSourcesStore2 = defineStore(
       }
 
       // 尝试读取配置文件
-      const configHandle = get(root, 'config.json') as FileSystemFileHandle | undefined;
-      if (!configHandle) {
-        notice.addNotice('error', '未找到配置文件', '请确保仓库根目录下有config.json文件');
-        return;
-      }
       try {
-        const configFile = await configHandle.getFile() as File;
-        const json = await configFile.text();
-        config = JSON.parse(json);
-        console.log(config);
-        // 使用 jsonDataRaw 做后续操作
+        config = await loadConfigFromRoot(root);
       } catch (err) {
-        notice.addNotice('error', '读取或解析配置文件失败：', err);
-      }
-      const result = ConfigSchema.safeParse(config)
-      // todo:仅检查必要配置 其余仅报warn并改为默认值
-      if (!result.success) {
-        notice.addNotice('error', '配置缺失必要属性：', result.error);
+        notice.addNotice('error', '读取或解析配置文件失败', err);
         return;
       }
 
@@ -112,47 +98,69 @@ export const useDataSourcesStore2 = defineStore(
 
       persistentStorage[config.id] = {
         type: 'local',
+        config: config,
         handle: {
           root: handle,
-          config: configHandle,
         }
       };
 
       const wikiRepo = new LocalWikiRepo(config, root);
-      wikiRepo.init().then(() => {
-        wikiRepos[config.id] = wikiRepo;
-      });
+      await wikiRepo.init()
+      wikiRepos[config.id] = wikiRepo;
 
       notice.addNotice('success', '仓库添加成功！', '已加载所选仓库！');
     }
 
     function deleteRepos(id: string) {
-      console.log(id, persistentStorage, wikiRepos)
       delete persistentStorage[id];
       delete wikiRepos[id];
-      console.log(id, persistentStorage, wikiRepos)
       notice.addNotice('success', '仓库删除成功！', '已移除所选仓库！');
     }
 
-    // async function initFetchData() {
-    //   localRepositories.value = await loadData('localRepositories') as any[];
-    //   localRepositoriesDisplay.value = await loadData('localRepositoriesDisplay') as any[];
-    //   langHandles.value = await loadData('langHandles');
-    //   localRepositoriesDisplay.value = await getIconURL(localRepositoriesDisplay.value);
-    //   initState = true;
-    // }
-    //
-    // watch(localRepositoriesDisplay, (newVal) => {
-    //   if (initState) {
-    //     const routeGroupsI: any = [];
-    //     newVal = toRaw(newVal);
-    //     saveData('localRepositoriesDisplay', newVal);
-    //     for (const i of newVal) {
-    //       routeGroupsI[i.ulid] = processRouteData(i.routes);
-    //     }
-    //     routeGroups.value = routeGroupsI;
-    //   }
-    // }, {deep: true});
+    async function initFetchData() {
+      console.log('开始读取仓库数据...')
+      const loaded = await loadData('persistentStorage') as PersistentStorage;
+      Object.assign(persistentStorage, loaded);
+
+      for (const [id, item] of Object.entries(toRaw(persistentStorage) ?? {})) {
+        if (item.type === 'local') {
+          let root: FileSystemDirectoryHandle;
+          let config: Record<string, any>;
+
+          try {
+            root = await processHandle(item.handle.root);
+          } catch (err) {
+            notice.addNotice('error', '仓库损坏！', err);
+            return;
+          }
+
+          // 尝试读取配置文件
+          try {
+            config = await loadConfigFromRoot(root);
+          } catch (err) {
+            notice.addNotice('error', '读取或解析配置文件失败', err);
+            return;
+          }
+
+          const wikiRepo = new LocalWikiRepo(config, root);
+          await wikiRepo.init()
+          wikiRepos[config.id] = wikiRepo;
+        }
+      }
+
+      initState = true;
+      console.log('读取仓库数据完成！')
+    }
+
+    watch(persistentStorage, (newVal) => {
+      if (initState) {
+        newVal = toRaw(newVal);
+        console.log(newVal)
+        saveData('persistentStorage', newVal);
+      }
+    }, {deep: true});
+
+    // ------------------- 未启用的功能🤔 -------------------
 
     // let db = ref<any>(null)
     // let opfsRoot = null
@@ -197,8 +205,7 @@ export const useDataSourcesStore2 = defineStore(
     //     })
     // })
 
-
-    // ------------------------------------------------
+    // ------------------- 未启用的功能🤔 -------------------
 
 
     //
@@ -243,15 +250,6 @@ export const useDataSourcesStore2 = defineStore(
     //   }
     // }
     //
-    // async function mergeLangData(getLocaleMessage: any) {
-    //   const updataLang: Record<string, any> = {};
-    //   updataLang['zh_cn'] = await mergeLangDataI('zh_cn', getLocaleMessage);
-    //   if (useSettingStore().setting.lang !== 'zh_cn') {
-    //     updataLang[useSettingStore().setting.lang] = await mergeLangDataI(useSettingStore().setting.lang, getLocaleMessage);
-    //   }
-    //   return updataLang;
-    // }
-    //
     function deleteDatabase(dbName: string): Promise<boolean> {
       return new Promise((resolve, reject) => {
         const request = indexedDB.deleteDatabase(dbName);
@@ -284,6 +282,7 @@ export const useDataSourcesStore2 = defineStore(
     //   current[keys[keys.length - 1]] = value;
     // }
     //
+    // todo：应该对比图片内容是否变化 考虑是否更新缓存地址
     // async function getOrCacheItem(route: string[], imgAdd: string[]) {
     //   const data = get(localRepositoriesData.value, route);
     //   const cache = get(cachedItems, [...route, ...imgAdd]);
@@ -342,9 +341,8 @@ export const useDataSourcesStore2 = defineStore(
       // routeGroups,
       // langHandles,
       // processHandle,
-      // initFetchData,
+      initFetchData,
       // refreshData,
-      // mergeLangData,
       deleteDatabase,
       // deepSet,
       // getOrCacheItem
@@ -366,6 +364,22 @@ async function processHandle(handle: any) {
     handle[item[1].name] = item[1];
   }
   return handle;
+}
+
+// 通过本地rootHandle读取config
+async function loadConfigFromRoot(root: FileSystemDirectoryHandle) {
+  const configHandle = get(root, 'config.json') as FileSystemFileHandle | undefined;
+  if (!configHandle) throw new Error('未找到配置文件"config.json"');
+
+  const file = await configHandle.getFile();
+  const json = await file.text();
+  const config = JSON.parse(json);
+
+  // todo:仅检查必要配置 其余仅报warn并改为默认值
+  const result = ConfigSchema.safeParse(config);
+  if (!result.success) throw `配置缺失必要属性：${result.error}`;
+
+  return result.data;
 }
 
 async function init_getIconURL(root: any) {

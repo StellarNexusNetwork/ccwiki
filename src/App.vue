@@ -26,7 +26,7 @@ import NavigationBar from '@/components/NavigationBar.vue';
 import NoticeComponent from '@/components/notice/NoticeComponent.vue';
 import SettingDialog from "@/components/setting/SettingDialog.vue";
 import {useWindowStore} from '@/stores/window';
-import {useDataSourcesStore} from '@/stores/dataSources';
+import {useDataSourcesStore2} from '@/stores/dataSources2';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter} from 'vue-router';
 import {ref, watchEffect} from 'vue';
@@ -37,7 +37,7 @@ type RouteRule = {
   to: string | RegExp
 }
 
-useDataSourcesStore().initFetchData();
+useDataSourcesStore2().initFetchData();
 
 const sysWindows = useWindowStore();
 
