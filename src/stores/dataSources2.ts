@@ -9,11 +9,20 @@ import {useNoticeStore} from '@/stores/setting';
 const baseUrl = import.meta.env.BASE_URL;
 
 interface PersistentStorage {
-  [id: string]: {  //id不是uild应该是xxx或xxx：xxx.xx
-    type: string;
+  [id: string]:
+    | {  //id不是uild应该是xxx或xxx：xxx.xx
+    type: 'local';
     config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
-    handle?: {
+    handle: {
       root: FileSystemDirectoryHandle;
+    };
+    url?: string;
+  }
+    | {  //id不是uild应该是xxx或xxx：xxx.xx
+    type: 'network';
+    config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
+    src: {
+      root: string;
     };
     url?: string;
   };
@@ -21,6 +30,7 @@ interface PersistentStorage {
 
 interface Config {
   version: string;
+  id: string;       //id不是uild应该是xxx或xxx：xxx.xx
 
   // 允许其他字段
   [key: string]: unknown
@@ -38,6 +48,8 @@ class WikiRepo {
   version: string;
   icon: string = '/public/svg/NotFound.svg';
 
+  // todo:标记仓库是否损坏
+
   constructor(config: Config) {
     this.version = config.version;
   }
@@ -52,8 +64,8 @@ class LocalWikiRepo extends WikiRepo {
     this.rootHandle = rootHandle;
   }
 
-  async init() {
-    this.icon = await init_getIconURL(this.root);
+  async init(root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>) {
+    this.icon = await init_getIconURL(root);
   }
 
   //todo:现在没有原来那样的目录了 只有一个rootHandle 加载时逐层加载 每次加载时重新从根遍历路径到当前访问的文件/文件夹（这一步就和资源管理器里打开文件夹差不多）（当前访问的目录的n-1层都可以获取文件夹 不获取文件 节约加载时间）
@@ -70,8 +82,8 @@ export const useDataSourcesStore2 = defineStore(
 
     async function addLocalRepo() {
       let handle: FileSystemDirectoryHandle;
-      let root: FileSystemFileHandle;
-      let config: Record<string, any>;
+      let root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>;
+      let config: Config;
 
       // 尝试获取文件路径
       try {
@@ -105,7 +117,7 @@ export const useDataSourcesStore2 = defineStore(
       };
 
       const wikiRepo = new LocalWikiRepo(config, root);
-      await wikiRepo.init()
+      await wikiRepo.init(root)
       wikiRepos[config.id] = wikiRepo;
 
       notice.addNotice('success', '仓库添加成功！', '已加载所选仓库！');
@@ -124,8 +136,8 @@ export const useDataSourcesStore2 = defineStore(
 
       for (const [id, item] of Object.entries(toRaw(persistentStorage) ?? {})) {
         if (item.type === 'local') {
-          let root: FileSystemDirectoryHandle;
-          let config: Record<string, any>;
+          let root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>;
+          let config: Config;
 
           try {
             root = await processHandle(item.handle.root);
@@ -142,8 +154,12 @@ export const useDataSourcesStore2 = defineStore(
             return;
           }
 
+          // todo:检查id是否改变 改变则修改存储的id
+          // todo:缓存正确的配置信息
+          // todo:仓库损坏时显示缓存信息
+
           const wikiRepo = new LocalWikiRepo(config, root);
-          await wikiRepo.init()
+          await wikiRepo.init(root)
           wikiRepos[config.id] = wikiRepo;
         }
       }
@@ -367,7 +383,7 @@ async function processHandle(handle: any) {
 }
 
 // 通过本地rootHandle读取config
-async function loadConfigFromRoot(root: FileSystemDirectoryHandle) {
+async function loadConfigFromRoot(root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>) {
   const configHandle = get(root, 'config.json') as FileSystemFileHandle | undefined;
   if (!configHandle) throw new Error('未找到配置文件"config.json"');
 
