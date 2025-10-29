@@ -1,0 +1,1 @@
+import{M as e}from"./index-Ci2Oygp5.js";function t(){let t=e(!1);function n(){t.value=!0}function r(){t.value=!1}return{shouldAddGap:t,onOverflowDetected:n,onOverflowCleared:r}}export{t as b};
