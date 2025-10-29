@@ -34,8 +34,9 @@ const defaultLang: string = settingStore.setting.lang;
 
 const selectedLang = ref();
 const langs = ref([
-  {name: '简体中文', code: 'zh_cn'},
-  {name: 'English', code: 'en_us'}
+  {name: '中文(中国)', code: 'zh_cn'},
+  {name: 'English', code: 'en_us'},
+  {name: '中文(微软)', code: 'zh_ms'}
 ]);
 
 
