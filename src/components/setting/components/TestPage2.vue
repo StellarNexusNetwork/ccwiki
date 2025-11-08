@@ -13,7 +13,10 @@
         <li class="localRepositories" v-for="( item,id, index) in dataStore.wikiRepos" :key="id">
           <img :src="item.icon" alt="SVG Image" draggable="false">
           <div class="textDiv">
-            <div class="name">{{ item.name }}</div>
+            <div class="name">{{
+                item.name?.[lang] ?? Object.values(item.name)?.[0] ?? t("page.docsView.wikiRepos.name.unknow")
+              }}
+            </div>
             <div class="version">{{ item.version }}</div>
           </div>
           <div class="optionList">
@@ -29,9 +32,14 @@
 </template>
 <script setup lang="ts">
 import {useDataSourcesStore2} from '@/stores/dataSources2';
-import {useNoticeStore} from '@/stores/setting';
+import {useNoticeStore, useSettingStore} from '@/stores/setting';
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
+import {useI18n} from 'vue-i18n';
+
+const lang = useSettingStore().setting.lang
+
+const {t} = useI18n();
 
 const urlText = ref('');
 const router = useRouter();

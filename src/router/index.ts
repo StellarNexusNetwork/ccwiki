@@ -19,13 +19,18 @@ const router = createRouter({
       component: () => import('@/views/ClassificationViews/category/categoryView.vue')
     },
     {
+      path: '/docs/:pathMatch(.*)*', // ✅ 捕获 /xxx/ 之后的所有路径
+      name: 'docs',
+      component: () => import('@/views/DocsView.vue'),
+    },
+    {
       path: '/classification/:rid/:category/:subcategory',
       name: 'classification_items',
       component: () => import('@/views/ClassificationViews/items/ItemView.vue')
     },
     {
-      path: '/docs/:rid/:category/:subcategory/:id',
-      name: 'docs',
+      path: '/docs2/:rid/:category/:subcategory/:id',
+      name: 'docs2',
       component: () => import('@/views/DocsView/DocsView.vue')
     },
     // {

@@ -10,7 +10,7 @@ const baseUrl = import.meta.env.BASE_URL;
 
 interface PersistentStorage {
   [id: string]:
-    | {  //id不是uild应该是xxx或xxx：xxx.xx
+    | {  //id不是ulid应该是xxx或xxx：xxx.xx
     type: 'local';
     config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
     handle: {
@@ -18,7 +18,7 @@ interface PersistentStorage {
     };
     url?: string;
   }
-    | {  //id不是uild应该是xxx或xxx：xxx.xx
+    | {  //id不是ulid应该是xxx或xxx：xxx.xx
     type: 'network';
     config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
     src: {
@@ -30,7 +30,7 @@ interface PersistentStorage {
 
 interface Config {
   version: string;
-  id: string;       //id不是uild应该是xxx或xxx：xxx.xx
+  id: string;       //id不是ulid应该是xxx或xxx：xxx.xx
 
   // 允许其他字段
   [key: string]: unknown
@@ -40,6 +40,7 @@ interface Config {
 const ConfigSchema = z.looseObject({
   id: z.string(),
   version: z.string(),
+  name: z.record(z.string(), z.string()).optional()
 })
 
 // 仓库类
@@ -47,17 +48,21 @@ class WikiRepo {
   // display
   version: string;
   icon: string = '/public/svg/NotFound.svg';
+  name: Record<string, string>;
 
   // todo:标记仓库是否损坏
 
   constructor(config: Config) {
     this.version = config.version;
+    this.name = config.name ?? {};
   }
 }
 
 class LocalWikiRepo extends WikiRepo {
   // data
-  rootHandle: any
+  rootHandle: FileSystemDirectoryHandle;
+
+  // langHandles: Record<string, FileSystemFileHandle> = {};
 
   constructor(config: Config, rootHandle: any) {
     super(config);
@@ -66,6 +71,38 @@ class LocalWikiRepo extends WikiRepo {
 
   async init(root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>) {
     this.icon = await init_getIconURL(root);
+    // const langDirHandle = get(root, 'lang');
+    // const langHandles: Record<string, FileSystemFileHandle> = {};
+    // if (langDirHandle) {
+    //   const langDir = processHandle(langDirHandle)
+    //   for (const [name, handle] of Object.entries(langDir)) {
+    //     if (handle.kind === 'file' && name.toLowerCase().endsWith(".json")) {
+    //       langHandles[name.slice(0, -5).toLowerCase()] = handle;
+    //     }
+    //   }
+    // }
+    // this.langHandles = langHandles;
+  }
+
+  async readCategories(path: string[], lang: string): Promise<Record<string, FileSystemFileHandle | FileSystemDirectoryHandle>> {
+    // 当前的目录句柄，初始为根目录
+    let currentHandle: FileSystemDirectoryHandle = this.rootHandle;
+
+    // 逐层遍历路径
+    for (const segmentRaw of path) {
+      const segment = segmentRaw.toLowerCase();
+
+      // 尝试获取下一级目录句柄
+      try {
+        const nextHandle = await currentHandle.getDirectoryHandle(segment);
+        currentHandle = nextHandle;
+      } catch (err) {
+        throw new Error(`路径无效：无法找到目录 "${segment}"`);
+      }
+    }
+
+    // 到达目标目录后，返回该目录下的所有条目
+    return await processHandle(currentHandle);
   }
 
   //todo:现在没有原来那样的目录了 只有一个rootHandle 加载时逐层加载 每次加载时重新从根遍历路径到当前访问的文件/文件夹（这一步就和资源管理器里打开文件夹差不多）（当前访问的目录的n-1层都可以获取文件夹 不获取文件 节约加载时间）
@@ -77,7 +114,7 @@ export const useDataSourcesStore2 = defineStore(
     const notice = useNoticeStore();
     let initState = false;
 
-    const persistentStorage: PersistentStorage = reactive({});
+    let persistentStorage: PersistentStorage = reactive({});
     const wikiRepos: Record<string, any> = reactive({});
 
     async function addLocalRepo() {
@@ -116,6 +153,7 @@ export const useDataSourcesStore2 = defineStore(
         }
       };
 
+      // 这里不能简化!!!
       const wikiRepo = new LocalWikiRepo(config, root);
       await wikiRepo.init(root)
       wikiRepos[config.id] = wikiRepo;
@@ -158,6 +196,7 @@ export const useDataSourcesStore2 = defineStore(
           // todo:缓存正确的配置信息
           // todo:仓库损坏时显示缓存信息
 
+          // 这里不能简化!!!
           const wikiRepo = new LocalWikiRepo(config, root);
           await wikiRepo.init(root)
           wikiRepos[config.id] = wikiRepo;
@@ -376,10 +415,11 @@ export const useDataSourcesStore2 = defineStore(
 async function processHandle(handle: any) {
 
   const iter = handle.entries();
+  const handles: Record<string, FileSystemFileHandle | FileSystemDirectoryHandle> = {};
   for await (const item of iter) {
-    handle[item[1].name] = item[1];
+    handles[item[1].name.toLowerCase()] = item[1];
   }
-  return handle;
+  return handles;
 }
 
 // 通过本地rootHandle读取config

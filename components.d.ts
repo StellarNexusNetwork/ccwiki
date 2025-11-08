@@ -22,6 +22,8 @@ declare module 'vue' {
     TestPage2: typeof import('./src/components/setting/components/TestPage2.vue')['default']
     ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
+    WikiRep: typeof import('./src/components/DocsView/wikiRep.vue')['default']
+    WikiRepos: typeof import('./src/components/docs-view/WikiRepos.vue')['default']
   }
   export interface GlobalDirectives {
     Tooltip: typeof import('primevue/tooltip')['default']
