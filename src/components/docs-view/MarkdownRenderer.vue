@@ -2,15 +2,15 @@
   <div class="mainDiv">
     <div class="subContent">
       <div class="introduction">
-        <a class="isImg" :href="item.iconSrc" :data-pswp-width="item.width" :data-pswp-height="item.height" target="_blank">
-          <img class="img" :src="item.iconSrc" alt="" width="auto" height="30" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
+        <a class="isImg" :href="iconInfo.src" :data-pswp-width="iconInfo.width" :data-pswp-height="iconInfo.height" target="_blank">
+          <img class="img" :src="iconInfo.src" alt="" width="auto" height="30" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + address.join('-') }">
         </a>
       </div>
     </div>
     <div class="mainContent">
       <div class="markdown-body">
-        <h1 :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id ,'borderBottom':'none'}">
-          {{ item.name }}
+        <h1 :style="{ 'viewTransitionName': 'class-item-name-' + address.join('-') ,'borderBottom':'none'}">
+          {{ config.name ?? t("page.classification.NotFound") }}
         </h1>
       </div>
       <br/>
@@ -19,111 +19,97 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, toRaw} from 'vue';
+import {computed, nextTick, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import get from 'lodash/get';
 import MarkdownIt from 'markdown-it';
-import {useDataSourcesStore} from '@/stores/dataSources';
 import {useSettingStore} from '@/stores/setting';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
 
-const {rid, category, subcategory, id} = useRoute().params as {
-  rid: string;
-  category: string;
-  subcategory: string;
-  id: string;
-};
+const {config} = defineProps({
+  config: Object,
+})
 
-const rid0 = ref();
-if (/^\d+$/.test(rid)) {
-  rid0.value = Number(rid);
-} else {
-  useRouter().push('/404');
-}
+const {t} = useI18n();
+const route = useRoute()
 
-const source = ref('');
+const data = useDataSourcesStore();
 
-const dataSources = useDataSourcesStore();
+const router = useRouter();
+const address = [...route.params.pathMatch as string[]]
 
-// 刷新数据
-if (Object.keys(dataSources.localRepositoriesData).length === 0) {
-  await dataSources.refreshData();
+const wikiRepo = get(data.wikiRepos, address[0])
+const lang = useSettingStore().setting.lang
 
-  // 合并语言数据
-  const {getLocaleMessage} = useI18n();
+const imgAddress = [...address];
+imgAddress.shift();
+imgAddress.unshift('docs', lang);
 
-  const updateLang = await useDataSourcesStore().mergeLangData(getLocaleMessage);
-  for (const lang in updateLang) {
-    useI18n().setLocaleMessage(lang, updateLang[lang]);
-  }
-}
+const iconInfo = await wikiRepo.getImage(imgAddress, config.icon ?? '')
 
-const root = toRaw(dataSources.localRepositoriesData);
-
-const routes = computed(() => useDataSourcesStore().routeGroups);
-
-const baseAddress = [Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory, id];
-
-const pageHandle = get(root, baseAddress) as any;
-const indexMdHandle = get(pageHandle, 'index_md') as any;
-
-if (pageHandle === undefined || indexMdHandle === undefined) {
-  useRouter().push('/404');
-}
-
-const item = await useDataSourcesStore().getOrCacheItem(baseAddress, ['icon_png']);
+const handle = await wikiRepo.getFile(wikiRepo.makeAddress(imgAddress, './index.md').split('/'));
 
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});
+const source = ref('')
 
 // todo 屏蔽<script>等标签
 // md.use(sanitizer);
 
-onMounted(async () => {
-  if (indexMdHandle !== undefined) {
-    const file = await indexMdHandle.getFile();
-    const text = await file.text();
 
-    source.value = text;
+if (handle) {
+  const file = await handle.getFile();
+  const text = await file.text();
 
-    // 处理格式 替换所有 [[path]] 为 ![path](path)
-    source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![$1]($1)');
+  source.value = text;
 
-    // 匹配所有 markdown 图片语法
-    const regex = /!\[(.*?)\]\((.*?)\)/g;
-    const matches = [...source.value.matchAll(regex)];
+  // 处理格式 替换所有 [[path]] 为 ![path](path)
+  source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![$1]($1)');
 
-    const replacements = await Promise.all(matches.map(async match => {
-      const fullMatch = match[0]; // 整个 ![alt](path)
-      const alt = match[1];       // alt 文本
-      const oldPath = match[2];   // 括号内路径
+  // 匹配所有 markdown 图片语法
+  const regex = /!\[(.*?)\]\((.*?)\)/g;
+  const matches = [...source.value.matchAll(regex)];
 
-      let imgURL;
+  const replacements = await Promise.all(matches.map(async match => {
+    const fullMatch = match[0]; // 整个 ![alt](path)
+    const alt = match[1];       // alt 文本
+    let path = match[2];   // 括号内路径
+    let img;
 
-      const imgPath = oldPath.split('/').map(part => part.replace(/\./g, '_'));
-
-      // 获取图片路径
-      const img = await dataSources.getOrCacheItem(baseAddress, imgPath);
-
-      // const newMarkdown = `![${alt}](${imgURL})`;
-      const newMarkdown = '<a class="isImg" href="' + img.iconSrc + '" data-pswp-width="' + img.width + '" data-pswp-height="' + img.height + '" target="_blank">\n' +
-        '<img src="' + img.iconSrc + '" alt="' + alt + '" draggable="false">\n' +
-        '</a>';
-
-      return {
-        old: fullMatch,
-        new: newMarkdown
-      };
-    }));
-
-    // 替换所有 old -> new
-    for (const {old, new: newVal} of replacements) {
-      source.value = source.value.replace(old, newVal);
+    // 获取图片路径
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      img = {
+        'src': path,
+        'width': 'auto',
+        'height': 'auto'
+      }
+    } else {
+      if (!path.startsWith('/') && !path.startsWith('./')) {
+        path = './' + path;
+      }
+      img = await wikiRepo.getImage(imgAddress, path);
     }
+
+    // const newMarkdown = `![${alt}](${imgURL})`;
+    const newMarkdown = '<a class="isImg" href="' + img.src + '" data-pswp-width="' + img.width + '" data-pswp-height="' + img.height + '" target="_blank">\n' +
+      '<img src="' + img.src + '" alt="' + alt + '" draggable="false">\n' +
+      '</a>';
+
+    return {
+      old: fullMatch,
+      new: newMarkdown
+    };
+  }));
+
+  // 替换所有 old -> new
+  for (const {old, new: newVal} of replacements) {
+    source.value = source.value.replace(old, newVal);
   }
-});
+}
+
 
 // 渲染后的 HTML
 const renderedMarkdown = computed(() => {

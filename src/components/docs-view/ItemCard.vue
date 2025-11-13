@@ -1,27 +1,40 @@
 <template>
-  <button class="item" @click="routePush('/docs/'+rid0+'/'+category+'/'+subcategory+'/'+id)">
-    <img class="icon" :src="item.iconSrc" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + category + '-' + subcategory + '-' + id }">
+  <button class="item" @click="routePush('/docs/'+address.join('/')+'/'+id)">
+    <img v-if="icon" class="icon" :src="imgInfo.src" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + address!.join('-') + '-' + id }">
     <div class="textBox">
       <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
-        <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id }">
-          {{ item.name }}
+        <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
+          {{ meta.title ?? t("page.docsView.wikiRepos.name.unknow") }}
           <span v-if="shouldAddGap" style="display:inline-block;width:40px;"></span>
         </div>
       </Vue3Marquee>
-      <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-item-name-' + category + '-' + subcategory + '-' + id }">
-        {{ item.name }}
+      <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
+        {{ meta.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
-      <div class="introduction"></div>
+      <div class="introduction" v-if="introduction">{{
+          introduction
+        }}
+      </div>
+      <div class="iconList" v-if="childrenIcon">
+        <img class="icon" :src="wikiRepo.getImage(address,icon_value)" alt="SVG Image" draggable="false" v-for="([icon_key,icon_value], index) in Object.entries(childrenIcon)" :style="{ 'viewTransitionName': 'class-item-img-' + address!.join('-') + '-' + id+'-'+icon_key }" :key="icon_key">
+      </div>
     </div>
   </button>
 </template>
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
-import {useRouter} from 'vue-router';
-import {useDataSourcesStore} from '@/stores/dataSources';
-import {useSettingStore} from '@/stores/setting';
+import {onMounted} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import {useTextOverflow} from '@/composables/useTextOverflow';
 import {useWindowStore} from '@/stores/window';
+import {useI18n} from "vue-i18n";
+import get from "lodash/get";
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
+import {useSettingStore} from "@/stores/setting.ts";
+
+const {t} = useI18n();
+const route = useRoute()
+
+const data = useDataSourcesStore();
 
 onMounted(() => {
   setTimeout(() => {
@@ -33,24 +46,27 @@ const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
 
 const router = useRouter();
 
-const {
-  rid,
-  category,
-  subcategory,
-  id,
-  data
-} = defineProps(['rid', 'category', 'subcategory', 'id', 'data']);
+const {id, meta} = defineProps({
+  id: String,
+  meta: Object,
+});
+const address = [...route.params.pathMatch as string[]]
 
-const rid0 = ref();
-if (/^\d+$/.test(rid)) {
-  rid0.value = Number(rid);
-} else {
-  useRouter().push('/404');
+const wikiRepo = get(data.wikiRepos, address[0])
+const lang = useSettingStore().setting.lang
+
+const imgAddress = [...address];
+imgAddress.shift();
+imgAddress.unshift('docs', lang);
+
+const icon = get(meta, 'icon');
+let imgInfo: any;
+if (icon) {
+  imgInfo = await wikiRepo.getImage(imgAddress, meta.icon)
 }
 
-const routes = computed(() => useDataSourcesStore().routeGroups);
-
-const item = await useDataSourcesStore().getOrCacheItem([Object.keys(routes.value)[rid0.value], 'docs', useSettingStore().setting.lang, category, subcategory, id], ['icon_png']);
+const introduction = get(meta, 'introduction');
+const childrenIcon = get(meta, 'childrenIcon')
 
 function routePush(url: string) {
   router.push(url);
@@ -111,6 +127,18 @@ function routePush(url: string) {
   color: var(--color-text-body);
   transition-duration: 0.3s;
   text-align: left;
+}
+
+.item .textBox .iconList {
+  display: flex;
+  height: 20px;
+  justify-content: flex-end;
+  padding-top: 5px;
+}
+
+.item .textBox .icon {
+  margin-left: 5px;
+  user-select: none;
 }
 
 </style>

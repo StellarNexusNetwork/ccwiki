@@ -9,8 +9,13 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DefaultPage: typeof import('./src/components/setting/components/DefaultPage.vue')['default']
-    ItemCard: typeof import('./src/components/notice/components/ItemCard.vue')['default']
+    Docs: typeof import('./src/components/docs-view/Docs.vue')['default']
+    Dpcs: typeof import('./src/components/docs-view/Dpcs.vue')['default']
+    Index: typeof import('./src/components/docs-view/Index.vue')['default']
+    ItemCard: typeof import('./src/components/docs-view/ItemCard.vue')['default']
+    ItemList: typeof import('./src/components/docs-view/ItemList.vue')['default']
     LangPage: typeof import('./src/components/setting/components/LangPage.vue')['default']
+    MarkdownRenderer: typeof import('./src/components/docs-view/MarkdownRenderer.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     NoticeComponent: typeof import('./src/components/notice/NoticeComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -19,7 +24,6 @@ declare module 'vue' {
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     SettingPage: typeof import('./src/components/setting/SettingPage.vue')['default']
     TestPage: typeof import('./src/components/setting/components/TestPage.vue')['default']
-    TestPage2: typeof import('./src/components/setting/components/TestPage2.vue')['default']
     ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
     WikiRep: typeof import('./src/components/DocsView/wikiRep.vue')['default']

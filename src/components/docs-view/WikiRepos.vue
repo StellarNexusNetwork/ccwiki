@@ -1,46 +1,41 @@
 <template>
-  <div>
-    <ul v-if="Object.keys(useDataSourcesStore().localRepositoriesDisplay).length >= 1">
-      <li class="localRepositories" v-for="(item, index) in useDataSourcesStore().localRepositoriesDisplay" :key="item.ulid" @click="routePush('/classification/' + index)">
-        <img :src="item.iconURL" alt="SVG Image" draggable="false">
-        <div class="textDiv">
-          <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
-            <div class="name">{{ item.name }}</div>
-          </Vue3Marquee>
-          <div v-else class="name">{{ item.name }}</div>
-          <div class="version">{{ item.version }}</div>
+  <ul>
+    <li class="localRepositories" v-for="(item, index) in data.wikiRepos" :key="index" @click="routePush('/docs/' + index)">
+      <img :src="item.icon" alt="SVG Image" draggable="false">
+      <div class="textDiv">
+        <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
+          <div class="name">
+            {{
+              item.name?.[lang] ?? Object.values(item.name)?.[0] ?? t("page.docsView.wikiRepos.name.unknow")
+            }}
+          </div>
+        </Vue3Marquee>
+        <div v-else class="name">
+          {{
+            item.name?.[lang] ?? Object.values(item.name)?.[0] ?? t("page.docsView.wikiRepos.name.unknow")
+          }}
         </div>
-      </li>
-    </ul>
-    <div class="notFoundR" v-else>
-      <div class="imgAndTitle">
-        <img src="/views/ClassificationView/svg/NotFound.svg" alt="SVG Image" draggable="false">
-        <p>{{ t("page.classification.NotFound") }}</p>
+        <div class="version">{{ item.version }}</div>
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 </template>
 
 <script setup lang="ts">
-import {useDataSourcesStore} from "@/stores/dataSources";
-import {useWindowStore} from "@/stores/window";
+import {useWindowStore} from "@/stores/window.ts";
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
+import {useI18n} from 'vue-i18n';
 import {useTextOverflow} from "@/composables/useTextOverflow";
 import {useRouter} from "vue-router";
-import {onMounted} from "vue";
-import {useI18n} from 'vue-i18n';
-
-const {t} = useI18n();
-
-onMounted(() => {
-  setTimeout(() => {
-    useWindowStore().isMarqueeEnabled = true;
-  }, 1000);
-});
+import {useSettingStore} from "@/stores/setting.ts";
 
 const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
+const data = useDataSourcesStore();
 
-
+const {t} = useI18n();
 const router = useRouter();
+
+const lang = useSettingStore().setting.lang
 
 function routePush(url: string) {
   router.push(url);
@@ -110,32 +105,5 @@ ul {
   color: var(--color-text-body);
   transition-duration: 0.3s;
   text-align: left;
-}
-
-.notFoundR {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.notFoundR .imgAndTitle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: RHRCN-H;
-  font-size: 22.5px;
-  color: var(--color-text-caption);
-  transition-duration: 0.3s;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.notFoundR .imgAndTitle img {
-  max-width: 250px;
-  max-height: 250px;
-  user-select: none;
-  margin-bottom: 15px;
 }
 </style>

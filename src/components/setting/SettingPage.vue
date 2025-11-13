@@ -44,7 +44,7 @@ import {ref} from 'vue';
 import defaultPage from './components/DefaultPage.vue';
 import themePage from './components/ThemePage.vue';
 import langPage from './components/LangPage.vue';
-import testPage from './components/TestPage2.vue';
+import TestPage from './components/TestPage.vue';
 import {eventBus} from '@/utils/eventBus';
 
 const {t} = useI18n();
@@ -57,7 +57,7 @@ function closeDialog() {
   setTimeout(() => dialog.style.display = 'none', 500); // 等待动画结束后关闭对话框
 }
 
-const components = [defaultPage, themePage, langPage, testPage];
+const components = [defaultPage, themePage, langPage, TestPage];
 const currentNames = ['default', 'theme', 'language', 'test'];
 const currentDisplayName = ref('public.setting.title.default');
 

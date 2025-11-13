@@ -10,7 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import MarkdownRenderer from '@/views/DocsView/components/MarkdownRenderer.vue';
+import MarkdownRenderer from './MarkdownRenderer.vue';
 
 const {config} = defineProps({
   config: Object,
