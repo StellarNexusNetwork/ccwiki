@@ -96,6 +96,7 @@ class LocalWikiRepo extends WikiRepo {
       try {
         currentHandle = await currentHandle.getDirectoryHandle(segment);
       } catch (err) {
+        console.error(err)
         throw new Error(`路径无效：无法找到目录 "${segment}"`);
       }
     }
@@ -211,9 +212,9 @@ class LocalWikiRepo extends WikiRepo {
 export const useDataSourcesStore = defineStore(
   'DataSources2', () => {
     const notice = useNoticeStore();
-    let initState = ref(false);
+    const initState = ref(false);
 
-    let persistentStorage: PersistentStorage = reactive({});
+    const persistentStorage: PersistentStorage = reactive({});
     const wikiRepos: Record<string, any> = reactive({});
 
     async function addLocalRepo() {
@@ -271,7 +272,7 @@ export const useDataSourcesStore = defineStore(
       const loaded = await loadData('persistentStorage') as PersistentStorage;
       Object.assign(persistentStorage, loaded);
 
-      for (const [id, item] of Object.entries(toRaw(persistentStorage) ?? {})) {
+      for (const [_id, item] of Object.entries(toRaw(persistentStorage) ?? {})) {
         if (item.type === 'local') {
           let root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>;
           let config: Config;
@@ -498,54 +499,39 @@ async function loadData(key: string) {
   });
 }
 
-async function getIconURL(lrd: any) {
-  let x = 0;
-  for (const i of lrd) {
-    const iconHandle = i.iconHandle;
-    let iconURL = '/static/public/svg/NotFound.svg';
-    if (iconHandle != 'notFound') {
-      const content = await iconHandle.getFile();
-      const icon = new Blob([content], {type: 'image/svg+xml'});
-      iconURL = URL.createObjectURL(icon);
-    }
-    lrd[x].iconURL = iconURL;
-    x++;
-  }
-  return lrd;
-}
 
-function readFileAsText(file: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsText(file, 'utf-8');
-  });
-}
+// function readFileAsText(file: Blob): Promise<string> {
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.onload = () => resolve(reader.result as string);
+//     reader.onerror = reject;
+//     reader.readAsText(file, 'utf-8');
+//   });
+// }
 
-function processRouteData(route: any) {
-
-  const processedData: Record<string, any> = {};
-  for (const lang in route) {
-    if (!processedData[lang]) {
-      processedData[lang] = {};
-    }
-    for (const i of route[lang]) {
-      const items = get(i, 'items');
-
-      if (!items) {
-        processedData[lang][i.path] = {...i};
-      } else {
-        processedData[lang][i.path] = {...i};
-        processedData[lang][i.path].items = {};
-        for (const i2 of items) {
-          processedData[lang][i.path].items[i2.path] = i2;
-        }
-      }
-    }
-  }
-  return processedData;
-}
+// function processRouteData(route: any) {
+//
+//   const processedData: Record<string, any> = {};
+//   for (const lang in route) {
+//     if (!processedData[lang]) {
+//       processedData[lang] = {};
+//     }
+//     for (const i of route[lang]) {
+//       const items = get(i, 'items');
+//
+//       if (!items) {
+//         processedData[lang][i.path] = {...i};
+//       } else {
+//         processedData[lang][i.path] = {...i};
+//         processedData[lang][i.path].items = {};
+//         for (const i2 of items) {
+//           processedData[lang][i.path].items[i2.path] = i2;
+//         }
+//       }
+//     }
+//   }
+//   return processedData;
+// }
 
 // function mergeRouteGroups(routeGroups: any[]): any[] {
 //   const mergedRoutes: any[] = [];
@@ -575,23 +561,23 @@ function processRouteData(route: any) {
 // }
 
 
-function deepMergeOnlyNew(oldObj: any, newObj: any) {
-  for (const key in newObj) {
-    if (Object.prototype.hasOwnProperty.call(newObj, key)) {
-      if (typeof newObj[key] === 'object' && newObj[key] !== null) {
-        if (typeof oldObj[key] !== 'object' || oldObj[key] === null) {
-          oldObj[key] = Array.isArray(newObj[key]) ? [] : {};
-        }
-        deepMergeOnlyNew(oldObj[key], newObj[key]);
-      } else {
-        if (!(key in oldObj)) {
-          oldObj[key] = newObj[key];
-        }
-      }
-    }
-  }
-  return oldObj;
-}
+// function deepMergeOnlyNew(oldObj: any, newObj: any) {
+//   for (const key in newObj) {
+//     if (Object.prototype.hasOwnProperty.call(newObj, key)) {
+//       if (typeof newObj[key] === 'object' && newObj[key] !== null) {
+//         if (typeof oldObj[key] !== 'object' || oldObj[key] === null) {
+//           oldObj[key] = Array.isArray(newObj[key]) ? [] : {};
+//         }
+//         deepMergeOnlyNew(oldObj[key], newObj[key]);
+//       } else {
+//         if (!(key in oldObj)) {
+//           oldObj[key] = newObj[key];
+//         }
+//       }
+//     }
+//   }
+//   return oldObj;
+// }
 
 // async function mergeLangDataI(lang: string, getLocaleMessage: any) {
 //   const oldMessages = toRaw(getLocaleMessage(lang));

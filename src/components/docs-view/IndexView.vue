@@ -1,7 +1,7 @@
 <template>
   <WikiRepos v-if="Object.keys(data.wikiRepos).length> 0 && address.length<1"/>
   <ItemList :meta="meta" v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && wikiRepo && meta"/>
-  <Docs :config="config" v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && wikiRepo && config"/>
+  <DocsPage :config="config" v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && wikiRepo && config"/>
   <div v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && !wikiRepo">
     error 路径错误
   </div>
@@ -22,7 +22,7 @@ import get from 'lodash/get';
 import {useSettingStore} from "@/stores/setting.ts";
 import {watch} from 'vue'
 import ItemList from './ItemList.vue'
-import Docs from './Docs.vue'
+import DocsPage from './DocsPage.vue'
 
 function waitUntilTrue(source: () => boolean) {
   return new Promise<void>((resolve) => {
