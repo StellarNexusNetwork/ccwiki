@@ -9,24 +9,9 @@ const router = createRouter({
       component: () => import('@/views/HomeView.vue')
     },
     {
-      path: '/classification/',
-      name: 'classification',
-      component: () => import('@/views/ClassificationViews/repository/classificationView.vue')
-    },
-    {
-      path: '/classification/:rid',
-      name: 'classificationR',
-      component: () => import('@/views/ClassificationViews/category/categoryView.vue')
-    },
-    {
-      path: '/classification/:rid/:category/:subcategory',
-      name: 'classification_items',
-      component: () => import('@/views/ClassificationViews/items/ItemView.vue')
-    },
-    {
-      path: '/docs/:rid/:category/:subcategory/:id',
+      path: '/docs/:pathMatch(.*)*',
       name: 'docs',
-      component: () => import('@/views/DocsView/DocsView.vue')
+      component: () => import('@/views/DocsView.vue'),
     },
     // {
     //   path: '/20241108/',

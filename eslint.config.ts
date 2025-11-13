@@ -29,6 +29,7 @@ export default defineConfigWithVueTs(
   skipFormatting,
   {
     rules: {
+      'no-unused-vars': ['warn', {'argsIgnorePattern': '^_'}],
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
       'vue/no-unused-vars': 'warn',

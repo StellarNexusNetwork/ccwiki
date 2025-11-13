@@ -46,21 +46,32 @@ export const useNoticeStore = defineStore('notice',
 
     const noticeList = ref<Notification[]>([]);
 
-    function addNotice(item: { type: NotificationType, title: string, content: string }) {
+    function addNotice(type: NotificationType, title: string, content: any) {
       const id: string = ulid();
+      const loggers = {
+        success: console.log,
+        warn: console.warn,
+        error: console.error,
+        other: console.log
+      };
 
-      if (!['success', 'warn', 'error'].includes(item.type)) {
-        item.type = 'other';
+      if (!['success', 'warn', 'error'].includes(type)) {
+        type = 'other';
       }
-
+      const contentStr = content.toString()
       noticeList.value.push({
-        ...item,
+        type: type,
+        title: title,
+        content: contentStr,
         id,
         timer: undefined,
         startTime: undefined,
         remaining: 15000, // 初始15秒
         progressBar: '100%'
       });
+
+      const logger = loggers[type] || console.log;
+      logger(`[${type}] ${title} ${content}`);
 
       nextTick(() => {
         startTimer(id);

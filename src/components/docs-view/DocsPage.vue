@@ -3,22 +3,18 @@
     <div class="mainDiv">
       <suspense>
         <template #default>
-          <MarkdownRenderer :key="routeParams"/>
+          <MarkdownRenderer :config="config"/>
         </template>
       </suspense>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import MarkdownRenderer from '@/views/DocsView/components/MarkdownRenderer.vue';
-import {ref, watch} from 'vue';
-import {useRoute} from 'vue-router';
+import MarkdownRenderer from './MarkdownRenderer.vue';
 
-const route = useRoute();
-const routeParams = ref('');
-watch(() => [route.params.rid, route.params.category, route.params.subcategory, route.params.id], ([newRid, newCategory, newSubcategory, newId]) => {
-  routeParams.value = String(newRid) + String(newCategory) + String(newSubcategory) + String(newId);
-});
+const {config} = defineProps({
+  config: Object,
+})
 </script>
 <style scoped>
 .Div {

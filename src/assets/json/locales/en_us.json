@@ -28,6 +28,7 @@
   "page.home.news.text_none": "No information",
   "page.home.news.date_none": "No data",
   "page.classification.NotFound": "There's nothing here yet! Please go to 'Settings - Data' and add some first!",
+  "\"page.docsView.wikiRepos.name.unknow": "unknow",
   "page.about.title.mainDeveloper": "Main Developer",
   "page.about.title.partners": "Partners",
   "page.about.title.CI": "Client Information",
