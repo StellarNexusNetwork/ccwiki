@@ -157,7 +157,7 @@ class LocalWikiRepo extends WikiRepo {
     const handle = await this.getFile(pathArray);
     // 默认图片信息
     const imageInfo: ImageInfo = {
-      src: baseUrl + 'public/svg/NotFound.svg',
+      src: baseUrl + 'public/svg/not_found.svg',
       width: 256,
       height: 256
     };
@@ -443,7 +443,7 @@ async function loadConfigFromRoot(root: Record<string, FileSystemDirectoryHandle
 }
 
 async function init_getIconURL(root: any) {
-  let iconURL = '/public/svg/NotFound.svg';
+  let iconURL = '/public/svg/not_found.svg';
   const name = ['.svg', '.avif', '.png', '.jpg']
 
   for (const item of name) {

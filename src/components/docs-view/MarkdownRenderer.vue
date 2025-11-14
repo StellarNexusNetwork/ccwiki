@@ -174,6 +174,14 @@ onMounted(async () => {
   }
 }
 
+.mainDiv {
+  padding-top: 10px;
+}
+
+.subContent {
+  margin-top: 10px;
+}
+
 .subContent .introduction {
   width: 100%;
   padding: 15px;

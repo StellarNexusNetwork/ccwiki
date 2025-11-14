@@ -5,6 +5,9 @@
         {{ meta.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
     </div>
+    <div v-if="meta.introduction" class="introduction">
+      {{ meta.introduction }}
+    </div>
     <div class="AboutList">
       <suspense v-for="([id, meta], index) in Object.entries(meta.children ?? {})" :key="id">
         <template #default>
@@ -34,10 +37,10 @@ const address = route.params.pathMatch as string[];
 .mainDiv {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding-bottom: 20px;
   width: 95%;
-  margin-top: 25px;
+  min-width: calc(100% - 80px);
+  padding-top: 15px;
   margin-bottom: 25px;
   margin-right: auto;
   margin-left: auto;
@@ -58,6 +61,15 @@ const address = route.params.pathMatch as string[];
   transition-duration: 0.3s;
 }
 
+.introduction {
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: var(--color-background-2);
+  color: var(--color-text-body-subtle);
+  transition-duration: 0.3s;
+}
 
 .mainDiv .AboutList {
   display: flex;

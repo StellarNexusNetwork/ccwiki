@@ -101,6 +101,7 @@ const clearLocalStorage = () => {
   height: auto;
   margin-right: 15px;
   user-select: none;
+  image-rendering: pixelated;
 }
 
 .localRepositories .textDiv {

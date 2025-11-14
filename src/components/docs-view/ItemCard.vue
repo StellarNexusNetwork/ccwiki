@@ -1,7 +1,7 @@
 <template>
   <button class="item" @click="routePush('/docs/'+address.join('/')+'/'+id)">
     <img v-if="icon" class="icon" :src="imgInfo.src" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + address!.join('-') + '-' + id }">
-    <div class="textBox">
+    <div class="textBox" :style='{width:textBoxWidth}'>
       <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
         <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
           {{ meta.title ?? t("page.docsView.wikiRepos.name.unknow") }}
@@ -16,7 +16,8 @@
         }}
       </div>
       <div class="iconList" v-if="childrenIcon">
-        <img class="icon" :src="wikiRepo.getImage(address,icon_value)" alt="SVG Image" draggable="false" v-for="([icon_key,icon_value], index) in Object.entries(childrenIcon)" :style="{ 'viewTransitionName': 'class-item-img-' + address!.join('-') + '-' + id+'-'+icon_key }" :key="icon_key">
+        <img
+          class="iconMini" :src="icon_value" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
       </div>
     </div>
   </button>
@@ -71,11 +72,23 @@ const childrenIcon = get(meta, 'childrenIcon')
 function routePush(url: string) {
   router.push(url);
 }
+
+if (childrenIcon) {
+  for (const [key, value] of Object.entries(childrenIcon)) {
+    const iconInfo = await wikiRepo.getImage(imgAddress, value);
+    childrenIcon[key] = iconInfo.src;
+  }
+}
+
+let textBoxWidth = "100%";
+if (icon) {
+  textBoxWidth = '105px';
+}
 </script>
 <style scoped>
 .item {
   width: 200px;
-  height: 90px;
+  height: 100px;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -102,7 +115,6 @@ function routePush(url: string) {
 
 .item .textBox {
   display: block;
-  width: 110px;
 }
 
 .item .textBox .title {
@@ -129,14 +141,14 @@ function routePush(url: string) {
   text-align: left;
 }
 
-.item .textBox .iconList {
+.iconList {
   display: flex;
   height: 20px;
   justify-content: flex-end;
   padding-top: 5px;
 }
 
-.item .textBox .icon {
+.iconMini {
   margin-left: 5px;
   user-select: none;
 }

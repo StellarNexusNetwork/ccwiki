@@ -29,7 +29,6 @@ declare module 'vue' {
     WikiRep: typeof import('./src/components/IndexView/wikiRep.vue')['default']
     WikiRepos: typeof import('./src/components/docs-view/WikiRepos.vue')['default']
   }
-
   export interface GlobalDirectives {
     Tooltip: typeof import('primevue/tooltip')['default']
   }

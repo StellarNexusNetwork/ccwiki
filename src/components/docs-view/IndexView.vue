@@ -1,13 +1,13 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <WikiRepos v-if="Object.keys(data.wikiRepos).length> 0 && address.length<1"/>
   <ItemList :meta="meta" v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && wikiRepo && meta"/>
   <DocsPage :config="config" v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && wikiRepo && config"/>
-  <div v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && !wikiRepo">
-    error 路径错误
+  <div class="notFoundUrl" v-else-if="(Object.keys(data.wikiRepos).length> 0 && address.length>0) && (!wikiRepo || !dir || !meta || !config)">
+    <NotFoundView/>
   </div>
   <div class="notFoundR" v-else>
     <div class="imgAndTitle">
-      <img src="/views/ClassificationView/svg/NotFound.svg" alt="SVG Image" draggable="false">
+      <img src="/views/DocsView/avif/not_found_p.avif" alt="SVG Image" draggable="false">
       <p>{{ t("page.classification.NotFound") }}</p>
     </div>
   </div>
@@ -15,14 +15,15 @@
 
 <script setup lang="ts">
 import WikiRepos from '@/components/docs-view/WikiRepos.vue'
-import {useDataSourcesStore} from "@/stores/dataSources.ts";
+import {useDataSourcesStore} from "@/stores/dataSources";
 import {useI18n} from 'vue-i18n';
 import {useRoute} from "vue-router";
 import get from 'lodash/get';
-import {useSettingStore} from "@/stores/setting.ts";
+import {useSettingStore} from "@/stores/setting";
 import {watch} from 'vue'
 import ItemList from './ItemList.vue'
 import DocsPage from './DocsPage.vue'
+import NotFoundView from "@/views/ErrorViews/NotFoundView.vue";
 
 function waitUntilTrue(source: () => boolean) {
   return new Promise<void>((resolve) => {
@@ -50,17 +51,20 @@ await waitUntilTrue(() => data.initState)
 let wikiRepo: any;
 let meta: Record<string, any>;
 let config: Record<string, any>;
+let dir;
 
-
-if (address.length > 1) {
+if (address.length > 0) {
 
   wikiRepo = get(data.wikiRepos, address[0])
 
   address.shift();
   address.unshift('docs', lang);
   if (wikiRepo) {
-    console.log(address)
-    const dir = await wikiRepo.readCategories(address)
+    try {
+      dir = await wikiRepo.readCategories(address);
+    } catch (err) {
+      console.error(err);
+    }
     const metaFile = get(dir, '_meta.json')
     const configFile = get(dir, 'config.json')
     if (metaFile) {
@@ -85,15 +89,12 @@ if (address.length > 1) {
         console.log(e)
       }
     }
-    console.log(dir)
   }
 }
-
 
 </script>
 
 <style scoped>
-
 .notFoundR {
   width: 100%;
   height: 100%;
@@ -114,10 +115,29 @@ if (address.length > 1) {
   padding-right: 10px;
 }
 
+@media (min-width: 622px) {
+  .notFoundR .imgAndTitle img {
+    max-width: 400px;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 622px) {
+  .notFoundR .imgAndTitle img {
+    max-width: 300px;
+    max-height: 300px;
+  }
+}
+
 .notFoundR .imgAndTitle img {
-  max-width: 250px;
-  max-height: 250px;
   user-select: none;
   margin-bottom: 15px;
+}
+
+.notFoundUrl {
+  width: 100%;
+  height: 100%;
+  contain: content;
+  align-content: center;
 }
 </style>

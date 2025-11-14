@@ -28,6 +28,14 @@ import {useI18n} from 'vue-i18n';
 import {useTextOverflow} from "@/composables/useTextOverflow";
 import {useRouter} from "vue-router";
 import {useSettingStore} from "@/stores/setting";
+import {onMounted} from "vue";
+
+onMounted(() => {
+  setTimeout(() => {
+    useWindowStore().isMarqueeEnabled = true;
+  }, 1000);
+});
+
 
 const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
 const data = useDataSourcesStore();
@@ -80,7 +88,7 @@ ul {
 
 .localRepositories .textDiv {
   display: block;
-  width: 110px;
+  width: 105px;
 }
 
 .localRepositories .textDiv .name {
@@ -93,6 +101,7 @@ ul {
   color: var(--color-text-title);
   display: flex;
   transition-duration: 0.3s;
+  padding-right: 20px;
 }
 
 .localRepositories .textDiv .version {
