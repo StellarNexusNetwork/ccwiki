@@ -28,6 +28,7 @@
   "page.home.news.text_none": "无信息",
   "page.home.news.date_none": "无数据",
   "page.classification.NotFound": "这里什么也没有哦！请先前往“设置-数据”添加一下吧！",
+  "page.docsView.wikiRepos.name.unknow": "未知",
   "page.about.title.mainDeveloper": "主要开发者",
   "page.about.title.partners": "合作伙伴",
   "page.about.title.CI": "客户端信息",

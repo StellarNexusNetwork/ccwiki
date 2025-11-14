@@ -88,7 +88,7 @@ const baseUrl = import.meta.env.BASE_URL;
 
 const navigationBarList = [
   {'name': 'home', 'path': '/'},
-  {'name': 'classification', 'path': '/classification'},
+  {'name': 'classification', 'path': '/docs'},
   {'name': 'components', 'path': '/components'},
 ];
 
