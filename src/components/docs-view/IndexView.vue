@@ -51,7 +51,7 @@ await waitUntilTrue(() => data.initState)
 let wikiRepo: any;
 let meta: Record<string, any>;
 let config: Record<string, any>;
-let dir;
+let dir: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>;
 
 if (address.length > 0) {
 
@@ -64,9 +64,10 @@ if (address.length > 0) {
       dir = await wikiRepo.readCategories(address);
     } catch (err) {
       console.error(err);
+      dir = {};
     }
-    const metaFile = get(dir, '_meta.json')
-    const configFile = get(dir, 'config.json')
+    const metaFile = get(dir, '_meta.json') as FileSystemFileHandle | undefined;
+    const configFile = get(dir, 'config.json') as FileSystemFileHandle | undefined;
     if (metaFile) {
       try {
         const file = await metaFile.getFile();

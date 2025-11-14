@@ -4,12 +4,12 @@
     <div class="textBox" :style='{width:textBoxWidth}'>
       <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
         <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
-          {{ meta.title ?? t("page.docsView.wikiRepos.name.unknow") }}
+          {{ meta?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
           <span v-if="shouldAddGap" style="display:inline-block;width:40px;"></span>
         </div>
       </Vue3Marquee>
       <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
-        {{ meta.title ?? t("page.docsView.wikiRepos.name.unknow") }}
+        {{ meta?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
       <div class="introduction" v-if="introduction">{{
           introduction
@@ -17,7 +17,7 @@
       </div>
       <div class="iconList" v-if="childrenIcon">
         <img
-          class="iconMini" :src="icon_value" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
+          class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
       </div>
     </div>
   </button>
@@ -63,7 +63,7 @@ imgAddress.unshift('docs', lang);
 const icon = get(meta, 'icon');
 let imgInfo: any;
 if (icon) {
-  imgInfo = await wikiRepo.getImage(imgAddress, meta.icon)
+  imgInfo = await wikiRepo.getImage(imgAddress, icon)
 }
 
 const introduction = get(meta, 'introduction');

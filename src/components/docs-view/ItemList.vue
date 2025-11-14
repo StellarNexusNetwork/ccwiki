@@ -2,16 +2,16 @@
   <div class="mainDiv">
     <div class="titleDiv">
       <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-'+address.join('-'),'borderBottom':'none'}">
-        {{ meta.title ?? t("page.docsView.wikiRepos.name.unknow") }}
+        {{ meta?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
     </div>
-    <div v-if="meta.introduction" class="introduction">
-      {{ meta.introduction }}
+    <div v-if="meta?.introduction" class="introduction">
+      {{ meta?.introduction }}
     </div>
     <div class="AboutList">
-      <suspense v-for="([id, meta], index) in Object.entries(meta.children ?? {})" :key="id">
+      <suspense v-for="([id, item], index) in Object.entries(meta?.children ?? {})" :key="id">
         <template #default>
-          <ItemCard :id="id" :meta="meta"/>
+          <ItemCard :id="id" :meta="item ?? {}"/>
         </template>
       </suspense>
     </div>

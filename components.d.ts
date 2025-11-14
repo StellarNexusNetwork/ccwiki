@@ -10,7 +10,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     DefaultPage: typeof import('./src/components/setting/components/DefaultPage.vue')['default']
     DocsPage: typeof import('./src/components/docs-view/DocsPage.vue')['default']
-    Dpcs: typeof import('./src/components/docs-view/Dpcs.vue')['default']
     IndexView: typeof import('./src/components/docs-view/IndexView.vue')['default']
     ItemCard: typeof import('./src/components/docs-view/ItemCard.vue')['default']
     ItemList: typeof import('./src/components/docs-view/ItemList.vue')['default']
@@ -26,7 +25,6 @@ declare module 'vue' {
     TestPage: typeof import('./src/components/setting/components/TestPage.vue')['default']
     ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
-    WikiRep: typeof import('./src/components/IndexView/wikiRep.vue')['default']
     WikiRepos: typeof import('./src/components/docs-view/WikiRepos.vue')['default']
   }
   export interface GlobalDirectives {

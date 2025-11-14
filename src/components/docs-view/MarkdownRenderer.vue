@@ -10,7 +10,7 @@
     <div class="mainContent">
       <div class="markdown-body">
         <h1 :style="{ 'viewTransitionName': 'class-item-name-' + address.join('-') ,'borderBottom':'none'}">
-          {{ config.name ?? t("page.classification.NotFound") }}
+          {{ config?.name ?? t("page.classification.NotFound") }}
         </h1>
       </div>
       <br/>
@@ -48,7 +48,7 @@ const imgAddress = [...address];
 imgAddress.shift();
 imgAddress.unshift('docs', lang);
 
-const iconInfo = await wikiRepo.getImage(imgAddress, config.icon ?? '')
+const iconInfo = await wikiRepo.getImage(imgAddress, config?.icon ?? '')
 
 const handle = await wikiRepo.getFile(wikiRepo.makeAddress(imgAddress, './index.md').split('/'));
 
