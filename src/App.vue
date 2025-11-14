@@ -85,10 +85,7 @@ watchEffect(() => {
 
 const router = useRouter();
 const blackList: Record<string, any> = {
-  'classification': ['classification', 'classificationR', 'classification_items', 'docs'],
-  'classificationR': ['classification', 'classificationR', 'classification_items', 'docs'],
-  'classification_items': ['classification', 'classificationR', 'classification_items', 'docs'],
-  'docs': ['classification', 'classificationR', 'classification_items', 'docs']
+  'docs': ['docs']
 };
 
 function IsBlacklisted(from: string, to: string) {
