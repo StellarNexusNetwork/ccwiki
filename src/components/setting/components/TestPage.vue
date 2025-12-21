@@ -8,10 +8,14 @@
     <br/>
     <br/>
     <button @click="dataStore.addLocalRepo()">打开文件夹</button>
+    <br/>
+    <input v-model="repoAddress">
+    <button @click="dataStore.addHttpWikiRepo(repoAddress)">添加</button>
     <div class="localRepositoriesList">
       <TransitionGroup name="fade" tag="ul" mode="out-in">
         <li class="localRepositories" v-for="( item,id, index) in dataStore.wikiRepos" :key="id">
           <img :src="item.icon" alt="SVG Image" draggable="false">
+          <!--    todo:设置错误替换的图片      -->
           <div class="textDiv">
             <div class="name">{{
                 item.name?.[lang] ?? Object.values(item.name)?.[0] ?? t("page.docsView.wikiRepos.name.unknow")
@@ -42,6 +46,8 @@ const lang = useSettingStore().setting.lang
 const {t} = useI18n();
 
 const urlText = ref('');
+const repoAddress = ref('');
+
 const router = useRouter();
 
 const dataStore = useDataSourcesStore();

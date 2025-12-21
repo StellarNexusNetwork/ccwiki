@@ -18,6 +18,7 @@
       <div class="iconList" v-if="childrenIcon">
         <img
           class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
+        <!--   todo:加个加载的骨架屏   -->
       </div>
     </div>
   </button>

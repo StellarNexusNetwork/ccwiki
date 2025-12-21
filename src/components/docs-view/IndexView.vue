@@ -1,8 +1,8 @@
 <template>
-  <WikiRepos v-if="Object.keys(data.wikiRepos).length> 0 && address.length<1"/>
-  <ItemList :meta="meta" v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && wikiRepo && meta"/>
-  <DocsPage :config="config" v-else-if="Object.keys(data.wikiRepos).length> 0 && address.length>1 && wikiRepo && config"/>
-  <div class="notFoundUrl" v-else-if="(Object.keys(data.wikiRepos).length> 0 && address.length>0) && (!wikiRepo || !dir || !meta || !config)">
+  <WikiRepos v-if="Object.keys(data.wikiRepos).length> 0 && path.length<1"/>
+  <ItemList :meta="meta" v-else-if="Object.keys(data.wikiRepos).length> 0 && path.length>1 && wikiRepo && meta"/>
+  <DocsPage :config="config" v-else-if="Object.keys(data.wikiRepos).length> 0 && path.length>1 && wikiRepo && config"/>
+  <div class="notFoundUrl" v-else-if="(Object.keys(data.wikiRepos).length> 0 && path.length>0) && (!wikiRepo || !meta || !config)">
     <NotFoundView/>
   </div>
   <div class="notFoundR" v-else>
@@ -44,7 +44,7 @@ const {t} = useI18n();
 const route = useRoute()
 const lang = useSettingStore().setting.lang
 
-const address = [...route.params.pathMatch as string[]]
+const path = [...route.params.pathMatch as string[]]
 
 await waitUntilTrue(() => data.initState)
 
@@ -53,42 +53,62 @@ let meta: Record<string, any>;
 let config: Record<string, any>;
 let dir: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>;
 
-if (address.length > 0) {
+if (path.length > 0) {
 
-  wikiRepo = get(data.wikiRepos, address[0])
+  wikiRepo = get(data.wikiRepos, path[0])
 
-  address.shift();
-  address.unshift('docs', lang);
+  path.shift();
+  path.unshift('docs', lang);
   if (wikiRepo) {
-    try {
-      dir = await wikiRepo.readCategories(address);
-    } catch (err) {
-      console.error(err);
-      dir = {};
-    }
-    const metaFile = get(dir, '_meta.json') as FileSystemFileHandle | undefined;
-    const configFile = get(dir, 'config.json') as FileSystemFileHandle | undefined;
-    if (metaFile) {
+    if (wikiRepo.type == "local") {
       try {
-        const file = await metaFile.getFile();
-        const json = await file.text();
-        meta = JSON.parse(json) as Record<string, any>
-
-        meta["children"] = Object.fromEntries(
-          Object.entries(meta["children"]).filter(([key]) => key in dir)
-        );
-
-      } catch (e) {
-        console.log(e)
+        dir = await wikiRepo.readCategories(path);
+      } catch (err) {
+        console.error(err);
+        dir = {};
       }
-    } else if (configFile) {
-      try {
-        const file = await configFile.getFile();
-        const json = await file.text();
-        config = JSON.parse(json) as Record<string, any>
-      } catch (e) {
-        console.log(e)
+      const metaFile = get(dir, '_meta.json') as FileSystemFileHandle | undefined;
+      const configFile = get(dir, 'config.json') as FileSystemFileHandle | undefined;
+      if (metaFile) {
+        try {
+          const file = await metaFile.getFile();
+          const json = await file.text();
+          meta = JSON.parse(json) as Record<string, any>
+
+          meta["children"] = Object.fromEntries(
+            Object.entries(meta["children"]).filter(([key]) => key in dir)
+          );
+        } catch (e) {
+          console.log(e)
+        }
+      } else if (configFile) {
+        try {
+          const file = await configFile.getFile();
+          const json = await file.text();
+          config = JSON.parse(json) as Record<string, any>
+        } catch (e) {
+          console.log(e)
+        }
       }
+    } else if (wikiRepo.type == "httpServer") {
+      async function getJsonFile(repo: any, basePath: string[], filename: string) {
+        try {
+          const fullPath = [...basePath, filename];
+          return await repo.getFile(fullPath);
+        } catch {
+          return null;
+        }
+      }
+
+      meta = await getJsonFile(wikiRepo, path, '_meta.json');
+      config = await getJsonFile(wikiRepo, path, 'config.json');
+
+      // if (meta) {
+      //   console.log(meta)
+      //   meta.children = Object.fromEntries(
+      //     Object.entries(meta.children).filter(([k]) => k in dir)
+      //   );
+      // }
     }
   }
 }
