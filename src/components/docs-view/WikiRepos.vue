@@ -1,7 +1,8 @@
 <template>
   <ul>
     <li class="localRepositories" v-for="(item, index) in data.wikiRepos" :key="index" @click="routePush('/docs/' + index)">
-      <img :src="item.icon" alt="SVG Image" draggable="false">
+      <img v-if="item.type == 'local'" class="icon" :src="item.icon" alt="SVG Image" draggable="false">
+      <AsyncImage v-if="item.type == 'httpServer'" class="icon" :src="item.icon as string" width="45px" height="45px"/>
       <div class="textDiv">
         <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
           <div class="name">
@@ -29,6 +30,7 @@ import {useTextOverflow} from "@/composables/useTextOverflow";
 import {useRouter} from "vue-router";
 import {useSettingStore} from "@/stores/setting";
 import {onMounted} from "vue";
+import AsyncImage from "@/components/common/AsyncImage.vue";
 
 onMounted(() => {
   setTimeout(() => {
@@ -76,7 +78,7 @@ ul {
   transition-duration: 0.3s;
 }
 
-.localRepositories img {
+.localRepositories .icon {
   width: 45px;
   height: 45px;
   object-fit: contain;

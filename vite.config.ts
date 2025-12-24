@@ -26,6 +26,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  css: {
+    modules: {
+      generateScopedName: '[hash:base64:5]'
+    }
+  },
   build: {
     rollupOptions: {
       output: {

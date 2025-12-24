@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AsyncImage: typeof import('./src/components/common/AsyncImage.vue')['default']
     DefaultPage: typeof import('./src/components/setting/components/DefaultPage.vue')['default']
     DocsPage: typeof import('./src/components/docs-view/DocsPage.vue')['default']
     IndexView: typeof import('./src/components/docs-view/IndexView.vue')['default']
@@ -22,6 +23,8 @@ declare module 'vue' {
     Select: typeof import('primevue/select')['default']
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     SettingPage: typeof import('./src/components/setting/SettingPage.vue')['default']
+    Skeleton: typeof import('primevue/skeleton')['default']
+    Tag: typeof import('primevue/tag')['default']
     TestPage: typeof import('./src/components/setting/components/TestPage.vue')['default']
     ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']

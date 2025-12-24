@@ -4,9 +4,9 @@
       <template #default>
         <IndexView/>
       </template>
-      <template #fallback>
-        加载中……
-      </template>
+      <!--      <template #fallback>-->
+      <!--        加载中……-->
+      <!--      </template>-->
     </Suspense>
   </div>
 </template>

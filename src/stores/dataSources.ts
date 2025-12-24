@@ -3,6 +3,7 @@ import {reactive, ref, toRaw, watch} from 'vue';
 
 import get from 'lodash/get';
 import {z} from "zod"
+import axios from "axios";
 
 import {useNoticeStore} from '@/stores/setting';
 
@@ -19,11 +20,9 @@ interface PersistentStorage {
     url?: string;
   }
     | {  //id不是ulid应该是xxx或xxx：xxx.xx
-    type: 'network';
+    type: 'httpServer';
     config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
-    src: {
-      root: string;
-    };
+    address: string;
     url?: string;
   };
 }
@@ -55,12 +54,14 @@ class WikiRepo {
   version: string;
   icon: string = '/public/svg/NotFound.svg';
   name: Record<string, string>;
+  type: 'local' | 'httpServer';
 
   // todo:标记仓库是否损坏
 
-  constructor(config: Config) {
+  constructor(config: Config, type: 'local' | 'httpServer') {
     this.version = config.version;
     this.name = config.name as Record<string, string> ?? {};
+    this.type = type;
   }
 }
 
@@ -71,8 +72,8 @@ class LocalWikiRepo extends WikiRepo {
 
   // langHandles: Record<string, FileSystemFileHandle> = {};
 
-  constructor(config: Config, rootHandle: any) {
-    super(config);
+  constructor(config: Config, rootHandle: FileSystemDirectoryHandle) {
+    super(config, "local");
     this.rootHandle = rootHandle;
   }
 
@@ -209,8 +210,77 @@ class LocalWikiRepo extends WikiRepo {
 }
 
 
+class HttpWikiRepo extends WikiRepo {
+  // data
+  address: string;
+
+  constructor(config: Config, address: string) {
+    super(config, "httpServer");
+    this.address = address;
+  }
+
+  // todo:尝试探测更多类型的文件
+  async init(address: string) {
+    try {
+      await axios.get(address + '/icon.png');
+      this.icon = address + '/icon.png';
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Promise name:type
+  async readCategories(path: string[]): Promise<Record<string, string>> {
+
+    if (path.length === 0) {
+      try {
+        return (await axios.get(this.address + '/_dir.json')).data;
+      } catch (err) {
+        console.error(err)
+        throw new Error(`路径无效：无法找到目录 root"`);
+      }
+    }
+
+    // 返回该目录下的所有条目
+    return (await axios.get(this.address + '/' + path.join('/') + '/_dir.json')).data;
+  }
+
+  async getFile(path: string[]): Promise<any | null> {
+    if (path.length === 0) {
+      console.error('路径为空');
+      return null;
+    }
+
+    // 尝试获取文件
+    try {
+      return (await axios.get(this.address + '/' + path.join('/'))).data;
+    } catch (err: any) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  // 处理本地图片
+  makeAddress(url: string[], src: string): string {
+    if (src.startsWith('./')) {
+      return this.address + '/' + url.join('/') + '/' + src.substring(2);
+    } else {
+      return this.address + '/' + src
+    }
+  }
+
+  async getImage(url: string[], src: string): Promise<ImageInfo> {
+    // 构造图片链接
+    const imgAddress = this.makeAddress(url, src)
+    
+    return await useDataSourcesStore().fetchRemoteImageInfo(imgAddress);
+  }
+
+  //todo:现在没有原来那样的目录了 只有一个rootHandle 加载时逐层加载 每次加载时重新从根遍历路径到当前访问的文件/文件夹（这一步就和资源管理器里打开文件夹差不多）（当前访问的目录的n-1层都可以获取文件夹 不获取文件 节约加载时间）
+}
+
 export const useDataSourcesStore = defineStore(
-  'DataSources2', () => {
+  'DataSources', () => {
     const notice = useNoticeStore();
     const initState = ref(false);
 
@@ -261,6 +331,44 @@ export const useDataSourcesStore = defineStore(
       notice.addNotice('success', '仓库添加成功！', '已加载所选仓库！');
     }
 
+    async function addHttpWikiRepo(address: string, init: boolean) {
+      let config: Config;
+
+      address = normalizeUrl(address);
+
+      // 尝试读取配置文件
+      try {
+        const res = await axios.get(address + '/config.json');
+        config = res.data;
+      } catch (err) {
+        notice.addNotice('error', '读取或解析配置文件失败', err);
+        return;
+      }
+
+      if (!init) {
+        // 检查是否已存在
+        if (get(persistentStorage, config.id)) {
+          notice.addNotice('warn', '该仓库已加载！', '请勿重复添加！');
+          return;
+        }
+
+        persistentStorage[config.id] = {
+          type: 'httpServer',
+          config: config,
+          address: address
+        }
+      }
+
+      // 这里不能简化!!!
+      const wikiRepo = new HttpWikiRepo(config, address);
+      await wikiRepo.init(address);
+      wikiRepos[config.id] = wikiRepo;
+
+      if (!init) {
+        notice.addNotice('success', '仓库添加成功！', '已加载所选仓库！');
+      }
+    }
+
     function deleteRepos(id: string) {
       delete persistentStorage[id];
       delete wikiRepos[id];
@@ -300,6 +408,9 @@ export const useDataSourcesStore = defineStore(
           const wikiRepo = new LocalWikiRepo(config, item.handle.root);
           await wikiRepo.init(root)
           wikiRepos[config.id] = wikiRepo;
+        } else if (item.type === 'httpServer') {
+          const address = item.address
+          await addHttpWikiRepo(address, true)
         }
       }
 
@@ -396,15 +507,52 @@ export const useDataSourcesStore = defineStore(
     // }
     //
 
+    async function fetchRemoteImageInfo(imgAddress: string): Promise<ImageInfo> {
+      // 构造图片链接
+      const imageInfo: ImageInfo = {
+        src: baseUrl + 'public/svg/not_found.svg',
+        width: 256,
+        height: 256
+      };
+
+      // 等待图片加载完再处理尺寸
+      await new Promise<void>((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          imageInfo.src = imgAddress;
+          imageInfo.width = img.naturalWidth;
+          imageInfo.height = img.naturalHeight;
+
+          // 如果最大边小于 256，则等比放大
+          const maxSide = Math.max(imageInfo.width, imageInfo.height);
+          if (maxSide < 256) {
+            const scale = 256 / maxSide;
+            imageInfo.width = Math.round(imageInfo.width * scale);
+            imageInfo.height = Math.round(imageInfo.height * scale);
+          }
+
+          resolve(); // 通知外部图片加载完了
+        };
+        img.onerror = () => {
+          console.error("图片加载失败", imgAddress);
+          resolve();
+        };
+        img.src = imgAddress;
+      });
+
+      return imageInfo;
+    }
 
     return {
       initState,
       persistentStorage,
       wikiRepos,
       addLocalRepo,
+      addHttpWikiRepo,
       deleteRepos,
       initFetchData,
       deleteDatabase,
+      fetchRemoteImageInfo
     };
   }
 );
@@ -497,6 +645,25 @@ async function loadData(key: string) {
     request.onsuccess = () => resolve(request.result?.data || []);
     request.onerror = () => reject([]);
   });
+}
+
+/**
+ * 规范化URL字符串，确保URL以协议开头
+ * @param input 需要规范化的URL字符串
+ * @return 规范化后的URL字符串
+ */
+function normalizeUrl(input: string): string {
+  // 去除输入字符串两端的空白字符
+  const trimmed = input.trim();
+
+  // 匹配以 协议:// 开头，不限制协议名称
+  const hasProtocol = /^[a-zA-Z][a-zA-Z0-9+\-.]*:\/\//.test(trimmed);
+
+  if (hasProtocol) {
+    return trimmed;
+  }
+
+  return `https://${trimmed}`;
 }
 
 

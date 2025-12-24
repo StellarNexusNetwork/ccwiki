@@ -20,7 +20,7 @@
 </template>
 <script setup lang="ts">
 import {computed, nextTick, onMounted, ref} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import {useRoute} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import get from 'lodash/get';
 import MarkdownIt from 'markdown-it';
@@ -38,7 +38,6 @@ const route = useRoute()
 
 const data = useDataSourcesStore();
 
-const router = useRouter();
 const address = [...route.params.pathMatch as string[]]
 
 const wikiRepo = get(data.wikiRepos, address[0])
@@ -50,8 +49,19 @@ imgAddress.unshift('docs', lang);
 
 const iconInfo = await wikiRepo.getImage(imgAddress, config?.icon ?? '')
 
-const handle = await wikiRepo.getFile(wikiRepo.makeAddress(imgAddress, './index.md').split('/'));
-
+let handle;
+let text;
+if (wikiRepo.type == 'local') {
+  handle = await wikiRepo.getFile(wikiRepo.makeAddress(imgAddress, './index.md').split('/'));
+  if (handle) {
+    const file = await handle.getFile();
+    text = await file.text();
+  }
+} else if (wikiRepo.type == 'httpServer') {
+  const indexAddress = [...imgAddress];
+  indexAddress.push('./index.md');
+  text = await wikiRepo.getFile(indexAddress);
+}
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});
 const source = ref('')
@@ -59,11 +69,7 @@ const source = ref('')
 // todo 屏蔽<script>等标签
 // md.use(sanitizer);
 
-
-if (handle) {
-  const file = await handle.getFile();
-  const text = await file.text();
-
+if (text) {
   source.value = text;
 
   // 处理格式 替换所有 [[path]] 为 ![path](path)
@@ -81,11 +87,7 @@ if (handle) {
 
     // 获取图片路径
     if (path.startsWith('http://') || path.startsWith('https://')) {
-      img = {
-        'src': path,
-        'width': 'auto',
-        'height': 'auto'
-      }
+      img = await data.fetchRemoteImageInfo(path);
     } else {
       if (!path.startsWith('/') && !path.startsWith('./')) {
         path = './' + path;

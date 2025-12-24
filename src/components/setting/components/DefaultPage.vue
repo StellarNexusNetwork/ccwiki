@@ -5,8 +5,8 @@
       <div class="title" id="title">CC Wiki project</div>
       <div class="title" id="title_m">CC Wiki</div>
       <div id="details">
-        <div class="data">{{ t('public.setting.default.version') }} 25w46a</div>
-        <div class="data">{{ t('public.setting.default.releaseDate') }} 2025.11.14</div>
+        <div class="data">{{ t('public.setting.default.version') }} ccwiki 25 Dev</div>
+        <div class="data">{{ t('public.setting.default.releaseDate') }} 2025.12.25</div>
       </div>
     </div>
   </div>
