@@ -1,6 +1,7 @@
 <template>
   <button class="item" @click="routePush('/docs/'+address.join('/')+'/'+id)">
-    <img v-if="icon" class="icon" :src="imgInfo.src" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + address!.join('-') + '-' + id }">
+    <img v-if="icon && wikiRepo.type =='local'" class="icon" :src="imgInfo.src" alt="SVG Image" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + address!.join('-') + '-' + id }">
+    <AsyncImage v-if="icon && wikiRepo.type =='httpServer'" class="icon" :src="wikiRepo.makeAddress(imgAddress, icon)" width="45px" height="45px" alt="SVG Image" draggable="false"/>
     <div class="textBox" :style='{width:textBoxWidth}'>
       <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
         <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
@@ -16,9 +17,9 @@
         }}
       </div>
       <div class="iconList" v-if="childrenIcon">
-        <img
-          class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
-        <!--   todo:加个加载的骨架屏   -->
+        <img v-if="wikiRepo.type =='local'"
+             class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
+        <AsyncImage v-if="wikiRepo.type =='httpServer'" class="iconMini" :src="icon_value as string" alt="SVG Image" width="15px" height="15px" shape="circle" draggable="false" v-for="[icon_key, icon_value] in Object.entries(childrenIcon)"/>
       </div>
     </div>
   </button>
@@ -32,6 +33,7 @@ import {useI18n} from "vue-i18n";
 import get from "lodash/get";
 import {useDataSourcesStore} from "@/stores/dataSources.ts";
 import {useSettingStore} from "@/stores/setting.ts";
+import AsyncImage from "@/components/common/AsyncImage.vue";
 
 const {t} = useI18n();
 const route = useRoute()
@@ -63,8 +65,8 @@ imgAddress.unshift('docs', lang);
 
 const icon = get(meta, 'icon');
 let imgInfo: any;
-if (icon) {
-  imgInfo = await wikiRepo.getImage(imgAddress, icon)
+if (icon && wikiRepo.type == 'local') {
+  imgInfo = await wikiRepo.getImage(imgAddress, icon);
 }
 
 const introduction = get(meta, 'introduction');
@@ -75,9 +77,15 @@ function routePush(url: string) {
 }
 
 if (childrenIcon) {
-  for (const [key, value] of Object.entries(childrenIcon)) {
-    const iconInfo = await wikiRepo.getImage(imgAddress, value);
-    childrenIcon[key] = iconInfo.src;
+  if (wikiRepo.type == 'local') {
+    for (const [key, value] of Object.entries(childrenIcon)) {
+      const iconInfo = await wikiRepo.getImage(imgAddress, value);
+      childrenIcon[key] = iconInfo.src;
+    }
+  } else if (wikiRepo.type == 'httpServer') {
+    for (const [key, value] of Object.entries(childrenIcon)) {
+      childrenIcon[key] = wikiRepo.makeAddress(imgAddress, value);
+    }
   }
 }
 

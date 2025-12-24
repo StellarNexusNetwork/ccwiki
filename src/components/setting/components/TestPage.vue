@@ -17,7 +17,8 @@
       <TransitionGroup name="fade" tag="ul" mode="out-in">
         <li class="localRepositories" v-for="( item,id, index) in dataStore.wikiRepos" :key="id">
           <div class="img">
-            <img :src="item.icon" alt="SVG Image" draggable="false">
+            <img v-if="item.type == 'local'" class="icon" :src="item.icon" alt="SVG Image" draggable="false">
+            <AsyncImage v-if="item.type == 'httpServer'" class="icon" :src="item.icon as string" width="60px" height="60px"/>
           </div>
           <!--    todo:设置错误替换的图片      -->
           <div class="textDiv">
@@ -48,6 +49,7 @@ import {useNoticeStore, useSettingStore} from '@/stores/setting';
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
+import AsyncImage from "@/components/common/AsyncImage.vue";
 
 const lang = useSettingStore().setting.lang
 
@@ -124,7 +126,7 @@ const clearLocalStorage = () => {
   margin-right: 15px;
 }
 
-.localRepositories .img img {
+.localRepositories .img .icon {
   width: 60px;
   height: auto;
   user-select: none;
