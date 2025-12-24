@@ -16,10 +16,11 @@
           introduction
         }}
       </div>
-      <div class="iconList" v-if="childrenIcon">
-        <img v-if="wikiRepo.type =='local'"
-             class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
-        <AsyncImage v-if="wikiRepo.type =='httpServer'" class="iconMini" :src="icon_value as string" alt="SVG Image" width="15px" height="15px" shape="circle" draggable="false" v-for="[icon_key, icon_value] in Object.entries(childrenIcon)"/>
+      <div class="iconList" v-if="childrenIcon && wikiRepo.type =='local'">
+        <img class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
+      </div>
+      <div class="iconList" v-if="childrenIcon && wikiRepo.type =='httpServer'">
+        <AsyncImage class="iconMini" :src="icon_value as string" alt="SVG Image" width="15px" height="15px" shape="circle" draggable="false" v-for="[icon_key, icon_value] in Object.entries(childrenIcon)" :key="icon_key"/>
       </div>
     </div>
   </button>
@@ -36,7 +37,7 @@ import {useSettingStore} from "@/stores/setting.ts";
 import AsyncImage from "@/components/common/AsyncImage.vue";
 
 const {t} = useI18n();
-const route = useRoute()
+const route = useRoute();
 
 const data = useDataSourcesStore();
 
