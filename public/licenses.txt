@@ -1852,8 +1852,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ├─ ccwiki@0.0.0
 │  ├─ licenses: [1m[31mUNLICENSED[39m[22m
 │  ├─ private: true
-│  ├─ path: D:\Code\ccwiki
-│  ├─ licenseFile: D:\Code\ccwiki\LICENSE
+│  ├─ path: \
+│  ├─ licenseFile: \LICENSE
 │  └─ licenseText: GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
 
@@ -6796,13 +6796,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 │  └─ copyright: Copyright (c) 2021 Sanjay Soundarajan
-└─ vue@3.5.18
-   ├─ licenses: MIT
-   ├─ repository: https://github.com/vuejs/core
-   ├─ publisher: Evan You
-   ├─ path: vue
-   ├─ licenseFile: vue\LICENSE
-   ├─ licenseText: The MIT License (MIT)
+├─ vue@3.5.18
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/vuejs/core
+│  ├─ publisher: Evan You
+│  ├─ path: vue
+│  ├─ licenseFile: vue\LICENSE
+│  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2018-present, Yuxi (Evan) You
 
@@ -6823,4 +6823,33 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-   └─ copyright: Copyright (c) 2018-present, Yuxi (Evan) You
+│  └─ copyright: Copyright (c) 2018-present, Yuxi (Evan) You
+└─ zod@4.1.8
+   ├─ licenses: MIT
+   ├─ repository: https://github.com/colinhacks/zod
+   ├─ publisher: Colin McDonnell
+   ├─ email: zod@colinhacks.com
+   ├─ path: zod
+   ├─ licenseFile: zod\LICENSE
+   ├─ licenseText: MIT License
+
+Copyright (c) 2025 Colin McDonnell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+   └─ copyright: Copyright (c) 2025 Colin McDonnell
