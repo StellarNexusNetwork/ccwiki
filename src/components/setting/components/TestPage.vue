@@ -9,19 +9,27 @@
     <br/>
     <button @click="dataStore.addLocalRepo()">打开文件夹</button>
     <br/>
-    <input v-model="repoAddress">
-    <button @click="dataStore.addHttpWikiRepo(repoAddress)">添加</button>
+    <input v-model="repoAddress" placeholder="请输入仓库地址">
+    <button @click="dataStore.addHttpWikiRepo(repoAddress,false)">添加</button>
+    <!--  todo：标记仓库类型（错误）  -->
+    <!--  todo：显示更多信息  -->
     <div class="localRepositoriesList">
       <TransitionGroup name="fade" tag="ul" mode="out-in">
         <li class="localRepositories" v-for="( item,id, index) in dataStore.wikiRepos" :key="id">
-          <img :src="item.icon" alt="SVG Image" draggable="false">
+          <div class="img">
+            <img :src="item.icon" alt="SVG Image" draggable="false">
+          </div>
           <!--    todo:设置错误替换的图片      -->
           <div class="textDiv">
             <div class="name">{{
                 item.name?.[lang] ?? Object.values(item.name)?.[0] ?? t("page.docsView.wikiRepos.name.unknow")
               }}
             </div>
-            <div class="version">{{ item.version }}</div>
+            <div style="display: flex;gap: 7px">
+              <div class="version">{{ item.version }}</div>
+              <Tag v-if="item.type == 'local'" severity="info" value="本地"></Tag>
+              <Tag v-else-if="item.type == 'httpServer'" severity="success" value="在线"></Tag>
+            </div>
           </div>
           <div class="optionList">
             <div class="div"></div>
@@ -67,6 +75,11 @@ const clearLocalStorage = () => {
 
 </script>
 <style scoped>
+.p-tag {
+  display: flex;
+  font-size: 10px;
+}
+
 .localRepositoriesList {
   margin-top: 15px;
   overflow-x: hidden;
@@ -102,10 +115,18 @@ const clearLocalStorage = () => {
   padding: 10px 15px 10px 15px;
 }
 
-.localRepositories img {
+.localRepositories .img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin-right: 15px;
+}
+
+.localRepositories .img img {
   width: 60px;
   height: auto;
-  margin-right: 15px;
   user-select: none;
   image-rendering: pixelated;
 }
