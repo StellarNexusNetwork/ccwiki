@@ -34,6 +34,18 @@ const address = route.params.pathMatch as string[];
 </script>
 
 <style scoped>
+@media (max-width: 670px) {
+  .mainDiv .AboutList {
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  }
+}
+
+@media (min-width: 670px) {
+  .mainDiv .AboutList {
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  }
+}
+
 .mainDiv {
   display: flex;
   flex-direction: column;
@@ -72,9 +84,7 @@ const address = route.params.pathMatch as string[];
 }
 
 .mainDiv .AboutList {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  display: grid;
   gap: 20px;
   margin-top: 10px;
   padding-bottom: 40px;
