@@ -206,7 +206,7 @@ router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) =>
 
   .main {
     height: calc(100vh - 42px);
-    border-radius: 20px 0 20px 0;
+    border-radius: 20px 0 0 0;
   }
 }
 
