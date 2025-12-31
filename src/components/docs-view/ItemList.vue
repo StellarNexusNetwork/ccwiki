@@ -8,7 +8,7 @@
     <div v-if="meta?.introduction" class="introduction">
       {{ meta?.introduction }}
     </div>
-    <div class="AboutList">
+    <div class="AboutList" :style="AboutListGridStyle">
       <suspense v-for="([id, item], index) in Object.entries(meta?.children ?? {})" :key="id">
         <template #default>
           <ItemCard :id="id" :meta="item ?? {}"/>
@@ -22,6 +22,10 @@
 import ItemCard from './ItemCard.vue';
 import {useI18n} from 'vue-i18n';
 import {useRoute} from "vue-router";
+import {computed} from "vue";
+import {useWindow} from "@/composables/useWindow.ts";
+
+const sysWindow = useWindow()
 
 const {t} = useI18n();
 const route = useRoute()
@@ -31,6 +35,22 @@ const {meta} = defineProps({
 })
 
 const address = route.params.pathMatch as string[];
+
+const childrenCount = Object.keys(meta?.children ?? {}).length
+
+const AboutListGridStyle = computed(() => {
+  const width = sysWindow.width.value
+
+  if (width >= 670 && (width - 200) / 220 + 1 > childrenCount) {
+    return {gridTemplateColumns: 'repeat(auto-fill, 200px)'}
+  }
+
+  if (width >= 370 && width < 670 && (width - 165) / 185 + 1 > childrenCount) {
+    return {gridTemplateColumns: 'repeat(auto-fill, 160px)'}
+  }
+
+  return {}
+})
 </script>
 
 <style scoped>
