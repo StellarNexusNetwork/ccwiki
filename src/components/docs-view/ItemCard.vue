@@ -92,12 +92,23 @@ if (childrenIcon) {
 
 let textBoxWidth = "100%";
 if (icon) {
-  textBoxWidth = '105px';
+  textBoxWidth = 'calc(100% - 60px)';
 }
 </script>
 <style scoped>
+@media (max-width: 670px) {
+  .item {
+    width: 165px;
+  }
+}
+
+@media (min-width: 670px) {
+  .item {
+    width: 200px;
+  }
+}
+
 .item {
-  width: 200px;
   height: 100px;
   display: flex;
   align-items: center;
@@ -118,8 +129,7 @@ if (icon) {
   height: 45px;
   object-fit: contain;
   image-rendering: pixelated;
-  margin-left: 5px;
-  margin-right: 20px;
+  margin-right: 15px;
   user-select: none;
 }
 

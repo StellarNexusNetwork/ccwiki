@@ -172,7 +172,7 @@ const openDialog = () => {
 @media (min-width: 670px) {
   .navigationBar {
     top: 42px;
-    height: calc(100vh - 42px);
+    height: calc(100dvh - 42px);
     padding-top: 5px;
   }
 

@@ -31,23 +31,12 @@ function openDialog() {
 </script>
 
 <style scoped>
-@media (min-width: 670px) {
-  #setting_dialog {
-    height: 100vh;
-  }
-}
-
-@media (max-width: 670px) {
-  #setting_dialog {
-    height: calc(100vh - 50px);
-  }
-}
-
 #setting_dialog {
   z-index: 2001;
   position: fixed;
   inset: 0;
   width: 100vw;
+  height: 100vh;
   padding: 0;
   border: none;
   backdrop-filter: blur(0px);
