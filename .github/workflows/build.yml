@@ -61,3 +61,4 @@ jobs:
           personal_token: ${{ secrets.PAT_TOKEN }}  # 使用 PAT
           publish_dir: ./dist  # Vue 项目构建后生成的文件目录
           publish_branch: actions-pages  # 发布到 actions-pages 分支
+          exclude_assets: ''
