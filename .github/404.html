@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page not found · GitHub Pages</title>
+  <style>
+      @media (prefers-color-scheme: light) {
+          :root {
+              --color-primary-normal: #04AAEB;
+              --color-primary-hover: #31C6FF;
+              --color-primary-active: #008AC9;
+              --color-information-active: #3482ff;
+              --color-warning-normal: #FF9510;
+              --color-danger-normal: #F74020;
+              --color-text-title: #0A0A0A;
+              --color-text-body: #292929;
+              --color-text-body-subtle: #575757;
+              --color-text-caption: #A5A5A5;
+              --color-background-1: #FAFAFA;
+              --color-background-2: #F5F5F5;
+              --color-background-3: #E6E6E6;
+              --color-background-noticeBar: #FAFAFA;
+              --color-border-1: #F5F5F5;
+              /*卡片*/
+              --color-border-2: #D6D6D6;
+              /*分割线*/
+              --color-border-3: #767676;
+              --color-border-main: #ededed;
+              --color-shadow-s: rgba(0, 0, 0, 0.1);
+              --color-shadow-m: rgba(0, 0, 0, 0.2);
+              --color-shadow-l: rgba(0, 0, 0, 0.3);
+              --markdown-bgColor-default: #ffffff;
+              --markdown-bgColor-muted: #f6f8fa;
+              --markdown-borderColor-default: #d1d9e0;
+              --markdown-borderColor-muted: #d1d9e0b3;
+          }
+      }
+
+      @media (prefers-color-scheme: dark) {
+          :root {
+              --color-primary-normal: #04AAEB;
+              --color-primary-hover: #008AC9;
+              --color-primary-active: #31C6FF;
+              --color-information-active: #3482ff;
+              --color-warning-normal: #FF9510;
+              --color-danger-normal: #F74020;
+              --color-text-title: #FAFAFA;
+              --color-text-body: #E6E6E6;
+              --color-text-body-subtle: #A5A5A5;
+              --color-text-caption: #575757;
+              --color-background-3: #0A0A0A;
+              --color-background-2: #1A1A1A;
+              --color-background-1: #292929;
+              --color-background-noticeBar: #1A1A1A;
+              --color-border-1: #1A1A1A;
+              /*卡片*/
+              --color-border-2: #434343;
+              /*分割线*/
+              --color-border-3: #767676;
+              --color-border-main: #444444;
+              --color-shadow-s: rgba(255, 255, 255, 0.1);
+              --color-shadow-m: rgba(255, 255, 255, 0.2);
+              --color-shadow-l: rgba(255, 255, 255, 0.3);
+              --markdown-bgColor-default: #0d1117;
+              --markdown-bgColor-muted: #151b23;
+              --markdown-borderColor-default: #3d444d;
+              --markdown-borderColor-muted: #3d444db3;
+          }
+      }
+
+      body {
+          height: 100dvh;
+          margin: 0;
+          background-color: var(--color-background-2);
+          transition: color 0.5s,
+          background-color 0.5s;
+          line-height: 1.6;
+          font-family: Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          'Fira Sans',
+          'Droid Sans',
+          'Helvetica Neue',
+          sans-serif;
+          font-size: 15px;
+          text-rendering: optimizeLegibility;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+      }
+
+      a {
+          text-decoration: none;
+          target: _blank;
+          outline: none;
+          color: var(--color-text-body-subtle);
+          transition-duration: 0.5s;
+      }
+
+      a:hover {
+          text-decoration: underline;
+          color: var(--color-primary-normal);
+          transition-duration: 0.5s;
+      }
+
+      .app {
+          width: 100dvw;
+          height: 100dvh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition-duration: 0.3s;
+      }
+
+      .Div {
+          align-items: center;
+      }
+
+      .Div .notFound {
+          display: flex;
+          align-items: center;
+          padding-left: 15px;
+          padding-right: 15px;
+      }
+
+      @media (max-width: 622px) {
+          .notFound {
+              flex-direction: column;
+          }
+
+          .Div .notFound img {
+              width: 250px;
+              height: 250px;
+          }
+
+          .Div .notFound .textDiv {
+              margin-top: 15px;
+          }
+
+          .Div .notFound #title {
+              font-size: 30px;
+          }
+
+          .Div .notFound .textDiv #suggestion {
+              font-size: 15px;
+          }
+      }
+
+      @media (min-width: 622px) {
+          .Div {
+              min-width: 620px;
+          }
+
+          .Div .notFound img {
+              width: 350px;
+              height: 350px;
+          }
+
+          .Div .notFound .textDiv {
+              margin-top: 40px;
+          }
+
+          .Div .notFound #title {
+              font-size: 38px;
+          }
+
+          .Div .notFound .textDiv #suggestion {
+              font-size: 20px;
+          }
+      }
+
+      .Div .notFound #title {
+          color: var(--color-text-title);
+      }
+
+      .Div .notFound img {
+          user-select: none;
+          transition-duration: 0.3s;
+      }
+
+      .Div .notFound .textDiv #suggestion {
+          color: var(--color-text-body-subtle);
+      }
+
+      .Div .notFound .textDiv .errorCode {
+          color: var(--color-text-caption);
+          font-size: 15px;
+      }
+
+      .github_suggestion {
+          color: var(--color-text-body-subtle);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 30px;
+      }
+
+      .status {
+          display: flex;
+          margin-top: 15px;
+      }
+
+      .status #line {
+          color: var(--color-text-body-subtle);
+          margin-left: 15px;
+          margin-right: 15px;
+      }
+
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="Div">
+    <div class="notFound">
+      <picture>
+        <source class="avif" srcset="./src/assets/image/GitHub_404.avif" type="image/avif">
+        <img src="/views/ErrorViews/NotFound/svg/not_found.svg" alt="SVG Image" draggable="false">
+      </picture>
+
+      <div class="textDiv">
+        <div id="title">
+          "page.NotFound.title"
+        </div>
+        <div id="suggestion">"page.NotFound.suggestion"</div>
+        <div class="errorCode">404 Not Found.</div>
+      </div>
+    </div>
+    <div class='github_suggestion'>
+      <div>
+        <a href="https://help.github.com/pages/" id="docs" style="color:var(--color-primary-normal);margin-right: 5px; display: inline"></a>
+        <div id="docx_text" style="display: inline">docs.text</div>
+      </div>
+      <div class="status">
+        <a href="https://githubstatus.com" id="status">status</a>
+        <div id="line">—</div>
+        <a href="https://twitter.com/githubstatus" id="status">@githubstatus</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const langs = {
+    "zh-CN": {
+      "title": "无法找到文件",
+      "suggestion": "在此地址配置的站点不包含请求的文件。",
+      "docs.link": "阅读完整文档",
+      "docs.text": "以了解关于使用 <b>GitHub Pages</b> 的更多信息。",
+      "status": "GitHub 状态"
+    },
+    "en-US": {
+      "title": "File not found",
+      "suggestion": "The site configured at this address does not contain the requested file.",
+      "docs.link": "Read the full documentation",
+      "docs.text": "for more information about using <b>GitHub Pages</b>.",
+      "status": "GitHub Status"
+    }
+  };
+  let lang = navigator.language;
+  if (!Object.hasOwn(langs, lang)) {
+    console.log(lang);
+    lang = "zh-CN";
+  }
+  document.getElementById("title").textContent = langs[lang].title;
+  document.getElementById("suggestion").textContent = langs[lang].suggestion;
+  document.getElementById("docs").textContent = langs[lang]['docs.link'];
+  document.getElementById("docx_text").innerHTML = langs[lang]['docs.text'];
+  document.getElementById("status").textContent = langs[lang].status;
+</script>
+</body>
+</html>
