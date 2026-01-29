@@ -36,7 +36,7 @@ const selectedLang = ref();
 const langs = ref([
   {name: '中文(中国)', code: 'zh_cn'},
   {name: 'English', code: 'en_us'},
-  {name: '中文(巨硬)', code: 'zh_ms'}
+  {name: '中文(微软)', code: 'zh_ms'}
 ]);
 
 

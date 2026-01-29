@@ -94,7 +94,6 @@ const {t} = useI18n();
 
 .Div .notFound img {
   user-select: none;
-  transition-duration: 0.3s;
 }
 
 .Div .notFound .textDiv .suggestion {
