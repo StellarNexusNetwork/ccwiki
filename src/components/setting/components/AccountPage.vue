@@ -9,23 +9,17 @@
 <script setup lang="ts">
 import account from "./AccountPage/AccountInfo.vue";
 import login from '@/../src/views/sign-in/sign-in.vue';
-import {ref} from "vue";
+import {ref, watchEffect} from "vue";
 import {authClient} from "@/utils/auth-client.ts";
-import {eventBus} from "@/utils/eventBus.ts";
 
 const session = authClient.useSession();
 
 const components = [account, login];
 const currentIndex = ref(0);
-if (!session.value.data) {
-  currentIndex.value = 1;
-}
 
-function switchAccountPage(num: number) {
-  currentIndex.value = num;
-}
-
-eventBus.on('switchAccountPage', switchAccountPage);
+watchEffect(() => {
+  currentIndex.value = session.value.data ? 0 : 1;
+});
 
 </script>
 

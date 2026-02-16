@@ -1,85 +1,83 @@
 <template>
-  <div>
-    <div class="login">
-      <div class="item">
-        <label for="email" class="textBox">{{ t("public.login.item.title.email") }}</label>
-        <InputText
-          id="email"
-          v-model="email"
-          type="email"
-          placeholder="hello@example.com"
-          autocomplete="email"
-        />
-      </div>
-
-      <div class="item">
-        <label for="password" class="textBox">{{ t("public.login.item.title.password") }}</label>
-        <Password
-          inputId="password"
-          v-model="password"
-          :feedback="false"
-          toggleMask
-          :placeholder="t('public.login.item.input.password')"
-          :inputProps="{ autocomplete: 'current-password' }"
-          inputClass="w-full"
-        />
-      </div>
-
-      <div class="item" style="flex-direction:row;width: 250px">
-        <Checkbox
-          inputId="remember"
-          v-model="rememberMe"
-          :binary="true"
-        />
-        <label for="remember" style="margin-left: 10px" class="textBox">
-          {{ t("public.login.item.title.remember") }}
-        </label>
-      </div>
-
-      <Button
-        class="w-full"
-        :loading="loading"
-        :disabled="loading"
-        :label="t('public.login.item.title.login')"
-        @click="handleSignIn"
+  <div class="login">
+    <div class="item">
+      <label for="email" class="textBox">{{ t("public.login.item.title.email") }}</label>
+      <InputText
+        id="email"
+        v-model="email"
+        type="email"
+        placeholder="hello@example.com"
+        autocomplete="email"
       />
+    </div>
 
-      <Divider align="center" type="dotted">
-        <b>{{ t("public.login.text.or") }}</b>
-      </Divider>
+    <div class="item">
+      <label for="password" class="textBox">{{ t("public.login.item.title.password") }}</label>
+      <Password
+        inputId="password"
+        v-model="password"
+        :feedback="false"
+        toggleMask
+        :placeholder="t('public.login.item.input.password')"
+        :inputProps="{ autocomplete: 'current-password' }"
+        inputClass="w-full"
+      />
+    </div>
 
-      <Button
-        outlined
-        :disabled="loading"
-        @click="handlePasskey"
-      >
-        <img src="/components/user/logo/svg/passkey.svg" alt="Passkey logo" draggable="false">
-        {{ t('public.login.item.title.login.other', {name: 'Passkey'}) }}
-      </Button>
+    <div class="item" style="flex-direction:row;width: 250px">
+      <Checkbox
+        inputId="remember"
+        v-model="rememberMe"
+        :binary="true"
+      />
+      <label for="remember" style="margin-left: 10px" class="textBox">
+        {{ t("public.login.item.title.remember") }}
+      </label>
+    </div>
 
-      <Button
-        outlined
-        :disabled="loading"
-        @click="handleSocialSignIn('github')"
-      >
-        <img src="/components/user/logo/svg/github.svg" alt="Passkey logo" draggable="false">
-        {{ t('public.login.item.title.login.other', {name: 'Github'}) }}
-      </Button>
+    <Button
+      class="w-full"
+      :loading="loading"
+      :disabled="loading"
+      :label="t('public.login.item.title.login')"
+      @click="handleSignIn"
+    />
 
-      <div style="margin-bottom: 8px"></div>
-      <Divider/>
+    <Divider align="center" type="dotted">
+      <b>{{ t("public.login.text.or") }}</b>
+    </Divider>
 
-      <div class="textBox" style="width: 250px;text-align: center">
-        <i18n-t keypath="public.login.item.title.builtWith">
-          <template #link>
-            <a href="https://better-auth.com" target="_blank">
+    <Button
+      outlined
+      :disabled="loading"
+      @click="handlePasskey"
+    >
+      <img src="/components/user/logo/svg/passkey.svg" alt="Passkey logo" draggable="false">
+      {{ t('public.login.item.title.login.other', {name: 'Passkey'}) }}
+    </Button>
+
+    <Button
+      outlined
+      :disabled="loading"
+      @click="handleSocialSignIn('github')"
+    >
+      <img src="/components/user/logo/svg/github.svg" alt="Passkey logo" draggable="false">
+      {{ t('public.login.item.title.login.other', {name: 'Github'}) }}
+    </Button>
+
+    <div style="margin-bottom: 8px"></div>
+    <Divider/>
+
+    <div class="textBox" style="width: 250px;text-align: center">
+      <i18n-t keypath="public.login.item.title.builtWith">
+        <template #link>
+          <a href="https://better-auth.com" target="_blank">
 						  <span class="dark:text-white/70 cursor-pointer">
 							  better-auth
 						  </span>
-            </a>
-          </template>
-        </i18n-t>
-      </div>
+          </a>
+        </template>
+      </i18n-t>
     </div>
   </div>
 </template>
@@ -145,7 +143,7 @@ const handleSocialSignIn = async (provider: string) => {
   });
 };
 </script>
-<style>
+<style scoped>
 .login {
   display: flex;
   flex-direction: column;
@@ -158,11 +156,11 @@ const handleSocialSignIn = async (provider: string) => {
   flex-direction: column;
 }
 
-.p-inputtext, .p-password {
+:deep(.p-inputtext, .p-password) {
   width: 250px;
 }
 
-.p-password svg {
+:deep(.p-password svg) {
   transform: translateY(-8px);
 }
 
@@ -177,7 +175,7 @@ const handleSocialSignIn = async (provider: string) => {
   margin-bottom: 15px;
 }
 
-.p-divider-content {
+:deep(.p-divider-content) {
   background: var(--color-background-1);
   color: var(--color-text-body);
 }

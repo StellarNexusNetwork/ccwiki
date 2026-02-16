@@ -22,7 +22,6 @@
 <script setup lang="ts">
 import {authClient} from "@/utils/auth-client.ts";
 import {useI18n} from "vue-i18n";
-import {eventBus} from "@/utils/eventBus.ts";
 import {useRouter} from "vue-router";
 
 const {t} = useI18n();
@@ -32,7 +31,6 @@ const session = authClient.useSession();
 const router = useRouter();
 
 function logout() {
-  eventBus.emit('switchAccountPage', 1);
   authClient.signOut({
     fetchOptions: {
       onSuccess: () => {
@@ -72,8 +70,13 @@ function logout() {
 }
 
 .hello .textBox {
+  min-width: 100px;
   font-size: 20px;
   color: var(--color-text-body);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .p-button img {
@@ -82,5 +85,9 @@ function logout() {
   user-select: none;
   filter: drop-shadow(var(--color-text-title) 250vw 0);
   transform: translateX(-250vw);
+}
+
+:deep(.p-button) {
+  width: 185px;
 }
 </style>
