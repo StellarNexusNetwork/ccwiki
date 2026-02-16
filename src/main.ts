@@ -42,7 +42,10 @@ app.use(PrimeVue, {
     options: {
       prefix: 'p',
       darkModeSelector: '.app-dark',
-      cssLayer: false
+      cssLayer: {
+        name: 'primevue',
+        order: 'app-styles, primevue, another-css-library'
+      }
     }
   }
 });

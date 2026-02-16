@@ -8,13 +8,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AccountInfo: typeof import('./src/components/setting/components/AccountPage/AccountInfo.vue')['default']
+    AccountPage: typeof import('./src/components/setting/components/AccountPage.vue')['default']
+    AccountSetting: typeof import('./src/components/user/AccountSetting.vue')['default']
     AsyncImage: typeof import('./src/components/common/AsyncImage.vue')['default']
+    Button: typeof import('primevue/button')['default']
     DefaultPage: typeof import('./src/components/setting/components/DefaultPage.vue')['default']
+    Divider: typeof import('primevue/divider')['default']
     DocsPage: typeof import('./src/components/docs-view/DocsPage.vue')['default']
     IndexView: typeof import('./src/components/docs-view/IndexView.vue')['default']
     ItemCard: typeof import('./src/components/docs-view/ItemCard.vue')['default']
     ItemList: typeof import('./src/components/docs-view/ItemList.vue')['default']
     LangPage: typeof import('./src/components/setting/components/LangPage.vue')['default']
+    LoginDialog: typeof import('./src/components/user/LoginDialog.vue')['default']
+    LoginPage: typeof import('./src/components/user/LoginPage.vue')['default']
     MarkdownRenderer: typeof import('./src/components/docs-view/MarkdownRenderer.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     NoticeComponent: typeof import('./src/components/notice/NoticeComponent.vue')['default']
@@ -28,6 +35,7 @@ declare module 'vue' {
     TestPage: typeof import('./src/components/setting/components/TestPage.vue')['default']
     ThemePage: typeof import('./src/components/setting/components/ThemePage.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
+    UserProfile: typeof import('./src/components/user/UserProfile.vue')['default']
     WikiRepos: typeof import('./src/components/docs-view/WikiRepos.vue')['default']
   }
   export interface GlobalDirectives {

@@ -4,6 +4,7 @@
     <NoticeComponent/>
     <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
     <SettingDialog/>
+    <LoginDialog/>
     <div class="mainDiv" :style="mainDivStyle">
       <div class="main" :style="mainStyle">
         <RouterView class="router-view" :key="$route.fullPath"/>
@@ -25,6 +26,7 @@ import TitleBar from '@/components/TitleBar.vue';
 import NavigationBar from '@/components/NavigationBar.vue';
 import NoticeComponent from '@/components/notice/NoticeComponent.vue';
 import SettingDialog from "@/components/setting/SettingDialog.vue";
+import LoginDialog from "@/components/user/LoginDialog.vue";
 import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
