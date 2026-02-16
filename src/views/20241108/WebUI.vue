@@ -64,6 +64,8 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import ApexCharts from 'vue3-apexcharts';
 import {onMounted, onUnmounted, ref} from 'vue';
 

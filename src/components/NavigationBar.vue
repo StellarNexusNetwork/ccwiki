@@ -52,12 +52,7 @@
       </div>
     </div>
     <div class="listDiv" id="tool">
-      <div class="options" v-tooltip='t("public.NavigationBar.account")' placeholder="Right">
-        <button class="button">
-          <img id="_navigation_account_svg" src="/components/NavigationBar/svg/account.svg" alt="SVG Image" draggable="false">
-          <div class="textDiv" :style="unfoldStyle">{{ t("public.NavigationBar.account") }}</div>
-        </button>
-      </div>
+      <UserProfile :unfoldStyle="unfoldStyle" :isACOpen="isACOpen"></UserProfile>
       <div class="options">
         <button class="button" @click="openDialog" v-tooltip='t("public.NavigationBar.settings")' placeholder="Right">
           <img id="_navigation_settings_svg" src="/components/NavigationBar/svg/settings.svg" alt="SVG Image" draggable="false">
@@ -65,6 +60,7 @@
         </button>
       </div>
     </div>
+    <AccountSetting :asStyle="asStyle"/>
   </div>
 </template>
 
@@ -74,6 +70,9 @@ import {useRouter} from 'vue-router';
 import {useWindowStore} from '@/stores/window';
 import {eventBus} from '@/utils/eventBus';
 import {useI18n} from 'vue-i18n';
+
+import UserProfile from '@/components/user/UserProfile.vue'
+import AccountSetting from "@/components/user/AccountSetting.vue";
 
 const {t} = useI18n();
 
@@ -166,6 +165,54 @@ function unfold() {
 const openDialog = () => {
   eventBus.emit('callOpenSettingsDialog1');
 };
+
+const asStyle = ref({
+  opacity: 0,
+  display: 'none',
+  transform: 'scale(0.85)'
+})
+const isACOpen = ref(false);
+
+function openAccountSetting() {
+  if (isACOpen.value) {
+    asStyle.value.opacity = 0;
+    asStyle.value.transform = 'scale(0.85)'
+    setTimeout(() => {
+      asStyle.value.display = 'none'
+    }, 300)
+  } else {
+    asStyle.value.display = 'block';
+    setTimeout(() => {
+      asStyle.value.opacity = 1;
+      asStyle.value.transform = 'scale(1)'
+    })
+  }
+  setTimeout(() => {
+    isACOpen.value = !isACOpen.value;
+  }, 300)
+}
+
+function closeAccountSetting(animation: boolean) {
+  asStyle.value.opacity = 0;
+  asStyle.value.transform = 'scale(0.85)';
+  if (animation) {
+    setTimeout(() => {
+      asStyle.value.display = 'none'
+      isACOpen.value = false;
+    }, 300)
+  } else {
+    asStyle.value.display = 'none';
+    isACOpen.value = false;
+  }
+}
+
+eventBus.on('callOpenAccountSetting', openAccountSetting);
+eventBus.on('callCloseAccountSetting', closeAccountSetting);
+watchEffect(() => {
+  if (sysWindows.enableMobileSupport) {
+    closeAccountSetting(false)
+  }
+})
 </script>
 
 <style scoped>
@@ -178,6 +225,7 @@ const openDialog = () => {
 
   .navigationBar .listDiv .options {
     margin-bottom: 5px;
+    width: 100%;
   }
 
   .navigationBar #navigation {
@@ -189,9 +237,6 @@ const openDialog = () => {
     display: none; /* Chrome Safari */
   }
 
-  .navigationBar .listDiv .options {
-    width: 100%;
-  }
 
   #setting2 {
     display: none;
@@ -206,6 +251,8 @@ const openDialog = () => {
 
   .navigationBar .listDiv .options {
     margin-top: 5px;
+    width: 50px;
+    height: 50px;
   }
 
   .navigationBar .listDiv .notNecessary {
@@ -215,11 +262,6 @@ const openDialog = () => {
   .navigationBar #navigation {
     display: flex;
     justify-content: space-around;
-  }
-
-  .navigationBar .listDiv .options {
-    width: 50px;
-    height: 50px;
   }
 
   .navigationBar #tool {

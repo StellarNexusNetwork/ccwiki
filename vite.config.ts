@@ -39,5 +39,8 @@ export default defineConfig({
         assetFileNames: 'assets/css/[name]-[hash].css',
       },
     }
+  },
+  server: {
+    allowedHosts: ['nekodev.snnetwork.top']
   }
 })

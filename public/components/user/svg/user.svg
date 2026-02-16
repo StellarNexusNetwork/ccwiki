@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" version="1.1" width="30"
+     height="30" viewBox="0 0 30 30">
+    <defs>
+        <clipPath id="master_svg0_97_2655">
+            <rect x="0" y="0" width="30" height="30" rx="15"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#master_svg0_97_2655)">
+        <ellipse cx="15" cy="29" rx="10" ry="10" fill="#323232" fill-opacity="1"/>
+        <ellipse cx="15" cy="15" rx="7" ry="7" fill="#323232" fill-opacity="1"/>
+    </g>
+</svg>

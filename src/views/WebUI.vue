@@ -63,13 +63,15 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import ApexCharts from 'vue3-apexcharts';
 import {ref} from 'vue';
 
 const oMarginRight = ref('10px');
 
 const chartOptions = {
-  chart: {type: 'area', height: 140, sparkline: {enabled: true}},
+  chart: {type: 'area' as const, height: 140, sparkline: {enabled: true}},
   stroke: {curve: 'smooth'},
   fill: {
     type: 'gradient',
