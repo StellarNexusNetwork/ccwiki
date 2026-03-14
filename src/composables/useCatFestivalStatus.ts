@@ -4,6 +4,8 @@ import {eventBus} from '@/utils/eventBus';
 const CAT_DAY_MONTH = 1; // February (0-based month)
 const CAT_DAY_DATE = 22;
 const CAT_FESTIVAL_DURATION_DAYS = 7;
+const PI_DAY_MONTH = 2; // March (0-based month)
+const PI_DAY_DATE = 14;
 
 export function isCatFestival(date = new Date()): boolean {
   const year = date.getFullYear();
@@ -13,11 +15,17 @@ export function isCatFestival(date = new Date()): boolean {
   return date >= festivalStart && date < festivalEnd;
 }
 
+export function isPiDay(date = new Date()): boolean {
+  return date.getMonth() === PI_DAY_MONTH && date.getDate() === PI_DAY_DATE;
+}
+
 export function useCatFestivalStatus() {
   const isCatFestivalActive = ref(isCatFestival());
+  const isPiDayActive = ref(isPiDay());
 
   const refreshCatFestivalStatus = () => {
     isCatFestivalActive.value = isCatFestival();
+    isPiDayActive.value = isPiDay();
   };
 
   onMounted(() => {
@@ -31,6 +39,7 @@ export function useCatFestivalStatus() {
 
   return {
     isCatFestivalActive: readonly(isCatFestivalActive),
+    isPiDayActive: readonly(isPiDayActive),
     refreshCatFestivalStatus
   };
 }

@@ -1,8 +1,17 @@
 <template>
   <div class="iconArea">
-    <img v-if="!isCatFestivalActive" src="/static/components/settings/svg/setting.svg" alt="SVG Image" draggable="false" class="gearIcon">
-    <button v-else class="catButton" type="button" @click="emitBurst" aria-label="Cat Day Easter Egg">
+    <img
+      v-if="!isCatFestivalActive && !isPiDayActive"
+      src="/static/components/settings/svg/setting.svg"
+      alt="SVG Image"
+      draggable="false"
+      class="gearIcon"
+    >
+    <button v-else-if="isCatFestivalActive" class="catButton" type="button" @click="emitBurst" aria-label="Cat Day Easter Egg">
       <span class="catIcon" aria-hidden="true">🐱</span>
+    </button>
+    <button v-else class="piButton" type="button" @click="emitBurst" aria-label="Pi Day Easter Egg">
+      <span class="piIcon" aria-hidden="true">🥧</span>
     </button>
   </div>
 </template>
@@ -11,15 +20,17 @@
 import { useCatFestivalStatus } from '@/composables/useCatFestivalStatus';
 
 const emit = defineEmits<{
-  burst: [payload: { x: number; y: number }];
+  burst: [payload: { x: number; y: number; mode: 'cat' | 'pi' }];
 }>();
 
-const { isCatFestivalActive } = useCatFestivalStatus();
+const { isCatFestivalActive, isPiDayActive } = useCatFestivalStatus();
 
 function emitBurst(event: MouseEvent) {
+  const mode: 'cat' | 'pi' = isCatFestivalActive.value ? 'cat' : 'pi';
   emit('burst', {
     x: event.clientX,
-    y: event.clientY
+    y: event.clientY,
+    mode
   });
 }
 </script>
@@ -52,6 +63,18 @@ function emitBurst(event: MouseEvent) {
   transform: translateY(-20px);
 }
 
+.piButton {
+  width: 80px;
+  height: 80px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  cursor: pointer;
+  transform: translateY(-20px);
+}
+
 .catIcon {
   position: absolute;
   left: 50%;
@@ -64,6 +87,18 @@ function emitBurst(event: MouseEvent) {
   animation: cat-idle 1.6s ease-in-out infinite;
 }
 
+.piIcon {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  font-size: 108px;
+  line-height: 1;
+  user-select: none;
+  filter: drop-shadow(0 8px 18px var(--color-shadow-l));
+  animation: pi-idle 1.6s ease-in-out infinite;
+}
+
 @keyframes cat-idle {
   0% {
     transform: translate(-50%, -50%) scale(1) rotate(0deg);
@@ -71,6 +106,20 @@ function emitBurst(event: MouseEvent) {
 
   50% {
     transform: translate(-50%, -50%) scale(1.03) rotate(-3deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes pi-idle {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.04) rotate(4deg);
   }
 
   100% {

@@ -19,7 +19,7 @@
       </span>
     </div>
     <div class="div">
-      <CatFestivalGear @burst="launchCatFireworks" />
+      <CatFestivalGear @burst="launchCatFireworks"/>
       <div class="title" id="title">{{ desktopTitle }}</div>
       <div class="title" id="title_m">{{ mobileTitle }}</div>
       <div id="details">
@@ -36,9 +36,25 @@ import CatFestivalGear from '@/components/settings/components/CatFestivalGear.vu
 import {useCatFestivalStatus} from '@/composables/useCatFestivalStatus';
 
 const {t} = useI18n();
-const {isCatFestivalActive} = useCatFestivalStatus();
-const desktopTitle = computed(() => isCatFestivalActive.value ? 'Neko Wiki project' : 'CC Wiki project');
-const mobileTitle = computed(() => isCatFestivalActive.value ? 'Neko Wiki' : 'CC Wiki');
+const {isCatFestivalActive, isPiDayActive} = useCatFestivalStatus();
+const desktopTitle = computed(() => {
+  if (isCatFestivalActive.value) {
+    return 'Neko Wiki project';
+  }
+  if (isPiDayActive.value) {
+    return 'Pi Wiki project';
+  }
+  return 'CC Wiki project';
+});
+const mobileTitle = computed(() => {
+  if (isCatFestivalActive.value) {
+    return 'Neko Wiki';
+  }
+  if (isPiDayActive.value) {
+    return 'Pi Wiki';
+  }
+  return 'CC Wiki';
+});
 
 type CatParticle = {
   id: number;
@@ -55,6 +71,7 @@ type CatParticle = {
 const particles = ref<CatParticle[]>([]);
 const mainDivRef = ref<HTMLElement | null>(null);
 const CAT_EMOJIS = ['🐱', '🐈', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🐾'];
+const PI_EMOJIS = ['➕', '➖', '3️⃣', '1️⃣', '4️⃣'];
 let particleId = 0;
 const removeTimers: number[] = [];
 
@@ -62,7 +79,7 @@ function randomIn(min: number, max: number): number {
   return Math.random() * (max - min) + min;
 }
 
-function launchCatFireworks(payload: {x: number; y: number}) {
+function launchCatFireworks(payload: { x: number; y: number; mode: 'cat' | 'pi' }) {
   const container = mainDivRef.value;
   if (!container) {
     return;
@@ -70,6 +87,7 @@ function launchCatFireworks(payload: {x: number; y: number}) {
   const rect = container.getBoundingClientRect();
   const clickX = payload.x - rect.left;
   const clickY = payload.y - rect.top;
+  const activeEmojis = payload.mode === 'pi' ? PI_EMOJIS : CAT_EMOJIS;
 
   const burstCount = 22;
   const created: CatParticle[] = [];
@@ -79,7 +97,7 @@ function launchCatFireworks(payload: {x: number; y: number}) {
     const distance = randomIn(70, 180);
     created.push({
       id: particleId++,
-      emoji: CAT_EMOJIS[Math.floor(Math.random() * CAT_EMOJIS.length)],
+      emoji: activeEmojis[Math.floor(Math.random() * activeEmojis.length)],
       x: clickX,
       y: clickY,
       dx: Math.cos(angle) * distance,
@@ -134,13 +152,11 @@ onBeforeUnmount(() => {
   pointer-events: none;
   z-index: 3;
   --fireworks-fade-edge: 56px;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%),
+  linear-gradient(to bottom, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%);
   -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%),
-    linear-gradient(to bottom, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%),
+  linear-gradient(to bottom, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%);
   mask-composite: intersect;
 }
 
