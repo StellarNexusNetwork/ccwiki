@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import {useI18n} from 'vue-i18n';
-import {ref} from 'vue';
+import {nextTick, ref} from 'vue';
 import SettingDefaultPage from './components/SettingDefaultPage.vue';
 import SettingThemePage from './components/SettingThemePage.vue';
 import SettingLanguagePage from './components/SettingLanguagePage.vue';
@@ -72,12 +72,16 @@ const currentIndex = ref(0);
 
 eventBus.on('callOpenSettingsDialog2', switchDetail);
 
-function switchDetail(index: number) {
+async function switchDetail(index: number) {
   currentIndex.value = index;
   if (index > currentNames.length) {
     currentDisplayName.value = 'public.setting.title.systemError';
   } else {
     currentDisplayName.value = 'public.setting.title.' + currentNames[index];
+  }
+  if (index === 0) {
+    await nextTick();
+    eventBus.emit('settingsDialogOpened');
   }
 }
 </script>
@@ -102,13 +106,13 @@ function switchDetail(index: number) {
   transition-duration: 0.5s;
 }
 
-@media (min-width: 670px) {
+@media (min-width: 800px) {
   .optionsDetail {
     width: 45vw;
   }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 800px) {
   .optionsDetail {
     width: calc(100vw - 125px - 40px);
   }

@@ -1,9 +1,27 @@
 <template>
-  <div class="mainDiv">
+  <div ref="mainDivRef" class="mainDiv">
+    <div class="fireworksLayer" aria-hidden="true">
+      <span
+        v-for="particle in particles"
+        :key="particle.id"
+        class="particle"
+        :style="{
+          left: particle.x + 'px',
+          top: particle.y + 'px',
+          '--dx': particle.dx + 'px',
+          '--dy': particle.dy + 'px',
+          '--rot': particle.rotation + 'deg',
+          '--dur': particle.duration + 'ms',
+          '--scale': particle.scale.toString()
+        }"
+      >
+        {{ particle.emoji }}
+      </span>
+    </div>
     <div class="div">
-      <img src="/static/components/settings/svg/setting.svg" alt="SVG Image" draggable="false">
-      <div class="title" id="title">CC Wiki project</div>
-      <div class="title" id="title_m">CC Wiki</div>
+      <CatFestivalGear @burst="launchCatFireworks" />
+      <div class="title" id="title">{{ desktopTitle }}</div>
+      <div class="title" id="title_m">{{ mobileTitle }}</div>
       <div id="details">
         <div class="data">{{ t('public.setting.default.version') }} ccwiki 26w06a</div>
         <div class="data">{{ t('public.setting.default.releaseDate') }} 2026.01.01</div>
@@ -12,9 +30,80 @@
   </div>
 </template>
 <script setup lang="ts">
+import {computed, onBeforeUnmount, ref} from 'vue';
 import {useI18n} from 'vue-i18n';
+import CatFestivalGear from '@/components/settings/components/CatFestivalGear.vue';
+import {useCatFestivalStatus} from '@/composables/useCatFestivalStatus';
 
 const {t} = useI18n();
+const {isCatFestivalActive} = useCatFestivalStatus();
+const desktopTitle = computed(() => isCatFestivalActive.value ? 'Neko Wiki project' : 'CC Wiki project');
+const mobileTitle = computed(() => isCatFestivalActive.value ? 'Neko Wiki' : 'CC Wiki');
+
+type CatParticle = {
+  id: number;
+  emoji: string;
+  x: number;
+  y: number;
+  dx: number;
+  dy: number;
+  rotation: number;
+  duration: number;
+  scale: number;
+};
+
+const particles = ref<CatParticle[]>([]);
+const mainDivRef = ref<HTMLElement | null>(null);
+const CAT_EMOJIS = ['🐱', '🐈', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🐾'];
+let particleId = 0;
+const removeTimers: number[] = [];
+
+function randomIn(min: number, max: number): number {
+  return Math.random() * (max - min) + min;
+}
+
+function launchCatFireworks(payload: {x: number; y: number}) {
+  const container = mainDivRef.value;
+  if (!container) {
+    return;
+  }
+  const rect = container.getBoundingClientRect();
+  const clickX = payload.x - rect.left;
+  const clickY = payload.y - rect.top;
+
+  const burstCount = 22;
+  const created: CatParticle[] = [];
+
+  for (let i = 0; i < burstCount; i += 1) {
+    const angle = randomIn(0, Math.PI * 2);
+    const distance = randomIn(70, 180);
+    created.push({
+      id: particleId++,
+      emoji: CAT_EMOJIS[Math.floor(Math.random() * CAT_EMOJIS.length)],
+      x: clickX,
+      y: clickY,
+      dx: Math.cos(angle) * distance,
+      dy: Math.sin(angle) * distance,
+      rotation: randomIn(-210, 210),
+      duration: randomIn(900, 1500),
+      scale: randomIn(0.8, 1.7)
+    });
+  }
+
+  particles.value = [...particles.value, ...created];
+  for (const particle of created) {
+    const timeoutId = window.setTimeout(() => {
+      particles.value = particles.value.filter((item) => item.id !== particle.id);
+    }, particle.duration);
+    removeTimers.push(timeoutId);
+  }
+}
+
+onBeforeUnmount(() => {
+  for (const timerId of removeTimers) {
+    clearTimeout(timerId);
+  }
+});
 </script>
 <style scoped>
 @media (min-width: 670px) {
@@ -31,9 +120,28 @@ const {t} = useI18n();
 
 .mainDiv {
   height: 100%;
+  position: relative;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.fireworksLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+  --fireworks-fade-edge: 56px;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 var(--fireworks-fade-edge), #000 calc(100% - var(--fireworks-fade-edge)), transparent 100%);
+  mask-composite: intersect;
 }
 
 .mainDiv .div {
@@ -41,12 +149,17 @@ const {t} = useI18n();
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
-.mainDiv .div img {
-  width: 80px;
-  height: 80px;
+.particle {
+  position: absolute;
+  font-size: 26px;
+  line-height: 1;
   user-select: none;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: cat-firework var(--dur) cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
 .mainDiv .div .title {
@@ -61,5 +174,19 @@ const {t} = useI18n();
   margin-bottom: 50px;
   color: var(--color-text-caption);
   font-family: RHRCN-N;
+}
+
+@keyframes cat-firework {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(0, 0) scale(1) rotate(0deg);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(var(--scale)) rotate(var(--rot));
+  }
 }
 </style>

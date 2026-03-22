@@ -22,6 +22,7 @@ function openDialog() {
   const settingDialog = document.getElementById('setting_dialog');
   const setting = document.getElementById('setting_Div');
 
+  eventBus.emit('settingsDialogOpened');
   settingDialog!.style.display = 'block';
   setTimeout(() => {
     settingDialog!.classList.add('show');

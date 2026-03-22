@@ -12,6 +12,7 @@ declare module 'vue' {
     AccountSetting: typeof import('./src/components/user/AccountSetting.vue')['default']
     AsyncImage: typeof import('./src/components/common/AsyncImage.vue')['default']
     Button: typeof import('primevue/button')['default']
+    CatFestivalGear: typeof import('./src/components/settings/components/CatFestivalGear.vue')['default']
     Divider: typeof import('primevue/divider')['default']
     DocsIndexView: typeof import('./src/components/docs/DocsIndexView.vue')['default']
     DocsItemCard: typeof import('./src/components/docs/DocsItemCard.vue')['default']
