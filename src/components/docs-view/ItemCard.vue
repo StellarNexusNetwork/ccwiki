@@ -16,17 +16,17 @@
           introduction
         }}
       </div>
-      <div class="iconList" v-if="childrenIcon && wikiRepo.type =='local'">
-        <img class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value], index) in Object.entries(childrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
+      <div class="iconList" v-if="resolvedChildrenIcon && wikiRepo.type =='local'">
+        <img class="iconMini" :src="icon_value as string" alt="SVG Image" draggable="false" v-for="([icon_key, icon_value]) in Object.entries(resolvedChildrenIcon)" :style="{ viewTransitionName: 'class-item-img-' + address!.join('-') + '-' + id + '-' + icon_key }" :key="icon_key"/>
       </div>
-      <div class="iconList" v-if="childrenIcon && wikiRepo.type =='httpServer'">
-        <AsyncImage class="iconMini" :src="icon_value as string" alt="SVG Image" width="15px" height="15px" shape="circle" draggable="false" v-for="[icon_key, icon_value] in Object.entries(childrenIcon)" :key="icon_key"/>
+      <div class="iconList" v-if="resolvedChildrenIcon && wikiRepo.type =='httpServer'">
+        <AsyncImage class="iconMini" :src="icon_value as string" alt="SVG Image" width="15px" height="15px" shape="circle" draggable="false" v-for="[icon_key, icon_value] in Object.entries(resolvedChildrenIcon)" :key="icon_key"/>
       </div>
     </div>
   </button>
 </template>
 <script setup lang="ts">
-import {onMounted} from 'vue';
+import {onMounted, onUnmounted} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {useTextOverflow} from '@/composables/useTextOverflow';
 import {useWindowStore} from '@/stores/window';
@@ -57,40 +57,79 @@ const {id, meta} = defineProps({
 });
 const address = [...route.params.pathMatch as string[]]
 
-const wikiRepo = get(data.wikiRepos, address[0])
 const lang = useSettingStore().setting.lang
+type ImageInfoLike = { src: string; width: number; height: number };
+type WikiRepoLike = {
+  type: 'local' | 'httpServer';
+  getImage: (_url: string[], _src: string) => Promise<ImageInfoLike>;
+  makeAddress: (_url: string[], _src: string) => string;
+  releaseImage?: (_url: string[], _src: string) => void;
+};
+const wikiRepo = get(data.wikiRepos, address[0]) as WikiRepoLike;
 
 const imgAddress = [...address];
 imgAddress.shift();
 imgAddress.unshift('docs', lang);
 
+const localImageRefs: Array<{ url: string[]; src: string }> = [];
+// 本地仓库图片加载入口：加载成功后登记引用，供卸载回收
+async function loadLocalImage(src: string): Promise<ImageInfoLike> {
+  const info = await wikiRepo.getImage(imgAddress, src);
+  if (src) {
+    // 记录本组件占用的本地图片，卸载时成对释放
+    localImageRefs.push({
+      url: [...imgAddress],
+      src
+    });
+  }
+  return info;
+}
+
+onUnmounted(() => {
+  if (wikiRepo?.type !== 'local' || !wikiRepo.releaseImage) {
+    return;
+  }
+
+  // 组件销毁时归还引用，触发仓库级缓存回收
+  for (const ref of localImageRefs) {
+    wikiRepo.releaseImage(ref.url, ref.src);
+  }
+});
+
 const icon = get(meta, 'icon');
-let imgInfo: any;
+let imgInfo: ImageInfoLike = {
+  src: '/public/svg/not_found.svg',
+  width: 256,
+  height: 256
+};
 if (icon && wikiRepo.type == 'local') {
-  imgInfo = await wikiRepo.getImage(imgAddress, icon);
+  imgInfo = await loadLocalImage(icon);
 }
 
 const introduction = get(meta, 'introduction');
-const childrenIcon = get(meta, 'childrenIcon')
+const childrenIcon = get(meta, 'childrenIcon') as Record<string, unknown> | undefined;
+let resolvedChildrenIcon: Record<string, string> | undefined;
 
 function routePush(url: string) {
   router.push(url);
 }
 
 if (childrenIcon) {
+  resolvedChildrenIcon = {};
   if (wikiRepo.type == 'local') {
     for (const [key, value] of Object.entries(childrenIcon)) {
-      const iconInfo = await wikiRepo.getImage(imgAddress, value);
-      childrenIcon[key] = iconInfo.src;
+      const iconInfo = await loadLocalImage(String(value));
+      resolvedChildrenIcon[key] = iconInfo.src;
     }
   } else if (wikiRepo.type == 'httpServer') {
     for (const [key, value] of Object.entries(childrenIcon)) {
-      childrenIcon[key] = wikiRepo.makeAddress(imgAddress, value);
+      resolvedChildrenIcon[key] = wikiRepo.makeAddress(imgAddress, String(value));
     }
   }
 }
 
 let textBoxWidth = "100%";
+// 有主图标时给文本区域预留宽度
 if (icon) {
   textBoxWidth = 'calc(100% - 60px)';
 }

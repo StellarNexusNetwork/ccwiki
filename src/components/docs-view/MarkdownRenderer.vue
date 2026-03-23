@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref} from 'vue';
+import {computed, nextTick, onMounted, onUnmounted, ref} from 'vue';
 import {useRoute} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import get from 'lodash/get';
@@ -40,27 +40,54 @@ const data = useDataSourcesStore();
 
 const address = [...route.params.pathMatch as string[]]
 
-const wikiRepo = get(data.wikiRepos, address[0])
 const lang = useSettingStore().setting.lang
+type ImageInfoLike = { src: string; width: number; height: number };
+type WikiRepoLike = {
+  type: 'local' | 'httpServer';
+  getImage: (_url: string[], _src: string) => Promise<ImageInfoLike>;
+  makeAddress: (_url: string[], _src: string) => string;
+  getFile: (_path: string[]) => Promise<FileSystemFileHandle | string | null>;
+  releaseImage?: (_url: string[], _src: string) => void;
+};
+const wikiRepo = get(data.wikiRepos, address[0]) as WikiRepoLike;
 
 const imgAddress = [...address];
 imgAddress.shift();
 imgAddress.unshift('docs', lang);
 
-const iconInfo = await wikiRepo.getImage(imgAddress, config?.icon ?? '')
+const localImageRefs: Array<{ url: string[]; src: string }> = [];
+// 本地图片统一加载器：负责登记引用，便于页面卸载时释放
+async function loadLocalImage(src: string): Promise<ImageInfoLike> {
+  const info = await wikiRepo.getImage(imgAddress, src);
+  if (src) {
+    // 记录本页面持有的本地图片，离开页面时统一释放
+    localImageRefs.push({
+      url: [...imgAddress],
+      src
+    });
+  }
+  return info;
+}
 
-let handle;
-let text;
+const iconPath = typeof config?.icon === 'string' ? config.icon : '';
+const iconInfo = wikiRepo.type == 'local'
+  ? await loadLocalImage(iconPath)
+  : await wikiRepo.getImage(imgAddress, iconPath);
+
+let text: string | undefined;
 if (wikiRepo.type == 'local') {
-  handle = await wikiRepo.getFile(wikiRepo.makeAddress(imgAddress, './index.md').split('/'));
-  if (handle) {
-    const file = await handle.getFile();
+  const localFileHandle = await wikiRepo.getFile(wikiRepo.makeAddress(imgAddress, './index.md').split('/'));
+  if (localFileHandle && typeof localFileHandle !== 'string') {
+    const file = await localFileHandle.getFile();
     text = await file.text();
   }
 } else if (wikiRepo.type == 'httpServer') {
   const indexAddress = [...imgAddress];
   indexAddress.push('./index.md');
-  text = await wikiRepo.getFile(indexAddress);
+  const remoteText = await wikiRepo.getFile(indexAddress);
+  if (typeof remoteText === 'string') {
+    text = remoteText;
+  }
 }
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});
@@ -78,22 +105,42 @@ if (text) {
   // 匹配所有 markdown 图片语法
   const regex = /!\[(.*?)\]\((.*?)\)/g;
   const matches = [...source.value.matchAll(regex)];
+  // 单篇 markdown 内图片结果缓存，避免重复解析同一路径
+  const markdownImageCache = new Map<string, Promise<ImageInfoLike>>();
+
+  // 解析 markdown 图片路径并返回可展示图片信息（支持远程/本地）
+  const resolveMarkdownImage = async (rawPath: string) => {
+    const cached = markdownImageCache.get(rawPath);
+    if (cached) {
+      // 同一 markdown 内重复图片直接复用结果
+      return await cached;
+    }
+
+    const task = (async () => {
+      if (rawPath.startsWith('http://') || rawPath.startsWith('https://') || rawPath.startsWith('data:') || rawPath.startsWith('blob:')) {
+        return await data.getImageInfo(rawPath);
+      }
+
+      let normalizedPath = rawPath;
+      if (!normalizedPath.startsWith('/') && !normalizedPath.startsWith('./')) {
+        normalizedPath = './' + normalizedPath;
+      }
+
+      if (wikiRepo.type == 'local') {
+        return await loadLocalImage(normalizedPath);
+      }
+      return await wikiRepo.getImage(imgAddress, normalizedPath);
+    })();
+
+    markdownImageCache.set(rawPath, task);
+    return await task;
+  };
 
   const replacements = await Promise.all(matches.map(async match => {
     const fullMatch = match[0]; // 整个 ![alt](path)
     const alt = match[1];       // alt 文本
-    let path = match[2];   // 括号内路径
-    let img;
-
-    // 获取图片路径
-    if (path.startsWith('http://') || path.startsWith('https://')) {
-      img = await data.fetchRemoteImageInfo(path);
-    } else {
-      if (!path.startsWith('/') && !path.startsWith('./')) {
-        path = './' + path;
-      }
-      img = await wikiRepo.getImage(imgAddress, path);
-    }
+    const path = match[2];   // 括号内路径
+    const img = await resolveMarkdownImage(path);
 
     // const newMarkdown = `![${alt}](${imgURL})`;
     const newMarkdown = '<a class="isImg" href="' + img.src + '" data-pswp-width="' + img.width + '" data-pswp-height="' + img.height + '" target="_blank">\n' +
@@ -122,7 +169,7 @@ function isPhonePortrait() {
   return window.matchMedia('(max-width: 670px) and (orientation: portrait)').matches;
 }
 
-let lightbox;
+let lightbox: PhotoSwipeLightbox | null = null;
 onMounted(async () => {
   await nextTick();        // 等 v‑dom 真插入
   lightbox = new PhotoSwipeLightbox({
@@ -153,6 +200,21 @@ onMounted(async () => {
     pswpModule: () => import('photoswipe')
   });
   lightbox.init();
+});
+
+onUnmounted(() => {
+  if (wikiRepo?.type === 'local' && wikiRepo.releaseImage) {
+    // 归还本页面引用，避免 blob URL 长时间堆积
+    for (const ref of localImageRefs) {
+      wikiRepo.releaseImage(ref.url, ref.src);
+    }
+  }
+
+  if (lightbox) {
+    // 销毁实例，避免路由切换后残留事件监听
+    lightbox.destroy();
+    lightbox = null;
+  }
 });
 </script>
 

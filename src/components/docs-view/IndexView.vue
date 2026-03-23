@@ -62,7 +62,7 @@ if (path.length > 0) {
   if (wikiRepo) {
     if (wikiRepo.type == "local") {
       try {
-        dir = await wikiRepo.readCategories(path);
+        dir = await wikiRepo.listDir(path);
       } catch (err) {
         console.error(err);
         dir = {};
