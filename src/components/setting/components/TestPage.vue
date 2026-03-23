@@ -7,6 +7,9 @@
     <button @click="redirect">跳转</button>
     <br/>
     <br/>
+    <button @click="addNotice">弹出通知</button>
+    <br/>
+    <br/>
     <button @click="dataStore.addLocalRepo()">打开文件夹</button>
     <br/>
     <input v-model="repoAddress" placeholder="请输入仓库地址">
@@ -45,7 +48,8 @@
 </template>
 <script setup lang="ts">
 import {useDataSourcesStore} from '@/stores/dataSources';
-import {useNoticeStore, useSettingStore} from '@/stores/setting';
+import {useSettingStore} from '@/stores/setting';
+import {useNoticeStore} from '@/stores/notice';
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
@@ -61,6 +65,10 @@ const repoAddress = ref('');
 const router = useRouter();
 
 const dataStore = useDataSourcesStore();
+
+function addNotice() {
+  notice.addNotice('success', '测试！', '测试喵♪');
+}
 
 function redirect() {
   router.push(urlText.value);

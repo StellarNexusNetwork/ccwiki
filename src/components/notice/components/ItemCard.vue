@@ -1,5 +1,8 @@
 <template>
-  <div :id="index === 0 ? 'firstItem' : undefined" class="item" @mousedown="handleMouseDown" @touchstart="handleMouseDown" :style="'transform:translateX('+deltaX+'px)'+dt">
+  <div :id="index === 0 ? 'firstItem' : undefined" class="item" @mousedown="handleMouseDown" @touchstart.passive="handleMouseDown" :style="{
+       transform: `translate(${deltaX}px, calc(${index} * var(--notice-item-offset)))`,
+       transitionDuration: dt
+       }">
     <div class="contentBox" :style="{opacity:1-Math.abs(deltaX)/180}">
       <img :src="baseUrl+'components/notice/svg/' + item.type + '.svg'" alt="" draggable="false">
       <div class="textDiv">
@@ -33,7 +36,7 @@ function getColor(type: string) {
 const startX = ref(0);
 const deltaX = ref(0);
 let isDragging = false;
-const dt = ref('');
+const dt = ref('0.5s');
 
 const handleMouseDown = (e: any) => {
   if (e instanceof TouchEvent) {
@@ -41,7 +44,7 @@ const handleMouseDown = (e: any) => {
   }
   startX.value = e.clientX;
   isDragging = true;
-  dt.value = '';
+  dt.value = 'initial';
 
   const onMouseMove = (e: any) => {
     if (e instanceof TouchEvent) {
@@ -55,12 +58,14 @@ const handleMouseDown = (e: any) => {
   };
 
   const onMouseUp = () => {
+    console.log(1)
     isDragging = false;
     if (deltaX.value > 110 || deltaX.value < -110) {
       emit('remove-notice', item.id);
     } else {
-      dt.value = ';transition-duration:0.5s';
+      dt.value = '0.5s';
       deltaX.value = 0;
+      console.log(deltaX.value)
     }
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('mouseup', onMouseUp);
@@ -84,10 +89,10 @@ const handleMouseDown = (e: any) => {
   box-shadow: 0 0 8px 0 var(--color-shadow-l);
   border-radius: 10px;
   background-color: var(--color-background-noticeBar);
-  margin-top: 15px;
   overflow: hidden;
   user-select: none;
   transition-timing-function: ease;
+  pointer-events: auto;
 }
 
 .item .contentBox {
@@ -124,7 +129,7 @@ const handleMouseDown = (e: any) => {
 
 .item .progressBar {
   height: 4px;
-  animation: progressBarAnimation 15s cubic-bezier(0.00, 0.25, 0.10, 1.00) forwards; /* 播放一次并保持动画结束状态 */
+  animation: progressBarAnimation 18s cubic-bezier(0.00, 0.25, 0.10, 1.00) forwards; /* 播放一次并保持动画结束状态 */
   animation-play-state: paused;
   animation-iteration-count: 1;
 }

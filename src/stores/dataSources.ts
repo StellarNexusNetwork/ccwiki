@@ -5,7 +5,8 @@ import get from 'lodash/get';
 import {z} from "zod"
 import axios from "axios";
 
-import {useNoticeStore} from '@/stores/setting';
+import {useNoticeStore} from '@/stores/notice';
+import {printErrorTree} from "@/utils/error.ts";
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -13,7 +14,7 @@ interface PersistentStorage {
   [id: string]:
     | {  //id不是ulid应该是xxx或xxx：xxx.xx
     type: 'local';
-    config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
+    config: Record<string, any>;   // 缓存 保证在文件损坏时可以尽可能显示信息
     handle: {
       root: FileSystemDirectoryHandle;
     };
@@ -21,18 +22,20 @@ interface PersistentStorage {
   }
     | {  //id不是ulid应该是xxx或xxx：xxx.xx
     type: 'httpServer';
-    config: Record<string, any>;   // 缓存 保证在文件损坏是可以尽可能显示信息
+    config: Record<string, any>;   // 缓存 保证在文件损坏时可以尽可能显示信息
     address: string;
     url?: string;
   };
 }
 
-interface Config {
+interface BaseConfig {
   version: string;
   id: string;       //id不是ulid应该是xxx或xxx：xxx.xx
+  name?: Record<string, string>;
+}
 
-  // 允许其他字段
-  [key: string]: unknown
+interface Config extends BaseConfig {
+  extra?: Record<string, unknown>
 }
 
 interface ImageInfo {
@@ -272,7 +275,7 @@ class HttpWikiRepo extends WikiRepo {
   async getImage(url: string[], src: string): Promise<ImageInfo> {
     // 构造图片链接
     const imgAddress = this.makeAddress(url, src)
-    
+
     return await useDataSourcesStore().fetchRemoteImageInfo(imgAddress);
   }
 
@@ -382,22 +385,16 @@ export const useDataSourcesStore = defineStore(
 
       for (const [_id, item] of Object.entries(toRaw(persistentStorage) ?? {})) {
         if (item.type === 'local') {
-          let root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>;
+          const root: FileSystemDirectoryHandle = item.handle.root;
           let config: Config;
-
-          try {
-            root = await processHandle(item.handle.root);
-          } catch (err) {
-            notice.addNotice('error', '仓库损坏！', err);
-            return;
-          }
 
           // 尝试读取配置文件
           try {
             config = await loadConfigFromRoot(root);
           } catch (err) {
             notice.addNotice('error', '读取或解析配置文件失败', err);
-            return;
+            printErrorTree(err);
+            continue;
           }
 
           // todo:检查id是否改变 改变则修改存储的id
@@ -406,7 +403,7 @@ export const useDataSourcesStore = defineStore(
 
           // 这里不能简化!!!
           const wikiRepo = new LocalWikiRepo(config, item.handle.root);
-          await wikiRepo.init(root)
+          await wikiRepo.init(root);
           wikiRepos[config.id] = wikiRepo;
         } else if (item.type === 'httpServer') {
           const address = item.address
@@ -575,13 +572,17 @@ async function processHandle(handle: any) {
 }
 
 // 通过本地rootHandle读取config
-async function loadConfigFromRoot(root: Record<string, FileSystemDirectoryHandle | FileSystemFileHandle>) {
-  const configHandle = get(root, 'config.json') as FileSystemFileHandle | undefined;
-  if (!configHandle) throw new Error('未找到配置文件"config.json"');
+async function loadConfigFromRoot(root: FileSystemDirectoryHandle) {
+  let configHandle: FileSystemFileHandle;
+  try {
+    configHandle = await root.getFileHandle("config.json");
+  } catch (err) {
+    throw new Error('无法找到配置文件 "config.json"', {cause: err})
+  }
 
   const file = await configHandle.getFile();
   const json = await file.text();
-  const config = JSON.parse(json);
+  const config: Config = JSON.parse(json);
 
   // todo:仅检查必要配置 其余仅报warn并改为默认值
   const result = ConfigSchema.safeParse(config);
