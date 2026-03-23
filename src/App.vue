@@ -29,13 +29,24 @@ import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter} from 'vue-router';
-import {ref, watchEffect} from 'vue';
+import {nextTick, ref, watchEffect} from 'vue';
 import get from 'lodash/get';
 
 type RouteRule = {
   from: string | RegExp
   to: string | RegExp
 }
+
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (_updateCallback: () => void | Promise<void>) => ViewTransitionLike | undefined
+}
+
+type ViewTransitionLike = {
+  finished?: Promise<void>
+  skipTransition?: () => void
+}
+
+const VIEW_TRANSITION_WAIT_TIMEOUT_MS = 320;
 
 useDataSourcesStore().initFetchData();
 
@@ -66,6 +77,7 @@ const rtLoadingS = ref({opacity: 0});
 let rtIsAnimating = false;
 let allowRouting = false;
 let rtAeF = false;
+let activeViewTransition: ViewTransitionLike | null = null;
 
 // 移动端适配
 let oldMainDivPL = '50px';
@@ -96,6 +108,36 @@ function IsBlacklisted(from: string, to: string) {
     }
   }
   return false;
+}
+
+function waitForRouteDomCommit(timeoutMs = VIEW_TRANSITION_WAIT_TIMEOUT_MS): Promise<void> {
+  return new Promise<void>((resolve) => {
+    let finished = false;
+    let unwatchAfterEach = () => {
+    };
+
+    const finish = () => {
+      if (finished) {
+        return;
+      }
+      finished = true;
+      window.clearTimeout(timeoutId);
+      unwatchAfterEach();
+      resolve();
+    };
+
+    unwatchAfterEach = router.afterEach(() => {
+      void nextTick().then(() => {
+        requestAnimationFrame(() => {
+          finish();
+        });
+      });
+    });
+
+    const timeoutId = window.setTimeout(() => {
+      finish();
+    }, timeoutMs);
+  });
 }
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -159,10 +201,27 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
       }
     }
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((document as any).startViewTransition) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (document as any).startViewTransition(() => next());
+    const docWithVT = document as DocumentWithViewTransition;
+    if (typeof docWithVT.startViewTransition === 'function') {
+      try {
+        // 连续返回时先中断上一个 transition，避免重叠导致新动画丢失
+        activeViewTransition?.skipTransition?.();
+        const transition = docWithVT.startViewTransition(async () => {
+          const routeCommitted = waitForRouteDomCommit();
+          next();
+          await routeCommitted;
+        });
+        activeViewTransition = transition ?? null;
+        transition?.finished?.catch(() => {
+        }).finally(() => {
+          if (activeViewTransition === transition) {
+            activeViewTransition = null;
+          }
+        });
+      } catch {
+        activeViewTransition = null;
+        next();
+      }
     } else {
       next();
     }
