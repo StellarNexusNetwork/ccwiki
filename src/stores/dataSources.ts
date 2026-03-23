@@ -60,7 +60,7 @@ interface LocalImageCacheEntry {
   pending?: Promise<void>;
 }
 
-const FALLBACK_IMAGE_SRC = `${baseUrl}public/svg/not_found.svg`;
+const FALLBACK_IMAGE_SRC = `${baseUrl}icons/not-found.svg`;
 const DEFAULT_IMAGE_SIDE = 256;
 const MIN_IMAGE_SIDE = 256;
 const LOCAL_IMAGE_CACHE_LIMIT = 256;

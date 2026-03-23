@@ -3,7 +3,7 @@
     <div class="notice" :style="{'--notice-count': notice.displayList.length}">
       <TransitionGroup name="fade" tag="div" mode="out-in" class="group" @mouseenter="pauseTimer()" @mouseleave="resumeTimer()">
         <div v-for=" (item, index) in notice.displayList" :key='item.id' style="pointerEvents: none">
-          <ItemCard :item="item" :index="index" @remove-notice="notice.removeNotice"/>
+          <NoticeItemCard :item="item" :index="index" @remove-notice="notice.removeNotice"/>
         </div>
       </TransitionGroup>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import ItemCard from './components/ItemCard.vue';
+import NoticeItemCard from './components/NoticeItemCard.vue';
 import type {NoticeDisplay} from "@/stores/notice";
 import {useNoticeStore} from '@/stores/notice';
 

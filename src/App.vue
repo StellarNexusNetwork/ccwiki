@@ -24,7 +24,7 @@
 import TitleBar from '@/components/TitleBar.vue';
 import NavigationBar from '@/components/NavigationBar.vue';
 import NoticeComponent from '@/components/notice/NoticeComponent.vue';
-import SettingDialog from "@/components/setting/SettingDialog.vue";
+import SettingDialog from "@/components/settings/SettingDialog.vue";
 import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';

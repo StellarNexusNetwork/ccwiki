@@ -28,7 +28,8 @@
                 <div class="title">未处理</div>
                 <div class="data">12</div>
               </div>
-              <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"></ApexCharts>
+              <ApexCharts class="charts" type="area" height="140" :options="chartOptions" :series="series"
+                          :xaxis="xaxis"></ApexCharts>
             </div>
             <div class="option" :style="{ 'margin-left': oMarginRight }">
               <div class=" titleDiv">
@@ -64,9 +65,12 @@
 
 <script setup lang="ts">
 import ApexCharts from 'vue3-apexcharts';
-import {ref} from 'vue';
+import {onMounted, onUnmounted, ref} from 'vue';
 
 const oMarginRight = ref('10px');
+let jsonData;
+const series = ref([]);
+const xaxis = ref([]);
 
 const chartOptions = {
   chart: {type: 'area', height: 140, sparkline: {enabled: true}},
@@ -78,42 +82,88 @@ const chartOptions = {
       opacityFrom: 1,
       opacityTo: 0,
       stops: [0, 100],
-      colorStops: [
-        {
-          offset: 0,
-          opacity: .2,
-          color: '#04AAEB'
-        },
-        {
-          offset: 100,
-          opacity: 0,
-          color: '#04AAEB'
-        }
-      ]
+      // colorStops: [
+      //     {
+      //         offset: 0,
+      //         opacity: .2,
+      //         color: "#04AAEB"
+      //     },
+      //     {
+      //         offset: 100,
+      //         opacity: 0,
+      //         color: "#04AAEB"
+      //     }
+      // ]
     }
   },
   yaxis: {min: 0},
-  colors: ['#04AAEB'],
+  // colors: ['#04AAEB'],
 };
 
-const series = [
-  {
-    name: '剩余未处理',
-    data: [{
-      x: 'Apple',
-      y: 0
-    }, {
-      x: 'Orange',
-      y: 66
-    }, {
-      x: '2.2',
-      y: 11
-    }, {
-      x: '2.4',
-      y: 30
-    }],
-  },
-];
+// const series = ref([
+//     {
+//         name: '剩余未处理',
+//         data: [{
+//             x: 'Apple',
+//             y: 0
+//         }, {
+//             x: 'Orange',
+//             y: 66
+//         }, {
+//             x: '2.2',
+//             y: 11
+//         }, {
+//             x: '2.4',
+//             y: 30
+//         }],
+//     },
+// ])
+
+const isConnected = ref(false);
+const message = ref(null);
+let socket = new WebSocket('ws://127.0.0.1:1145/vue');
+
+// Create WebSocket connection
+const connectWebSocket = () => {
+  socket = new WebSocket('ws://127.0.0.1:1145/vue');
+
+  // Handle successful connection
+  socket.onopen = () => {
+    isConnected.value = true;
+    console.log('Connected to WebSocket');
+  };
+
+  // Handle incoming messages
+  socket.onmessage = (event) => {
+    message.value = event.data;  // Store received message in `message`
+    console.log('Received message:', event.data);  // Print the received message
+    jsonData = JSON.parse(event.data.replace(/'/g, '"'));
+    series.value = jsonData.series;
+    xaxis.value = jsonData.xaxis;
+  };
+
+  // Handle connection errors
+  socket.onerror = (error) => {
+    console.log('Connection Error: ', error);
+  };
+
+  // Handle disconnection
+  socket.onclose = () => {
+    isConnected.value = false;
+    console.log('Disconnected from WebSocket');
+    setTimeout(connectWebSocket, 1000); // Retry connection after 1 second
+  };
+};
+
+onMounted(() => {
+  connectWebSocket();
+});
+
+onUnmounted(() => {
+  if (socket) {
+    socket.close();
+  }
+});
 </script>
 
 <style scoped>
@@ -135,7 +185,6 @@ const series = [
 
 .Div .eyeList .logoDiv .textDiv .textList {
   margin-left: 35px;
-  color: var(--color-text-title);
 }
 
 .Div .eyeList .logoDiv .textDiv .card .pulse {
@@ -214,7 +263,7 @@ const series = [
   height: 200px;
   border-radius: 15px;
   background-color: var(--color-background-1);
-  box-shadow: 0 0 10px 0 var(--color-shadow-s);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 

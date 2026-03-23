@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <Skeleton id='skeleton' :width="width" :height="height" :shape="shape" :style="skeletonDisplay"></Skeleton>
-    <img :alt="alt" :src="src" @load="onLoad" onerror="this.src='/public/svg/not_found.svg'" :style="imgStyle"/>
+    <img :alt="alt" :src="src" @load="onLoad" onerror="this.src='/static/icons/not-found.svg'" :style="imgStyle"/>
     <!--todo：懒加载-->
   </div>
 </template>
