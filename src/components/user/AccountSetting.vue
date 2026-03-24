@@ -11,13 +11,13 @@
     <div class="line"></div>
     <div class="option">
       <button class="button" @click="openAccountSetting">
-        <img src="/components/user/svg/user.svg" alt="SVG Image" draggable="false" style="transform: translate(-250vw,-2px)">
+        <img src="/static/components/user/svg/user.svg" alt="SVG Image" draggable="false" style="transform: translate(-250vw,-2px)">
         <div class="textDiv">{{ t("public.AccountSetting.item.account") }}</div>
       </button>
     </div>
     <div class="option">
       <button class="button" @click="logout">
-        <img src="/components/user/svg/logout.svg" alt="SVG Image" draggable="false">
+        <img src="/static/components/user/svg/logout.svg" alt="SVG Image" draggable="false">
         <div class="textDiv">{{ t("public.AccountSetting.item.logout") }}</div>
       </button>
     </div>

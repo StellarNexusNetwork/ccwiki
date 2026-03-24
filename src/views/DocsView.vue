@@ -2,7 +2,7 @@
   <div>
     <Suspense>
       <template #default>
-        <IndexView/>
+        <DocsIndexView/>
       </template>
       <!--      <template #fallback>-->
       <!--        加载中……-->
@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import IndexView from '@/components/docs-view/IndexView.vue';
+import DocsIndexView from '@/components/docs/DocsIndexView.vue';
 </script>
 <style scoped>
 </style>

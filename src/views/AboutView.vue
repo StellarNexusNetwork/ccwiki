@@ -18,11 +18,11 @@
         <div class="title">{{ t("page.about.title.partners") }}</div>
         <div class="logoList">
           <a href="https://github.com/StellarNexusNetwork/cc.wiki.project.v4.web2/" target="_blank" class="fisrtItem">
-            <!-- <img src="/static/AboutView/svg/ccwiki_logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
-            <img src="/views/AboutView/svg/ccwiki_logo.svg" alt="SVG Image" draggable="false">
+            <!-- <img src="/static/AboutView/svg/ccwiki-logo.svg" style="marginLeft: 0px" alt="SVG Image" draggable="false"> -->
+            <img src="/static/views/about-view/svg/ccwiki-logo.svg" alt="SVG Image" draggable="false">
           </a>
           <a href="https://github.com/StellarNexusNetwork" target="_blank">
-            <img src="/views/AboutView/svg/SNNetwork_logo.svg" alt="SVG Image" draggable="false">
+            <img src="/static/views/about-view/svg/snnetwork-logo.svg" alt="SVG Image" draggable="false">
           </a>
         </div>
       </div>
