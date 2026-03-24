@@ -1,10 +1,21 @@
-function parseStack(stack) {
+type StackFrame =
+  | {
+      fn: string
+      file: string
+      line: number
+      col: number
+    }
+  | {
+      raw: string
+    }
+
+function parseStack(stack?: string): StackFrame[] {
   if (!stack) return []
 
   return stack
     .split('\n')
     .slice(1)
-    .map(line => {
+    .map((line: string) => {
       const m = line.match(/\s*at (.+?) \((.+?):(\d+):(\d+)\)/)
       if (!m) return {raw: line.trim()}
 
@@ -17,10 +28,14 @@ function parseStack(stack) {
     })
 }
 
-export function printErrorTree(err) {
+function isErrorWithCause(err: unknown): err is Error & { cause?: unknown } {
+  return err instanceof Error
+}
+
+export function printErrorTree(err: unknown): void {
   let level = 0
 
-  while (err) {
+  while (isErrorWithCause(err)) {
     const indent = '  '.repeat(level)
 
     console.error(`${indent}✖ ${err.message}`)
@@ -28,13 +43,16 @@ export function printErrorTree(err) {
     const frames = parseStack(err.stack)
     if (frames[0]) {
       const f = frames[0]
-      console.error(
-        `${indent}  ↳ at ${f.fn} (${f.file}:${f.line}:${f.col})`
-      )
+      if ('raw' in f) {
+        console.error(`${indent}  ↳ ${f.raw}`)
+      } else {
+        console.error(
+          `${indent}  ↳ at ${f.fn} (${f.file}:${f.line}:${f.col})`
+        )
+      }
     }
 
     err = err.cause
     level++
   }
 }
-
