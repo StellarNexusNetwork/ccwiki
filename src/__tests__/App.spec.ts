@@ -53,6 +53,7 @@ describe('App', () => {
           NoticeComponent: true,
           NavigationBar: true,
           SettingDialog: true,
+          LoginDialog: true,
         },
       },
     });

@@ -29,36 +29,13 @@ import LoginDialog from "@/components/user/LoginDialog.vue";
 import SettingDialog from "@/components/settings/SettingDialog.vue";
 import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
-import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter} from 'vue-router';
-import {nextTick, ref, watchEffect} from 'vue';
-import get from 'lodash/get';
-
-type RouteRule = {
-  from: string | RegExp
-  to: string | RegExp
-}
-
-type DocumentWithViewTransition = Document & {
-  startViewTransition?: (_updateCallback: () => void | Promise<void>) => ViewTransitionLike | undefined
-}
-
-type ViewTransitionLike = {
-  finished?: Promise<void>
-  skipTransition?: () => void
-}
-
-const VIEW_TRANSITION_WAIT_TIMEOUT_MS = 320;
+import {ref, watchEffect} from 'vue';
+import {useRouteTransition} from '@/composables/useRouteTransition';
 
 useDataSourcesStore().initFetchData();
 
 const sysWindows = useWindowStore();
-
-let ifLoadingFinish = false;
-window.addEventListener('load', function () {
-  ifLoadingFinish = true;
-});
-
 
 const mainDivStyle = ref({paddingLeft: '50px'});
 const mainStyle = ref({
@@ -66,20 +43,6 @@ const mainStyle = ref({
   position: 'static' as 'static' | 'absolute' | 'relative' | 'fixed',
   right: 'auto'
 });
-
-const routerLoadingS = ref({display: 'none'});
-const rtLoadingBgS = ref({
-  width: '100px',
-  height: '100px',
-  opacity: 0,
-  marginBottom: '0px',
-  transitionDuration: '0.5s'
-});
-const rtLoadingS = ref({opacity: 0});
-let rtIsAnimating = false;
-let allowRouting = false;
-let rtAeF = false;
-let activeViewTransition: ViewTransitionLike | null = null;
 
 // 移动端适配
 let oldMainDivPL = '50px';
@@ -98,163 +61,9 @@ watchEffect(() => {
 });
 
 const router = useRouter();
-const blackList: Record<string, any> = {
-  'docs': ['docs']
-};
-
-function IsBlacklisted(from: string, to: string) {
-  const getItem = get(blackList, from);
-  if (getItem !== undefined) {
-    if (Array.isArray(getItem) && getItem.includes(to)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function waitForRouteDomCommit(timeoutMs = VIEW_TRANSITION_WAIT_TIMEOUT_MS): Promise<void> {
-  return new Promise<void>((resolve) => {
-    let finished = false;
-    let unwatchAfterEach = () => {
-    };
-
-    const finish = () => {
-      if (finished) {
-        return;
-      }
-      finished = true;
-      window.clearTimeout(timeoutId);
-      unwatchAfterEach();
-      resolve();
-    };
-
-    unwatchAfterEach = router.afterEach(() => {
-      void nextTick().then(() => {
-        requestAnimationFrame(() => {
-          finish();
-        });
-      });
-    });
-
-    const timeoutId = window.setTimeout(() => {
-      finish();
-    }, timeoutMs);
-  });
-}
-
-router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-
-  let isBlacklisted = false;
-  if (typeof from.name === 'string' && typeof to.name === 'string') {
-    isBlacklisted = IsBlacklisted(from.name, to.name);
-  }
-
-  sysWindows.isMarqueeEnabled = false;
-
-  if (!isBlacklisted) {
-    if (ifLoadingFinish && !rtIsAnimating) {
-      rtIsAnimating = true;
-      allowRouting = false;
-      Object.assign(rtLoadingBgS, {
-        width: '100px',
-        height: '100px',
-        opacity: 0,
-        marginBottom: '0px',
-        transitionDuration: '0.5s'
-      });
-      routerLoadingS.value.display = 'none';
-      rtLoadingS.value.opacity = 0;
-      setTimeout(() => {
-        routerLoadingS.value.display = 'flex';
-      }, 10);
-      setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {
-          width: '250px',
-          height: '250px',
-          opacity: 1,
-          marginBottom: '70px'
-        });
-      }, 20);
-      setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {width: '200px', height: '200px', marginBottom: '0px'});
-      }, 500);
-      setTimeout(() => {
-        rtLoadingS.value.opacity = 1;
-      }, 1000);
-      setTimeout(() => {
-        rtLoadingBgS.value.transitionDuration = '0.75s';
-      }, 1499);
-      setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {
-          width: 'calc(100vw + 100vh)',
-          height: 'calc(100vw + 100vh)'
-        });
-      }, 1500);
-      setTimeout(() => {
-        next();
-        rtLoadingBgS.value.transitionDuration = '0.5s';
-        allowRouting = true;
-      }, 2250);
-    } else {
-      //这里是更改路由 但好像又失效了.
-      if (allowRouting || !ifLoadingFinish) {
-        next();
-        rtAeF = true;
-      }
-    }
-  } else {
-    const docWithVT = document as DocumentWithViewTransition;
-    if (typeof docWithVT.startViewTransition === 'function') {
-      try {
-        // 连续返回时先中断上一个 transition，避免重叠导致新动画丢失
-        activeViewTransition?.skipTransition?.();
-        const transition = docWithVT.startViewTransition(async () => {
-          const routeCommitted = waitForRouteDomCommit();
-          next();
-          await routeCommitted;
-        });
-        activeViewTransition = transition ?? null;
-        transition?.finished?.catch(() => {
-        }).finally(() => {
-          if (activeViewTransition === transition) {
-            activeViewTransition = null;
-          }
-        });
-      } catch {
-        activeViewTransition = null;
-        next();
-      }
-    } else {
-      next();
-    }
-  }
-});
-
-router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-  let isBlacklisted = false;
-  if (typeof from.name === 'string' && typeof to.name === 'string') {
-    isBlacklisted = IsBlacklisted(from.name, to.name);
-  }
-
-  if (!isBlacklisted) {
-    if (ifLoadingFinish && !rtAeF) {
-      allowRouting = false;
-      rtLoadingS.value.opacity = 0;
-      setTimeout(() => {
-        rtLoadingBgS.value.opacity = 0;
-      }, 500);
-      setTimeout(() => {
-        routerLoadingS.value.display = 'none';
-      }, 1000);
-      setTimeout(() => {
-        if (Math.random() < 0.5) {
-          Object.assign(rtLoadingBgS.value, {width: '200px', height: '200px'});
-        }
-        rtIsAnimating = false;
-      }, 1100);
-    } else {
-      rtAeF = false;
-    }
+const {routerLoadingS, rtLoadingBgS, rtLoadingS} = useRouteTransition(router, {
+  disableMarquee: () => {
+    sysWindows.isMarqueeEnabled = false;
   }
 });
 </script>

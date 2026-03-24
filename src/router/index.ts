@@ -34,14 +34,14 @@ const router = createRouter({
       component: () => import('@/views/AboutView.vue')
     },
     {
-      path: '/:pathMatch(.*)*',
-      name: 'NotFound',
-      component: () => import('@/views/error-views/NotFoundView.vue')
-    },
-    {
       path: '/setting/uninstall/',
       name: 'uninstall',
       component: () => import('@/views/UninstallPage.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('@/views/error-views/NotFoundView.vue')
     }
   ]
 });
