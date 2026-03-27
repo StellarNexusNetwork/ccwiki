@@ -39,12 +39,20 @@ const langs = ref([
   {name: '中文(巨硬)', code: 'zh_ms'}
 ]);
 
+const resolveLangCode = (code: string) => {
+  const hasCode = langs.value.some(item => item.code === code);
+  return hasCode ? code : 'zh_cn';
+};
 
-selectedLang.value = {name: getNameByCode(defaultLang), code: defaultLang};
+const initialLang = resolveLangCode(defaultLang);
+selectedLang.value = {name: getNameByCode(initialLang), code: initialLang};
+if (initialLang !== defaultLang) {
+  setLocale(initialLang);
+}
 
 watchEffect(() => {
   if (selectedLang.value?.code) {
-    setLocale(selectedLang.value.code);
+    setLocale(resolveLangCode(selectedLang.value.code));
   }
 });
 </script>
