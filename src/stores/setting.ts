@@ -1,16 +1,41 @@
 import {defineStore} from 'pinia';
-import {nextTick, reactive, ref, watchEffect} from 'vue';
+import {reactive, watchEffect} from 'vue';
 import defaultSetting from '@/assets/json/defaultSetting.json';
-import {ulid} from 'ulid';
 
+const SUPPORTED_LANGS = ['zh_cn', 'en_us', 'zh_ms'] as const;
+const FALLBACK_LANG = 'zh_cn';
+
+function normalizeLang(lang: unknown): string {
+  if (typeof lang !== 'string') {
+    return FALLBACK_LANG;
+  }
+  return SUPPORTED_LANGS.includes(lang as (typeof SUPPORTED_LANGS)[number]) ? lang : FALLBACK_LANG;
+}
+
+function readStoredSetting(): Record<string, unknown> {
+  try {
+    const raw = localStorage.getItem('setting');
+    if (!raw) {
+      return {};
+    }
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
 
 export const useSettingStore = defineStore('setting',
   () => {
     const langData = {};
-    const oldSetting = reactive(
-      JSON.parse(localStorage.getItem('setting') as string) || {}
-    );
+    const oldSetting = reactive(readStoredSetting());
     const setting = reactive(Object.assign({}, defaultSetting, oldSetting));
+    setting.lang = normalizeLang(setting.lang);
+
+    watchEffect(() => {
+      setting.lang = normalizeLang(setting.lang);
+    });
+
     watchEffect(() => {
       localStorage.setItem('setting', JSON.stringify(setting));
     });
@@ -26,74 +51,5 @@ export const useSettingStore = defineStore('setting',
       }
     });
     return {setting, langData};
-  }
-);
-
-export const useNoticeStore = defineStore('notice',
-  () => {
-    type NotificationType = 'success' | 'error' | 'warn' | 'other';
-
-    type Notification = {
-      type: NotificationType;
-      title: string;
-      content: string;
-      id: string;
-      timer: number | undefined;
-      startTime: number | undefined;
-      remaining: number;
-      progressBar: string;
-    }
-
-    const noticeList = ref<Notification[]>([]);
-
-    function addNotice(type: NotificationType, title: string, content: any) {
-      const id: string = ulid();
-      const loggers = {
-        success: console.log,
-        warn: console.warn,
-        error: console.error,
-        other: console.log
-      };
-
-      if (!['success', 'warn', 'error'].includes(type)) {
-        type = 'other';
-      }
-      const contentStr = content.toString()
-      noticeList.value.push({
-        type: type,
-        title: title,
-        content: contentStr,
-        id,
-        timer: undefined,
-        startTime: undefined,
-        remaining: 15000, // 初始15秒
-        progressBar: '100%'
-      });
-
-      const logger = loggers[type] || console.log;
-      logger(`[${type}] ${title} ${content}`);
-
-      nextTick(() => {
-        startTimer(id);
-      });
-    }
-
-    // 开始倒计时
-    function startTimer(id: any) {
-      const item: any = noticeList.value.find(i => i.id === id);
-      if (!item) return;
-
-      item.startTime = Date.now();
-      item.timer = setTimeout(() => {
-        removeNotice(id);
-      }, item.remaining);
-    }
-
-    // 删除通知
-    function removeNotice(id: any) {
-      noticeList.value = noticeList.value.filter(i => i.id !== id);
-    }
-
-    return {noticeList, addNotice, startTimer, removeNotice};
   }
 );

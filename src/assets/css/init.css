@@ -8,30 +8,30 @@ input:focus {
 
 @font-face {
   font-family: MiSans;
-  src: url("../../../public/public/font/MiSans/MiSans-Normal.ttf");
+  src: url("/fonts/MiSans/MiSans-Normal.ttf");
 }
 
 @font-face {
   font-family: MiSans-M;
-  src: url("../../../public/public/font/MiSans/MiSans-Medium.ttf");
+  src: url("/fonts/MiSans/MiSans-Medium.ttf");
 }
 
 @font-face {
   font-family: MiSans-B;
-  src: url("../../../public/public/font/MiSans/MiSans-Bold.ttf");
+  src: url("/fonts/MiSans/MiSans-Bold.ttf");
 }
 
 @font-face {
   font-family: RHRCN-H;
-  src: url("../../../public/public/font/RHRCN/ResourceHanRoundedCN-Heavy.ttf");
+  src: url("/fonts/RHRCN/ResourceHanRoundedCN-Heavy.ttf");
 }
 
 @font-face {
   font-family: RHRCN-N;
-  src: url("../../../public/public/font/RHRCN/ResourceHanRoundedCN-Normal.ttf");
+  src: url("/fonts/RHRCN/ResourceHanRoundedCN-Normal.ttf");
 }
 
 @font-face {
   font-family: RHRCN-M;
-  src: url("../../../public/public/font/RHRCN/ResourceHanRoundedCN-Medium.ttf");
+  src: url("/fonts/RHRCN/ResourceHanRoundedCN-Medium.ttf");
 }

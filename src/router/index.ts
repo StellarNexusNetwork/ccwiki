@@ -26,7 +26,7 @@ const router = createRouter({
     {
       path: '/chat/',
       name: 'chat',
-      component: () => import('@/views/ChatView/ChatView.vue')
+      component: () => import('@/views/chat-view/ChatView.vue')
     },
     {
       path: '/about/',
@@ -34,14 +34,14 @@ const router = createRouter({
       component: () => import('@/views/AboutView.vue')
     },
     {
-      path: '/:pathMatch(.*)*',
-      name: 'NotFound',
-      component: () => import('@/views/ErrorViews/NotFoundView.vue')
-    },
-    {
       path: '/setting/uninstall/',
       name: 'uninstall',
       component: () => import('@/views/UninstallPage.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('@/views/error-views/NotFoundView.vue')
     }
   ]
 });

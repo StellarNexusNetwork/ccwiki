@@ -25,29 +25,17 @@
 import TitleBar from '@/components/TitleBar.vue';
 import NavigationBar from '@/components/NavigationBar.vue';
 import NoticeComponent from '@/components/notice/NoticeComponent.vue';
-import SettingDialog from "@/components/setting/SettingDialog.vue";
 import LoginDialog from "@/components/user/LoginDialog.vue";
+import SettingDialog from "@/components/settings/SettingDialog.vue";
 import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
-import type {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {RouterView, useRouter} from 'vue-router';
 import {ref, watchEffect} from 'vue';
-import get from 'lodash/get';
-
-type RouteRule = {
-  from: string | RegExp
-  to: string | RegExp
-}
+import {useRouteTransition} from '@/composables/useRouteTransition';
 
 useDataSourcesStore().initFetchData();
 
 const sysWindows = useWindowStore();
-
-let ifLoadingFinish = false;
-window.addEventListener('load', function () {
-  ifLoadingFinish = true;
-});
-
 
 const mainDivStyle = ref({paddingLeft: '50px'});
 const mainStyle = ref({
@@ -55,19 +43,6 @@ const mainStyle = ref({
   position: 'static' as 'static' | 'absolute' | 'relative' | 'fixed',
   right: 'auto'
 });
-
-const routerLoadingS = ref({display: 'none'});
-const rtLoadingBgS = ref({
-  width: '100px',
-  height: '100px',
-  opacity: 0,
-  marginBottom: '0px',
-  transitionDuration: '0.5s'
-});
-const rtLoadingS = ref({opacity: 0});
-let rtIsAnimating = false;
-let allowRouting = false;
-let rtAeF = false;
 
 // 移动端适配
 let oldMainDivPL = '50px';
@@ -86,116 +61,9 @@ watchEffect(() => {
 });
 
 const router = useRouter();
-const blackList: Record<string, any> = {
-  'docs': ['docs']
-};
-
-function IsBlacklisted(from: string, to: string) {
-  const getItem = get(blackList, from);
-  if (getItem !== undefined) {
-    if (Array.isArray(getItem) && getItem.includes(to)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-
-  let isBlacklisted = false;
-  if (typeof from.name === 'string' && typeof to.name === 'string') {
-    isBlacklisted = IsBlacklisted(from.name, to.name);
-  }
-
-  sysWindows.isMarqueeEnabled = false;
-
-  if (!isBlacklisted) {
-    if (ifLoadingFinish && !rtIsAnimating) {
-      rtIsAnimating = true;
-      allowRouting = false;
-      Object.assign(rtLoadingBgS, {
-        width: '100px',
-        height: '100px',
-        opacity: 0,
-        marginBottom: '0px',
-        transitionDuration: '0.5s'
-      });
-      routerLoadingS.value.display = 'none';
-      rtLoadingS.value.opacity = 0;
-      setTimeout(() => {
-        routerLoadingS.value.display = 'flex';
-      }, 10);
-      setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {
-          width: '250px',
-          height: '250px',
-          opacity: 1,
-          marginBottom: '70px'
-        });
-      }, 20);
-      setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {width: '200px', height: '200px', marginBottom: '0px'});
-      }, 500);
-      setTimeout(() => {
-        rtLoadingS.value.opacity = 1;
-      }, 1000);
-      setTimeout(() => {
-        rtLoadingBgS.value.transitionDuration = '0.75s';
-      }, 1499);
-      setTimeout(() => {
-        Object.assign(rtLoadingBgS.value, {
-          width: 'calc(100vw + 100vh)',
-          height: 'calc(100vw + 100vh)'
-        });
-      }, 1500);
-      setTimeout(() => {
-        next();
-        rtLoadingBgS.value.transitionDuration = '0.5s';
-        allowRouting = true;
-      }, 2250);
-    } else {
-      //这里是更改路由 但好像又失效了.
-      if (allowRouting || !ifLoadingFinish) {
-        next();
-        rtAeF = true;
-      }
-    }
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((document as any).startViewTransition) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (document as any).startViewTransition(() => next());
-    } else {
-      next();
-    }
-  }
-});
-
-router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-  let isBlacklisted = false;
-  if (typeof from.name === 'string' && typeof to.name === 'string') {
-    isBlacklisted = IsBlacklisted(from.name, to.name);
-  }
-
-  if (!isBlacklisted) {
-    if (ifLoadingFinish && !rtAeF) {
-      allowRouting = false;
-      rtLoadingS.value.opacity = 0;
-      setTimeout(() => {
-        rtLoadingBgS.value.opacity = 0;
-      }, 500);
-      setTimeout(() => {
-        routerLoadingS.value.display = 'none';
-      }, 1000);
-      setTimeout(() => {
-        if (Math.random() < 0.5) {
-          Object.assign(rtLoadingBgS.value, {width: '200px', height: '200px'});
-        }
-        rtIsAnimating = false;
-      }, 1100);
-    } else {
-      rtAeF = false;
-    }
+const {routerLoadingS, rtLoadingBgS, rtLoadingS} = useRouteTransition(router, {
+  disableMarquee: () => {
+    sysWindows.isMarqueeEnabled = false;
   }
 });
 </script>

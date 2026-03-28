@@ -3,7 +3,7 @@
     <div class="winControl">
       <div class="title">{{ t(currentDisplayName) }}</div>
       <button @click="closeDialog">
-        <img src="/components/TitleBar/svg/closeApp.svg" alt="SVG Image" draggable="false">
+        <img src="/static/components/title-bar/svg/close-app.svg" alt="SVG Image" draggable="false">
       </button>
     </div>
     <div class="optionsDetailContent">
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import {useI18n} from 'vue-i18n';
 import {ref} from 'vue';
-import login from '@/views/sign-in/sign-in.vue';
+import SignInView from '@/views/sign-in/SignInView.vue';
 
 const {t} = useI18n();
 
@@ -29,7 +29,7 @@ function closeDialog() {
   setTimeout(() => dialog.style.display = 'none', 500); // 等待动画结束后关闭对话框
 }
 
-const components = [login];
+const components = [SignInView];
 const currentNames = ['login'];
 const currentDisplayName = ref('public.login.title.login');
 

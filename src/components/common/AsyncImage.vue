@@ -1,52 +1,102 @@
 <template>
-  <div class="body">
-    <Skeleton id='skeleton' :width="width" :height="height" :shape="shape" :style="skeletonDisplay"></Skeleton>
-    <img :alt="alt" :src="src" @load="onLoad" onerror="this.src='/public/svg/not_found.svg'" :style="imgStyle"/>
+  <div class="body" :style="containerStyle">
+    <Skeleton
+      v-show="isLoading"
+      id="skeleton"
+      :width="props.width"
+      :height="props.height"
+      :shape="props.shape"
+      class="skeleton"
+    />
+    <img
+      :alt="props.alt"
+      :src="currentSrc"
+      :class="{ loaded: !isLoading }"
+      @load="onLoad"
+      @error="onError"
+    />
     <!--todo：懒加载-->
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref, watch} from 'vue';
 
-const {src, alt = "img", width, height, shape = 'rectangle'} = defineProps<{
-  src: string,
-  alt?: string,
-  width: string,
-  height: string,
-  shape?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    src: string;
+    alt?: string;
+    width: string;
+    height: string;
+    shape?: string;
+  }>(),
+  {
+    alt: 'img',
+    shape: 'rectangle'
+  }
+);
 
-const imgStyle = ref({
-  display: 'none',
-  opacity: 0
-});
-const skeletonDisplay = ref({
-  display: 'block'
-})
+const isLoading = ref(true);
+const currentSrc = ref(props.src);
+const hasFallbackTried = ref(false);
+const containerStyle = computed(() => ({
+  width: props.width,
+  height: props.height
+}));
 
-function onLoad() {
-  skeletonDisplay.value.display = 'none';
-  imgStyle.value.display = 'block';
-  setTimeout(() => {
-    imgStyle.value.opacity = 1;
-  }, 100)
+function resetLoading(nextSrc: string) {
+  currentSrc.value = nextSrc;
+  hasFallbackTried.value = false;
+  isLoading.value = true;
 }
 
+watch(
+  () => props.src,
+  (nextSrc) => {
+    resetLoading(nextSrc);
+  },
+  {immediate: true}
+);
+
+function onLoad() {
+  isLoading.value = false;
+}
+
+function onError() {
+  if (!hasFallbackTried.value) {
+    hasFallbackTried.value = true;
+    isLoading.value = true;
+    currentSrc.value = '/static/icons/not-found.svg';
+    return;
+  }
+  isLoading.value = false;
+}
 </script>
 
 <style scoped>
 .body {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.skeleton {
+  flex-shrink: 0;
+}
+
 .body img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
   image-rendering: pixelated;
   user-select: none;
+  opacity: 0;
   transition: opacity 0.5s ease-in-out;
+}
+
+.body img.loaded {
+  opacity: 1;
 }
 </style>

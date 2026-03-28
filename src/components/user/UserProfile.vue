@@ -2,7 +2,7 @@
   <div class="options" v-tooltip="!isACOpen ? (session?.data?.user?.name || t('public.NavigationBar.login')) : null" placeholder="Right">
     <button class="button" @click="clickAccount">
       <img class="session" v-if="session?.data?.user?.image" :src="session.data.user.image" alt="User Avatar" draggable="false">
-      <img class="svg" v-else id="_navigation_account_svg" src="/components/NavigationBar/svg/account.svg" alt="sign in" draggable="false">
+      <img class="svg" v-else id="_navigation_account_svg" src="/static/components/navigation-bar/svg/account.svg" alt="sign in" draggable="false">
       <div class="textDiv" :style="unfoldStyle">{{ t("public.NavigationBar.login") }}</div>
     </button>
   </div>
