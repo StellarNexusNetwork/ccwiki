@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body" :style="containerStyle">
     <Skeleton
       v-show="isLoading"
       id="skeleton"
@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {ref, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 
 const props = withDefaults(
   defineProps<{
@@ -38,6 +38,10 @@ const props = withDefaults(
 const isLoading = ref(true);
 const currentSrc = ref(props.src);
 const hasFallbackTried = ref(false);
+const containerStyle = computed(() => ({
+  width: props.width,
+  height: props.height
+}));
 
 function resetLoading(nextSrc: string) {
   currentSrc.value = nextSrc;
