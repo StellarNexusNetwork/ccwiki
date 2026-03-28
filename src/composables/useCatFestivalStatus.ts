@@ -6,6 +6,7 @@ const CAT_DAY_DATE = 22;
 const CAT_FESTIVAL_DURATION_DAYS = 7;
 const PI_DAY_MONTH = 2; // March (0-based month)
 const PI_DAY_DATE = 14;
+const PI_FESTIVAL_DURATION_DAYS = 7;
 const PRIDE_MONTH = 5; // June (0-based month)
 
 export function isCatFestival(date = new Date()): boolean {
@@ -17,7 +18,11 @@ export function isCatFestival(date = new Date()): boolean {
 }
 
 export function isPiDay(date = new Date()): boolean {
-  return date.getMonth() === PI_DAY_MONTH && date.getDate() === PI_DAY_DATE;
+  const year = date.getFullYear();
+  const piStart = new Date(year, PI_DAY_MONTH, PI_DAY_DATE);
+  const piEnd = new Date(piStart);
+  piEnd.setDate(piStart.getDate() + PI_FESTIVAL_DURATION_DAYS);
+  return date >= piStart && date < piEnd;
 }
 
 export function isPrideMonth(date = new Date()): boolean {
