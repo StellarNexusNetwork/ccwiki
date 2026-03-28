@@ -19,12 +19,12 @@
       </span>
     </div>
     <div class="div">
-      <CatFestivalGear @burst="launchCatFireworks"/>
+      <FestivalGear @burst="launchCatFireworks"/>
       <div class="title" id="title">{{ desktopTitle }}</div>
       <div class="title" id="title_m">{{ mobileTitle }}</div>
       <div id="details">
-        <div class="data">{{ t('public.setting.default.version') }} ccwiki 26w06a</div>
-        <div class="data">{{ t('public.setting.default.releaseDate') }} 2026.01.01</div>
+        <div class="data">{{ t('public.setting.default.version') }} 26w13a</div>
+        <div class="data">{{ t('public.setting.default.releaseDate') }} 2026.03.28</div>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import {computed, onBeforeUnmount, ref} from 'vue';
 import {useI18n} from 'vue-i18n';
-import CatFestivalGear from '@/components/settings/components/CatFestivalGear.vue';
+import FestivalGear from '@/components/settings/components/FestivalGear.vue';
 import {useCatFestivalStatus} from '@/composables/useCatFestivalStatus';
 
 const {t} = useI18n();
