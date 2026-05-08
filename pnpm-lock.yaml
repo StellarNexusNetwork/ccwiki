@@ -50,6 +50,9 @@ importers:
       vue-router:
         specifier: ^4.5.1
         version: 4.6.4(vue@3.5.27(typescript@5.8.3))
+      vue-turnstile:
+        specifier: ^1.0.11
+        version: 1.0.11(vue@3.5.27(typescript@5.8.3))
       vue3-apexcharts:
         specifier: ^1.8.0
         version: 1.10.0(apexcharts@5.3.6)(vue@3.5.27(typescript@5.8.3))
@@ -3046,6 +3049,11 @@ packages:
     peerDependencies:
       typescript: '>=5.0.0'
 
+  vue-turnstile@1.0.11:
+    resolution: {integrity: sha512-iaTBoZ5oUqtNRto6bmbn6FQvW0h/sK7mPUJc1Qn4em+cELXN59U2FQTcpWfKssV3OY6lEZzmCpcn/zrb7htK3A==}
+    peerDependencies:
+      vue: ^3.2.45
+
   vue3-apexcharts@1.10.0:
     resolution: {integrity: sha512-sBma2In4rU5n/JBrv8KVb8if+IoY019Dse2yRDD/eRU1WGZHK07zuy9erefKzbJ7T3wP9+Jsy9bH6Vdjy85HZg==}
     peerDependencies:
@@ -6033,6 +6041,10 @@ snapshots:
       '@volar/typescript': 2.4.27
       '@vue/language-core': 3.2.4
       typescript: 5.8.3
+
+  vue-turnstile@1.0.11(vue@3.5.27(typescript@5.8.3)):
+    dependencies:
+      vue: 3.5.27(typescript@5.8.3)
 
   vue3-apexcharts@1.10.0(apexcharts@5.3.6)(vue@3.5.27(typescript@5.8.3)):
     dependencies:

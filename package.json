@@ -33,6 +33,7 @@
     "vue": "^3.5.18",
     "vue-i18n": "^11.1.11",
     "vue-router": "^4.5.1",
+    "vue-turnstile": "^1.0.11",
     "vue3-apexcharts": "^1.8.0",
     "vue3-marquee": "^4.2.2",
     "zod": "^4.1.8"
@@ -68,5 +69,6 @@
     "vite-plugin-vue-devtools": "^8.0.0",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.0.4"
-  }
+  },
+  "packageManager": "pnpm@11.0.8+sha512.4c4097e1dd2d42372c4e7fa5a791ff28fc75a484c7ac192e64b1df0fdef17594ba982f9b4fed9adfb3c757846f565b799b2763fb3733d1de1bcb82cf46684912"
 }

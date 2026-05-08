@@ -1,5 +1,5 @@
 <template>
-  <div class="app app-dark">
+  <div :class="{ app: true, 'app-dark': isDark }">
     <TitleBar/>
     <NoticeComponent/>
     <NavigationBar v-model:mainDivStyle="mainDivStyle" v-model:mainStyle="mainStyle"/>
@@ -30,8 +30,10 @@ import SettingDialog from "@/components/settings/SettingDialog.vue";
 import {useWindowStore} from '@/stores/window';
 import {useDataSourcesStore} from '@/stores/dataSources';
 import {RouterView, useRouter} from 'vue-router';
-import {ref, watchEffect} from 'vue';
+import {computed, onMounted, onUnmounted, ref, watchEffect} from 'vue';
 import {useRouteTransition} from '@/composables/useRouteTransition';
+import {useSettingStore} from '@/stores/setting';
+
 
 useDataSourcesStore().initFetchData();
 
@@ -66,6 +68,35 @@ const {routerLoadingS, rtLoadingBgS, rtLoadingS} = useRouteTransition(router, {
     sysWindows.isMarqueeEnabled = false;
   }
 });
+
+const setting = useSettingStore().setting;
+const theme = setting.theme;
+
+const media = window.matchMedia('(prefers-color-scheme: dark)')
+
+const systemDark = ref(media.matches)
+
+const updateSystemTheme = (e: MediaQueryListEvent) => {
+  systemDark.value = e.matches
+}
+
+onMounted(() => {
+  media.addEventListener('change', updateSystemTheme)
+})
+
+onUnmounted(() => {
+  media.removeEventListener('change', updateSystemTheme)
+})
+
+const isDark = computed(() => {
+  return (
+    theme.appearance === 'dark' ||
+    (
+      theme.appearance === 'auto' &&
+      systemDark.value
+    )
+  )
+})
 </script>
 
 <style scoped>

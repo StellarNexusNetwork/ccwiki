@@ -1,8 +1,8 @@
 ├─ @better-auth/passkey@1.4.18
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/better-auth/better-auth
-│  ├─ path: @better-auth\passkey
-│  ├─ licenseFile: @better-auth\passkey\LICENSE.md
+│  ├─ path: node_modules\@better-auth\passkey
+│  ├─ licenseFile: node_modules\@better-auth\passkey\LICENSE.md
 │  └─ licenseText: The MIT License (MIT)
 Copyright (c) 2024 - present, Bereket Engida
 
@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/eslint-community/eslint-utils
 │  ├─ publisher: Toru Nagashima
-│  ├─ path: @eslint-community\eslint-utils
-│  ├─ licenseFile: @eslint-community\eslint-utils\LICENSE
+│  ├─ path: node_modules\@eslint-community\eslint-utils
+│  ├─ licenseFile: node_modules\@eslint-community\eslint-utils\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2018 Toru Nagashima
@@ -52,8 +52,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/eslint-community/regexpp
 │  ├─ publisher: Toru Nagashima
-│  ├─ path: @eslint-community\regexpp
-│  ├─ licenseFile: @eslint-community\regexpp\LICENSE
+│  ├─ path: node_modules\@eslint-community\regexpp
+│  ├─ licenseFile: node_modules\@eslint-community\regexpp\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2018 Toru Nagashima
@@ -80,8 +80,8 @@ SOFTWARE.
 │  ├─ licenses: Apache-2.0
 │  ├─ repository: https://github.com/eslint/rewrite
 │  ├─ publisher: Nicholas C. Zakas
-│  ├─ path: @eslint\config-array
-│  ├─ licenseFile: @eslint\config-array\LICENSE
+│  ├─ path: node_modules\@eslint\config-array
+│  ├─ licenseFile: node_modules\@eslint\config-array\LICENSE
 │  └─ licenseText: Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -286,8 +286,8 @@ SOFTWARE.
 ├─ @eslint/config-helpers@0.4.2
 │  ├─ licenses: Apache-2.0
 │  ├─ repository: https://github.com/eslint/rewrite
-│  ├─ path: @eslint\config-helpers
-│  ├─ licenseFile: @eslint\config-helpers\LICENSE
+│  ├─ path: node_modules\@eslint\config-helpers
+│  ├─ licenseFile: node_modules\@eslint\config-helpers\LICENSE
 │  └─ licenseText: Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -493,8 +493,8 @@ SOFTWARE.
 │  ├─ licenses: Apache-2.0
 │  ├─ repository: https://github.com/eslint/rewrite
 │  ├─ publisher: Nicholas C. Zakas
-│  ├─ path: @eslint\core
-│  ├─ licenseFile: @eslint\core\LICENSE
+│  ├─ path: node_modules\@eslint\core
+│  ├─ licenseFile: node_modules\@eslint\core\LICENSE
 │  └─ licenseText: Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -700,8 +700,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/eslint/eslintrc
 │  ├─ publisher: Nicholas C. Zakas
-│  ├─ path: @eslint\eslintrc
-│  ├─ licenseFile: @eslint\eslintrc\LICENSE
+│  ├─ path: node_modules\@eslint\eslintrc
+│  ├─ licenseFile: node_modules\@eslint\eslintrc\LICENSE
 │  ├─ licenseText: Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -725,8 +725,8 @@ THE SOFTWARE.
 ├─ @eslint/js@9.39.2
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/eslint/eslint
-│  ├─ path: @eslint\js
-│  ├─ licenseFile: @eslint\js\LICENSE
+│  ├─ path: node_modules\@eslint\js
+│  ├─ licenseFile: node_modules\@eslint\js\LICENSE
 │  ├─ licenseText: Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -751,8 +751,8 @@ THE SOFTWARE.
 │  ├─ licenses: Apache-2.0
 │  ├─ repository: https://github.com/eslint/rewrite
 │  ├─ publisher: Nicholas C. Zakas
-│  ├─ path: @eslint\object-schema
-│  ├─ licenseFile: @eslint\object-schema\LICENSE
+│  ├─ path: node_modules\@eslint\object-schema
+│  ├─ licenseFile: node_modules\@eslint\object-schema\LICENSE
 │  └─ licenseText: Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -958,8 +958,8 @@ THE SOFTWARE.
 │  ├─ licenses: Apache-2.0
 │  ├─ repository: https://github.com/eslint/rewrite
 │  ├─ publisher: Nicholas C. Zakas
-│  ├─ path: @eslint\plugin-kit
-│  ├─ licenseFile: @eslint\plugin-kit\LICENSE
+│  ├─ path: node_modules\@eslint\plugin-kit
+│  ├─ licenseFile: node_modules\@eslint\plugin-kit\LICENSE
 │  └─ licenseText: Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -1166,8 +1166,8 @@ THE SOFTWARE.
 │  ├─ repository: https://github.com/prettier/prettier
 │  ├─ publisher: fisker Cheung
 │  ├─ email: lionkay@gmail.com
-│  ├─ path: @prettier\plugin-oxc
-│  ├─ licenseFile: @prettier\plugin-oxc\LICENSE
+│  ├─ path: node_modules\@prettier\plugin-oxc
+│  ├─ licenseFile: node_modules\@prettier\plugin-oxc\LICENSE
 │  ├─ licenseText: Copyright © James Long and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -1180,8 +1180,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/primefaces/primeuix
 │  ├─ publisher: PrimeTek Informatics
-│  ├─ path: @primeuix\themes
-│  ├─ licenseFile: @primeuix\themes\LICENSE
+│  ├─ path: node_modules\@primeuix\themes
+│  ├─ licenseFile: node_modules\@primeuix\themes\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2025 PrimeTek
@@ -1208,8 +1208,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/primefaces/primevue
 │  ├─ publisher: PrimeTek Informatics
-│  ├─ path: @primevue\auto-import-resolver
-│  ├─ licenseFile: @primevue\auto-import-resolver\LICENSE.md
+│  ├─ path: node_modules\@primevue\auto-import-resolver
+│  ├─ licenseFile: node_modules\@primevue\auto-import-resolver\LICENSE.md
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2018-2025 PrimeTek
@@ -1235,8 +1235,8 @@ THE SOFTWARE.
 ├─ @tsconfig/node22@22.0.5
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/tsconfig/bases
-│  ├─ path: @tsconfig\node22
-│  ├─ licenseFile: @tsconfig\node22\LICENSE
+│  ├─ path: node_modules\@tsconfig\node22
+│  ├─ licenseFile: node_modules\@tsconfig\node22\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) Microsoft Corporation.
@@ -1262,8 +1262,8 @@ SOFTWARE
 ├─ @types/jsdom@21.1.7
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
-│  ├─ path: @types\jsdom
-│  ├─ licenseFile: @types\jsdom\LICENSE
+│  ├─ path: node_modules\@types\jsdom
+│  ├─ licenseFile: node_modules\@types\jsdom\LICENSE
 │  └─ licenseText: MIT License
 
     Copyright (c) Microsoft Corporation.
@@ -1288,8 +1288,8 @@ SOFTWARE
 ├─ @types/lodash@4.17.23
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
-│  ├─ path: @types\lodash
-│  ├─ licenseFile: @types\lodash\LICENSE
+│  ├─ path: node_modules\@types\lodash
+│  ├─ licenseFile: node_modules\@types\lodash\LICENSE
 │  └─ licenseText: MIT License
 
     Copyright (c) Microsoft Corporation.
@@ -1314,8 +1314,8 @@ SOFTWARE
 ├─ @types/markdown-it@14.1.2
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
-│  ├─ path: @types\markdown-it
-│  ├─ licenseFile: @types\markdown-it\LICENSE
+│  ├─ path: node_modules\@types\markdown-it
+│  ├─ licenseFile: node_modules\@types\markdown-it\LICENSE
 │  └─ licenseText: MIT License
 
     Copyright (c) Microsoft Corporation.
@@ -1340,8 +1340,8 @@ SOFTWARE
 ├─ @types/node@22.19.8
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
-│  ├─ path: @types\node
-│  ├─ licenseFile: @types\node\LICENSE
+│  ├─ path: node_modules\@types\node
+│  ├─ licenseFile: node_modules\@types\node\LICENSE
 │  └─ licenseText: MIT License
 
     Copyright (c) Microsoft Corporation.
@@ -1366,8 +1366,8 @@ SOFTWARE
 ├─ @types/three@0.178.1
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
-│  ├─ path: @types\three
-│  ├─ licenseFile: @types\three\LICENSE
+│  ├─ path: node_modules\@types\three
+│  ├─ licenseFile: node_modules\@types\three\LICENSE
 │  └─ licenseText: MIT License
 
     Copyright (c) Microsoft Corporation.
@@ -1392,8 +1392,8 @@ SOFTWARE
 ├─ @typescript-eslint/eslint-plugin@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\eslint-plugin
-│  ├─ licenseFile: @typescript-eslint\eslint-plugin\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\eslint-plugin
+│  ├─ licenseFile: node_modules\@typescript-eslint\eslint-plugin\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -1419,8 +1419,8 @@ SOFTWARE.
 ├─ @typescript-eslint/parser@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\parser
-│  ├─ licenseFile: @typescript-eslint\parser\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\parser
+│  ├─ licenseFile: node_modules\@typescript-eslint\parser\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -1446,8 +1446,8 @@ SOFTWARE.
 ├─ @typescript-eslint/project-service@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\project-service
-│  ├─ licenseFile: @typescript-eslint\project-service\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\project-service
+│  ├─ licenseFile: node_modules\@typescript-eslint\project-service\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2025 typescript-eslint and other contributors
@@ -1473,8 +1473,8 @@ SOFTWARE.
 ├─ @typescript-eslint/scope-manager@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\scope-manager
-│  ├─ licenseFile: @typescript-eslint\scope-manager\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\scope-manager
+│  ├─ licenseFile: node_modules\@typescript-eslint\scope-manager\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -1500,8 +1500,8 @@ SOFTWARE.
 ├─ @typescript-eslint/tsconfig-utils@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\tsconfig-utils
-│  ├─ licenseFile: @typescript-eslint\tsconfig-utils\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\tsconfig-utils
+│  ├─ licenseFile: node_modules\@typescript-eslint\tsconfig-utils\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2025 typescript-eslint and other contributors
@@ -1527,8 +1527,8 @@ SOFTWARE.
 ├─ @typescript-eslint/type-utils@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\type-utils
-│  ├─ licenseFile: @typescript-eslint\type-utils\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\type-utils
+│  ├─ licenseFile: node_modules\@typescript-eslint\type-utils\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2021 typescript-eslint and other contributors
@@ -1554,8 +1554,8 @@ SOFTWARE.
 ├─ @typescript-eslint/types@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\types
-│  ├─ licenseFile: @typescript-eslint\types\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\types
+│  ├─ licenseFile: node_modules\@typescript-eslint\types\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -1581,8 +1581,8 @@ SOFTWARE.
 ├─ @typescript-eslint/typescript-estree@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\typescript-estree
-│  ├─ licenseFile: @typescript-eslint\typescript-estree\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\typescript-estree
+│  ├─ licenseFile: node_modules\@typescript-eslint\typescript-estree\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -1608,8 +1608,8 @@ SOFTWARE.
 ├─ @typescript-eslint/utils@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\utils
-│  ├─ licenseFile: @typescript-eslint\utils\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\utils
+│  ├─ licenseFile: node_modules\@typescript-eslint\utils\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -1635,8 +1635,8 @@ SOFTWARE.
 ├─ @typescript-eslint/visitor-keys@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: @typescript-eslint\visitor-keys
-│  ├─ licenseFile: @typescript-eslint\visitor-keys\LICENSE
+│  ├─ path: node_modules\@typescript-eslint\visitor-keys
+│  ├─ licenseFile: node_modules\@typescript-eslint\visitor-keys\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -1663,8 +1663,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vitejs/vite-plugin-vue
 │  ├─ publisher: Evan You
-│  ├─ path: @vitejs\plugin-vue-jsx
-│  ├─ licenseFile: @vitejs\plugin-vue-jsx\LICENSE
+│  ├─ path: node_modules\@vitejs\plugin-vue-jsx
+│  ├─ licenseFile: node_modules\@vitejs\plugin-vue-jsx\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019-present, Yuxi (Evan) You and Vite contributors
@@ -1691,8 +1691,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vitejs/vite-plugin-vue
 │  ├─ publisher: Evan You
-│  ├─ path: @vitejs\plugin-vue
-│  ├─ licenseFile: @vitejs\plugin-vue\LICENSE
+│  ├─ path: node_modules\@vitejs\plugin-vue
+│  ├─ licenseFile: node_modules\@vitejs\plugin-vue\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019-present, Yuxi (Evan) You and Vite contributors
@@ -1720,8 +1720,8 @@ SOFTWARE.
 │  ├─ repository: https://github.com/vitest-dev/eslint-plugin-vitest
 │  ├─ publisher: Verite Mugabo
 │  ├─ email: https://veritemugabo.com/
-│  ├─ path: @vitest\eslint-plugin
-│  ├─ licenseFile: @vitest\eslint-plugin\LICENSE
+│  ├─ path: node_modules\@vitest\eslint-plugin
+│  ├─ licenseFile: node_modules\@vitest\eslint-plugin\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2022 - PRESENT Verité Mugabo  Makuza
@@ -1748,8 +1748,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/eslint-config-prettier
 │  ├─ publisher: Evan You
-│  ├─ path: @vue\eslint-config-prettier
-│  ├─ licenseFile: @vue\eslint-config-prettier\LICENSE
+│  ├─ path: node_modules\@vue\eslint-config-prettier
+│  ├─ licenseFile: node_modules\@vue\eslint-config-prettier\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2018-present Evan You
@@ -1776,8 +1776,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/eslint-config-typescript
 │  ├─ publisher: Evan You
-│  ├─ path: @vue\eslint-config-typescript
-│  ├─ licenseFile: @vue\eslint-config-typescript\LICENSE
+│  ├─ path: node_modules\@vue\eslint-config-typescript
+│  ├─ licenseFile: node_modules\@vue\eslint-config-typescript\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2018-present Evan You
@@ -1805,8 +1805,8 @@ SOFTWARE.
 │  ├─ repository: https://github.com/vuejs/test-utils
 │  ├─ publisher: Lachlan Miller
 │  ├─ email: lachlan.miller.1990@outlook.com
-│  ├─ path: @vue\test-utils
-│  ├─ licenseFile: @vue\test-utils\LICENSE
+│  ├─ path: node_modules\@vue\test-utils
+│  ├─ licenseFile: node_modules\@vue\test-utils\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2021-present vuejs
@@ -1834,8 +1834,8 @@ THE SOFTWARE.
 │  ├─ repository: https://github.com/vuejs/tsconfig
 │  ├─ publisher: Haoqun Jiang
 │  ├─ email: npm@haoqun.me
-│  ├─ path: @vue\tsconfig
-│  ├─ licenseFile: @vue\tsconfig\LICENSE
+│  ├─ path: node_modules\@vue\tsconfig
+│  ├─ licenseFile: node_modules\@vue\tsconfig\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2022-present vuejs
@@ -1862,8 +1862,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/axios/axios
 │  ├─ publisher: Matt Zabriskie
-│  ├─ path: axios
-│  ├─ licenseFile: axios\LICENSE
+│  ├─ path: node_modules\axios
+│  ├─ licenseFile: node_modules\axios\LICENSE
 │  └─ licenseText: # Copyright (c) 2014-present Matt Zabriskie & Collaborators
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -1874,8 +1874,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ├─ better-auth@1.4.18
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/better-auth/better-auth
-│  ├─ path: better-auth
-│  ├─ licenseFile: better-auth\LICENSE.md
+│  ├─ path: node_modules\better-auth
+│  ├─ licenseFile: node_modules\better-auth\LICENSE.md
 │  └─ licenseText: The MIT License (MIT)
 Copyright (c) 2024 - present, Bereket Engida
 
@@ -1896,7 +1896,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 ├─ ccwiki@0.0.0
 │  ├─ licenses: [1m[31mUNLICENSED[39m[22m
 │  ├─ private: true
-│  ├─ path: 
+│  ├─ path: ccwiki
 │  ├─ licenseFile: LICENSE
 │  └─ licenseText: GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
@@ -2563,8 +2563,8 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/prettier/eslint-config-prettier
 │  ├─ publisher: Simon Lydell
-│  ├─ path: eslint-config-prettier
-│  ├─ licenseFile: eslint-config-prettier\LICENSE
+│  ├─ path: node_modules\eslint-config-prettier
+│  ├─ licenseFile: node_modules\eslint-config-prettier\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2017, 2018, 2019, 2020, 2021, 2022, 2023 Simon Lydell and contributors
@@ -2592,8 +2592,8 @@ THE SOFTWARE.
 │  ├─ repository: https://github.com/oxc-project/eslint-plugin-oxlint
 │  ├─ publisher: Dunqing
 │  ├─ email: dengqing0821@gmail.com
-│  ├─ path: eslint-plugin-oxlint
-│  ├─ licenseFile: eslint-plugin-oxlint\LICENSE
+│  ├─ path: node_modules\eslint-plugin-oxlint
+│  ├─ licenseFile: node_modules\eslint-plugin-oxlint\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2025-present VoidZero Inc. & Contributors
@@ -2621,8 +2621,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/prettier/eslint-plugin-prettier
 │  ├─ publisher: Teddy Katz
-│  ├─ path: eslint-plugin-prettier
-│  ├─ licenseFile: eslint-plugin-prettier\LICENSE.md
+│  ├─ path: node_modules\eslint-plugin-prettier
+│  ├─ licenseFile: node_modules\eslint-plugin-prettier\LICENSE.md
 │  ├─ licenseText: # The MIT License (MIT)
 
 Copyright © 2017 Andres Suarez and Teddy Katz
@@ -2652,8 +2652,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/eslint-plugin-vue
 │  ├─ publisher: Toru Nagashima
-│  ├─ path: eslint-plugin-vue
-│  ├─ licenseFile: eslint-plugin-vue\LICENSE
+│  ├─ path: node_modules\eslint-plugin-vue
+│  ├─ licenseFile: node_modules\eslint-plugin-vue\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2017 Toru Nagashima
@@ -2679,8 +2679,8 @@ SOFTWARE.
 ├─ eslint-scope@8.4.0
 │  ├─ licenses: BSD-2-Clause
 │  ├─ repository: https://github.com/eslint/js
-│  ├─ path: eslint-scope
-│  ├─ licenseFile: eslint-scope\LICENSE
+│  ├─ path: node_modules\eslint-scope
+│  ├─ licenseFile: node_modules\eslint-scope\LICENSE
 │  ├─ licenseText: Copyright JS Foundation and other contributors, https://js.foundation
 Copyright (C) 2012-2013 Yusuke Suzuki (twitter: @Constellation) and other contributors.
 
@@ -2708,8 +2708,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 │  ├─ licenses: Apache-2.0
 │  ├─ repository: https://github.com/eslint/js
 │  ├─ publisher: Toru Nagashima
-│  ├─ path: eslint-visitor-keys
-│  ├─ licenseFile: eslint-visitor-keys\LICENSE
+│  ├─ path: node_modules\eslint-visitor-keys
+│  ├─ licenseFile: node_modules\eslint-visitor-keys\LICENSE
 │  └─ licenseText: Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -2916,8 +2916,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 │  ├─ repository: https://github.com/eslint/eslint
 │  ├─ publisher: Nicholas C. Zakas
 │  ├─ email: nicholas+npm@nczconsulting.com
-│  ├─ path: eslint
-│  ├─ licenseFile: eslint\LICENSE
+│  ├─ path: node_modules\eslint
+│  ├─ licenseFile: node_modules\eslint\LICENSE
 │  ├─ licenseText: Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -2941,8 +2941,8 @@ THE SOFTWARE.
 ├─ jiti@2.6.1
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/unjs/jiti
-│  ├─ path: jiti
-│  ├─ licenseFile: jiti\LICENSE
+│  ├─ path: node_modules\jiti
+│  ├─ licenseFile: node_modules\jiti\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) Pooya Parsa <pooya@pi0.io>
@@ -2968,8 +2968,8 @@ SOFTWARE.
 ├─ jsdom@26.1.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/jsdom/jsdom
-│  ├─ path: jsdom
-│  ├─ licenseFile: jsdom\LICENSE.txt
+│  ├─ path: node_modules\jsdom
+│  ├─ licenseFile: node_modules\jsdom\LICENSE.txt
 │  ├─ licenseText: Copyright (c) 2010 Elijah Insua
 
 Permission is hereby granted, free of charge, to any person
@@ -2998,8 +2998,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 │  ├─ repository: https://github.com/RSeidelsohn/license-checker-rseidelsohn
 │  ├─ publisher: Roman Seidelsohn
 │  ├─ email: rseidelsohn@gmail.com
-│  ├─ path: license-checker-rseidelsohn
-│  ├─ licenseFile: license-checker-rseidelsohn\LICENSE
+│  ├─ path: node_modules\license-checker-rseidelsohn
+│  ├─ licenseFile: node_modules\license-checker-rseidelsohn\LICENSE
 │  ├─ licenseText: Copyright 2012 Yahoo Inc.
 
 Redistribution and use in source and binary forms, with or without
@@ -3029,8 +3029,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 │  ├─ repository: https://github.com/lodash/lodash
 │  ├─ publisher: John-David Dalton
 │  ├─ email: john.david.dalton@gmail.com
-│  ├─ path: lodash
-│  ├─ licenseFile: lodash\LICENSE
+│  ├─ path: node_modules\lodash
+│  ├─ licenseFile: node_modules\lodash\LICENSE
 │  ├─ licenseText: Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
 
 Based on Underscore.js, copyright Jeremy Ashkenas,
@@ -3082,8 +3082,8 @@ terms above.
 ├─ markdown-it@14.1.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/markdown-it/markdown-it
-│  ├─ path: markdown-it
-│  ├─ licenseFile: markdown-it\LICENSE
+│  ├─ path: node_modules\markdown-it
+│  ├─ licenseFile: node_modules\markdown-it\LICENSE
 │  ├─ licenseText: Copyright (c) 2014 Vitaly Puzrin, Alex Kocharin.
 
 Permission is hereby granted, free of charge, to any person
@@ -3110,8 +3110,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 ├─ mitt@3.0.1
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/developit/mitt
-│  ├─ path: mitt
-│  ├─ licenseFile: mitt\LICENSE
+│  ├─ path: node_modules\mitt
+│  ├─ licenseFile: node_modules\mitt\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2021 Jason Miller
@@ -3138,8 +3138,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/bcomnes/npm-run-all2
 │  ├─ publisher: Toru Nagashima
-│  ├─ path: npm-run-all2
-│  ├─ licenseFile: npm-run-all2\LICENSE
+│  ├─ path: node_modules\npm-run-all2
+│  ├─ licenseFile: node_modules\npm-run-all2\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2015 Toru Nagashima
@@ -3166,8 +3166,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/oxc-project/oxc
 │  ├─ publisher: Boshen and oxc contributors
-│  ├─ path: oxlint
-│  ├─ licenseFile: oxlint\LICENSE
+│  ├─ path: node_modules\oxlint
+│  ├─ licenseFile: node_modules\oxlint\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2024-present VoidZero Inc. & Contributors
@@ -3195,8 +3195,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/dimsemenov/Photoswipe
 │  ├─ publisher: Dmytro Semenov
-│  ├─ path: photoswipe
-│  ├─ licenseFile: photoswipe\LICENSE
+│  ├─ path: node_modules\photoswipe
+│  ├─ licenseFile: node_modules\photoswipe\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2014-2022 Dmitry Semenov, https://dimsemenov.com
@@ -3224,8 +3224,8 @@ THE SOFTWARE.
 │  ├─ repository: https://github.com/vuejs/pinia
 │  ├─ publisher: Eduardo San Martin Morote
 │  ├─ email: posva13@gmail.com
-│  ├─ path: pinia
-│  ├─ licenseFile: pinia\LICENSE
+│  ├─ path: node_modules\pinia
+│  ├─ licenseFile: node_modules\pinia\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2019-present Eduardo San Martin Morote
@@ -3251,8 +3251,8 @@ SOFTWARE.
 ├─ prettier-linter-helpers@1.0.1
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/prettier/prettier-linter-helpers
-│  ├─ path: prettier-linter-helpers
-│  ├─ licenseFile: prettier-linter-helpers\LICENSE.md
+│  ├─ path: node_modules\prettier-linter-helpers
+│  ├─ licenseFile: node_modules\prettier-linter-helpers\LICENSE.md
 │  ├─ licenseText: # The MIT License (MIT)
 
 Copyright © 2017 Andres Suarez and Teddy Katz
@@ -3282,8 +3282,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/prettier/prettier
 │  ├─ publisher: James Long
-│  ├─ path: prettier
-│  ├─ licenseFile: prettier\LICENSE
+│  ├─ path: node_modules\prettier
+│  ├─ licenseFile: node_modules\prettier\LICENSE
 │  ├─ licenseText: Copyright © James Long and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -3296,8 +3296,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/primefaces/primevue
 │  ├─ publisher: PrimeTek Informatics
-│  ├─ path: primevue
-│  ├─ licenseFile: primevue\LICENSE.md
+│  ├─ path: node_modules\primevue
+│  ├─ licenseFile: node_modules\primevue\LICENSE.md
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2018-2025 PrimeTek
@@ -3324,8 +3324,8 @@ THE SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vitejs/rolldown-vite
 │  ├─ publisher: Evan You
-│  ├─ path: vite
-│  ├─ licenseFile: vite\LICENSE.md
+│  ├─ path: node_modules\vite
+│  ├─ licenseFile: node_modules\vite\LICENSE.md
 │  ├─ licenseText: # Vite core license
 Vite is released under the MIT license:
 
@@ -5439,8 +5439,8 @@ Repository: https://github.com/websockets/ws
 ├─ typescript-eslint@8.54.0
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/typescript-eslint/typescript-eslint
-│  ├─ path: typescript-eslint
-│  ├─ licenseFile: typescript-eslint\LICENSE
+│  ├─ path: node_modules\typescript-eslint
+│  ├─ licenseFile: node_modules\typescript-eslint\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2019 typescript-eslint and other contributors
@@ -5467,8 +5467,8 @@ SOFTWARE.
 │  ├─ licenses: Apache-2.0
 │  ├─ repository: https://github.com/microsoft/TypeScript
 │  ├─ publisher: Microsoft Corp.
-│  ├─ path: typescript
-│  ├─ licenseFile: typescript\LICENSE.txt
+│  ├─ path: node_modules\typescript
+│  ├─ licenseFile: node_modules\typescript\LICENSE.txt
 │  └─ licenseText: Apache License
 
 Version 2.0, January 2004
@@ -5528,8 +5528,8 @@ END OF TERMS AND CONDITIONS
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/ulid/javascript
 │  ├─ publisher: Alizain Feerasta
-│  ├─ path: ulid
-│  ├─ licenseFile: ulid\LICENSE
+│  ├─ path: node_modules\ulid
+│  ├─ licenseFile: node_modules\ulid\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2017 Alizain Feerasta
@@ -5557,8 +5557,8 @@ SOFTWARE.
 │  ├─ repository: https://github.com/unplugin/unplugin-vue-components
 │  ├─ publisher: antfu
 │  ├─ email: anthonyfu117@hotmail.com
-│  ├─ path: unplugin-vue-components
-│  ├─ licenseFile: unplugin-vue-components\LICENSE
+│  ├─ path: node_modules\unplugin-vue-components
+│  ├─ licenseFile: node_modules\unplugin-vue-components\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2020-PRESENT Anthony Fu<https://github.com/antfu>
@@ -5585,8 +5585,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/devtools
 │  ├─ publisher: webfansplz
-│  ├─ path: vite-plugin-vue-devtools
-│  ├─ licenseFile: vite-plugin-vue-devtools\LICENSE
+│  ├─ path: node_modules\vite-plugin-vue-devtools
+│  ├─ licenseFile: node_modules\vite-plugin-vue-devtools\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2023 webfansplz
@@ -5614,8 +5614,8 @@ SOFTWARE.
 │  ├─ repository: https://github.com/vitest-dev/vitest
 │  ├─ publisher: Anthony Fu
 │  ├─ email: anthonyfu117@hotmail.com
-│  ├─ path: vitest
-│  ├─ licenseFile: vitest\LICENSE.md
+│  ├─ path: node_modules\vitest
+│  ├─ licenseFile: node_modules\vitest\LICENSE.md
 │  ├─ licenseText: # Vitest core license
 Vitest is released under the MIT license:
 
@@ -6328,8 +6328,8 @@ Repository: sindresorhus/yocto-queue
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/vue-eslint-parser
 │  ├─ publisher: Toru Nagashima
-│  ├─ path: vue-eslint-parser
-│  ├─ licenseFile: vue-eslint-parser\LICENSE
+│  ├─ path: node_modules\vue-eslint-parser
+│  ├─ licenseFile: node_modules\vue-eslint-parser\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2016 Toru Nagashima
@@ -6357,8 +6357,8 @@ SOFTWARE.
 │  ├─ repository: https://github.com/intlify/vue-i18n
 │  ├─ publisher: kazuya kawaguchi
 │  ├─ email: kawakazu80@gmail.com
-│  ├─ path: vue-i18n
-│  ├─ licenseFile: vue-i18n\LICENSE
+│  ├─ path: node_modules\vue-i18n
+│  ├─ licenseFile: node_modules\vue-i18n\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2020 kazuya kawaguchi
@@ -6385,8 +6385,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 │  ├─ repository: https://github.com/vuejs/router
 │  ├─ publisher: Eduardo San Martin Morote
 │  ├─ email: posva13@gmail.com
-│  ├─ path: vue-router
-│  ├─ licenseFile: vue-router\LICENSE
+│  ├─ path: node_modules\vue-router
+│  ├─ licenseFile: node_modules\vue-router\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2019-present Eduardo San Martin Morote
@@ -6412,8 +6412,8 @@ SOFTWARE.
 ├─ vue-tsc@3.2.4
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/language-tools
-│  ├─ path: vue-tsc
-│  ├─ licenseFile: vue-tsc\LICENSE
+│  ├─ path: node_modules\vue-tsc
+│  ├─ licenseFile: node_modules\vue-tsc\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2021-present Johnson Chu
@@ -6436,12 +6436,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 │  └─ copyright: Copyright (c) 2021-present Johnson Chu
+├─ vue-turnstile@1.0.11
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/ruigomeseu/vue-turnstile
+│  ├─ publisher: Rui Gomes
+│  ├─ email: hello@ruigomes.me
+│  ├─ path: node_modules\vue-turnstile
+│  ├─ licenseFile: node_modules\vue-turnstile\LICENSE.md
+│  ├─ licenseText: MIT License
+
+Copyright (c) 2023 Rui Gomes
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+│  └─ copyright: Copyright (c) 2023 Rui Gomes
 ├─ vue3-apexcharts@1.10.0
 │  ├─ licenses: Custom: LICENSE
 │  ├─ repository: https://github.com/apexcharts/vue3-apexcharts
 │  ├─ publisher: Juned Chhipa
-│  ├─ path: vue3-apexcharts
-│  ├─ licenseFile: vue3-apexcharts\LICENSE
+│  ├─ path: node_modules\vue3-apexcharts
+│  ├─ licenseFile: node_modules\vue3-apexcharts\LICENSE
 │  └─ licenseText: ## 📄 License Options for ApexCharts
 
 ApexCharts is offered under a **dual-license model** to support individuals, startups, and commercial products of all sizes.
@@ -6527,8 +6556,8 @@ Thank you for supporting ApexCharts! Your licensing helps keep it free and open 
 │  ├─ repository: https://github.com/megasanjay/vue3-marquee
 │  ├─ publisher: Sanjay Soundarajan
 │  ├─ email: info@sanjaysoundarajan.dev
-│  ├─ path: vue3-marquee
-│  ├─ licenseFile: vue3-marquee\LICENSE
+│  ├─ path: node_modules\vue3-marquee
+│  ├─ licenseFile: node_modules\vue3-marquee\LICENSE
 │  ├─ licenseText: MIT License
 
 Copyright (c) 2021 Sanjay Soundarajan
@@ -6555,8 +6584,8 @@ SOFTWARE.
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/core
 │  ├─ publisher: Evan You
-│  ├─ path: vue
-│  ├─ licenseFile: vue\LICENSE
+│  ├─ path: node_modules\vue
+│  ├─ licenseFile: node_modules\vue\LICENSE
 │  ├─ licenseText: The MIT License (MIT)
 
 Copyright (c) 2018-present, Yuxi (Evan) You
@@ -6584,8 +6613,8 @@ THE SOFTWARE.
    ├─ repository: https://github.com/colinhacks/zod
    ├─ publisher: Colin McDonnell
    ├─ email: zod@colinhacks.com
-   ├─ path: zod
-   ├─ licenseFile: zod\LICENSE
+   ├─ path: node_modules\zod
+   ├─ licenseFile: node_modules\zod\LICENSE
    ├─ licenseText: MIT License
 
 Copyright (c) 2025 Colin McDonnell
