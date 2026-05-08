@@ -37,6 +37,7 @@
 
     <div class="Turnstile">
       <Turnstile
+        ref="turnstile"
         v-model="captchaToken"
         site-key="0x4AAAAAADLEizNRST-VAJ17"
       />
@@ -108,23 +109,35 @@ const loading = ref(false);
 const rememberMe = ref(false);
 const captchaToken = ref("");
 
+const turnstile = ref();
+
+const resetCaptcha = () => {
+  captchaToken.value = "";
+  turnstile.value?.reset();
+};
+
 const handleSignIn = async () => {
-  await signIn.email({
-    email: email.value,
-    password: password.value,
-    rememberMe: rememberMe.value,
-    fetchOptions: {
-      headers: {
-        "x-captcha-response": captchaToken.value,
+  try {
+    await signIn.email({
+      email: email.value,
+      password: password.value,
+      rememberMe: rememberMe.value,
+      fetchOptions: {
+        headers: {
+          "x-captcha-response": captchaToken.value,
+        },
+        onRequest: () => {
+          loading.value = true;
+        },
+        onResponse: () => {
+          loading.value = false;
+          resetCaptcha();
+        },
       },
-      onRequest: () => {
-        loading.value = true;
-      },
-      onResponse: () => {
-        loading.value = false;
-      },
-    },
-  });
+    });
+  } catch (err) {
+    resetCaptcha();
+  }
 };
 
 const handlePasskey = async () => {
