@@ -24,7 +24,7 @@
       />
     </div>
 
-    <div class="item" style="flex-direction:row;width: 250px">
+    <div class="item" style="flex-direction:row;width: 250px;margin-bottom: 7.5px;">
       <Checkbox
         inputId="remember"
         v-model="rememberMe"
@@ -33,6 +33,13 @@
       <label for="remember" style="margin-left: 10px" class="textBox">
         {{ t("public.login.item.title.remember") }}
       </label>
+    </div>
+
+    <div class="Turnstile">
+      <Turnstile
+        v-model="captchaToken"
+        site-key="0x4AAAAAADLEizNRST-VAJ17"
+      />
     </div>
 
     <Button
@@ -91,6 +98,7 @@ import Password from "primevue/password";
 import {signIn} from "@/utils/auth-client";
 import {ref} from "vue";
 import {useI18n} from "vue-i18n";
+import Turnstile from "vue-turnstile";
 
 const {t} = useI18n();
 
@@ -98,6 +106,7 @@ const email = ref("");
 const password = ref("");
 const loading = ref(false);
 const rememberMe = ref(false);
+const captchaToken = ref("");
 
 const handleSignIn = async () => {
   await signIn.email({
@@ -105,6 +114,9 @@ const handleSignIn = async () => {
     password: password.value,
     rememberMe: rememberMe.value,
     fetchOptions: {
+      headers: {
+        "x-captcha-response": captchaToken.value,
+      },
       onRequest: () => {
         loading.value = true;
       },
@@ -154,6 +166,11 @@ const handleSocialSignIn = async (provider: string) => {
   display: flex;
   margin-bottom: 15px;
   flex-direction: column;
+}
+
+.Turnstile {
+  zoom: 0.82;
+  margin-bottom: 7.5px;
 }
 
 :deep(.p-inputtext, .p-password) {
