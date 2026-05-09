@@ -24,6 +24,7 @@ declare module 'vue' {
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     NoticeComponent: typeof import('./src/components/notice/NoticeComponent.vue')['default']
     NoticeItemCard: typeof import('./src/components/notice/components/NoticeItemCard.vue')['default']
+    Password: typeof import('primevue/password')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']

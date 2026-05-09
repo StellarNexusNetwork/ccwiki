@@ -13,7 +13,7 @@ import router from '@/router';
 
 import zh_cn from '@/assets/json/locales/zh_cn.json';
 import en_us from '@/assets/json/locales/en_us.json';
-import zh_ms from '@/assets/json/locales/zh_ms.json'
+import zh_ms from '@/assets/json/locales/zh_ms.json';
 
 import {useSettingStore} from '@/stores/setting';
 
