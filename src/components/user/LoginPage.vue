@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import {useI18n} from 'vue-i18n';
 import {ref} from 'vue';
-import SignInView from '@/views/sign-in/SignInView.vue';
+import SignInView from '@/views/sign-in/index.vue';
 
 const {t} = useI18n();
 
@@ -116,6 +116,7 @@ function switchDetail(index: number) {
   padding-right: 25px;
   padding-bottom: 25px;
   overflow-y: auto;
+  container-type: inline-size;
 }
 
 .optionsList .button {

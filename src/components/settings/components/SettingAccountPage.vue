@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import account from "./AccountPage/AccountInfo.vue";
-import SignInView from '@/views/sign-in/SignInView.vue';
+import SignInView from '@/views/sign-in/index.vue';
 import {ref, watchEffect} from "vue";
 import {authClient} from "@/utils/auth-client.ts";
 
@@ -24,6 +24,12 @@ watchEffect(() => {
 </script>
 
 <style scoped>
+.main {
+  container-type: inline-size;
+  min-height: 100%;
+  display: flex;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.25s ease;
