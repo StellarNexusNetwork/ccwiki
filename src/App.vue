@@ -33,11 +33,14 @@ import {RouterView, useRouter} from 'vue-router';
 import {computed, onMounted, onUnmounted, ref, watchEffect} from 'vue';
 import {useRouteTransition} from '@/composables/useRouteTransition';
 import {useSettingStore} from '@/stores/setting';
-
+import {usePrimeVue} from "primevue/config";
+import {setPrimeLocale} from '@/utils/i18n/primevue.ts';
 
 useDataSourcesStore().initFetchData();
 
 const sysWindows = useWindowStore();
+
+const primevue = usePrimeVue();
 
 const mainDivStyle = ref({paddingLeft: '50px'});
 const mainStyle = ref({
@@ -69,8 +72,8 @@ const {routerLoadingS, rtLoadingBgS, rtLoadingS} = useRouteTransition(router, {
   }
 });
 
-const setting = useSettingStore().setting;
-const theme = setting.theme;
+const settings = useSettingStore().setting;
+const theme = settings.theme;
 
 const media = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -88,6 +91,8 @@ onUnmounted(() => {
   media.removeEventListener('change', updateSystemTheme)
 })
 
+// 初始化 primevue 的语言
+setPrimeLocale(settings.lang, primevue);
 const isDark = computed(() => {
   return (
     theme.appearance === 'dark' ||
