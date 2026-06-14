@@ -6,6 +6,7 @@ const CAT_DAY_DATE = 22;
 const CAT_FESTIVAL_DURATION_DAYS = 7;
 const PI_DAY_MONTH = 2; // March (0-based month)
 const PI_DAY_DATE = 14;
+const PRIDE_MONTH = 5; // June (0-based month)
 
 export function isCatFestival(date = new Date()): boolean {
   const year = date.getFullYear();
@@ -19,13 +20,19 @@ export function isPiDay(date = new Date()): boolean {
   return date.getMonth() === PI_DAY_MONTH && date.getDate() === PI_DAY_DATE;
 }
 
+export function isPrideMonth(date = new Date()): boolean {
+  return date.getMonth() === PRIDE_MONTH;
+}
+
 export function useCatFestivalStatus() {
   const isCatFestivalActive = ref(isCatFestival());
   const isPiDayActive = ref(isPiDay());
+  const isPrideMonthActive = ref(isPrideMonth());
 
   const refreshCatFestivalStatus = () => {
     isCatFestivalActive.value = isCatFestival();
     isPiDayActive.value = isPiDay();
+    isPrideMonthActive.value = isPrideMonth();
   };
 
   onMounted(() => {
@@ -40,6 +47,7 @@ export function useCatFestivalStatus() {
   return {
     isCatFestivalActive: readonly(isCatFestivalActive),
     isPiDayActive: readonly(isPiDayActive),
+    isPrideMonthActive: readonly(isPrideMonthActive),
     refreshCatFestivalStatus
   };
 }
