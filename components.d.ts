@@ -36,6 +36,7 @@ declare module 'vue' {
     SettingThemePage: typeof import('./src/components/settings/components/SettingThemePage.vue')['default']
     Skeleton: typeof import('primevue/skeleton')['default']
     Tag: typeof import('primevue/tag')['default']
+    TestPage2: typeof import('./src/components/setting/components/TestPage2.vue')['default']
     TitleBar: typeof import('./src/components/TitleBar.vue')['default']
     UserProfile: typeof import('./src/components/user/UserProfile.vue')['default']
     WikiRepos: typeof import('./src/components/docs/WikiRepos.vue')['default']
