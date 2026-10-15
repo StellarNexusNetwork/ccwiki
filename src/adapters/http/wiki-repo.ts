@@ -1,7 +1,7 @@
 import axios from "axios";
 
-import {type Config} from "@/adapters/types";
-import {WikiRepo} from "@/adapters/WikiRepo.ts";
+import {type Config} from "@/adapters/adapter/types.ts";
+import {WikiRepo} from "@/adapters/adapter/wiki-repo.ts";
 
 // 在线仓库
 export class HttpWikiRepo extends WikiRepo {
@@ -15,15 +15,19 @@ export class HttpWikiRepo extends WikiRepo {
   }
 
   // 处理路径（currentAddress是path 不是fullPath）
-  private resolveAddress(currentAddress: string, targetPath: string): string {
+  resolveAddress(currentAddress: string, targetPath: string): string {
 
     // http:// / https:// Base64 / Data URL
     if (this.isUrl(targetPath)) {
       return targetPath;
     }
 
+    const repoAddress = this.address.endsWith("/")
+      ? this.address
+      : `${this.address}/`;
+
     // 处理路径
-    currentAddress = this.address + currentAddress;
+    currentAddress = repoAddress + currentAddress;
     const base = currentAddress.endsWith("/")
       ? currentAddress
       : `${currentAddress}/`;

@@ -1,17 +1,21 @@
-import {type Config} from "@/adapters/types";
-import {FALLBACK_IMAGE_SRC} from '@/utils/config'
+import {type Config} from "@/adapters/adapter/types.ts";
+import {FALLBACK_IMAGE_SRC} from '@/utils/config.ts'
 
 // 仓库基类：仅描述公共展示属性，不负责实际读写
 export class WikiRepo {
   // display
+  id: string;
   name: Record<string, string>; // lang -> localized name
+  version: string | undefined;
   icon: string | undefined; // 存储的相对路径或链接
   iconURL: string = FALLBACK_IMAGE_SRC; // 处理后的资源路径（不存储）
 
   // todo:标记仓库是否损坏
 
   constructor(config: Config) {
+    this.id = config.id;
     this.name = config.name as Record<string, string> ?? {};
+    this.version = config.version ?? undefined;
     this.icon = config.icon ?? undefined;
   }
 

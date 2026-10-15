@@ -189,27 +189,6 @@ export const useDataSourcesStore = defineStore(
     // ------------------- 未启用的功能🤔 -------------------
 
 
-    // 调试/维护工具：删除指定 indexedDB
-    function deleteDatabase(dbName: string): Promise<boolean> {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.deleteDatabase(dbName);
-
-        request.onsuccess = () => {
-          notice.addNotice('success', '操作成功！', '数据库 "${dbName}" 删除成功～喵');
-          resolve(true);
-        };
-
-        request.onerror = (event) => {
-          logDataSourceError('Store.deleteDatabase', event, {dbName});
-          notice.addNotice('error', '数据库删除失败！', `[deleteDatabase] ${toErrorMessage(event)}`);
-          reject(event);
-        };
-
-        request.onblocked = () => {
-          notice.addNotice('warn', '操作被阻止', '数据库 "${dbName}" 删除被阻止');
-        };
-      });
-    }
 
 
     //

@@ -2,25 +2,17 @@ import {defineStore} from "pinia";
 import {z} from "zod"
 import axios from "axios";
 
-import {type Config, type HttpRepoStorage, type LocalWikiRepoStorage} from "@/adapters/types"
+import {
+  type Config,
+  type HttpRepoStorage,
+  type LocalWikiRepoStorage,
+  type WikiRepoInstance
+} from "@/adapters/adapter/types.ts"
 import {PERSISTENT_DB_NAME, PERSISTENT_DB_VERSION, PERSISTENT_STORE_NAME} from "@/utils/config";
 import {useNoticeStore} from '@/stores/notice';
 import {reactive, ref, shallowReactive, toRaw} from "vue";
-import {LocalWikiRepo} from "@/adapters/LocalWikiRepo.ts";
-import {HttpWikiRepo} from "@/adapters/HttpWikiRepo.ts";
-
-interface ImageBlobCache {
-  blob: string
-  refCount: number
-}
-
-interface NamespaceImageCache {
-  [filePath: string]: ImageBlobCache
-}
-
-interface ImageCache {
-  [namespace: string]: NamespaceImageCache
-}
+import {LocalWikiRepo} from "@/adapters/local/wiki-repo";
+import {HttpWikiRepo} from "@/adapters/http/wiki-repo";
 
 interface PersistentStorage {
   [id: string]: LocalWikiRepoStorage | HttpRepoStorage;
@@ -41,8 +33,7 @@ export const useDataSourcesStore3 = defineStore(
     const notice = useNoticeStore();
 
     const persistentStorage: PersistentStorage = reactive({});
-    const wikiRepos: Record<string, object> = shallowReactive({});
-    const imageCache = new Map<string, ImageBlobCache>();
+    const wikiRepos: Record<string, WikiRepoInstance> = shallowReactive({});
 
     // 创建indexDB连接
     function openDB(): Promise<IDBDatabase> {
@@ -117,12 +108,12 @@ export const useDataSourcesStore3 = defineStore(
 
       for (const item of Object.values(loaded)) {
         if (item.type === 'local') {
-          await addLocalWikiRepo(item.rootHandle);
+          await addLocalRepo(item.rootHandle);
           // todo:检查id是否改变 改变则修改存储的id
           // todo:缓存正确的配置信息
           // todo:仓库损坏时显示缓存信息
         } else if (item.type === 'httpServer') {
-          await addHttpWikiRepo(item.address, true);
+          await addHttpRepo(item.address, true);
         }
       }
       void saveData('persistentStorage', toRaw(persistentStorage));
@@ -131,7 +122,7 @@ export const useDataSourcesStore3 = defineStore(
 
     // todo：仓库损坏处理
     // 添加本地仓库
-    async function addLocalWikiRepo(rootHandle?: FileSystemDirectoryHandle) {
+    async function addLocalRepo(rootHandle?: FileSystemDirectoryHandle) {
       let handle: FileSystemDirectoryHandle;
       let config: Config;
       // 尝试打开文件夹
@@ -179,7 +170,7 @@ export const useDataSourcesStore3 = defineStore(
     }
 
     // 添加在线仓库
-    async function addHttpWikiRepo(address: string, isInit?: boolean) {
+    async function addHttpRepo(address: string, isInit?: boolean) {
       let config: Config;
       const normalizedAddress = normalizeUrl(address);
       // 尝试读取配置文件
@@ -227,13 +218,36 @@ export const useDataSourcesStore3 = defineStore(
       notice.addNotice('success', '仓库删除成功！', '已移除所选仓库！');
     }
 
+    // 调试/维护工具：删除指定 indexedDB
+    function deleteDatabase(dbName: string): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.deleteDatabase(dbName);
+
+        request.onsuccess = () => {
+          notice.addNotice('success', '操作成功！', `数据库 ${dbName} 删除成功～喵`);
+          resolve(true);
+        };
+
+        request.onerror = (event) => {
+          console.error('Store.deleteDatabase', event, {dbName});
+          notice.addNotice('error', '数据库删除失败！', `[deleteDatabase] ${(event)}`);
+          reject(event);
+        };
+
+        request.onblocked = () => {
+          notice.addNotice('warn', '操作被阻止', `数据库 ${dbName} 删除被阻止`);
+        };
+      });
+    }
+
     return {
       initState,
       wikiRepos,
       initFetchData,
-      addLocalWikiRepo,
-      addHttpWikiRepo,
+      addLocalRepo,
+      addHttpRepo,
       deleteRepos,
+      deleteDatabase
     }
 
   })

@@ -11,7 +11,7 @@
     <div class="AboutList" :style="AboutListGridStyle">
       <suspense v-for="([id, item], index) in Object.entries(meta?.children ?? {})" :key="id">
         <template #default>
-          <DocsItemCard :id="id" :meta="item ?? {}"/>
+          <DocsItemCard :id="id" :metaChild="item ?? {}" :wikiRepo="wikiRepo" :dirPath="dirPath"/>
         </template>
       </suspense>
     </div>
@@ -19,6 +19,9 @@
 </template>
 
 <script setup lang="ts">
+import type {MetaFile} from "@/adapters/adapter/types/meta-file.ts";
+import type {WikiRepoInstance} from "@/adapters/adapter/types.ts";
+
 import DocsItemCard from './DocsItemCard.vue';
 import {useI18n} from 'vue-i18n';
 import {useRoute} from "vue-router";
@@ -30,9 +33,11 @@ const sysWindow = useWindow()
 const {t} = useI18n();
 const route = useRoute()
 
-const {meta} = defineProps({
-  meta: Object,
-})
+const {meta, wikiRepo, dirPath} = defineProps<{
+  meta: MetaFile,
+  wikiRepo: WikiRepoInstance,
+  dirPath: string
+}>()
 
 const address = route.params.pathMatch as string[];
 
