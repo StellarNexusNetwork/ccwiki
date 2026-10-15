@@ -13,7 +13,7 @@
     <button @click="dataStore.addLocalRepo()">打开文件夹</button>
     <br/>
     <input v-model="repoAddress" placeholder="请输入仓库地址">
-    <button @click="dataStore.addHttpWikiRepo(repoAddress,false)">添加</button>
+    <button @click="dataStore.addHttpRepo(repoAddress,false)">添加</button>
     <!--  todo：标记仓库类型（错误）  -->
     <!--  todo：显示更多信息  -->
     <div class="localRepositoriesList">
@@ -30,7 +30,7 @@
               }}
             </div>
             <div style="display: flex;gap: 7px">
-              <div class="version">{{ item.version }}</div>
+              <div class="version" v-if="item.version">{{ item.version }}</div>
               <Tag v-if="item.type == 'local'" severity="info" value="本地"></Tag>
               <Tag v-else-if="item.type == 'httpServer'" severity="success" value="在线"></Tag>
             </div>
@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {useDataSourcesStore} from '@/stores/dataSources';
+import {useDataSourcesStore3} from '@/stores/dataSources3';
 import {useSettingStore} from '@/stores/setting';
 import {useNoticeStore} from '@/stores/notice';
 import {ref} from 'vue';
@@ -64,7 +64,7 @@ const repoAddress = ref('');
 
 const router = useRouter();
 
-const dataStore = useDataSourcesStore();
+const dataStore = useDataSourcesStore3();
 
 function addNotice() {
   notice.addNotice('success', '测试！', '测试喵♪');

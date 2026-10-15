@@ -71,7 +71,7 @@ export const useNoticeStore = defineStore('notice', () => {
       }
 
       const logger = loggers[type] || console.log;
-      logger(`[${type}] ${title} ${content}`);
+      logger(`[${type}] ${title} `, content);
 
       nextTick(() => {
         startTimer(id);
