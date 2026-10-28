@@ -124,11 +124,20 @@ export class LocalWikiRepo extends WikiRepo {
     }
 
     const fullPath = this.resolveAddress(currentAddress, path);
-    const pathSegments = this.splitPath(fullPath);
+    const pathSegments = this.splitPath(fullPath).map(segment => {
+      try {
+        return decodeURIComponent(segment);
+      } catch {
+        // 对包含无效百分号编码的路径片段保留原值
+        return segment;
+      }
+    });
+    console.log(pathSegments);
     try {
       const fileHandle = await this.getFileHandle(pathSegments);
       return await fileHandle.getFile();
     } catch (e) {
+      console.log(e)
       throw new Error(`获取本地文件失败`, {cause: e});
     }
   }

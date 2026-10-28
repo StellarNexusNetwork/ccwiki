@@ -5,6 +5,6 @@ export function resolveImage(resolvedPath: ResolvedPath): ResolvedImage {
   return {
     type: "httpServer",
     src: resolvedPath.path,
-    uid: crypto.randomUUID()
+    uid: 'u' + crypto.randomUUID()
   };
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="mainDiv">
     <div class="titleDiv">
-      <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-'+address.join('-'),'borderBottom':'none'}">
+      <div class="title" :style="{ 'viewTransitionName': 'item-name-'+ dirPath.replaceAll('/','-'),'borderBottom':'none'}">
         {{ meta?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
     </div>

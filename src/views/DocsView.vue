@@ -2,7 +2,7 @@
   <div>
     <WikiRepos v-if="Object.keys(data.wikiRepos).length> 0 && path.length<1"/>
     <ItemList :meta="meta" :wikiRepo="wikiRepo" :dirPath="dirPath" v-else-if="Object.keys(data.wikiRepos).length> 0 && path.length>0 && wikiRepo && meta"/>
-    <!--    <DocsPage :config="config" v-else-if="Object.keys(data.wikiRepos).length> 0 && path.length>1 && wikiRepo && config"/>-->
+    <DocsPage :config="config" :wikiRepo="wikiRepo" :dirPath="dirPath" v-else-if="Object.keys(data.wikiRepos).length> 0 && path.length>0 && wikiRepo && config"/>
     <div class="notFoundUrl" v-else-if="(Object.keys(data.wikiRepos).length> 0 && path.length>0) && (!wikiRepo || !meta || !config)">
       <NotFoundView/>
     </div>
@@ -28,6 +28,7 @@ import get from "lodash/get";
 import NotFoundView from "@/views/error-views/NotFoundView.vue";
 import ItemList from "@/components/docs/ItemList.vue";
 import WikiRepos from "@/components/docs/WikiRepos.vue";
+import DocsPage from "@/components/docs/DocsPage.vue";
 
 // 用于等待的函数
 function waitUntilTrue(source: () => boolean) {
@@ -79,7 +80,10 @@ onMounted(async () => {
   // 尝试获取meta
   try {
     const metaFile = await wikiRepo.value.getFileByPath(dirPath, "_meta.json");
-    const json = JSON.parse(await metaFile.text());
+    const json = metaFile instanceof File
+      ? JSON.parse(await metaFile.text())
+      : metaFile;
+
     // 检查配置是否合法
     const result = MetaFileSchema.safeParse(json);
     if (result.success) {
@@ -92,7 +96,10 @@ onMounted(async () => {
   // 尝试获取页面配置
   try {
     const configFile = await wikiRepo.value.getFileByPath(dirPath, "config.json");
-    const json = JSON.parse(await configFile.text());
+    const json = configFile instanceof File
+      ? JSON.parse(await configFile.text())
+      : configFile;
+
     // 检查配置是否合法
     const result = PageConfigFileSchema.safeParse(json);
     if (result.success) {

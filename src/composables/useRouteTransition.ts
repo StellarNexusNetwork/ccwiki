@@ -1,6 +1,7 @@
 import {nextTick, ref} from 'vue';
 import type {NavigationGuardNext, RouteLocationNormalized, Router} from 'vue-router';
 import get from 'lodash/get';
+import {useImageManager} from "@/stores/image-manager.ts";
 
 type ViewTransitionLike = {
   finished?: Promise<void>
@@ -33,6 +34,9 @@ export function useRouteTransition(router: Router, options: { disableMarquee: ()
   let allowRouting = false;
   let rtAeF = false;
   let activeViewTransition: ViewTransitionLike | null = null;
+
+  // 图片管理
+  const imageManager = useImageManager();
 
   window.addEventListener('load', () => {
     ifLoadingFinish = true;
@@ -162,6 +166,9 @@ export function useRouteTransition(router: Router, options: { disableMarquee: ()
   });
 
   router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+    // 等待路由更新后的统一结算图片引用。
+    imageManager.scheduleImageRefFlush();
+
     let blacklisted = false;
     if (typeof from.name === 'string' && typeof to.name === 'string') {
       blacklisted = isBlacklisted(from.name, to.name);

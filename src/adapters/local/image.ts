@@ -25,6 +25,6 @@ export async function resolveImage(resolvedPath: ResolvedPath): Promise<Resolved
   return {
     type: "local",
     src: imageURL,
-    uid: crypto.randomUUID()
+    uid: 'u' + crypto.randomUUID()
   }
 }

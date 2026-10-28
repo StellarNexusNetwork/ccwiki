@@ -13,6 +13,7 @@ declare module 'vue' {
     AsyncImage: typeof import('./src/components/common/AsyncImage.vue')['default']
     Button: typeof import('primevue/button')['default']
     Divider: typeof import('primevue/divider')['default']
+    DocsIndexView: typeof import('./src/components/docs/DocsIndexView.vue')['default']
     DocsItemCard: typeof import('./src/components/docs/DocsItemCard.vue')['default']
     DocsItemCard2: typeof import('./src/components/docs/DocsItemCard2.vue')['default']
     DocsPage: typeof import('./src/components/docs/DocsPage.vue')['default']

@@ -28,9 +28,9 @@ export function resolveParser(
     };
   }
 
+  const {repo, currentPath} = context;
   // ./xxx
   if (path.startsWith("./") || path.startsWith("/")) {
-    const {repo, currentPath} = context;
     return {
       type: repo.type,
       repoId: repo.id,
@@ -43,11 +43,15 @@ export function resolveParser(
     ([prefix]) => path.startsWith(prefix)
   );
 
-  if (!match) {
-    throw new Error(`unoknown path "${path}".`);
+  if (match) {
+    return match[1](path);
   }
 
-  return match[1](path);
+  return {
+    type: repo.type,
+    repoId: repo.id,
+    path: repo.resolveAddress(currentPath, path)
+  }
 }
 
 // 获取图片信息
@@ -63,7 +67,7 @@ export async function resolveImage(
     return {
       type: 'other',
       src: path.path,
-      uid: crypto.randomUUID()
+      uid: 'u' + crypto.randomUUID()
     }
   }
   try {

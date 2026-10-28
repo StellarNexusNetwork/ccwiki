@@ -3,7 +3,7 @@
     <div class="mainDiv">
       <suspense>
         <template #default>
-          <MarkdownRenderer :config="config"/>
+          <MarkdownRenderer :repo="wikiRepo" :config="config" :dirPath="dirPath"/>
         </template>
       </suspense>
     </div>
@@ -11,10 +11,15 @@
 </template>
 <script setup lang="ts">
 import MarkdownRenderer from './MarkdownRenderer.vue';
+import type {WikiRepoInstance} from "@/adapters/adapter/types.ts";
+import type {PageConfig} from "@/adapters/adapter/types/page-config.ts";
 
-const {config} = defineProps({
-  config: Object,
-})
+
+const {wikiRepo, config, dirPath} = defineProps<{
+  wikiRepo: WikiRepoInstance,
+  config: PageConfig,
+  dirPath: string,
+}>()
 </script>
 <style scoped>
 .Div {

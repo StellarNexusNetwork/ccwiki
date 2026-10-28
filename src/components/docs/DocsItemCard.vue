@@ -3,12 +3,12 @@
     <Image v-if="iconPath" class="icon" :path="iconPath" :repo="wikiRepo" alt="SVG Image" draggable="false"/>
     <div class="textBox" :style='{width:textBoxWidth}'>
       <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
-        <div class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
+        <div class="title" :style="{ 'viewTransitionName': 'item-name-' + dirPath.replaceAll('/','-') + '-' + id }">
           {{ metaChild?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
           <span v-if="shouldAddGap" style="display:inline-block;width:40px;"></span>
         </div>
       </Vue3Marquee>
-      <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'class-item-name-' + address!.join('-') + '-' + id }">
+      <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'item-name-' + dirPath.replaceAll('/','-') + '-' + id }">
         {{ metaChild?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
       <div class="introduction" v-if="introduction">{{
@@ -16,7 +16,7 @@
         }}
       </div>
       <div class="iconList" v-if="childrenIcon">
-        <Image class="iconMini" :path="path as string" :repo="wikiRepo" alt="SVG Image" draggable="false" v-for="[icon_key, path] in Object.entries(childrenIcon)" :key="icon_key"/>
+        <Image class="iconMini" :path="path as string" :repo="wikiRepo" alt="SVG Image" shape="circle" draggable="false" v-for="[icon_key, path] in Object.entries(childrenIcon)" :key="icon_key"/>
       </div>
     </div>
   </button>

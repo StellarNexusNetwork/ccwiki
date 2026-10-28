@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import type {RepoContext, ResolvedImage, ResolvedPath} from "@/adapters/adapter/types.ts";
 import {resolveImage, resolveParser} from "@/adapters/adapter-registry"
+import {nextTick} from "vue";
 
 type ImageId = string;
 
@@ -103,6 +104,24 @@ export const useImageManager = defineStore(
     const imageRefs = new ImageRefManager();
     const imageCache = new Map<string, ResolvedImage>();
     const pendingImages = new Map<string, Promise<ResolvedImage>>();
+    // 标记是否已经安排了引用结算，避免同一轮重复调度。
+    let flushScheduled = false;
+
+    /**
+     * 在 Vue 完成当前更新、浏览器进入下一帧时结算图片引用。
+     * 多次调用会合并，避免重复清理。
+     */
+    function scheduleImageRefFlush(): void {
+      if (flushScheduled) return;
+      flushScheduled = true;
+
+      void nextTick().then(() => {
+        requestAnimationFrame(() => {
+          flushScheduled = false;
+          flushImageRefs();
+        });
+      });
+    }
 
     // 添加引用记录
     function addImageRef(id: ImageId): void {
@@ -120,13 +139,15 @@ export const useImageManager = defineStore(
      * 负责结算图片引用，并清理已经没有引用的资源。
      */
     function flushImageRefs(): void {
+      console.debug('[debug][flushImageRefs] before:', imageCache.size);
+
       const unused = imageRefs.flush();
 
-      if (unused.length === 0) {
-        return;
+      if (unused.length > 0) {
+        cleanupImageCache(unused);
       }
 
-      cleanupImageCache(unused);
+      console.debug('[debug][flushImageRefs] after:', imageCache.size, 'unused:', unused);
     }
 
     // 释放、清除缓存的信息
@@ -147,9 +168,10 @@ export const useImageManager = defineStore(
     async function requestImage(
       path: string,
       context: RepoContext,
-      cache: boolean = true,
+      cache: boolean = true, // 是否创建缓存
     ): Promise<[string, ResolvedImage]> {
-      // 尝试处理原始路径
+      console.log("r", path)
+      // 解析原始路径
       let resolvedPath: ResolvedPath;
 
       try {
@@ -163,54 +185,74 @@ export const useImageManager = defineStore(
       // 检查是否缓存
       const cachePath = getImageCachePath(resolvedPath);
 
-      const cached = imageCache.get(cachePath);
-
-      if (cached) {
-        if (cache === true) {
-          addImageRef(cachePath);
-        }
-        return [cachePath, cached];
-      }
-
-      // 防止并发重复缓存
-      let pending = pendingImages.get(cachePath);
-
-      if (!pending) {
-        pending = resolveImage(resolvedPath).catch((e) => {
+      // 明确规定：cache=false 时绕过缓存和共享请求
+      if (!cache) {
+        try {
+          return [cachePath, await resolveImage(resolvedPath)];
+        } catch (e) {
           throw new Error(`Failed to resolve image: ${resolvedPath.path}`, {
             cause: e,
           });
-        });
-
-        pendingImages.set(cachePath, pending);
-
-        pending.finally(() => {
-          pendingImages.delete(cachePath);
-        });
+        }
       }
 
-      // 尝试获取图片
-      let resolvedImage: ResolvedImage;
+      // 1. 缓存命中
+      const cached = imageCache.get(cachePath);
 
-      try {
-        resolvedImage = await resolveImage(resolvedPath);
-      } catch (e) {
-        throw new Error(`Failed to resolve image: ${resolvedPath.path}`, {
-          cause: e,
-        });
-      }
-
-      if (cache === true) {
+      if (cached) {
         addImageRef(cachePath);
-        imageCache.set(cachePath, resolvedImage);
+        return [cachePath, cached];
       }
+
+      // 2. 检查是否已有相同图片正在加载
+      let pending = pendingImages.get(cachePath);
+
+      if (!pending) {
+        // 只有创建 pending 的调用会真正执行一次图片解析
+        const task = resolveImage(resolvedPath)
+          .catch((e) => {
+            throw new Error(`Failed to resolve image: ${resolvedPath.path}`, {
+              cause: e,
+            });
+          })
+          .then((resolvedImage) => {
+            // 先写入缓存，再让共享 Promise 完成
+            imageCache.set(cachePath, resolvedImage);
+            return resolvedImage;
+          });
+
+        pendingImages.set(cachePath, task);
+        pending = task;
+
+        // 成功或失败都清除 pending。
+        // 使用双分支 then，避免忽略 finally() 返回的拒绝 Promise。
+        void task.then(
+          () => {
+            if (pendingImages.get(cachePath) === task) {
+              pendingImages.delete(cachePath);
+            }
+          },
+          () => {
+            if (pendingImages.get(cachePath) === task) {
+              pendingImages.delete(cachePath);
+            }
+          },
+        );
+      }
+
+      // 3. 所有并发调用等待同一个 Promise
+      const resolvedImage = await pending;
+
+      // 每个实际使用图片的缓存组件各计一次引用
+      addImageRef(cachePath);
+
       return [cachePath, resolvedImage];
     }
 
     return {
       requestImage,
       removeImageRef,
-      flushImageRefs
+      scheduleImageRefFlush
     };
   },
 );
