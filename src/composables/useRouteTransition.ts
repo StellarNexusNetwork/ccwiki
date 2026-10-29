@@ -2,6 +2,7 @@ import {nextTick, ref} from 'vue';
 import type {NavigationGuardNext, RouteLocationNormalized, Router} from 'vue-router';
 import get from 'lodash/get';
 import {useImageManager} from "@/stores/image-manager.ts";
+import {eventBus} from "@/utils/eventBus.ts";
 
 type ViewTransitionLike = {
   finished?: Promise<void>
@@ -13,6 +14,7 @@ type DocumentWithViewTransition = Document & {
 }
 
 const VIEW_TRANSITION_WAIT_TIMEOUT_MS = 320;
+const DOCS_DATA_READY_TIMEOUT_MS = 3000;
 
 export function useRouteTransition(router: Router, options: { disableMarquee: () => void }) {
   const routerLoadingS = ref({display: 'none'});
@@ -74,6 +76,46 @@ export function useRouteTransition(router: Router, options: { disableMarquee: ()
       const timeoutId = window.setTimeout(() => {
         finish();
       }, timeoutMs);
+    });
+  }
+
+  // 等待新 docs 页面加载完 meta/config；超时也放行，让 VT 直接拍当前状态开始动画
+  const pendingDocsReadyFinishes = new Set<() => void>();
+
+  function releasePendingDocsReady() {
+    for (const finish of [...pendingDocsReadyFinishes]) {
+      finish();
+    }
+    pendingDocsReadyFinishes.clear();
+  }
+
+  function waitForDocsDataReady(routeKey: string, timeoutMs = DOCS_DATA_READY_TIMEOUT_MS): Promise<void> {
+    return new Promise<void>((resolve) => {
+      let finished = false;
+
+      const onReady = (key: string) => {
+        if (key === routeKey) {
+          finish();
+        }
+      };
+
+      const finish = () => {
+        if (finished) {
+          return;
+        }
+        finished = true;
+        window.clearTimeout(timeoutId);
+        eventBus.off('docsDataReady', onReady);
+        pendingDocsReadyFinishes.delete(finish);
+        resolve();
+      };
+
+      const timeoutId = window.setTimeout(() => {
+        finish();
+      }, timeoutMs);
+
+      pendingDocsReadyFinishes.add(finish);
+      eventBus.on('docsDataReady', onReady);
     });
   }
 
@@ -142,11 +184,16 @@ export function useRouteTransition(router: Router, options: { disableMarquee: ()
       const docWithVT = document as DocumentWithViewTransition;
       if (typeof docWithVT.startViewTransition === 'function') {
         try {
+          releasePendingDocsReady();
           activeViewTransition?.skipTransition?.();
           const transition = docWithVT.startViewTransition(async () => {
             const routeCommitted = waitForRouteDomCommit();
+            // docs -> docs 时额外等待新页面数据，超时则直接拍当前状态开始动画
+            const docsDataReady = to.name === 'docs'
+              ? waitForDocsDataReady(to.fullPath)
+              : Promise.resolve();
             next();
-            await routeCommitted;
+            await Promise.all([routeCommitted, docsDataReady]);
           });
           activeViewTransition = transition ?? null;
           transition?.finished?.catch(() => {

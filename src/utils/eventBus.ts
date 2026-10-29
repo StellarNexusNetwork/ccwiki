@@ -7,6 +7,7 @@ type Events = {
   callOpenAccountSetting: void; // 侧边栏账号设置
   callCloseAccountSetting: boolean; // 侧边栏账号设置
   callOpenLoginDialog: void; // 登入弹窗
+  docsDataReady: string; // docs 页面数据加载完成（参数为 route.fullPath）
 };
 
 export const eventBus = mitt<Events>();
