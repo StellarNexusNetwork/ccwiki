@@ -48,6 +48,8 @@ export class HttpWikiRepo extends WikiRepo {
           const iconAddress = this.resolveAddress("/", `icon${ext}`);
           await axios.get(iconAddress);
           this.iconPath = iconAddress;
+          // 已命中优先级最高的格式，不再继续探测
+          return;
         } catch {
           // 文件不存在，继续尝试下一个格式
         }
