@@ -14,7 +14,7 @@
       <br/>
       <!--      <div class="markdown-body" v-html="renderedMarkdown"></div>-->
       <div class="markdown-body">
-        <component :is="vnode"></component>
+        <MarkdownContent/>
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@ import type {WikiRepoInstance} from "@/adapters/adapter/types.ts";
 import {useI18n} from "vue-i18n";
 import get from "lodash/get";
 import Image from "@/components/common/image.vue";
-import {computed, nextTick, onMounted, onUnmounted, ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import MarkdownIt from "markdown-it";
 import {tokensToVNode} from "@/utils/tokenToVNode";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
@@ -47,34 +47,20 @@ const iconPath = get(config, "icon");
 const md = new MarkdownIt({html: true});
 const source = ref('');
 
+// 只缓存解析结果，VNode 每次渲染时重新构建，避免缓存 VNode
+const tokens = computed(() => md.parse(source.value, {}));
+
+const MarkdownContent = () =>
+  tokensToVNode(tokens.value, {repo, currentPath: dirPath});
+
 function isPhonePortrait() {
   return window.matchMedia('(max-width: 670px) and (orientation: portrait)').matches;
 }
 
-onMounted(async () => {
-  let text: string;
-  try {
-    const mdFile = await repo.getFileByPath(dirPath, "./index.md");
-    text = mdFile instanceof File
-      ? await mdFile.text()
-      : mdFile;
-  } catch (err) {
-    console.error(err);
-    return;
-  }
+let isUnmounted = false;
 
-// todo 屏蔽<script>等标签
-// md.use(sanitizer);
-
-  source.value = text;
-
-  // 处理格式 替换所有 [[path]] 为 ![path](path)
-  source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![$1](<$1>)');
-  console.log(md.parse(source.value, {}));
-
-  // 等待 Markdown 对应的 Vue 组件完成渲染
-  await nextTick();
-
+// 初始化图片灯箱：使用事件委托，不依赖正文是否渲染完成
+function initLightbox() {
   lightbox = new PhotoSwipeLightbox({
     gallery: '.mainDiv',
     children: 'a.isImg',
@@ -158,22 +144,41 @@ onMounted(async () => {
   });
 
   lightbox.init();
-})
+}
+
+onMounted(async () => {
+  // 先初始化灯箱，再加载正文，互不阻塞
+  initLightbox();
+
+  let text: string;
+  try {
+    const mdFile = await repo.getFileByPath(dirPath, "./index.md");
+    text = mdFile instanceof File
+      ? await mdFile.text()
+      : mdFile;
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+
+  // 加载期间组件可能已被卸载，避免继续写入
+  if (isUnmounted) return;
+
+  // todo 屏蔽<script>等标签
+  // md.use(sanitizer);
+
+  // 处理格式 替换所有 [[path]] 为 ![path](path)，只赋值一次
+  source.value = text.replace(/!\[\[([^\]]+)\]\]/g, '![$1](<$1>)');
+});
 
 onUnmounted(() => {
+  isUnmounted = true;
   if (lightbox) {
     // 销毁实例，避免路由切换后残留事件监听
     lightbox.destroy();
     lightbox = null;
   }
 });
-
-const vnode = computed(() => {
-  return tokensToVNode(md.parse(source.value, {}), {
-    repo: repo,
-    currentPath: dirPath
-  })
-})
 </script>
 
 <style scoped>
