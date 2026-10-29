@@ -1,10 +1,10 @@
 import type {ResolvedImage, ResolvedPath} from "@/adapters/adapter/types.ts";
-import {useDataSourcesStore3} from "@/stores/dataSources3.ts";
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
 import get from 'lodash/get';
 
 // 获取图片信息
 export async function resolveImage(resolvedPath: ResolvedPath): Promise<ResolvedImage> {
-  const wikiRepos = useDataSourcesStore3().wikiRepos
+  const wikiRepos = useDataSourcesStore().wikiRepos
 
   const wikiRepo: any = get(wikiRepos, resolvedPath.repoId)
   if (!wikiRepo) {

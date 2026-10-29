@@ -1,226 +1,63 @@
-import {defineStore} from 'pinia';
-import {markRaw, shallowReactive, toRaw, watch} from 'vue';
+// ------------------- 未启用的功能🤔 -------------------
+
+// let db = ref<any>(null)
+// let opfsRoot = null
+// let fileHandle = null
+
+// const dbPromise = (async () => {
+//     try {
+//       const SQL = await initSqlJs({
+//             locateFile: (file) => `../../node_modules/sql.js/dist/sql-wasm.wasm`
+//         })
+//         opfsRoot = await navigator.storage.getDirectory();
+//         try {
+//             // 存在：可以打开
+//             const fileHandle = await opfsRoot.getFileHandle("db.sqlite");
+//             const file = await fileHandle.getFile();
+//             const buffer = await file.arrayBuffer();
+//             db.value = new SQL.Database(new Uint8Array(buffer));
+//         } catch (err: any) {
+//             // 不存在：创建
+//             if (err.name === 'NotFoundError') {
+//                 fileHandle = await opfsRoot.getFileHandle("db.sqlite", {create: true});
+//                 db.value = new SQL.Database()
+//                 console.log('未发现数据库，已创建！')
+//             } else {
+//                 console.error(err)
+//             }
+//         }
+//
+//         return {db, opfsRoot, fileHandle}
+//     } catch (err) {
+//         console.error('SQL.js 初始化失败:', err)
+//         throw err
+//     }
+// })()
+//
+// dbPromise.then((event) => {
+//     console.log("Outside async:", event.db) // ✅ 正确打印
+//
+//
+//     watch(() => event.db.value, () => {
+//         opfsWrite(event.db, event.fileHandle)
+//     })
+// })
+
+// ------------------- 未启用的功能🤔 -------------------
 
 
-type FsHandle = FileSystemDirectoryHandle | FileSystemFileHandle;
-type FsHandleMap = Record<string, FsHandle>;
-type RepoInstance = LocalWikiRepo | HttpWikiRepo;
+//
+// function deepSet(obj: any, keys: string[], value: any) {
+//   let current = obj;
+//   for (let i = 0; i < keys.length - 1; i++) {
+//     const key = keys[i];
+//     current[key] = current[key] || {};
+//     current = current[key];
+//   }
+//   current[keys[keys.length - 1]] = value;
+// }
+//
 
-
-interface ImageInfo {
-  src: string;
-  width: number;
-  height: number;
-}
-
-function normalizeImageSize(width: number, height: number): Pick<ImageInfo, 'width' | 'height'> {
-  let safeWidth = width;
-  let safeHeight = height;
-  const maxSide = Math.max(safeWidth, safeHeight);
-
-  if (maxSide > 0 && maxSide < MIN_IMAGE_SIDE) {
-    // 小图统一放大到最短边阈值，避免展示过小
-    const scale = MIN_IMAGE_SIDE / maxSide;
-    safeWidth = Math.round(safeWidth * scale);
-    safeHeight = Math.round(safeHeight * scale);
-  }
-
-  return {
-    width: safeWidth > 0 ? safeWidth : DEFAULT_IMAGE_SIDE,
-    height: safeHeight > 0 ? safeHeight : DEFAULT_IMAGE_SIDE
-  };
-}
-
-async function probeImageInfo(imgAddress: string): Promise<ImageInfo> {
-  const fallback = createFallbackImageInfo();
-
-  return await new Promise((resolve) => {
-    const img = new Image();
-
-    const cleanup = () => {
-      img.onload = null;
-      img.onerror = null;
-    };
-
-    img.onload = () => {
-      const normalized = normalizeImageSize(img.naturalWidth, img.naturalHeight);
-      cleanup();
-      resolve({
-        src: imgAddress,
-        ...normalized
-      });
-    };
-
-    img.onerror = () => {
-      cleanup();
-      logDataSourceError('probeImageInfo', new Error('图片加载失败'), {imgAddress});
-      resolve(fallback);
-    };
-
-    img.decoding = 'async';
-    img.src = imgAddress;
-  });
-}
-
-
-export const useDataSourcesStore = defineStore(
-  'DataSources', () => {
-
-
-    const wikiRepos: Record<string, RepoInstance> = shallowReactive({});
-    const remoteImageCache = new Map<string, ImageInfo>();
-
-    function setWikiRepo(id: string, repo: RepoInstance) {
-      const oldRepo = wikiRepos[id];
-      if (oldRepo instanceof LocalWikiRepo) {
-        oldRepo.dispose();
-      }
-      wikiRepos[id] = markRaw(repo) as RepoInstance;
-    }
-
-
-    function clearWikiRepos() {
-      for (const id of Object.keys(wikiRepos)) {
-        disposeWikiRepo(id);
-      }
-    }
-
-    function trimRemoteImageCache() {
-      while (remoteImageCache.size > REMOTE_IMAGE_CACHE_LIMIT) {
-        const oldestKey = remoteImageCache.keys().next().value;
-        if (!oldestKey) {
-          break;
-        }
-        remoteImageCache.delete(oldestKey);
-      }
-    }
-
-    // 统一图片信息获取入口：用于远程图、http 仓库图与 markdown 图
-    async function getImageInfo(imgAddress: string): Promise<ImageInfo> {
-      if (!imgAddress) {
-        return createFallbackImageInfo();
-      }
-
-      const cacheHit = remoteImageCache.get(imgAddress);
-      if (cacheHit) {
-        return cacheHit;
-      }
-
-      const pending = remoteImagePending.get(imgAddress);
-      if (pending) {
-        // 复用正在进行中的请求，避免同图被重复探测
-        return await pending;
-      }
-
-      const loader = (async () => {
-        try {
-          const info = await probeImageInfo(imgAddress);
-          remoteImageCache.set(imgAddress, info);
-          trimRemoteImageCache();
-          return info;
-        } catch (err) {
-          logDataSourceError('Store.getImageInfo', err, {imgAddress});
-          return createFallbackImageInfo();
-        } finally {
-          remoteImagePending.delete(imgAddress);
-        }
-      })();
-
-      remoteImagePending.set(imgAddress, loader);
-      return await loader;
-    }
-
-
-
-
-
-
-
-      initState.value = true;
-      console.log('读取仓库数据完成！')
-    }
-
-
-    // ------------------- 未启用的功能🤔 -------------------
-
-    // let db = ref<any>(null)
-    // let opfsRoot = null
-    // let fileHandle = null
-
-    // const dbPromise = (async () => {
-    //     try {
-    //       const SQL = await initSqlJs({
-    //             locateFile: (file) => `../../node_modules/sql.js/dist/sql-wasm.wasm`
-    //         })
-    //         opfsRoot = await navigator.storage.getDirectory();
-    //         try {
-    //             // 存在：可以打开
-    //             const fileHandle = await opfsRoot.getFileHandle("db.sqlite");
-    //             const file = await fileHandle.getFile();
-    //             const buffer = await file.arrayBuffer();
-    //             db.value = new SQL.Database(new Uint8Array(buffer));
-    //         } catch (err: any) {
-    //             // 不存在：创建
-    //             if (err.name === 'NotFoundError') {
-    //                 fileHandle = await opfsRoot.getFileHandle("db.sqlite", {create: true});
-    //                 db.value = new SQL.Database()
-    //                 console.log('未发现数据库，已创建！')
-    //             } else {
-    //                 console.error(err)
-    //             }
-    //         }
-    //
-    //         return {db, opfsRoot, fileHandle}
-    //     } catch (err) {
-    //         console.error('SQL.js 初始化失败:', err)
-    //         throw err
-    //     }
-    // })()
-    //
-    // dbPromise.then((event) => {
-    //     console.log("Outside async:", event.db) // ✅ 正确打印
-    //
-    //
-    //     watch(() => event.db.value, () => {
-    //         opfsWrite(event.db, event.fileHandle)
-    //     })
-    // })
-
-    // ------------------- 未启用的功能🤔 -------------------
-
-
-
-
-    //
-    // function deepSet(obj: any, keys: string[], value: any) {
-    //   let current = obj;
-    //   for (let i = 0; i < keys.length - 1; i++) {
-    //     const key = keys[i];
-    //     current[key] = current[key] || {};
-    //     current = current[key];
-    //   }
-    //   current[keys[keys.length - 1]] = value;
-    // }
-    //
-
-    async function fetchRemoteImageInfo(imgAddress: string): Promise<ImageInfo> {
-      return await getImageInfo(imgAddress);
-    }
-
-    return {
-      initState,
-      persistentStorage,
-      wikiRepos,
-      addLocalRepo,
-      addHttpWikiRepo,
-      deleteRepos,
-      initFetchData,
-      deleteDatabase,
-      getImageInfo,
-      fetchRemoteImageInfo
-    };
-  }
-);
 
 // async function opfsWrite(db: any, fileHandle: any) {
 //     const writable = await fileHandle.createWritable();

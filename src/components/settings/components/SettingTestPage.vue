@@ -46,7 +46,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {useDataSourcesStore3} from '@/stores/dataSources3';
+import {useDataSourcesStore} from '@/stores/dataSources.ts';
 import {useSettingStore} from '@/stores/setting';
 import {useNoticeStore} from '@/stores/notice';
 import {ref} from 'vue';
@@ -63,7 +63,7 @@ const repoAddress = ref('');
 
 const router = useRouter();
 
-const dataStore = useDataSourcesStore3();
+const dataStore = useDataSourcesStore();
 
 function addNotice() {
   notice.addNotice('success', '测试！', '测试喵♪');

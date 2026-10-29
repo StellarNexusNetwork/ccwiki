@@ -28,14 +28,14 @@ import NoticeComponent from '@/components/notice/NoticeComponent.vue';
 import LoginDialog from "@/components/user/LoginDialog.vue";
 import SettingDialog from "@/components/settings/SettingDialog.vue";
 import {useWindowStore} from '@/stores/window';
-import {useDataSourcesStore3} from '@/stores/dataSources3';
+import {useDataSourcesStore} from '@/stores/dataSources.ts';
 import {RouterView, useRouter} from 'vue-router';
 import {computed, onMounted, onUnmounted, ref, watchEffect} from 'vue';
 import {useRouteTransition} from '@/composables/useRouteTransition';
 import {useSettingStore} from '@/stores/setting';
 
 
-useDataSourcesStore3().initFetchData();
+useDataSourcesStore().initFetchData();
 
 const sysWindows = useWindowStore();
 

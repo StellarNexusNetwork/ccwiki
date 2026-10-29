@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import {useWindowStore} from "@/stores/window";
-import {useDataSourcesStore3} from "@/stores/dataSources3";
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
 import {useI18n} from 'vue-i18n';
 import {useTextOverflow} from "@/composables/useTextOverflow";
 import {useRouter} from "vue-router";
@@ -40,7 +40,7 @@ onMounted(() => {
 
 
 const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
-const data = useDataSourcesStore3();
+const data = useDataSourcesStore();
 
 const {t} = useI18n();
 const router = useRouter();

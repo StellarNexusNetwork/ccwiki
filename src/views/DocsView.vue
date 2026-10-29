@@ -23,7 +23,7 @@ import {type MetaFile, MetaFileSchema} from "@/adapters/adapter/types/meta-file.
 import {type PageConfig, PageConfigFileSchema} from "@/adapters/adapter/types/page-config.ts";
 
 import {computed, nextTick, onMounted, ref, shallowRef, watch} from "vue";
-import {useDataSourcesStore3} from "@/stores/dataSources3";
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
 import {useI18n} from "vue-i18n";
 import {useRoute} from "vue-router";
 import {useSettingStore} from "@/stores/setting.ts";
@@ -51,7 +51,7 @@ function waitUntilTrue(source: () => boolean) {
   });
 }
 
-const data = useDataSourcesStore3();
+const data = useDataSourcesStore();
 
 const {t} = useI18n();
 const route = useRoute();
