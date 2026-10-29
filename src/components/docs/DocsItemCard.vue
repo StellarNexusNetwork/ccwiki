@@ -3,12 +3,12 @@
     <Image v-if="iconPath" class="icon" :path="iconPath" :repo="wikiRepo" alt="SVG Image" draggable="false"/>
     <div class="textBox" :style='{width:textBoxWidth}'>
       <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
-        <div class="title" :style="{ 'viewTransitionName': 'item-name-' + dirPath.replaceAll('/','-') + '-' + id }">
+        <div class="title" :style="{ 'viewTransitionName': titleVTName(dirPath.replaceAll('/','-') + '-' + id, metaChild?.title) }">
           {{ metaChild?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
           <span v-if="shouldAddGap" style="display:inline-block;width:40px;"></span>
         </div>
       </Vue3Marquee>
-      <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': 'item-name-' + dirPath.replaceAll('/','-') + '-' + id }">
+      <div v-if="!useWindowStore().isMarqueeEnabled" class="title" :style="{ 'viewTransitionName': titleVTName(dirPath.replaceAll('/','-') + '-' + id, metaChild?.title) }">
         {{ metaChild?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
       <div class="introduction" v-if="introduction">{{
@@ -36,6 +36,7 @@ import {useTextOverflow} from "@/composables/useTextOverflow.ts";
 import {useSettingStore} from "@/stores/setting.ts";
 import get from "lodash/get";
 import {Vue3Marquee} from "vue3-marquee";
+import {titleVTName} from "@/utils/viewTransition.ts";
 
 const {id, metaChild, wikiRepo, dirPath} = defineProps<{
   id: String,

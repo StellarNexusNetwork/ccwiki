@@ -1,7 +1,7 @@
 <template>
   <div class="mainDiv">
     <div class="titleDiv">
-      <div class="title" :style="{ 'viewTransitionName': 'item-name-'+ dirPath.replaceAll('/','-'),'borderBottom':'none'}">
+      <div class="title" :style="{ 'viewTransitionName': titleVTName(dirPath.replaceAll('/','-'), meta?.title),'borderBottom':'none'}">
         {{ meta?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
     </div>
@@ -27,6 +27,7 @@ import {useI18n} from 'vue-i18n';
 import {useRoute} from "vue-router";
 import {computed} from "vue";
 import {useWindow} from "@/composables/useWindow.ts";
+import {titleVTName} from "@/utils/viewTransition.ts";
 
 const sysWindow = useWindow()
 

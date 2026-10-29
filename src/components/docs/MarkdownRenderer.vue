@@ -8,7 +8,7 @@
       </div>
       <div class="mainContent">
         <div class="markdown-body">
-          <h1 :style="{ 'viewTransitionName': 'item-name-' + dirPath.replaceAll('/','-') ,'borderBottom':'none'}">
+          <h1 :style="{ 'viewTransitionName': titleVTName(dirPath.replaceAll('/','-'), config?.name) ,'borderBottom':'none'}">
             {{ config?.name ?? t("page.classification.NotFound") }}
           </h1>
         </div>
@@ -30,6 +30,7 @@ import Image from "@/components/common/image.vue";
 import {computed, onMounted, onUnmounted, ref} from "vue";
 import MarkdownIt from "markdown-it";
 import {tokensToVNode} from "@/utils/tokenToVNode";
+import {titleVTName} from "@/utils/viewTransition.ts";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import 'photoswipe/style.css';
 
