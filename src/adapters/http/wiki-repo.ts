@@ -45,18 +45,18 @@ export class HttpWikiRepo extends WikiRepo {
   // 初始化远程仓库：探测 icon 是否可访问
   async init() {
     if (this.icon) {
-      const iconAddress = this.resolveAddress("/", this.icon);
-      this.iconPath = iconAddress;
-    }
-    // 未指定图标时，自动探测
-    const iconExts = ['.svg', '.avif', '.png', '.jpg'];
-    for (const ext of iconExts) {
-      try {
-        const iconAddress = this.resolveAddress("/", `icon${ext}`);
-        await axios.get(iconAddress);
-        this.iconPath = iconAddress;
-      } catch {
-        // 文件不存在，继续尝试下一个格式
+      this.iconPath = this.resolveAddress("/", this.icon);
+    } else {
+      // 未指定图标时，自动探测
+      const iconExts = ['.svg', '.avif', '.png', '.jpg'];
+      for (const ext of iconExts) {
+        try {
+          const iconAddress = this.resolveAddress("/", `icon${ext}`);
+          await axios.get(iconAddress);
+          this.iconPath = iconAddress;
+        } catch {
+          // 文件不存在，继续尝试下一个格式
+        }
       }
     }
   }

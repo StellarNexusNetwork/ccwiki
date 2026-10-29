@@ -53,16 +53,17 @@ export class LocalWikiRepo extends WikiRepo {
         this.iconPath = iconAddress;
         return;
       }
-    }
-    // 未指定图标时，自动探测
-    const iconExts = ['.svg', '.avif', '.png', '.jpg'];
-    for (const ext of iconExts) {
-      try {
-        await this.getFileByPath("/", `icon${ext}`);
-        this.iconPath = `icon${ext}`;
-        return;
-      } catch {
-        // 文件不存在，继续尝试下一个格式
+    } else {
+      // 未指定图标时，自动探测
+      const iconExts = ['.svg', '.avif', '.png', '.jpg'];
+      for (const ext of iconExts) {
+        try {
+          await this.getFileByPath("/", `icon${ext}`);
+          this.iconPath = `icon${ext}`;
+          return;
+        } catch {
+          // 文件不存在，继续尝试下一个格式
+        }
       }
     }
   }
