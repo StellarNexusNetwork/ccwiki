@@ -135,7 +135,7 @@ const clearLocalStorage = () => {
 
 .localRepositories .img .icon {
   width: 60px;
-  height: auto;
+  height: 60px;
   user-select: none;
   image-rendering: pixelated;
 }
