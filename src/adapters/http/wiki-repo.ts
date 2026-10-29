@@ -16,30 +16,24 @@ export class HttpWikiRepo extends WikiRepo {
 
   // 处理路径（currentAddress是path 不是fullPath）
   resolveAddress(currentAddress: string, targetPath: string): string {
-
     // http:// / https:// Base64 / Data URL
     if (this.isUrl(targetPath)) {
       return targetPath;
     }
 
-    const repoAddress = this.address.endsWith("/")
-      ? this.address
-      : `${this.address}/`;
+    // 仓库根地址，统一以 / 结尾，避免拼接出 //
+    const repoRoot = `${this.address.replace(/\/+$/, "")}/`;
 
-    // 处理路径
-    currentAddress = repoAddress + currentAddress;
-    const base = currentAddress.endsWith("/")
-      ? currentAddress
-      : `${currentAddress}/`;
-    const currentUrl = new URL(base);
-
-    // /a -> https://xxx.xxx/a
+    // /a -> 仓库根下的 a（与本地仓库保持一致，而不是站点根）
     if (targetPath.startsWith("/")) {
-      return new URL(targetPath, currentUrl.origin).toString();
+      const rootRelative = targetPath.replace(/^\/+/, "");
+      return new URL(rootRelative, repoRoot).toString();
     }
 
     // ./b、../b、b -> 相对于当前目录
-    return new URL(targetPath, currentUrl).toString();
+    const currentPath = currentAddress.replace(/^\/+|\/+$/g, "");
+    const currentDir = `${repoRoot}${currentPath}${currentPath ? "/" : ""}`;
+    return new URL(targetPath, currentDir).toString();
   }
 
   // 初始化远程仓库：探测 icon 是否可访问

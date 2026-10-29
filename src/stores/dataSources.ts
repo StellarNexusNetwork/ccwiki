@@ -184,7 +184,14 @@ export const useDataSourcesStore = defineStore(
     // 添加在线仓库
     async function addHttpRepo(address: string, isInit?: boolean) {
       let config: Config;
-      const normalizedAddress = normalizeUrl(address);
+      let normalizedAddress: string;
+      // 先校验地址，避免非法输入直接抛出未捕获异常
+      try {
+        normalizedAddress = normalizeUrl(address);
+      } catch (err) {
+        notice.addNotice('error', '仓库地址不合法', `[addHttpWikiRepo] ${err}`);
+        return;
+      }
       // 尝试读取配置文件
       try {
         const configAddress = new URL('config.json', normalizedAddress.endsWith('/') ? normalizedAddress : `${normalizedAddress}/`).toString();
@@ -287,9 +294,23 @@ async function loadConfigFromRoot(root: FileSystemDirectoryHandle) {
 function normalizeUrl(input: string): string {
   const trimmed = input.trim();
 
-  const url = /^https?:\/\//i.test(trimmed)
-    ? new URL(trimmed)
-    : new URL(`https://${trimmed}`);
+  if (!trimmed) {
+    throw new Error('仓库地址不能为空');
+  }
+
+  // 显式拒绝其他协议，避免被静默拼成 https://ftp//xxx 这类地址
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed) && !/^https?:\/\//i.test(trimmed)) {
+    throw new Error(`不支持的协议：${trimmed.slice(0, trimmed.indexOf('://'))}`);
+  }
+
+  let url: URL;
+  try {
+    url = /^https?:\/\//i.test(trimmed)
+      ? new URL(trimmed)
+      : new URL(`https://${trimmed}`);
+  } catch (err) {
+    throw new Error(`无法解析仓库地址：${trimmed}`, {cause: err});
+  }
 
   return url.toString();
 }
