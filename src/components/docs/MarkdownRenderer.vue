@@ -1,20 +1,21 @@
 <template>
-  <div class="mainDiv">
-    <div class="subContent">
-      <div class="introduction">
-        <Image v-if="iconPath" class="img" :path="iconPath" :repo="repo" alt="" :isLightbox="true" draggable="false"/>
+  <div class="Div">
+    <div class="mainDiv">
+      <div class="subContent">
+        <div class="introduction">
+          <Image v-if="iconPath" class="img" :path="iconPath" :repo="wikiRepo" alt="" :isLightbox="true" draggable="false"/>
+        </div>
       </div>
-    </div>
-    <div class="mainContent">
-      <div class="markdown-body">
-        <h1 :style="{ 'viewTransitionName': 'item-name-' + dirPath.replaceAll('/','-') ,'borderBottom':'none'}">
-          {{ config?.name ?? t("page.classification.NotFound") }}
-        </h1>
-      </div>
-      <br/>
-      <!--      <div class="markdown-body" v-html="renderedMarkdown"></div>-->
-      <div class="markdown-body">
-        <MarkdownContent/>
+      <div class="mainContent">
+        <div class="markdown-body">
+          <h1 :style="{ 'viewTransitionName': 'item-name-' + dirPath.replaceAll('/','-') ,'borderBottom':'none'}">
+            {{ config?.name ?? t("page.classification.NotFound") }}
+          </h1>
+        </div>
+        <br/>
+        <div class="markdown-body">
+          <MarkdownContent/>
+        </div>
       </div>
     </div>
   </div>
@@ -32,8 +33,8 @@ import {tokensToVNode} from "@/utils/tokenToVNode";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import 'photoswipe/style.css';
 
-const {repo, config, dirPath} = defineProps<{
-  repo: WikiRepoInstance,
+const {wikiRepo, config, dirPath} = defineProps<{
+  wikiRepo: WikiRepoInstance,
   config: PageConfig,
   dirPath: string,
 }>()
@@ -51,7 +52,7 @@ const source = ref('');
 const tokens = computed(() => md.parse(source.value, {}));
 
 const MarkdownContent = () =>
-  tokensToVNode(tokens.value, {repo, currentPath: dirPath});
+  tokensToVNode(tokens.value, {repo: wikiRepo, currentPath: dirPath});
 
 function isPhonePortrait() {
   return window.matchMedia('(max-width: 670px) and (orientation: portrait)').matches;
@@ -152,7 +153,7 @@ onMounted(async () => {
 
   let text: string;
   try {
-    const mdFile = await repo.getFileByPath(dirPath, "./index.md");
+    const mdFile = await wikiRepo.getFileByPath(dirPath, "./index.md");
     text = mdFile instanceof File
       ? await mdFile.text()
       : mdFile;
@@ -161,14 +162,14 @@ onMounted(async () => {
     return;
   }
 
-  // 加载期间组件可能已被卸载，避免继续写入
+  // 加载期间 组件可能已被卸载，避免继续写入
   if (isUnmounted) return;
 
   // todo 屏蔽<script>等标签
   // md.use(sanitizer);
 
   // 处理格式 替换所有 [[path]] 为 ![path](path)，只赋值一次
-  source.value = text.replace(/!\[\[([^\]]+)\]\]/g, '![$1](<$1>)');
+  source.value = text.replace(/!\[\[([^\]]+)]]/g, '![$1](<$1>)');
 });
 
 onUnmounted(() => {
@@ -182,7 +183,17 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.Div {
+  display: flex;
+}
+
 @media (min-width: 670px) {
+  .Div .mainDiv {
+    padding: 35px;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+
   .subContent {
     padding-left: 30px;
     margin-left: auto;
@@ -190,6 +201,12 @@ onUnmounted(() => {
 }
 
 @media (max-width: 670px) {
+  .Div .mainDiv {
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .markdown-body {
     display: block;
     max-width: calc(100vw - 45px);
@@ -202,6 +219,8 @@ onUnmounted(() => {
 }
 
 .mainDiv {
+  display: flex;
+  width: 100%;
   padding-top: 10px;
 }
 

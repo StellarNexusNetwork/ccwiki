@@ -43,11 +43,12 @@ const imageManager = useImageManager();
 const props = withDefaults(defineProps<{
   path: string,
   repo: WikiRepoInstance,
-  cache?: boolean,
+  cache?: boolean,    // 是否缓存结果路径
   alt?: string,
-  shape?: string,
-  isLightbox?: boolean,
-  imgStyle?: CSSProperties
+  shape?: string,    // 用于 Skeleton
+  isLightbox?: boolean, // 是否可以最大化
+  imgStyle?: CSSProperties   // 而外图片样式
+  currentDirPath?: string,   // 用于指定特定的起始路径（不知道起什么名了 先用这个吧 qwq）
 }>(), {
   cache: true,
   alt: "",
@@ -56,7 +57,7 @@ const props = withDefaults(defineProps<{
   imgStyle: () => ({})
 })
 
-const {path, repo, cache, alt, imgStyle} = props;
+const {path, repo, cache, alt, imgStyle, currentDirPath} = props;
 
 let cachePath: string | undefined;
 let image: ResolvedImage | undefined;
@@ -65,8 +66,20 @@ let active = true;
 const lang = useSettingStore().setting.lang;
 const currentPathList = [...route.params.pathMatch as string[]];
 currentPathList.shift();
-currentPathList.unshift('docs', lang);
-const currentPath = currentPathList.join("/");
+let parts: string[];
+
+if (currentDirPath) {
+  parts = [
+    ...currentDirPath.split(/[\\/]/).filter(Boolean),
+    ...currentPathList
+  ]
+} else if (currentPathList.length > 0) {
+  currentPathList.unshift('docs', lang);
+  parts = currentPathList
+} else {
+  parts = currentPathList
+}
+const currentPath = parts.join("/");
 
 
 const repoContext = {

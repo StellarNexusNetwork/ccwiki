@@ -46,7 +46,7 @@ export class HttpWikiRepo extends WikiRepo {
   async init() {
     if (this.icon) {
       const iconAddress = this.resolveAddress("/", this.icon);
-      this.icon = iconAddress;
+      this.iconPath = iconAddress;
     }
     // 未指定图标时，自动探测
     const iconExts = ['.svg', '.avif', '.png', '.jpg'];
@@ -54,7 +54,7 @@ export class HttpWikiRepo extends WikiRepo {
       try {
         const iconAddress = this.resolveAddress("/", `icon${ext}`);
         await axios.get(iconAddress);
-        this.icon = iconAddress;
+        this.iconPath = iconAddress;
       } catch {
         // 文件不存在，继续尝试下一个格式
       }

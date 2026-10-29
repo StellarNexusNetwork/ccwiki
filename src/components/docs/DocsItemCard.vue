@@ -35,6 +35,7 @@ import {onMounted} from "vue";
 import {useTextOverflow} from "@/composables/useTextOverflow.ts";
 import {useSettingStore} from "@/stores/setting.ts";
 import get from "lodash/get";
+import {Vue3Marquee} from "vue3-marquee";
 
 const {id, metaChild, wikiRepo, dirPath} = defineProps<{
   id: String,

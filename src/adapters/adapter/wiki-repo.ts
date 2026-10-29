@@ -7,8 +7,8 @@ export class WikiRepo {
   id: string;
   name: Record<string, string>; // lang -> localized name
   version: string | undefined;
-  icon: string | undefined; // 存储的相对路径或链接
-  iconURL: string = FALLBACK_IMAGE_SRC; // 处理后的资源路径（不存储）
+  icon: string | undefined; // 配置文件内读取的
+  iconPath: string = FALLBACK_IMAGE_SRC; // 实际的路径
 
   // todo:标记仓库是否损坏
 

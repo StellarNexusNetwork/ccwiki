@@ -3,7 +3,7 @@
     <template v-if="!loading">
       <WikiRepos v-if="hasRepos && path.length<1"/>
       <ItemList :meta="meta" :wikiRepo="wikiRepo" :dirPath="dirPath" v-else-if="hasRepos && path.length>0 && wikiRepo && meta"/>
-      <DocsPage :config="config" :wikiRepo="wikiRepo" :dirPath="dirPath" v-else-if="hasRepos && path.length>0 && wikiRepo && config"/>
+      <MarkdownRenderer :config="config" :wikiRepo="wikiRepo" :dirPath="dirPath" v-else-if="hasRepos && path.length>0 && wikiRepo && config"/>
       <div class="notFoundUrl" v-else-if="hasRepos && path.length>0">
         <NotFoundView/>
       </div>
@@ -32,7 +32,7 @@ import {eventBus} from "@/utils/eventBus.ts";
 import NotFoundView from "@/views/error-views/NotFoundView.vue";
 import ItemList from "@/components/docs/ItemList.vue";
 import WikiRepos from "@/components/docs/WikiRepos.vue";
-import DocsPage from "@/components/docs/DocsPage.vue";
+import MarkdownRenderer from "@/components/docs/MarkdownRenderer.vue";
 
 // 用于等待的函数
 function waitUntilTrue(source: () => boolean) {
