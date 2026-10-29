@@ -18,9 +18,18 @@ interface PersistentStorage {
   [id: string]: LocalWikiRepoStorage | HttpRepoStorage;
 }
 
+// id 会出现在路由路径与 local:// 协议中：
+// - / 会把 id 拆成多段，\ 会被浏览器当成 /
+// - # 和 ? 会截断地址，% 会干扰 URL 解码
+// - : 在 local://{repoId}:{path} 中会产生歧义
+// 因此禁止这些字符及控制字符。
+const REPO_ID_PATTERN = /^[^/\\#?%:\u0000-\u001F\u007F]+$/u;
+
 // 配置文件检查项目(必须)
 const ConfigSchema = z.looseObject({
-  id: z.string(),
+  id: z.string()
+    .min(1, "id 不能为空")
+    .regex(REPO_ID_PATTERN, "id 不能包含 / \\ # ? % : 等字符"),
   version: z.string(),
   name: z.record(z.string(), z.string()).optional()
 })
@@ -147,7 +156,7 @@ export const useDataSourcesStore = defineStore(
       // todo:仅检查必要配置 其余仅报warn并改为默认值
       const result = ConfigSchema.safeParse(config);
       if (!result.success) {
-        notice.addNotice('error', `配置缺失必要属性：`, result.error);
+        notice.addNotice('error', `配置文件检查未通过：${result.error.issues[0]?.message ?? ''}`, result.error);
         return;
       }
 
@@ -190,7 +199,7 @@ export const useDataSourcesStore = defineStore(
       // todo:仅检查必要配置 其余仅报warn并改为默认值
       const result = ConfigSchema.safeParse(config);
       if (!result.success) {
-        notice.addNotice('error', `配置缺失必要属性：`, result.error);
+        notice.addNotice('error', `配置文件检查未通过：${result.error.issues[0]?.message ?? ''}`, result.error);
         return;
       }
 
