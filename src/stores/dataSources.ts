@@ -146,7 +146,10 @@ export const useDataSourcesStore = defineStore(
       // 检查配置文件是否满足最低注册要求
       // todo:仅检查必要配置 其余仅报warn并改为默认值
       const result = ConfigSchema.safeParse(config);
-      if (!result.success) notice.addNotice('error', `配置缺失必要属性：`, result.error);
+      if (!result.success) {
+        notice.addNotice('error', `配置缺失必要属性：`, result.error);
+        return;
+      }
 
       // 检查是否已存在
       if (persistentStorage[config.id]) {
@@ -186,7 +189,10 @@ export const useDataSourcesStore = defineStore(
       // 检查配置文件是否满足最低注册要求
       // todo:仅检查必要配置 其余仅报warn并改为默认值
       const result = ConfigSchema.safeParse(config);
-      if (!result.success) notice.addNotice('error', `配置缺失必要属性：`, result.error);
+      if (!result.success) {
+        notice.addNotice('error', `配置缺失必要属性：`, result.error);
+        return;
+      }
 
       // 检查是否已存在
       if (persistentStorage[config.id]) {
