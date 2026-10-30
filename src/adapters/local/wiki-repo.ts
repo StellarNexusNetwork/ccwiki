@@ -123,12 +123,10 @@ export class LocalWikiRepo extends WikiRepo {
         return segment;
       }
     });
-    console.log(pathSegments);
     try {
       const fileHandle = await this.getFileHandle(pathSegments);
       return await fileHandle.getFile();
     } catch (e) {
-      console.log(e)
       throw new Error(`获取本地文件失败`, {cause: e});
     }
   }

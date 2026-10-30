@@ -170,7 +170,6 @@ export const useImageManager = defineStore(
       context: RepoContext,
       cache: boolean = true, // 是否创建缓存
     ): Promise<[string, ResolvedImage]> {
-      console.log("r", path)
       // 解析原始路径
       let resolvedPath: ResolvedPath;
 
