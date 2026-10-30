@@ -10,13 +10,22 @@ export const VUE_RESERVED_PROPS = new Set(['key', 'ref', 'ref_for', 'ref_key'])
 export const SAFE_ALLOWED_TAGS = [
   'a', 'abbr', 'article', 'aside', 'b', 'blockquote', 'br', 'caption', 'cite',
   'code', 'col', 'colgroup', 'dd', 'del', 'details', 'div', 'dl', 'dt', 'em',
-  'figcaption', 'figure', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header',
-  'hr', 'i', 'img', 'ins', 'kbd', 'li', 'main', 'mark', 'nav', 'ol', 'p', 'pre',
-  'q', 's', 'samp', 'section', 'small', 'span', 'strong', 'sub', 'summary', 'sup',
-  'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul', 'var', 'wbr',
+  'figcaption', 'figure', 'font', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'header', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'main', 'mark', 'nav', 'ol',
+  'p', 'pre', 'q', 's', 'samp', 'section', 'small', 'span', 'strong', 'sub',
+  'summary', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u',
+  'ul', 'var', 'wbr',
 ]
 
-/** safe 模式会连同内容一起丢弃的危险元素。 */
+/**
+ * 废弃但仍大量出现在历史文档中的标签。
+ * 渲染时替换成等价的现代标签，只保留能映射到内联样式的表现属性。
+ */
+export const LEGACY_TAG_MAP: Record<string, string> = {
+  font: 'span',
+}
+
+/** 会连同内容一起丢弃的危险元素。 */
 export const SAFE_DROP_TAGS = new Set([
   'script', 'style', 'iframe', 'object', 'embed', 'link', 'meta', 'base',
   'applet', 'frame', 'frameset', 'portal',
@@ -24,10 +33,81 @@ export const SAFE_DROP_TAGS = new Set([
 
 /** safe 模式允许的属性；额外允许 aria-* 和 data-*。 */
 export const SAFE_HTML_ATTRS = [
-  'alt', 'aria-label', 'class', 'cite', 'colspan', 'datetime', 'dir', 'height',
-  'headers', 'hidden', 'href', 'id', 'lang', 'loading', 'open', 'rel', 'role',
-  'rowspan', 'scope', 'src', 'start', 'target', 'title', 'width',
+  'alt', 'aria-label', 'class', 'cite', 'color', 'colspan', 'datetime', 'dir',
+  'face', 'height', 'headers', 'hidden', 'href', 'id', 'lang', 'loading', 'open',
+  'rel', 'role', 'rowspan', 'scope', 'size', 'src', 'start', 'style', 'target',
+  'title', 'width',
 ]
+
+/**
+ * 废弃标签的表现属性。只有 <font> 上的这些属性有意义，
+ * 会翻译成等价的内联样式，其他元素上一律丢弃。
+ */
+export const LEGACY_PRESENTATION_ATTRS = new Set(['color', 'face', 'size'])
+
+/** <font size> 的 1–7 刻度对应字号，与浏览器对废弃属性的实现一致。 */
+export const LEGACY_FONT_SIZE_PX: Record<string, number> = {
+  '1': 10, '2': 13, '3': 16, '4': 18, '5': 24, '6': 32, '7': 48,
+}
+
+/** font-size 只接受带单位的数字，再按单位限制区间。 */
+export const FONT_SIZE_RE = /^(\d+(?:\.\d+)?)(px|em|rem|%)$/
+export const FONT_SIZE_RANGE: Record<string, readonly [number, number]> = {
+  // 下限排除 0 字号：那是隐藏文字的常见手法。
+  px: [8, 200],
+  em: [0.5, 5],
+  rem: [0.5, 5],
+  '%': [50, 500],
+}
+
+/** font-family 的语法已由 CSSOM 校验，这里再限制字符集和长度。 */
+export const FONT_FAMILY_RE = /^[\w\u4e00-\u9fa5 ,'"-]+$/
+export const MAX_FONT_FAMILY_LENGTH = 64
+
+/**
+ * allowStyle 开启时允许的内联样式属性。
+ * 只收录影响文字呈现的属性；定位、层叠、盒模型尺寸一律不开放，
+ * 避免用 position、z-index 等覆盖页面自身的交互层。
+ * font-size 是唯一的尺寸类属性，值由 FONT_SIZE_RANGE 限制区间。
+ * 按 CSSOM 序列化后的名称匹配：浏览器可能把 shorthand 展开成 longhand，
+ * 因此 text-decoration 与 text-decoration-line 需要同时收录。
+ */
+export const SAFE_STYLE_PROPS = new Set([
+  'background-color',
+  'color',
+  'font-family',
+  'font-size',
+  'font-style',
+  'font-weight',
+  'max-width',
+  'text-align',
+  'text-decoration',
+  'text-decoration-line',
+  'vertical-align',
+])
+
+/** 值被限制为固定关键字的属性；多个关键字用空格组合。 */
+export const SAFE_STYLE_KEYWORDS: Record<string, ReadonlySet<string>> = {
+  'font-style': new Set(['normal', 'italic', 'oblique']),
+  'font-weight': new Set([
+    'normal', 'bold', 'bolder', 'lighter',
+    '100', '200', '300', '400', '500', '600', '700', '800', '900',
+  ]),
+  'text-align': new Set(['left', 'right', 'center', 'justify', 'start', 'end']),
+  'text-decoration': new Set(['none', 'underline', 'line-through', 'overline']),
+  'text-decoration-line': new Set(['none', 'underline', 'line-through', 'overline']),
+  'vertical-align': new Set(['top', 'middle', 'bottom', 'baseline', 'sub', 'super']),
+}
+
+/** max-width 只对图片开放，值限定为简单的长度或百分比。 */
+export const MAX_WIDTH_VALUE_RE = /^(?:0|\d+(?:\.\d+)?(?:px|%|em|rem))$/i
+
+/** 内联样式中会引入外部资源或脚本的值特征。 */
+export const UNSAFE_STYLE_VALUE_RE =
+  /url\s*\(|expression\s*\(|javascript:|var\s*\(|attr\s*\(|@import/i
+
+/** 单条 style 的长度上限，避免异常长的输入。 */
+export const MAX_INLINE_STYLE_LENGTH = 512
 
 /** 只创建一次，避免每个 HTML fragment 都复制配置。 */
 export const SAFE_SANITIZE_CONFIG = {

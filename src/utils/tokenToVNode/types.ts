@@ -62,6 +62,13 @@ export interface TokenToVNodeOptions {
   ) => string | null | undefined
 
   /**
+   * safe 模式下是否保留内联样式，默认关闭。
+   * - true：使用内置属性 + 值白名单过滤
+   * - 函数：自定义过滤，返回 null 或空字符串表示丢弃；第二参数为元素标签名
+   */
+  allowStyle?: boolean | ((style: string, tag?: string) => string | null)
+
+  /**
    * 自定义渲染钩子；返回 undefined 走默认逻辑，返回 null 跳过该 token。
    * 开始标签 token 在对应结束标签出现时调用，并拿到解析好的 children。
    */
@@ -89,6 +96,8 @@ export interface Frame {
   flatten: boolean
   /** 此 frame 来自 Markdown 原始 HTML。 */
   rawHtml: boolean
+  /** 原始 HTML 的标签名；渲染标签可能与之不同（如 font 渲染成 span）。 */
+  sourceTag?: string
   /** safe 模式中用于丢弃危险 HTML 元素及其内部内容。 */
   drop: boolean
 }

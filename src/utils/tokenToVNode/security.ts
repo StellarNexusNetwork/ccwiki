@@ -1,10 +1,19 @@
 import {
   BAD_TOKEN_PROTOCOL_RE,
   BLOCKED_ATTRS,
+  FONT_FAMILY_RE,
+  FONT_SIZE_RANGE,
+  FONT_SIZE_RE,
+  MAX_FONT_FAMILY_LENGTH,
+  MAX_INLINE_STYLE_LENGTH,
+  MAX_WIDTH_VALUE_RE,
   PROTOCOL_RE,
   SAFE_DATA_IMAGE_RE,
   SAFE_PROTOCOLS,
+  SAFE_STYLE_KEYWORDS,
+  SAFE_STYLE_PROPS,
   STYLE_ALIGN_RE,
+  UNSAFE_STYLE_VALUE_RE,
   UNSAFE_URL_CHARS_RE,
   URL_ATTRS,
   VUE_RESERVED_PROPS,
@@ -20,6 +29,100 @@ export function isReservedProp(name: string): boolean {
 /** 事件属性及可能引入 HTML/脚本执行的属性。 */
 export function isBlockedAttr(name: string): boolean {
   return name.startsWith('on') || BLOCKED_ATTRS.has(name)
+}
+
+/**
+ * 复用一个游离元素的 CSSOM 做解析，避免每个 style 属性都创建 DOM 节点。
+ * 每次使用前都会整段覆盖 cssText，不会残留上一次的声明。
+ */
+let styleProbe: CSSStyleDeclaration | null = null
+
+function getStyleProbe(): CSSStyleDeclaration | null {
+  if (typeof document === 'undefined') return null
+  styleProbe ??= document.createElement('div').style
+  return styleProbe
+}
+
+/**
+ * 用 CSSOM 解析内联样式，再按属性白名单 + 值白名单逐条保留。
+ * 不按正则切分声明：CSS 转义（\75 rl(）、大小写、注释在正则里都能绕过，
+ * 而 CSSOM 会先把转义规范化再给出属性名和值。
+ * tag 用于限制 max-width 只作用于图片。
+ */
+export function sanitizeInlineStyle(value: string, tag?: string): string {
+  if (value.length > MAX_INLINE_STYLE_LENGTH) return ''
+  if (UNSAFE_STYLE_VALUE_RE.test(value)) return ''
+
+  const style = getStyleProbe()
+  if (!style) return ''
+
+  style.cssText = value
+
+  const declarations: string[] = []
+  for (let i = 0; i < style.length; i++) {
+    const prop = style.item(i)
+    if (!SAFE_STYLE_PROPS.has(prop)) continue
+
+    // max-width 只用于限制图片尺寸，其他元素上会被用来挤压布局。
+    if (prop === 'max-width' && tag !== 'img') continue
+
+    const propValue = style.getPropertyValue(prop).trim()
+    if (!propValue || !isSafeStyleValue(prop, propValue)) continue
+
+    // 不输出 !important，避免正文样式覆盖页面自身规则。
+    declarations.push(`${prop}: ${propValue}`)
+  }
+
+  return declarations.join('; ')
+}
+
+/** 判断 CSSOM 规范化后的值是否在白名单内。 */
+export function isSafeStyleValue(prop: string, value: string): boolean {
+  // 兜底再查一次，防止将来把接受 url() 的属性加进白名单。
+  if (UNSAFE_STYLE_VALUE_RE.test(value)) return false
+
+  if (prop === 'max-width') return MAX_WIDTH_VALUE_RE.test(value)
+  if (prop === 'font-size') return isSafeFontSize(value)
+  if (prop === 'font-family') return isSafeFontFamily(value)
+
+  const keywords = SAFE_STYLE_KEYWORDS[prop]
+  // color / background-color 的语法合法性由 CSSOM 保证，无需额外枚举。
+  if (!keywords) return true
+
+  return value.toLowerCase().split(WHITESPACE_RE).every((part) => keywords.has(part))
+}
+
+/** 字号按单位限制区间；CSSOM 会把 0 序列化成 0px，这里一并拦掉。 */
+function isSafeFontSize(value: string): boolean {
+  const match = FONT_SIZE_RE.exec(value)
+  if (!match) return false
+
+  const range = FONT_SIZE_RANGE[(match[2] ?? '').toLowerCase()]
+  if (!range) return false
+
+  const size = Number(match[1])
+  return size >= range[0] && size <= range[1]
+}
+
+/** 字体名列表的语法已由 CSSOM 保证，这里只限制字符集和长度。 */
+function isSafeFontFamily(value: string): boolean {
+  return value.length <= MAX_FONT_FAMILY_LENGTH && FONT_FAMILY_RE.test(value)
+}
+
+/** 按 allowStyle 选项处理内联样式；未开启时返回 null。 */
+export function resolveInlineStyle(
+  value: string,
+  options: TokenToVNodeOptions,
+  tag?: string,
+): string | null {
+  const allowStyle = options.allowStyle
+  if (!allowStyle) return null
+
+  const sanitized = typeof allowStyle === 'function'
+    ? allowStyle(value, tag)
+    : sanitizeInlineStyle(value, tag)
+
+  return sanitized == null || sanitized.trim() === '' ? null : sanitized
 }
 
 export function tokenProps(
@@ -45,11 +148,17 @@ export function tokenProps(
 
     if (name === 'style') {
       const sanitizeStyle = options.sanitizeStyle
-      const sanitized = sanitizeStyle
-        ? sanitizeStyle(value, token)
-        : (token.type === 'th_open' || token.type === 'td_open') && STYLE_ALIGN_RE.test(value)
+      let sanitized: string | null | undefined
+
+      if (sanitizeStyle) {
+        sanitized = sanitizeStyle(value, token)
+      } else if (options.allowStyle) {
+        sanitized = resolveInlineStyle(value, options, token.tag?.toLowerCase())
+      } else {
+        sanitized = (token.type === 'th_open' || token.type === 'td_open') && STYLE_ALIGN_RE.test(value)
           ? value.trim()
           : null
+      }
 
       if (sanitized == null || sanitized === '') continue
       props ??= {}

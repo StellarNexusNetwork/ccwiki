@@ -53,7 +53,10 @@ const source = ref('');
 const tokens = computed(() => md.parse(source.value, {}));
 
 const MarkdownContent = () =>
-  tokensToVNode(tokens.value, {repo: wikiRepo, currentPath: dirPath});
+  tokensToVNode(tokens.value, {repo: wikiRepo, currentPath: dirPath}, {
+    allowHtml: 'safe',
+    allowStyle: true,
+  });
 
 function isPhonePortrait() {
   return window.matchMedia('(max-width: 670px) and (orientation: portrait)').matches;
