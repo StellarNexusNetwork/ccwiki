@@ -69,18 +69,14 @@ currentPathList.shift();
 let parts: string[];
 
 if (currentDirPath) {
-  parts = [
-    ...currentDirPath.split(/[\\/]/).filter(Boolean),
-    ...currentPathList
-  ]
+  parts = currentDirPath.split(/[\\/]/).filter(Boolean);
 } else if (currentPathList.length > 0) {
   currentPathList.unshift('docs', lang);
-  parts = currentPathList
+  parts = currentPathList;
 } else {
-  parts = currentPathList
+  parts = currentPathList;
 }
 const currentPath = parts.join("/");
-
 
 const repoContext = {
   repo,
