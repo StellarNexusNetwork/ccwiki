@@ -1,8 +1,7 @@
 <template>
   <ul>
     <li class="localRepositories" v-for="(item, index) in data.wikiRepos" :key="index" @click="routePush('/docs/' + index)">
-      <img v-if="item.type == 'local'" class="icon" :src="item.icon" alt="SVG Image" draggable="false">
-      <AsyncImage v-if="item.type == 'httpServer'" class="icon" :src="item.icon as string" width="45px" height="45px"/>
+      <Image class="icon" :path="item.iconPath" :repo="item" alt="" :cache="false" draggable="false"/>
       <div class="textDiv">
         <Vue3Marquee v-if="useWindowStore().isMarqueeEnabled" :duration="5" :pauseOnHover="true" :animateOnOverflowOnly="true" :clone="true" @onOverflowDetected="onOverflowDetected" @onOverflowCleared="onOverflowCleared">
           <div class="name">
@@ -24,13 +23,14 @@
 
 <script setup lang="ts">
 import {useWindowStore} from "@/stores/window";
-import {useDataSourcesStore} from "@/stores/dataSources";
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
 import {useI18n} from 'vue-i18n';
 import {useTextOverflow} from "@/composables/useTextOverflow";
 import {useRouter} from "vue-router";
 import {useSettingStore} from "@/stores/setting";
 import {onMounted} from "vue";
-import AsyncImage from "@/components/common/AsyncImage.vue";
+import {Vue3Marquee} from "vue3-marquee";
+import Image from "@/components/common/image.vue";
 
 onMounted(() => {
   setTimeout(() => {
@@ -39,7 +39,7 @@ onMounted(() => {
 });
 
 
-const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
+const {onOverflowDetected, onOverflowCleared} = useTextOverflow();
 const data = useDataSourcesStore();
 
 const {t} = useI18n();

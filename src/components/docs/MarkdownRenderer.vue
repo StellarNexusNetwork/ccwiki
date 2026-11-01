@@ -1,180 +1,75 @@
 <template>
-  <div class="mainDiv">
-    <div class="subContent">
-      <div class="introduction">
-        <a class="isImg" :href="iconInfo.src" :data-pswp-width="iconInfo.width" :data-pswp-height="iconInfo.height" target="_blank">
-          <img class="img" :src="iconInfo.src" alt="" width="auto" height="30" draggable="false" :style="{ 'viewTransitionName': 'class-item-img-' + address.join('-') }">
-        </a>
+  <div class="Div">
+    <div class="mainDiv">
+      <div class="subContent">
+        <div class="introduction">
+          <Image v-if="iconPath" class="img" :path="iconPath" :repo="wikiRepo" alt="" :isLightbox="true" draggable="false"/>
+        </div>
       </div>
-    </div>
-    <div class="mainContent">
-      <div class="markdown-body">
-        <h1 :style="{ 'viewTransitionName': 'class-item-name-' + address.join('-') ,'borderBottom':'none'}">
-          {{ config?.name ?? t("page.classification.NotFound") }}
-        </h1>
+      <div class="mainContent">
+        <div class="markdown-body">
+          <h1 :style="{ 'viewTransitionName': titleVTName(dirPath.replaceAll('/','-'), config?.name) ,'borderBottom':'none'}">
+            {{ config?.name ?? t("page.classification.NotFound") }}
+          </h1>
+        </div>
+        <br/>
+        <div class="markdown-body">
+          <MarkdownContent/>
+        </div>
       </div>
-      <br/>
-      <div class="markdown-body" v-html="renderedMarkdown"></div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onMounted, onUnmounted, ref} from 'vue';
-import {useRoute} from 'vue-router';
-import {useI18n} from 'vue-i18n';
-import get from 'lodash/get';
-import MarkdownIt from 'markdown-it';
-import {useSettingStore} from '@/stores/setting';
-import PhotoSwipeLightbox from 'photoswipe/lightbox';
-import 'photoswipe/style.css';
-import {useDataSourcesStore} from "@/stores/dataSources";
+import type {PageConfig} from "@/adapters/adapter/types/page-config.ts";
+import type {WikiRepoInstance} from "@/adapters/adapter/types.ts";
 
-const {config} = defineProps({
-  config: Object,
-})
+import {useI18n} from "vue-i18n";
+import get from "lodash/get";
+import Image from "@/components/common/image.vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
+import MarkdownIt from "markdown-it";
+import {tokensToVNode} from "@/utils/tokenToVNode";
+import {titleVTName} from "@/utils/viewTransition.ts";
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import 'photoswipe/style.css';
+
+const {wikiRepo, config, dirPath} = defineProps<{
+  wikiRepo: WikiRepoInstance,
+  config: PageConfig,
+  dirPath: string,
+}>()
 
 const {t} = useI18n();
-const route = useRoute()
+let lightbox: PhotoSwipeLightbox | null = null;
 
-const data = useDataSourcesStore();
+const iconPath = get(config, "icon");
 
-const address = [...route.params.pathMatch as string[]]
-
-const lang = useSettingStore().setting.lang
-type ImageInfoLike = { src: string; width: number; height: number };
-type WikiRepoLike = {
-  type: 'local' | 'httpServer';
-  getImage: (_url: string[], _src: string) => Promise<ImageInfoLike>;
-  makeAddress: (_url: string[], _src: string) => string;
-  getFile: (_path: string[]) => Promise<FileSystemFileHandle | string | null>;
-  releaseImage?: (_url: string[], _src: string) => void;
-};
-const wikiRepo = get(data.wikiRepos, address[0]) as WikiRepoLike;
-
-const imgAddress = [...address];
-imgAddress.shift();
-imgAddress.unshift('docs', lang);
-
-const localImageRefs: Array<{ url: string[]; src: string }> = [];
-// 本地图片统一加载器：负责登记引用，便于页面卸载时释放
-async function loadLocalImage(src: string): Promise<ImageInfoLike> {
-  const info = await wikiRepo.getImage(imgAddress, src);
-  if (src) {
-    // 记录本页面持有的本地图片，离开页面时统一释放
-    localImageRefs.push({
-      url: [...imgAddress],
-      src
-    });
-  }
-  return info;
-}
-
-const iconPath = typeof config?.icon === 'string' ? config.icon : '';
-const iconInfo = wikiRepo.type == 'local'
-  ? await loadLocalImage(iconPath)
-  : await wikiRepo.getImage(imgAddress, iconPath);
-
-let text: string | undefined;
-if (wikiRepo.type == 'local') {
-  const localFileHandle = await wikiRepo.getFile(wikiRepo.makeAddress(imgAddress, './index.md').split('/'));
-  if (localFileHandle && typeof localFileHandle !== 'string') {
-    const file = await localFileHandle.getFile();
-    text = await file.text();
-  }
-} else if (wikiRepo.type == 'httpServer') {
-  const indexAddress = [...imgAddress];
-  indexAddress.push('./index.md');
-  const remoteText = await wikiRepo.getFile(indexAddress);
-  if (typeof remoteText === 'string') {
-    text = remoteText;
-  }
-}
 // MarkdownIt 实例
 const md = new MarkdownIt({html: true});
-const source = ref('')
+const source = ref('');
 
-// todo 屏蔽<script>等标签
-// md.use(sanitizer);
+// 只缓存解析结果，VNode 每次渲染时重新构建，避免缓存 VNode
+const tokens = computed(() => md.parse(source.value, {}));
 
-if (text) {
-  source.value = text;
-
-  // 处理格式 替换所有 [[path]] 为 ![path](path)
-  source.value = source.value.replace(/!\[\[([^\]]+)\]\]/g, '![$1]($1)');
-
-  // 匹配所有 markdown 图片语法
-  const regex = /!\[(.*?)\]\((.*?)\)/g;
-  const matches = [...source.value.matchAll(regex)];
-  // 单篇 markdown 内图片结果缓存，避免重复解析同一路径
-  const markdownImageCache = new Map<string, Promise<ImageInfoLike>>();
-
-  // 解析 markdown 图片路径并返回可展示图片信息（支持远程/本地）
-  const resolveMarkdownImage = async (rawPath: string) => {
-    const cached = markdownImageCache.get(rawPath);
-    if (cached) {
-      // 同一 markdown 内重复图片直接复用结果
-      return await cached;
-    }
-
-    const task = (async () => {
-      if (rawPath.startsWith('http://') || rawPath.startsWith('https://') || rawPath.startsWith('data:') || rawPath.startsWith('blob:')) {
-        return await data.getImageInfo(rawPath);
-      }
-
-      let normalizedPath = rawPath;
-      if (!normalizedPath.startsWith('/') && !normalizedPath.startsWith('./')) {
-        normalizedPath = './' + normalizedPath;
-      }
-
-      if (wikiRepo.type == 'local') {
-        return await loadLocalImage(normalizedPath);
-      }
-      return await wikiRepo.getImage(imgAddress, normalizedPath);
-    })();
-
-    markdownImageCache.set(rawPath, task);
-    return await task;
-  };
-
-  const replacements = await Promise.all(matches.map(async match => {
-    const fullMatch = match[0]; // 整个 ![alt](path)
-    const alt = match[1];       // alt 文本
-    const path = match[2];   // 括号内路径
-    const img = await resolveMarkdownImage(path);
-
-    // const newMarkdown = `![${alt}](${imgURL})`;
-    const newMarkdown = '<a class="isImg" href="' + img.src + '" data-pswp-width="' + img.width + '" data-pswp-height="' + img.height + '" target="_blank">\n' +
-      '<img src="' + img.src + '" alt="' + alt + '" draggable="false">\n' +
-      '</a>';
-
-    return {
-      old: fullMatch,
-      new: newMarkdown
-    };
-  }));
-
-  // 替换所有 old -> new
-  for (const {old, new: newVal} of replacements) {
-    source.value = source.value.replace(old, newVal);
-  }
-}
-
-
-// 渲染后的 HTML
-const renderedMarkdown = computed(() => {
-  return md.render(typeof source.value === 'string' ? source.value : '');
-});
+const MarkdownContent = () =>
+  tokensToVNode(tokens.value, {repo: wikiRepo, currentPath: dirPath}, {
+    allowHtml: 'safe',
+    allowStyle: true,
+  });
 
 function isPhonePortrait() {
   return window.matchMedia('(max-width: 670px) and (orientation: portrait)').matches;
 }
 
-let lightbox: PhotoSwipeLightbox | null = null;
-onMounted(async () => {
-  await nextTick();        // 等 v‑dom 真插入
+let isUnmounted = false;
+
+// 初始化图片灯箱：使用事件委托，不依赖正文是否渲染完成
+function initLightbox() {
   lightbox = new PhotoSwipeLightbox({
     gallery: '.mainDiv',
     children: 'a.isImg',
+
     initialZoomLevel: (zoomLevelObject) => {
       if (isPhonePortrait()) {
         return zoomLevelObject.vFill;
@@ -182,34 +77,107 @@ onMounted(async () => {
         return zoomLevelObject.fit;
       }
     },
+
     secondaryZoomLevel: (zoomLevelObject) => {
       if (isPhonePortrait()) {
-        return zoomLevelObject.fit;
+        return zoomLevelObject.fit * 0.25;
       } else {
-        return 1;
+        return 0.25;
       }
     },
 
-    maxZoomLevel: 5,
+    maxZoomLevel: 15,
 
     imageClickAction: 'close',
     tapAction: 'close',
     // tap delay is removed if set to false
     doubleTapAction: false,
+    wheelToZoom: true,
 
     pswpModule: () => import('photoswipe')
   });
+
+  // 缺少尺寸标注时，尝试读取图片的实际宽高
+  lightbox.addFilter('domItemData', (itemData, element, linkEl) => {
+    const anchor =
+      linkEl ??
+      (element instanceof HTMLAnchorElement ? element : null);
+
+    const img = anchor?.querySelector('img');
+
+    const originalWidth =
+      Number(anchor?.dataset.pswpWidth) ||
+      img?.naturalWidth ||
+      itemData.width;
+
+    const originalHeight =
+      Number(anchor?.dataset.pswpHeight) ||
+      img?.naturalHeight ||
+      itemData.height;
+
+    if (
+      !originalWidth ||
+      !originalHeight ||
+      originalWidth <= 0 ||
+      originalHeight <= 0
+    ) {
+      return itemData;
+    }
+
+    // 目标尺寸：原图最大边长至少为 256px
+    const minScale = Math.max(
+      1,
+      256 / Math.max(originalWidth, originalHeight)
+    );
+
+    // 预览尺寸不得超过窗口宽度的 90%、高度的 95%
+    const maxWidth = window.innerWidth * 0.9;
+    const maxHeight = window.innerHeight * 0.95;
+
+    // 按统一比例缩放，避免图片变形
+    const scale = Math.min(
+      minScale,
+      maxWidth / originalWidth,
+      maxHeight / originalHeight
+    );
+
+    return {
+      ...itemData,
+      width: Math.max(1, Math.round(originalWidth * scale)),
+      height: Math.max(1, Math.round(originalHeight * scale))
+    };
+  });
+
   lightbox.init();
+}
+
+onMounted(async () => {
+  // 先初始化灯箱，再加载正文，互不阻塞
+  initLightbox();
+
+  let text: string;
+  try {
+    const mdFile = await wikiRepo.getFileByPath(dirPath, "./index.md");
+    text = mdFile instanceof File
+      ? await mdFile.text()
+      : mdFile;
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+
+  // 加载期间 组件可能已被卸载，避免继续写入
+  if (isUnmounted) return;
+
+  // todo 屏蔽<script>等标签
+  // md.use(sanitizer);
+
+  // 处理格式 替换所有 [[path]] 为 ![path](path)，只赋值一次
+  source.value = text.replace(/!\[\[([^\]]+)]]/g, '![$1](<$1>)');
 });
 
 onUnmounted(() => {
-  if (wikiRepo?.type === 'local' && wikiRepo.releaseImage) {
-    // 归还本页面引用，避免 blob URL 长时间堆积
-    for (const ref of localImageRefs) {
-      wikiRepo.releaseImage(ref.url, ref.src);
-    }
-  }
-
+  isUnmounted = true;
   if (lightbox) {
     // 销毁实例，避免路由切换后残留事件监听
     lightbox.destroy();
@@ -219,7 +187,17 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.Div {
+  display: flex;
+}
+
 @media (min-width: 670px) {
+  .Div .mainDiv {
+    padding: 35px;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+
   .subContent {
     padding-left: 30px;
     margin-left: auto;
@@ -227,6 +205,12 @@ onUnmounted(() => {
 }
 
 @media (max-width: 670px) {
+  .Div .mainDiv {
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .markdown-body {
     display: block;
     max-width: calc(100vw - 45px);
@@ -239,6 +223,8 @@ onUnmounted(() => {
 }
 
 .mainDiv {
+  display: flex;
+  width: 100%;
   padding-top: 10px;
 }
 

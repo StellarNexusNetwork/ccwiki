@@ -1,0 +1,25 @@
+import type {ResolvedImage, ResolvedPath} from "@/adapters/adapter/types.ts";
+import {useDataSourcesStore} from "@/stores/dataSources.ts";
+import get from 'lodash/get';
+
+// 获取图片信息
+export async function resolveImage(resolvedPath: ResolvedPath): Promise<ResolvedImage> {
+  const wikiRepos = useDataSourcesStore().wikiRepos
+
+  const wikiRepo: any = get(wikiRepos, resolvedPath.repoId)
+  if (!wikiRepo) {
+    throw new Error(`无法找到图片所在仓库 '${resolvedPath.repoId}'`);
+  }
+  if (wikiRepo.type !== "local") {
+    throw new Error(`仓库 '${resolvedPath.repoId}' 类型不支持此格式`);
+  }
+  
+  const imageFile: File = await wikiRepo.getFileByPath("/", resolvedPath.path);
+  const imageURL = URL.createObjectURL(imageFile);
+
+  return {
+    type: "local",
+    src: imageURL,
+    uid: 'u' + crypto.randomUUID()
+  }
+}

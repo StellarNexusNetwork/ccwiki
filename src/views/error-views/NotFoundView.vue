@@ -8,9 +8,9 @@
 
       <div class="textDiv">
         <div class="imgAndTitle">
-          {{ t("page.NotFound.title") }}
+          {{ t("page.error.NotFound.title") }}
         </div>
-        <div class="suggestion">{{ t("page.NotFound.suggestion") }}</div>
+        <div class="suggestion">{{ t("page.error.NotFound.suggestion") }}</div>
         <div class="errorCode">404 Not Found.</div>
       </div>
     </div>
