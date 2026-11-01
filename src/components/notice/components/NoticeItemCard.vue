@@ -58,7 +58,6 @@ const handleMouseDown = (e: any) => {
   };
 
   const onMouseUp = () => {
-    console.log(1)
     isDragging = false;
     if (deltaX.value > 110 || deltaX.value < -110) {
       emit('remove-notice', item.id);

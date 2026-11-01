@@ -1,7 +1,7 @@
 <template>
   <div class="mainDiv">
     <div class="titleDiv">
-      <div class="title" :style="{ 'viewTransitionName': 'class-itemList-title-'+address.join('-'),'borderBottom':'none'}">
+      <div class="title" :style="{ 'viewTransitionName': titleVTName(dirPath.replaceAll('/','-'), meta?.title),'borderBottom':'none'}">
         {{ meta?.title ?? t("page.docsView.wikiRepos.name.unknow") }}
       </div>
     </div>
@@ -11,7 +11,7 @@
     <div class="AboutList" :style="AboutListGridStyle">
       <suspense v-for="([id, item], index) in Object.entries(meta?.children ?? {})" :key="id">
         <template #default>
-          <DocsItemCard :id="id" :meta="item ?? {}"/>
+          <DocsItemCard :id="id" :metaChild="item ?? {}" :wikiRepo="wikiRepo" :dirPath="dirPath"/>
         </template>
       </suspense>
     </div>
@@ -19,20 +19,26 @@
 </template>
 
 <script setup lang="ts">
+import type {MetaFile} from "@/adapters/adapter/types/meta-file.ts";
+import type {WikiRepoInstance} from "@/adapters/adapter/types.ts";
+
 import DocsItemCard from './DocsItemCard.vue';
 import {useI18n} from 'vue-i18n';
 import {useRoute} from "vue-router";
 import {computed} from "vue";
 import {useWindow} from "@/composables/useWindow.ts";
+import {titleVTName} from "@/utils/viewTransition.ts";
 
 const sysWindow = useWindow()
 
 const {t} = useI18n();
 const route = useRoute()
 
-const {meta} = defineProps({
-  meta: Object,
-})
+const {meta, wikiRepo, dirPath} = defineProps<{
+  meta: MetaFile,
+  wikiRepo: WikiRepoInstance,
+  dirPath: string
+}>()
 
 const address = route.params.pathMatch as string[];
 

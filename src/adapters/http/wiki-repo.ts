@@ -1,0 +1,69 @@
+import axios from "axios";
+
+import {type Config} from "@/adapters/adapter/types.ts";
+import {WikiRepo} from "@/adapters/adapter/wiki-repo.ts";
+
+// 在线仓库
+export class HttpWikiRepo extends WikiRepo {
+  readonly type = 'httpServer';
+  // 仓库根地址
+  address: string;
+
+  constructor(config: Config, address: string) {
+    super(config);
+    this.address = address;
+  }
+
+  // 处理路径（currentAddress是path 不是fullPath）
+  resolveAddress(currentAddress: string, targetPath: string): string {
+    // http:// / https:// Base64 / Data URL
+    if (this.isUrl(targetPath)) {
+      return targetPath;
+    }
+
+    // 仓库根地址，统一以 / 结尾，避免拼接出 //
+    const repoRoot = `${this.address.replace(/\/+$/, "")}/`;
+
+    // /a -> 仓库根下的 a（与本地仓库保持一致，而不是站点根）
+    if (targetPath.startsWith("/")) {
+      const rootRelative = targetPath.replace(/^\/+/, "");
+      return new URL(rootRelative, repoRoot).toString();
+    }
+
+    // ./b、../b、b -> 相对于当前目录
+    const currentPath = currentAddress.replace(/^\/+|\/+$/g, "");
+    const currentDir = `${repoRoot}${currentPath}${currentPath ? "/" : ""}`;
+    return new URL(targetPath, currentDir).toString();
+  }
+
+  // 初始化远程仓库：探测 icon 是否可访问
+  async init() {
+    if (this.icon) {
+      this.iconPath = this.resolveAddress("/", this.icon);
+    } else {
+      // 未指定图标时，自动探测
+      const iconExts = ['.svg', '.avif', '.png', '.jpg'];
+      for (const ext of iconExts) {
+        try {
+          const iconAddress = this.resolveAddress("/", `icon${ext}`);
+          await axios.get(iconAddress);
+          this.iconPath = iconAddress;
+          // 已命中优先级最高的格式，不再继续探测
+          return;
+        } catch {
+          // 文件不存在，继续尝试下一个格式
+        }
+      }
+    }
+  }
+
+  // 读取远程文件内容
+  async getFileByPath(currentAddress: string, path: string): Promise<any> {
+    // 尝试获取文件
+    try {
+      return (await axios.get(this.resolveAddress(currentAddress, path))).data;
+    } catch (e) {
+      throw new Error(`获取在线文件失败`, {cause: e});
+    }
+  }
+}
