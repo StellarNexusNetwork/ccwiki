@@ -20,12 +20,12 @@
   },
   "dependencies": {
     "@better-auth/passkey": "^1.7.14",
+    "@lucide/vue": "^1.66.0",
     "@primeuix/themes": "^1.2.3",
     "axios": "^1.21.0",
     "better-auth": "^1.7.14",
     "dompurify": "^3.4.17",
     "lodash": "^4.18.1",
-    "lucide-vue-next": "^1.0.0",
     "markdown-it": "^14.3.3",
     "mitt": "^3.0.1",
     "photoswipe": "^5.4.4",
