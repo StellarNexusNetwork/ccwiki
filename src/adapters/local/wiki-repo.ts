@@ -48,22 +48,34 @@ export class LocalWikiRepo extends WikiRepo {
   async init() {
     if (this.icon) {
       const iconAddress = this.resolveAddress("/", this.icon);
+
       // 外部 URL / Data URL
       if (this.isUrl(iconAddress)) {
         this.iconPath = iconAddress;
         return;
       }
-    } else {
-      // 未指定图标时，自动探测
-      const iconExts = ['.svg', '.avif', '.png', '.jpg'];
-      for (const ext of iconExts) {
-        try {
-          await this.getFileByPath("/", `icon${ext}`);
-          this.iconPath = `icon${ext}`;
-          return;
-        } catch {
-          // 文件不存在，继续尝试下一个格式
-        }
+
+      // 本地相对路径或仓库根路径
+      try {
+        await this.getFileByPath("/", iconAddress);
+        this.iconPath = iconAddress;
+      } catch {
+        // 配置的图标不存在，保留 fallback
+      }
+
+      return;
+    }
+
+    // 未指定图标时，自动探测
+    const iconExts = [".svg", ".avif", ".png", ".jpg"];
+
+    for (const ext of iconExts) {
+      try {
+        await this.getFileByPath("/", `icon${ext}`);
+        this.iconPath = `icon${ext}`;
+        return;
+      } catch {
+        // 文件不存在，继续尝试下一个格式
       }
     }
   }
