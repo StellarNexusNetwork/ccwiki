@@ -8,6 +8,10 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'SignInView',
+});
+
 import localDisabled from '@/views/error-views/local-disabled.vue';
 import signInView from './SignInView.vue';
 

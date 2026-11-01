@@ -29,6 +29,10 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'CommonImage',
+});
+
 import {type CSSProperties, onMounted, onUnmounted, ref} from "vue";
 
 import type {ResolvedImage, WikiRepoInstance,} from "@/adapters/adapter/types.ts";
