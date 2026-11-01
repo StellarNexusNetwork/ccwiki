@@ -64,7 +64,9 @@ let image: ResolvedImage | undefined;
 let active = true;
 
 const lang = useSettingStore().setting.lang;
-const currentPathList = [...route.params.pathMatch as string[]];
+const currentPathList: string[] = Array.isArray(route.params.pathMatch)
+  ? [...route.params.pathMatch]
+  : [];
 currentPathList.shift();
 let parts: string[];
 
