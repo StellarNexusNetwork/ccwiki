@@ -83,7 +83,7 @@ export function useRouteTransition(router: Router, options: { disableMarquee: ()
   const pendingDocsReadyFinishes = new Set<() => void>();
 
   function releasePendingDocsReady() {
-    for (const finish of [...pendingDocsReadyFinishes]) {
+    for (const finish of pendingDocsReadyFinishes) {
       finish();
     }
     pendingDocsReadyFinishes.clear();

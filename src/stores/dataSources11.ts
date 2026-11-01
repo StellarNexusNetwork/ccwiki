@@ -162,3 +162,5 @@
 //     ...updataLangData
 //   };
 // }
+
+export {};

@@ -37,7 +37,7 @@ import {Vue3Marquee} from "vue3-marquee";
 import {titleVTName} from "@/utils/viewTransition.ts";
 
 const {id, metaChild, wikiRepo, dirPath} = defineProps<{
-  id: String,
+  id: string,
   metaChild: MetaChild,
   wikiRepo: WikiRepoInstance
   dirPath: string

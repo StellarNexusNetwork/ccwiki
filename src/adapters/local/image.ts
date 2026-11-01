@@ -13,14 +13,9 @@ export async function resolveImage(resolvedPath: ResolvedPath): Promise<Resolved
   if (wikiRepo.type !== "local") {
     throw new Error(`仓库 '${resolvedPath.repoId}' 类型不支持此格式`);
   }
-
-  let imageURL
-  try {
-    const imageFile: File = await wikiRepo.getFileByPath("/", resolvedPath.path);
-    imageURL = URL.createObjectURL(imageFile);
-  } catch (e) {
-    throw e;
-  }
+  
+  const imageFile: File = await wikiRepo.getFileByPath("/", resolvedPath.path);
+  const imageURL = URL.createObjectURL(imageFile);
 
   return {
     type: "local",

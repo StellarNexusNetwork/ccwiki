@@ -1,14 +1,14 @@
-import { describe, expect, it } from 'vitest'
+import {describe, expect, it} from 'vitest'
 import MarkdownIt from 'markdown-it'
-import type { VNode } from 'vue'
+import type {VNode} from 'vue'
 
-import { UNSAFE_STYLE_VALUE_RE } from '../constants'
-import { isSafeStyleValue, resolveInlineStyle, sanitizeInlineStyle } from '../security'
-import { tokensToVNode } from '..'
-import type { RepoContext } from '@/adapters/adapter/types.ts'
+import {UNSAFE_STYLE_VALUE_RE} from '../constants'
+import {isSafeStyleValue, resolveInlineStyle, sanitizeInlineStyle} from '../security'
+import {tokensToVNode} from '..'
+import type {RepoContext} from '@/adapters/adapter/types.ts'
 
-const md = new MarkdownIt({ html: true })
-const repoContext = { repo: {} as RepoContext['repo'], currentPath: '' }
+const md = new MarkdownIt({html: true})
+const repoContext = {repo: {} as RepoContext['repo'], currentPath: ''}
 
 function renderHtml(source: string, allowStyle?: boolean) {
   const vnode = tokensToVNode(md.parse(source, {}), repoContext, {
@@ -134,7 +134,7 @@ describe('resolveInlineStyle', () => {
   })
 
   it('uses the built-in whitelist when allowStyle is true', () => {
-    expect(resolveInlineStyle('color: red; position: fixed', { allowStyle: true }))
+    expect(resolveInlineStyle('color: red; position: fixed', {allowStyle: true}))
       .toBe('color: red')
   })
 
@@ -152,7 +152,7 @@ describe('resolveInlineStyle', () => {
   })
 
   it('treats an empty custom result as dropped', () => {
-    expect(resolveInlineStyle('color: red', { allowStyle: () => '' })).toBeNull()
+    expect(resolveInlineStyle('color: red', {allowStyle: () => ''})).toBeNull()
   })
 })
 
@@ -164,7 +164,9 @@ describe('safe HTML style rendering', () => {
 
   it('renders <span style="color:red"> as styled text', () => {
     const [paragraph] = renderHtml('<span style="color:red">hi</span>', true)
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
     expect(span?.props?.style).toBe('color: red')
   })
 
@@ -195,7 +197,9 @@ describe('safe HTML style rendering', () => {
 describe('legacy <font> rendering', () => {
   it('renders <font color> as a styled span', () => {
     const [paragraph] = renderHtml('<font color="#d83931">NADPH</font>', true)
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
 
     expect(span?.type).toBe('span')
     expect(span?.props?.style).toBe('color: rgb(216, 57, 49)')
@@ -204,7 +208,9 @@ describe('legacy <font> rendering', () => {
 
   it('keeps the text but drops the color when allowStyle is off', () => {
     const [paragraph] = renderHtml('<font color="#d83931">NADPH</font>')
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
 
     expect(span?.type).toBe('span')
     expect(span?.props).toBeNull()
@@ -213,7 +219,9 @@ describe('legacy <font> rendering', () => {
 
   it('drops a color value that smuggles in url()', () => {
     const [paragraph] = renderHtml('<font color="red; background: url(https://example.com/a.png)">x</font>', true)
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
 
     expect(span?.type).toBe('span')
     expect(span?.props?.style).toBeUndefined()
@@ -221,7 +229,9 @@ describe('legacy <font> rendering', () => {
 
   it('strips the other presentational attributes of <font>', () => {
     const [paragraph] = renderHtml('<font color="red" face="Arial" size="5">x</font>', true)
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
 
     // face/size 会被翻译成内联样式，不再作为属性输出。
     expect(span?.props).toEqual({
@@ -232,7 +242,9 @@ describe('legacy <font> rendering', () => {
   it('maps <font size> levels to font-size', () => {
     const px = (size: string) => {
       const [paragraph] = renderHtml(`<font size="${size}">x</font>`, true)
-      const [span] = paragraph?.children as VNode[]
+      expect(paragraph).toBeDefined();
+
+      const [span] = paragraph!.children as VNode[];
       return span?.props?.style
     }
 
@@ -247,7 +259,9 @@ describe('legacy <font> rendering', () => {
 
   it('drops <font size> values that are not a level', () => {
     const [paragraph] = renderHtml('<font size="huge">x</font>', true)
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
 
     expect(span?.props?.style).toBeUndefined()
   })
@@ -260,7 +274,9 @@ describe('legacy <font> rendering', () => {
 
   it('merges font color with the style attribute', () => {
     const [paragraph] = renderHtml('<font color="red" style="font-weight: bold">x</font>', true)
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
 
     expect(span?.props?.style).toBe('color: red; font-weight: bold')
   })
@@ -279,7 +295,9 @@ describe('legacy <font> rendering', () => {
   it('lets the style attribute win over the color attribute', () => {
     // HTML 里 style 优先于表现属性，与属性书写顺序无关。
     const [paragraph] = renderHtml('<font style="color: blue" color="red">x</font>', true)
-    const [span] = paragraph?.children as VNode[]
+    expect(paragraph).toBeDefined();
+
+    const [span] = paragraph!.children as VNode[];
     const style = span?.props?.style as string
 
     expect(style.startsWith('color: red')).toBe(true)

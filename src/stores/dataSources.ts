@@ -23,6 +23,7 @@ interface PersistentStorage {
 // - # 和 ? 会截断地址，% 会干扰 URL 解码
 // - : 在 local://{repoId}:{path} 中会产生歧义
 // 因此禁止这些字符及控制字符。
+// eslint-disable-next-line no-control-regex -- 需要显式拒绝控制字符
 const REPO_ID_PATTERN = /^[^/\\#?%:\u0000-\u001F\u007F]+$/u;
 
 // 配置文件检查项目(必须)

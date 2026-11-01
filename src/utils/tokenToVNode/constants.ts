@@ -135,6 +135,7 @@ export const SAFE_DATA_IMAGE_RE = /^data:image\/(?:gif|png|jpeg|webp);/i
 export const STYLE_ALIGN_RE = /^\s*text-align\s*:\s*(?:left|right|center)\s*;?\s*$/i
 
 export const WHITESPACE_RE = /\s+/
+// eslint-disable-next-line no-control-regex -- 用于识别 URL 中的控制字符
 export const UNSAFE_URL_CHARS_RE = /[\u0000-\u0020\u007f-\u009f]/g
 export const PROTOCOL_RE = /^([a-z][a-z\d+.-]*):/i
 
