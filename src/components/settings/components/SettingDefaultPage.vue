@@ -23,8 +23,8 @@
       <div class="title" id="title">{{ desktopTitle }}</div>
       <div class="title" id="title_m">{{ mobileTitle }}</div>
       <div id="details">
-        <div class="data">{{ t('public.setting.default.version') }} 26w13a</div>
-        <div class="data">{{ t('public.setting.default.releaseDate') }} 2026.03.28</div>
+        <div class="data">{{ t('public.setting.default.version') }} 26w45a</div>
+        <div class="data">{{ t('public.setting.default.releaseDate') }} 2026.11.02</div>
       </div>
     </div>
   </div>
