@@ -12,7 +12,13 @@ export default defineConfig({
   //使用自定义域名请禁用此行👇
   //base: process.env.NODE_ENV === 'production' ? '/cc.wiki.project.v4.web2/' : '/',
   plugins: [
-    vue(),
+    vue({
+      template: {
+        transformAssetUrls: {
+          includeAbsolute: false,
+        },
+      },
+    }),
     vueJsx(),
     vueDevTools(),
     Components({

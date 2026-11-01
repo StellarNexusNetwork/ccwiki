@@ -30,10 +30,8 @@ import Image from "@/components/common/image.vue";
 import {useWindowStore} from "@/stores/window.ts";
 import {useI18n} from "vue-i18n";
 import {useRoute, useRouter} from "vue-router";
-import {useDataSourcesStore} from "@/stores/dataSources.ts";
 import {onMounted} from "vue";
 import {useTextOverflow} from "@/composables/useTextOverflow.ts";
-import {useSettingStore} from "@/stores/setting.ts";
 import get from "lodash/get";
 import {Vue3Marquee} from "vue3-marquee";
 import {titleVTName} from "@/utils/viewTransition.ts";
@@ -54,12 +52,7 @@ function routePush(url: string) {
   router.push(url);
 }
 
-const data = useDataSourcesStore();
-
-type ImageInfoLike = { src: string; width: number; height: number };
-
 const address = [...route.params.pathMatch as string[]];
-const lang = useSettingStore().setting.lang
 
 const introduction = get(metaChild, 'introduction');
 const childrenIcon = get(metaChild, 'childrenIcon') as Record<string, unknown> | undefined;

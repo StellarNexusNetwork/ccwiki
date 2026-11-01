@@ -42,7 +42,7 @@ export const useDataSourcesStore = defineStore(
     const notice = useNoticeStore();
 
     const persistentStorage: PersistentStorage = reactive({});
-    const wikiRepos: Record<string, WikiRepoInstance> = shallowReactive({});
+    const wikiRepos = shallowReactive<Record<string, WikiRepoInstance>>({});
 
     // 创建indexDB连接
     function openDB(): Promise<IDBDatabase> {

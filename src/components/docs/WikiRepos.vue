@@ -39,7 +39,7 @@ onMounted(() => {
 });
 
 
-const {shouldAddGap, onOverflowDetected, onOverflowCleared} = useTextOverflow();
+const {onOverflowDetected, onOverflowCleared} = useTextOverflow();
 const data = useDataSourcesStore();
 
 const {t} = useI18n();

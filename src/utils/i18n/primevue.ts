@@ -1,4 +1,7 @@
 import {all as locales} from 'primelocale'
+import type {usePrimeVue} from "primevue/config";
+
+type PrimeVueInstance = ReturnType<typeof usePrimeVue>;
 
 // PrimeVue 的语言代码映射
 const primeLocale = {
@@ -11,7 +14,7 @@ const primeLocale = {
 type primeLocaleCode = keyof typeof primeLocale;
 
 // 切换primevue语言
-export function setPrimeLocale(langCode: string, primevue) {
+export function setPrimeLocale(langCode: string, primevue: PrimeVueInstance) {
   // 获取对应的 PrimeVue 语言代码
   let code = 'zh-CN';
   if (langCode in primeLocale) {
