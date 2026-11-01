@@ -13,31 +13,42 @@
     <button @click="dataStore.addLocalRepo()">打开文件夹</button>
     <br/>
     <input v-model="repoAddress" placeholder="请输入仓库地址">
-    <button @click="dataStore.addHttpRepo(repoAddress,false)">添加</button>
+    <button @click="dataStore.addHttpRepo(repoAddress)">添加</button>
     <!--  todo：标记仓库类型（错误）  -->
     <!--  todo：显示更多信息  -->
     <div class="localRepositoriesList">
       <TransitionGroup name="fade" tag="ul" mode="out-in">
-        <li class="localRepositories" v-for="( item,id, index) in dataStore.wikiRepos" :key="id">
+        <li class="localRepositories" v-for="( storage,repoId) in dataStore.persistentStorage" :key="repoId">
           <div class="img">
-            <Image class="icon" :path="item.iconPath" :repo="item" :cache="false" alt="" currentDirPath="/" draggable="false"/>
+            <Image v-if="dataStore.wikiRepos[repoId]" class="icon" :path="dataStore.wikiRepos[repoId].iconPath" :repo="dataStore.wikiRepos[repoId]" :cache="false" alt="" currentDirPath="/" draggable="false"/>
+            <img v-else class="icon" src="/static/views/error-views/not-found/svg/not-found.svg" alt="SVG Image" draggable="false">
           </div>
           <!--    todo:设置错误替换的图片      -->
           <div class="textDiv">
             <div class="name">{{
-                item.name?.[lang] ?? Object.values(item.name)?.[0] ?? t("page.docsView.wikiRepos.name.unknow")
+                storage.config.name?.[lang] ?? Object.values(storage.config.name ?? {})?.[0] ?? t("page.docsView.wikiRepos.name.unknow")
               }}
             </div>
             <div style="display: flex;gap: 7px">
-              <div class="version" v-if="item.version">{{ item.version }}</div>
-              <Tag v-if="item.type == 'local'" severity="info" value="本地"></Tag>
-              <Tag v-else-if="item.type == 'httpServer'" severity="success" value="在线"></Tag>
+              <div class="version" v-if="storage.config.version">{{ storage.config.version }}</div>
+              <Tag v-if="storage.type == 'local'" severity="info" value="本地"></Tag>
+              <Tag v-else-if="storage.type == 'httpServer'" severity="success" value="在线"></Tag>
+
+              <Tag v-if="storage.status == 'reauthorization_required'" severity="danger" value="需要重新授权"></Tag>
+              <Tag v-if="storage.status == 'connection_failed'" value="离线"></Tag>
+              <Tag v-if="storage.status == 'configuration_error'" severity="danger" value="配置文件损坏"></Tag>
             </div>
           </div>
           <div class="optionList">
             <div class="div"></div>
-            <div class="option" @click="dataStore.deleteRepos(id)">
+            <div class="option red" @click="dataStore.deleteRepos(repoId)" :style="{'margin-left': '10px'}">
               <img class="icon" src="/static/components/settings/components/setting-test-page/svg/delete.svg" alt="SVG Image" draggable="false">
+            </div>
+            <div v-if="storage.status == 'reauthorization_required'" class="option" @click="dataStore.reauthorizeDirectory(storage)">
+              <img class="icon" src="/static/components/settings/components/setting-test-page/svg/lucide-folder-open-dot.svg" alt="SVG Image" draggable="false">
+            </div>
+            <div v-if="storage.status == 'configuration_error' || storage.status == 'connection_failed'" class="option" @click="dataStore.reloadRepository(storage)">
+              <img class="icon" src="/static/components/settings/components/setting-test-page/svg/lucide-refresh-cw.svg" alt="SVG Image" draggable="false">
             </div>
           </div>
         </li>
@@ -152,7 +163,7 @@ const clearLocalStorage = () => {
 
 .localRepositories .textDiv .name {
   font-size: 20px;
-  color: var(--color-text-title)
+  color: var(--color-text-title);
 }
 
 .localRepositories .textDiv .version {
@@ -164,6 +175,7 @@ const clearLocalStorage = () => {
   display: flex;
   transition-duration: 0.3s;
   align-items: center;
+  flex-direction: row-reverse;
 }
 
 .localRepositories .optionList .div {
@@ -181,15 +193,17 @@ const clearLocalStorage = () => {
   opacity: 0;
   transition-duration: 0.3s;
   border-radius: 10px;
+  margin-left: 10px;
 }
 
-.localRepositories .optionList .option img {
+.localRepositories .optionList .option .icon {
   width: 0;
   height: 0;
   opacity: 0;
   transition-duration: 0.3s;
   filter: drop-shadow(var(--color-text-title) 250vw 0);
   transform: translateX(-250vw);
+  user-select: none;
 }
 
 .localRepositories .optionList:hover .div {
@@ -197,16 +211,21 @@ const clearLocalStorage = () => {
   opacity: 0;
 }
 
-.localRepositories .optionList:hover .option {
-  width: 50px;
-  opacity: 1;
+.localRepositories .optionList:hover .option.red {
   background: var(--color-danger-normal);
 }
 
-.localRepositories .optionList:hover .option img {
+.localRepositories .optionList:hover .option {
+  width: 50px;
+  opacity: 1;
+  background: var(--color-shadow-s);
+}
+
+.localRepositories .optionList:hover .option .icon {
   width: 25px;
   height: auto;
   opacity: 1;
   margin: 0 auto;
+  user-select: none;
 }
 </style>

@@ -22,11 +22,19 @@ interface WikiRepoStorage {
 
 export interface LocalWikiRepoStorage extends WikiRepoStorage {
   type: "local";
+  status:
+    | 'normal'
+    | 'reauthorization_required'
+    | 'configuration_error';
   rootHandle: FileSystemDirectoryHandle;
 }
 
 export interface HttpRepoStorage extends WikiRepoStorage {
   type: 'httpServer'
+  status:
+    | 'normal'
+    | 'connection_failed'
+    | 'configuration_error';
   address: string;
 }
 

@@ -107,6 +107,17 @@ export const useDataSourcesStore = defineStore(
       }
     }
 
+    // 统一落盘入口：只要 persistentStorage 被改动过就调用
+    // 注意：值可能是 reactive 代理，structuredClone 无法克隆 Proxy，
+    // 因此这里逐个 toRaw，避免 store.put 抛 DataCloneError。
+    function persist() {
+      const raw: PersistentStorage = {};
+      for (const [id, storage] of Object.entries(persistentStorage)) {
+        raw[id] = toRaw(storage);
+      }
+      void saveData('persistentStorage', raw);
+    }
+
     // 启动时从 indexedDB 恢复持久化仓库并重新初始化
     async function initFetchData() {
       console.log('开始读取仓库数据...')
@@ -116,26 +127,38 @@ export const useDataSourcesStore = defineStore(
       );
 
       for (const item of Object.values(loaded)) {
-        if (item.type === 'local') {
-          await addLocalRepo(item.rootHandle);
-          // todo:检查id是否改变 改变则修改存储的id
-          // todo:缓存正确的配置信息
-          // todo:仓库损坏时显示缓存信息
-        } else if (item.type === 'httpServer') {
-          await addHttpRepo(item.address, true);
+        try {
+          // FileSystemDirectoryHandle 是结构化可克隆的；克隆失败时下面的 catch 会保留原记录
+          const storage = structuredClone(item);
+          if (storage.type === 'local') {
+            await addLocalRepo(storage);
+            // todo:缓存正确的配置信息
+            // todo:仓库损坏时显示缓存信息
+          } else if (storage.type === 'httpServer') {
+            await addHttpRepo(storage.address, storage);
+          }
+        } catch (err) {
+          // 单个仓库初始化失败不应阻塞启动，也不能让下面的持久化把它冲掉
+          console.error('[initFetchData] 仓库初始化失败', err, item);
+          persistentStorage[item.config.id] = item;
         }
       }
-      void saveData('persistentStorage', toRaw(persistentStorage));
+      persist();
       initState.value = true;
     }
 
     // todo：仓库损坏处理
     // 添加本地仓库
-    async function addLocalRepo(rootHandle?: FileSystemDirectoryHandle) {
+    // 传入 storage 时表示系统正在初始化
+    // 同时传入 storage 和 isRestoring 表示为修复流程
+    async function addLocalRepo(
+      storage?: LocalWikiRepoStorage,
+      isRestoring: boolean = false
+    ) {
       let handle: FileSystemDirectoryHandle;
       let config: Config;
       // 尝试打开文件夹
-      if (!rootHandle) {
+      if (!storage) {
         try {
           handle = await window.showDirectoryPicker();
         } catch (err) {
@@ -143,12 +166,28 @@ export const useDataSourcesStore = defineStore(
           return;
         }
       } else {
-        handle = rootHandle
+        const state = await storage.rootHandle.queryPermission({
+          mode: 'readwrite'
+        })
+
+        if (state !== 'granted') {
+          storage.status = 'reauthorization_required';
+          persistentStorage[storage.config.id] = toRaw(storage);
+          console.warn('当前没有可直接使用的读取权限：', storage.config.id);
+          return;
+        }
+
+        handle = storage.rootHandle;
       }
       // 尝试读取配置文件
       try {
         config = await loadConfigFromRoot(handle);
       } catch (err) {
+        // 恢复已有仓库时读不到配置，必须保留这条记录，否则会被持久化覆盖掉
+        if (storage) {
+          storage.status = 'configuration_error';
+          persistentStorage[storage.config.id] = toRaw(storage);
+        }
         notice.addNotice('error', '读取或解析配置文件失败', `[addLocalRepo] ${err}`);
         return;
       }
@@ -156,39 +195,63 @@ export const useDataSourcesStore = defineStore(
       // todo:仅检查必要配置 其余仅报warn并改为默认值
       const result = ConfigSchema.safeParse(config);
       if (!result.success) {
+        if (storage) {
+          storage.status = 'configuration_error';
+          persistentStorage[storage.config.id] = toRaw(storage);
+        }
         notice.addNotice('error', `配置文件检查未通过：${result.error.issues[0]?.message ?? ''}`, result.error);
         return;
       }
 
       // 检查是否已存在
-      if (persistentStorage[config.id]) {
+      if (persistentStorage[config.id] && !isRestoring) {
         notice.addNotice('warn', '该仓库已加载！', '请勿重复添加！');
         return;
       }
+
+      // 检查 id 是否与已有仓库重复
+      if (storage && storage.config.id !== config.id && persistentStorage[config.id]) {
+        notice.addNotice('warn', '仓库 id 冲突', `新 id "${config.id}" 已被其他仓库占用`);
+        return;
+      }
+
       // 初始化并添加
       const wikiRepo = new LocalWikiRepo(config, handle);
       await wikiRepo.init();
       wikiRepos[config.id] = wikiRepo;
+
+      // 如果 id 变化 则清理旧的
+      if (storage && isRestoring && storage.config.id !== config.id) {
+        delete persistentStorage[storage.config.id];
+      }
+
       // 持久化
       persistentStorage[config.id] = {
         type: 'local',
+        status: 'normal',
         config: config,
         rootHandle: handle
       };
-      if (!rootHandle) {
-        void saveData('persistentStorage', toRaw(persistentStorage));
+      if (!storage) {
+        persist();
         notice.addNotice('success', '仓库添加成功！', '已加载所选仓库！');
       }
     }
 
     // 添加在线仓库
-    async function addHttpRepo(address: string, isInit?: boolean) {
+    // 传入 storage 时表示系统正在初始化
+    // 同时传入 storage 和 isRestoring 表示为修复流程
+    async function addHttpRepo(address: string, storage?: HttpRepoStorage, isRestoring: boolean = false) {
       let config: Config;
       let normalizedAddress: string;
       // 先校验地址，避免非法输入直接抛出未捕获异常
       try {
         normalizedAddress = normalizeUrl(address);
       } catch (err) {
+        // 地址损坏时也要保留原记录，避免启动时的持久化把它冲掉
+        if (storage) {
+          persistentStorage[storage.config.id] = toRaw(storage);
+        }
         notice.addNotice('error', '仓库地址不合法', `[addHttpWikiRepo] ${err}`);
         return;
       }
@@ -198,7 +261,11 @@ export const useDataSourcesStore = defineStore(
         const res = await axios.get(configAddress);
         config = res.data;
       } catch (err) {
-        notice.addNotice('error', '读取或解析配置文件失败', `[addHttpWikiRepo] ${err}`);
+        if (storage) {
+          storage.status = 'connection_failed';
+          persistentStorage[storage.config.id] = toRaw(storage);
+        }
+        notice.addNotice('error', '获取配置文件失败', `[addHttpWikiRepo] ${err}`);
         return;
       }
 
@@ -206,27 +273,45 @@ export const useDataSourcesStore = defineStore(
       // todo:仅检查必要配置 其余仅报warn并改为默认值
       const result = ConfigSchema.safeParse(config);
       if (!result.success) {
+        if (storage) {
+          storage.status = 'configuration_error';
+          persistentStorage[storage.config.id] = toRaw(storage);
+        }
         notice.addNotice('error', `配置文件检查未通过：${result.error.issues[0]?.message ?? ''}`, result.error);
         return;
       }
 
       // 检查是否已存在
-      if (persistentStorage[config.id]) {
+      if (persistentStorage[config.id] && !isRestoring) {
         notice.addNotice('warn', '该仓库已加载！', '请勿重复添加！');
         return;
       }
+
+      // 检查 id 是否与已有仓库重复
+      if (storage && storage.config.id !== config.id && persistentStorage[config.id]) {
+        notice.addNotice('warn', '仓库 id 冲突', `新 id "${config.id}" 已被其他仓库占用`);
+        return;
+      }
+
       // 初始化并添加
       const wikiRepo = new HttpWikiRepo(config, normalizedAddress);
       await wikiRepo.init();
       wikiRepos[config.id] = wikiRepo;
+
+      // 如果 id 变化 则清理旧的
+      if (storage && isRestoring && storage.config.id !== config.id) {
+        delete persistentStorage[storage.config.id];
+      }
+
       // 持久化
       persistentStorage[config.id] = {
         type: 'httpServer',
+        status: 'normal',
         config: config,
         address: normalizedAddress
       }
-      if (!isInit) {
-        void saveData('persistentStorage', toRaw(persistentStorage));
+      if (!storage) {
+        persist();
         notice.addNotice('success', '仓库添加成功！', '已加载所选仓库！');
       }
     }
@@ -236,7 +321,7 @@ export const useDataSourcesStore = defineStore(
       // todo：清除本地仓库的图片缓存
       delete persistentStorage[id];
       delete wikiRepos[id];
-      void saveData('persistentStorage', toRaw(persistentStorage));
+      persist();
       notice.addNotice('success', '仓库删除成功！', '已移除所选仓库！');
     }
 
@@ -262,14 +347,49 @@ export const useDataSourcesStore = defineStore(
       });
     }
 
+    // 重新授权文件夹
+    async function reauthorizeDirectory(
+      storage: LocalWikiRepoStorage,
+      mode: 'read' | 'readwrite' = 'readwrite'
+    ): Promise<boolean> {
+      try {
+        const permission = await storage.rootHandle.requestPermission({mode});
+
+        await addLocalRepo(storage, true);
+
+        persist();
+        // 阿巴 不要看这个 上面这个添加不会抛错误
+        return permission === 'granted';
+      } catch (error) {
+        console.error('Failed to request directory permission:', error);
+        return false;
+      }
+    }
+
+    // 尝试重载仓库
+    async function reloadRepository(
+      storage: LocalWikiRepoStorage | HttpRepoStorage,
+    ) {
+      if (storage.type == 'local') {
+        await addLocalRepo(storage, true);
+        persist();
+      } else if (storage.type == 'httpServer') {
+        await addHttpRepo(storage.address, storage, true);
+        persist();
+      }
+    }
+
     return {
       initState,
+      persistentStorage,
       wikiRepos,
       initFetchData,
       addLocalRepo,
       addHttpRepo,
       deleteRepos,
-      deleteDatabase
+      deleteDatabase,
+      reauthorizeDirectory,
+      reloadRepository
     }
 
   })
